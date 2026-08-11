@@ -21,6 +21,7 @@ all:
           ansible_httpapi_host: 10.18.157.189
           ansible_host: 10.18.157.189
           ansible_user: 10.18.157.189
+          # yamllint disable-line rule:line-length
           ansible_password: "{{ lookup('file', '/home/ansible/avdci6/DEV_AVDCI6_TOKEN') }}"
 
     # AVD Tooling server for remote automation
