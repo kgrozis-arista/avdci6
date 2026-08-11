@@ -1,0 +1,83 @@
+name: Network Provisioning Change
+description: Request a routine Day 2 network provisioning change (e.g. VLAN, port, port profile)
+title: "[NetProv]: "
+labels: [network-provisioning, day2, low-impact]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠ **NOTE:** This template is for *Day 2 network operations* involving routine, low-impact provisioning:
+        - VLAN creation or deletion
+        - Port configuration (access, trunk)
+        - Applying or modifying port profiles
+        - Minor QoS, ACL adjustments
+
+        Please provide complete details to ensure smooth execution.
+
+  - type: input
+    id: change_summary
+    attributes:
+      label: Summary of change
+      description: Short description of the provisioning change
+      placeholder: "e.g., Provision VLAN 200 for new app servers"
+
+  - type: dropdown
+    id: change_type
+    attributes:
+      label: Type of provisioning change
+      options:
+        - VLAN creation
+        - VLAN deletion
+        - Port provisioning
+        - Apply port profile
+        - QoS / ACL change
+        - Other
+      description: Select the type of provisioning change
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Change details
+      description: Provide specifics (e.g. VLAN ID, port numbers, profile names, switch names)
+      placeholder: |
+        e.g.,
+        - VLAN ID: 200
+        - VLAN Name: App_Servers
+        - Switches: DC1-LEAF1A, DC1-LEAF1B
+        - Ports: Ethernet1, Ethernet2
+        - Port profile: APP_SERVER_PORT
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Expected impact
+      description: Describe any expected impact (if any) on existing services
+      placeholder: "e.g., No service impact expected; ports unused"
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies or prerequisites
+      description: Note any dependencies (e.g., application team coordination, hardware availability)
+
+  - type: textarea
+    id: rollback
+    attributes:
+      label: Rollback plan
+      description: Describe the rollback procedure if the change must be reverted
+      placeholder: "e.g., Remove VLAN config, revert port profiles"
+
+  - type: textarea
+    id: schedule
+    attributes:
+      label: Preferred schedule
+      description: When would you like this change applied?
+      placeholder: "e.g., During maintenance window on 2024-07-10 02:00 UTC"
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ✅ Please attach any reference configurations, diagrams, or tickets (if applicable).

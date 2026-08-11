@@ -1,0 +1,68 @@
+name: 'create_tenant'
+
+# workflow triggers
+on:
+  # Allows external webhook trigger
+  repository_dispatch:
+    types:
+      - webhook
+
+jobs:
+  Tenant_Workflow:
+    runs-on: [self-hosted, dev]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+        with:
+          token: ${{ secrets.TENANTS }}
+          persist-credentials: True
+
+      - name: Set branch name
+        run: |
+          echo "branch_name=${{ github.event.client_payload.event }}_${{ github.event.client_payload.vrf_name }}_$(date '+%Y%m%d%H%M%S')" >> "$GITHUB_ENV"
+
+      - name: Debug Client Payload
+        if: github.event.client_payload.vrf_debug
+        run: |
+          echo "Debugging Client Payload"
+          echo "payload: ${{ github.event.client_payload }}"
+          echo "branch_name: $branch_name"
+          echo "vrf_name: ${{ github.event.client_payload.vrf_name }}"
+          echo "event: ${{ github.event.client_payload.event }}"
+          echo "operation: ${{ github.event.client_payload.operation }}"
+          echo "svis: ${{ github.event.client_payload.svis }}"
+          echo "vni_base: ${{ github.event.client_payload.vni_base }}"
+          echo "vrf_vni: ${{ github.event.client_payload.vrf_vni }}"
+          echo "svi_ip_addresses: ${{ github.event.client_payload.svi_ip_addresses }}"
+          echo "vrf_debug: ${{ github.event.client_payload.vrf_debug }}"
+
+      - name: Git branch operations
+        run: |
+          git config --global user.name github-actions
+          git config --global user.email github-actions@github.com
+          git checkout -b ${{ env.branch_name }}
+
+      - name: Run Playbook for day 2 Tenant operations
+        run: |
+          ansible-playbook -i inventory/inventory.yml playbooks/${{ github.event.client_payload.operation }}.yml --extra-vars "event=${{ github.event.client_payload.event }} vrf_name=${{ github.event.client_payload.vrf_name }} svis=${{ github.event.client_payload.svis }} vni_base=${{ github.event.client_payload.vni_base }} vrf_vni=${{ github.event.client_payload.vrf_vni }} svi_ip_addresses=${{ github.event.client_payload.svi_ip_addresses }}"
+      
+      - name: Debug day 2 operations - main.yml
+        run: |
+          cat inventory/group_vars/TENANTS_NETWORKS/main.yml 
+
+      - name: Debug day 2 operations - tenant.yml
+        if: ${{ !contains(github.event.client_payload.event, 'deleted') }}
+        run: |
+          cat inventory/group_vars/TENANTS_NETWORKS/${{ github.event.client_payload.vrf_name }}.yml 
+
+      # - name: Build Configurations for ACT
+      #   run: |
+      #     ansible-playbook -i inventory/inventory.yml playbooks/fabric-build.yml --diff
+
+      - name: Git push operations
+        run: |
+          git config --global user.name github-actions
+          git config --global user.email github-actions@github.com
+          git add .
+          git commit -m "${{ github.event.client_payload.vrf_name }} ${{ github.event.client_payload.event }}"
+          git push https://kgrozis-arista:${{ secrets.TENANTS }}@github.com/arista-netdevops-community/modern-operate-model-demo.git ${{ env.branch_name }}

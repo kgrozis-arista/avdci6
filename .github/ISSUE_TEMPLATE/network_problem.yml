@@ -1,0 +1,94 @@
+name: Network Problem / Incident
+description: Report a network issue requiring investigation, workaround, or immediate action
+title: "[NetProb]: "
+labels: [network-problem, incident, triage]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠ **NOTE:** This template is for reporting a network issue that may require immediate attention or investigation.
+
+        Examples:
+        - Troubleshooting connectivity, performance, or routing problems
+        - Applying a workaround or emergency fix
+        - Rolling back or manually intervening after a failed change
+        - Using automation, pipeline, or CLI to resolve
+
+        Provide as much detail as possible to help with triage and resolution.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Issue summary
+      description: Short description of the network problem
+      placeholder: "e.g., DC1-LEAF2A not forwarding traffic to VLAN 200"
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity level
+      options:
+        - SEV-1: Critical service outage / immediate action required
+        - SEV-2: Major impact / degraded service
+        - SEV-3: Minor impact / no immediate action required
+        - SEV-4: Informational / tracking only
+      description: Select the severity of the issue
+
+  - type: textarea
+    id: symptoms
+    attributes:
+      label: Observed symptoms
+      description: Describe what is happening (including what is impacted)
+      placeholder: |
+        e.g.,
+        - Traffic not passing between VLANs
+        - High CPU on DC1-LEAF2A
+        - BGP peering down with core
+
+  - type: textarea
+    id: timeline
+    attributes:
+      label: Timeline / when issue was detected
+      description: When did the problem start? Is it ongoing?
+      placeholder: "e.g., First detected at 2024-07-10 03:15 UTC, still ongoing"
+
+  - type: textarea
+    id: actions_taken
+    attributes:
+      label: Actions taken so far
+      description: What troubleshooting or mitigation has been performed? Include any manual CLI commands, rollbacks, or automation attempts.
+      placeholder: |
+        e.g.,
+        - Verified BGP neighbor status
+        - Re-applied config via automation pipeline
+        - Issued `show interfaces` and found input errors
+        - Rolled back last commit
+
+  - type: textarea
+    id: proposed_next_steps
+    attributes:
+      label: Proposed next steps
+      description: Suggest next actions, or request input from others
+      placeholder: "e.g., Failover to backup link, manual CLI intervention, escalate to vendor TAC"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs / outputs
+      description: Paste any key logs, command outputs, or links to monitoring tools
+      placeholder: "e.g., `show ip bgp summary`, syslog entries, telemetry data"
+
+  - type: textarea
+    id: rollback_plan
+    attributes:
+      label: Rollback or mitigation plan
+      description: Describe if/how the issue can be rolled back or contained
+      placeholder: "e.g., Rollback via CVP, revert last pipeline commit, manual CLI rollback"
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ✅ Please attach diagrams, configs, or screenshots that will help with triage.

@@ -1,0 +1,45 @@
+name: 'Prod Runner'
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  Build:
+    name: Build
+    runs-on: [self-hosted, prod]
+    steps:
+      - run: echo The PR was merged
+
+      - name: Checkout Repository
+        uses: actions/checkout@master
+        with:
+          # Git Personal Access Token for repository access
+          token: ${{ secrets.TENANTS }}
+
+      - name: Build EVPN Fabric configuration for Production
+        run: |
+          ansible-playbook -i inventory/inventory.yml playbooks/fabric-build.yml -e topology=prod     
+
+      - name: Set up git to add build changes to repo
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    
+      - name: Commit and push build changes to repo
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.TENANTS }}@github.com/${{ github.repository }}.git
+          git add .
+          git diff --cached --quiet && echo "Automated update from GitHub Actions no changes production staged for commit" || git commit -m "Automated update from GitHub Actions with production build changes"
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin HEAD:"${{ github.ref_name }}"
+
+  Deploy:
+    name: Deploy
+    needs: Build
+    runs-on: [self-hosted, prod]
+    steps:
+      - name: Deploy Configurations to Production
+        run: |
+          ansible-playbook -i inventory/inventory.yml playbooks/prod-fabric-deploy.yml --tags cv_deploy

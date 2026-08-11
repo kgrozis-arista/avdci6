@@ -1,0 +1,94 @@
+name: Network Architecture Change
+description: Request a major change to the network architecture (e.g. new fabric, scale out, or routing policy change)
+title: "[NetArch]: "
+labels: [network-architecture, day1, high-impact]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠ **IMPORTANT:** This template is for *Day 1 impactful changes* to the network architecture:
+        - Building a new fabric
+        - Scaling an existing fabric (up or out)
+        - Changing routing policies (e.g., BGP, OSPF, EVPN, etc.)
+
+        Please complete all sections carefully.
+
+  - type: input
+    id: change_summary
+    attributes:
+      label: Summary of the proposed change
+      description: Short description of the architecture change
+      placeholder: "e.g., Add a new leaf-spine fabric for DC3"
+
+  - type: textarea
+    id: business_drivers
+    attributes:
+      label: Business / technical drivers
+      description: Why is this change needed? What requirements does it address?
+      placeholder: |
+        e.g.,
+        - Support new application workloads in DC3
+        - Meet scaling requirements beyond 64 leaf nodes
+        - Align routing policy with multi-site architecture
+
+  - type: dropdown
+    id: change_type
+    attributes:
+      label: Type of architecture change
+      options:
+        - New fabric deployment
+        - Fabric scale-out
+        - Fabric scale-up
+        - Routing policy change
+        - Other
+      description: Select the type of change
+
+  - type: textarea
+    id: technical_details
+    attributes:
+      label: Technical details
+      description: Provide key details (topology, routing protocols, capacity, vendor/platform, etc.)
+      placeholder: |
+        e.g.,
+        - Fabric: leaf-spine 8 spine / 32 leaf
+        - Routing: EVPN/VXLAN with BGP
+        - Hardware: Arista 7280, Juniper QFX
+        - Interfaces: 100G spine links, 25G leaf links
+
+  - type: textarea
+    id: impact_assessment
+    attributes:
+      label: Impact assessment
+      description: What is the expected impact on the network or services?
+      placeholder: |
+        e.g.,
+        - New fabric: no impact to existing services
+        - Routing policy change: risk of route flaps during migration
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies or prerequisites
+      description: List any dependencies (e.g., hardware availability, upstream provider changes, software releases)
+      placeholder: "e.g., Awaiting delivery of spine switches, software upgrade to EOS 4.28"
+
+  - type: textarea
+    id: rollback_plan
+    attributes:
+      label: Rollback plan
+      description: What is the rollback or mitigation plan if the change fails?
+
+  - type: textarea
+    id: timeline
+    attributes:
+      label: Proposed timeline
+      description: Provide an estimate for planning, implementation, and validation
+      placeholder: "e.g., Plan by 2024-07-01, implement 2024-07-15, validate 2024-07-16"
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ✅ Please attach any **design diagrams, configs, or documents** that support this change request.
