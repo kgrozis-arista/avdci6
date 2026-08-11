@@ -135,41 +135,31 @@ Optional:
 - **Arista Cloud Test (ACT)** account for virtual lab (https://ce.act.arista.com/)
 - **CloudVision Portal** instance (on-premises or CVaaS)
 
-### Bootstrap Environment
+### Bootstrap
 
-Initialize your development environment with a single command:
+Initialize your entire environment (local and remote) with a single command:
 
 ```bash
-make step0-setup-env
+make step1-setup
 ```
 
-This target:
-1. Creates a Python virtual environment (`.venv/`)
-2. Installs Python dependencies from `requirements.txt`
-3. Installs Ansible collections from `collections.yml` (arista.avd, arista.eos, etc.)
-4. Runs an interactive setup wizard to configure your inventory
-5. (Optional) Configures GitHub Actions runner on AVD-tooling server
-6. Validates the Ansible installation
+This target orchestrates:
+1. **Local Setup**
+   - Creates a Python virtual environment (`.venv/`)
+   - Installs Python dependencies from `requirements.txt`
+   - Installs Ansible collections from `collections.yml` (arista.avd, arista.eos, etc.)
+   - Runs an interactive setup wizard to configure your inventory
+   - Validates the Ansible installation
+
+2. **Remote Setup** (if AVD-tooling server in inventory)
+   - Bootstraps Ubuntu with Python, Ansible, AVD 6.3+
+   - Registers GitHub Actions runner for CI/CD
+   - Creates systemd service for auto-startup
 
 **Expected output:**
 ```
-✓ All tools installed successfully
-✓ Step 0 complete: venv setup and configuration done
+✓ Step 1 complete: Full bootstrap done!
 ```
-
-**GitHub Actions Runner (Optional):**
-If you plan to use GitHub Actions CI/CD, the bootstrap includes a runner setup target. To enable this:
-
-1. Generate a GitHub Personal Access Token (PAT) with `repo` and `admin:repo_hook` permissions
-2. Save it to `~/RUNNER_TOKEN` on your local machine
-3. Run `make step0-setup-env` — the runner setup will be executed automatically
-
-If you skip runner setup during bootstrap, you can set it up later:
-```bash
-make setup-github-runner RUNNER_TOKEN=your_token_here
-```
-
-For more details, see [Continuous Integration (CI/CD)](#continuous-integration-cicd).
 
 ### Setup Configuration
 
@@ -179,6 +169,49 @@ The setup wizard prompts for critical infrastructure IPs:
 - **AVD Tooling Server IP** — Optional remote server for automation execution
 
 These values are written to `avd_project/inventory/inventory.yml`.
+
+**Customizing Bootstrap for Remote Server:**
+
+If you have an AVD-tooling server in your Ansible inventory, `step1-setup` will automatically provision it. Customize with parameters:
+
+```bash
+make step1-setup \
+  LIMIT=avd-tooling-server \
+  AVD_USER=ansible \
+  AVD_WORKSPACE=/opt/avdci6 \
+  RUNNER_TOKEN=$(cat ~/RUNNER_TOKEN)
+```
+
+**What gets configured on remote server:**
+- ✓ Python 3.10 with virtual environment
+- ✓ Ansible 2.14+ with AVD 6.3+ collections
+- ✓ Passwordless sudo for automation user
+- ✓ Shell profile with venv auto-activation
+- ✓ GitHub Actions runner (systemd service)
+- ✓ Auto-startup on server reboot
+
+**Running components separately:**
+
+If you need to run setup steps individually:
+
+```bash
+# Local setup only
+make setup setup-wizard
+
+# Remote server only
+make bootstrap-avd-server LIMIT=avd-tooling-server
+make setup-github-runner LIMIT=avd-tooling-server
+```
+
+**Verify after bootstrap completes:**
+
+SSH into the server and run:
+```bash
+source .activate
+ansible --version
+ansible-galaxy collection list | grep arista
+systemctl status github-runner
+```
 
 ### Virtual Twin with ACT
 
@@ -286,9 +319,20 @@ Reports are written to `intended/reports/`.
 
 The repository includes GitHub Actions workflows that automate linting, building, deploying, and validating configurations on every push to non-main branches.
 
-### GitHub Actions Runner Setup
+### Setup Overview
 
-GitHub Actions requires a **self-hosted runner** to access your CloudVision Portal and network infrastructure. The runner is typically deployed on your AVD-tooling server (Linux).
+The complete setup is a single command that configures both local and remote environments:
+
+```bash
+make step1-setup
+```
+
+This orchestrates:
+- ✓ Local: Python venv, Ansible, AVD, project configuration
+- ✓ Remote: AVD-tooling server provisioning (if in inventory)
+- ✓ Remote: GitHub Actions runner setup and registration
+
+### GitHub Actions Runner Configuration
 
 #### 1. Generate GitHub Personal Access Token (PAT)
 
@@ -308,23 +352,19 @@ echo "YOUR_TOKEN_HERE" > ~/RUNNER_TOKEN
 chmod 600 ~/RUNNER_TOKEN
 ```
 
-#### 3. Configure Runner on AVD-Tooling Server
+#### 3. Run Bootstrap
 
-Run the Ansible playbook to configure the runner:
+The `step1-setup` target automatically configures the runner as part of full bootstrap:
 
 ```bash
-# During bootstrap (runs automatically if ~/RUNNER_TOKEN exists)
-make step0-setup-env
-
-# Or manually set up the runner later
-make setup-github-runner RUNNER_TOKEN=$(cat ~/RUNNER_TOKEN)
+make step1-setup
 ```
 
-The playbook:
-- Downloads the GitHub Actions runner (v2.336.0)
-- Registers the runner with your GitHub repository
-- Creates a systemd service for automatic startup
-- Configures runner labels: `[self-hosted, Linux, X64, dev]`
+This includes runner setup which will:
+- Download the GitHub Actions runner (v2.336.0)
+- Register the runner with your GitHub repository
+- Create a systemd service for automatic startup
+- Configure runner labels: `[self-hosted, Linux, X64, dev]`
 
 #### 4. Verify Runner is Online
 

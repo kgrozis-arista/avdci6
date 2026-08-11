@@ -4,8 +4,8 @@
 # Spine-Leaf fabric using Arista Validated Design (AVD) 6.x.
 #
 # Usage:
-#   make help              # Show this help message
-#   make step0-setup-env   # Bootstrap: setup venv, wizard, prepare
+#   make help          # Show this help message
+#   make step1-setup   # Full bootstrap: setup → wizard → server → runner → validate
 #
 # Optional environment variables:
 #   VENV               - Path to Python virtual environment (default: .venv)
@@ -43,7 +43,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step0-setup-env setup setup-wizard setup-github-runner build-check build deploy validate check syntax lint clean
+.PHONY: help step1-setup setup setup-wizard setup-github-runner bootstrap-avd-server build-check build deploy validate check syntax lint clean
 
 # ============================================================================
 # Help
@@ -54,51 +54,65 @@ help:
 	@echo "======================================"
 	@echo ""
 	@echo "Bootstrap (one-shot setup):"
-	@echo "  step0-setup-env    - Full bootstrap: setup → wizard → runner → validate"
-	@echo "    setup            - Create .venv and install Python/Ansible deps"
-	@echo "    setup-wizard     - Interactive prompt for project configuration"
-	@echo "    setup-github-runner - Configure GitHub Actions runner on AVD-tooling server"
+	@echo "  step1-setup              - Full bootstrap: setup → wizard → runner → validate"
+	@echo "    setup                  - Create .venv and install Python/Ansible deps"
+	@echo "    setup-wizard           - Interactive prompt for project configuration"
+	@echo "    bootstrap-avd-server   - Bootstrap fresh Ubuntu with AVD"
+	@echo "    setup-github-runner    - Configure GitHub Actions runner on AVD-tooling server"
 	@echo ""
 	@echo "Build, Deploy & Validate:"
-	@echo "  build              - Generate AVD configurations (eos_designs + eos_cli_config_gen)"
-	@echo "  deploy             - Deploy configurations to CloudVision Portal"
-	@echo "  validate           - Run ANTA validation tests on fabric"
+	@echo "  build                    - Generate AVD configurations (eos_designs + eos_cli_config_gen)"
+	@echo "  deploy                   - Deploy configurations to CloudVision Portal"
+	@echo "  validate                 - Run ANTA validation tests on fabric"
 	@echo ""
 	@echo "Utilities:"
-	@echo "  check              - Dry-run: --check --diff"
-	@echo "  syntax             - Syntax-check the playbooks"
-	@echo "  lint               - Run ansible-lint on playbooks"
-	@echo "  clean              - Remove generated outputs"
+	@echo "  check                    - Dry-run: --check --diff"
+	@echo "  syntax                   - Syntax-check the playbooks"
+	@echo "  lint                     - Run ansible-lint on playbooks"
+	@echo "  clean                    - Remove generated outputs"
 	@echo ""
 	@echo "Optional variables:"
 	@echo "  VENV=$(VENV)"
-	@echo "  LIMIT=host1 TAGS=tag1 EXTRA='key=value'"
-	@echo "  RUNNER_TOKEN=token (for setup-github-runner)"
+	@echo "  LIMIT=host1              - Limit playbooks to specific host"
+	@echo "  TAGS=tag1 EXTRA='key=value'"
+	@echo "  RUNNER_TOKEN=token       - GitHub runner token"
+	@echo "  AVD_USER=username AVD_WORKSPACE=/path - Custom user/path"
 	@echo ""
 	@echo "Examples:"
-	@echo "  make step0-setup-env        # Bootstrap from scratch"
-	@echo "  make build                  # Generate configurations locally"
-	@echo "  make deploy                 # Deploy to CloudVision"
-	@echo "  make validate               # Validate fabric state"
-	@echo "  make build LIMIT=DC1-SPINE1 # Build for specific device"
+	@echo "  make step1-setup                          # Full bootstrap (local + remote)"
+	@echo "  make build                                # Generate configurations"
+	@echo "  make deploy                               # Deploy to CloudVision"
+	@echo "  make validate                             # Validate fabric state"
 	@echo ""
 
 # ============================================================================
 # Bootstrap
 # ============================================================================
 
-step0-setup-env: setup setup-wizard build-check setup-github-runner
+step1-setup: setup setup-wizard build-check bootstrap-avd-server setup-github-runner
 	@echo ""
-	@echo "✓ Step 0 complete: venv setup, configuration, and runner setup done"
+	@echo "✓ Step 1 complete: Full bootstrap done!"
+	@echo ""
+	@echo "Setup includes:"
+	@echo "  ✓ Local: Python venv, Ansible, AVD collections"
+	@echo "  ✓ Local: Interactive project configuration"
+	@echo "  ✓ Remote: AVD-tooling server provisioned"
+	@echo "  ✓ Remote: GitHub Actions runner configured"
 	@echo ""
 	@echo "Next steps:"
 	@echo "  1. Review your configuration:"
 	@echo "     cat avd_project/inventory/inventory.yml"
 	@echo ""
-	@echo "  2. Create group_vars files (see AVD 6.3 documentation)"
+	@echo "  2. Verify runner registration:"
+	@echo "     GitHub Settings → Actions → Runners"
 	@echo ""
 	@echo "  3. Generate configurations:"
 	@echo "     make build"
+	@echo ""
+	@echo "  4. Push to non-main branch to test CI/CD:"
+	@echo "     git checkout -b test/my-config"
+	@echo "     git push origin test/my-config"
+	@echo ""
 
 setup:
 	@scripts/setup-venv.sh
@@ -126,6 +140,22 @@ setup-github-runner:
 	  echo "   Usage: make setup-github-runner RUNNER_TOKEN=your_token"; \
 	  echo "   Or save token to: echo 'your_token' > ~/RUNNER_TOKEN"; \
 	fi
+
+bootstrap-avd-server:
+	@echo ""
+	@echo "Bootstrapping AVD-tooling server..."
+	@echo ""
+	@if [ -f "avd_project/inventory/inventory.yml" ]; then \
+	  $(ANSIBLE_PLAYBOOK) -i avd_project/inventory/inventory.yml \
+	    $(if $(LIMIT),-l $(LIMIT),) \
+	    $(if $(AVD_USER),-e "avd_user=$(AVD_USER)",) \
+	    $(if $(AVD_WORKSPACE),-e "avd_workspace=$(AVD_WORKSPACE)",) \
+	    playbooks/bootstrap-avd-server.yml; \
+	else \
+	  echo "⚠ Inventory file not found (avd_project/inventory/inventory.yml)."; \
+	  echo "   Please configure your inventory first."; \
+	fi
+
 
 # ============================================================================
 # Build, Deploy & Validate
