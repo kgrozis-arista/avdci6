@@ -26,6 +26,11 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
 
+      - name: Verify tools are available
+        run: |
+          which yamllint && yamllint --version
+          which ansible-lint && ansible-lint --version
+
       - name: Lint YAML in inventory
         run: yamllint avd_project/inventory/
 
@@ -44,9 +49,17 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
 
+      - name: Verify build environment
+        run: |
+          echo "Workspace: $(pwd)"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          which make && make --version
+          which python3 && python3 --version
+          ls -la .venv/bin/ansible* 2>/dev/null || echo "Note: venv not yet created"
+
       - name: Generate AVD fabric configurations
         run: make build
-        working-directory: ${{ github.workspace }}
 
       - name: Verify configurations generated
         run: |
@@ -62,13 +75,14 @@ jobs:
         run: |
           git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
           git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
+          git config --global pull.rebase false
           git add ${{ env.AVD_OUTPUT_DIR }}/
 
           # Only commit and push if there are changes
           if ! git diff --cached --quiet; then
             git commit -m "chore: update AVD configurations [skip-ci]"
-            git remote set-url origin https://x-access-token:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git
-            git pull --rebase origin "${{ github.ref_name }}"
+            git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
+            git pull origin "${{ github.ref_name }}"
             git push origin HEAD:"${{ github.ref_name }}"
             echo "✓ Pushed configuration changes"
           else

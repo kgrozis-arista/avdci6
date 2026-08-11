@@ -142,6 +142,13 @@
         virtualenv: "{{ venv_path }}"
         virtualenv_command: "python3 -m venv"
 
+    - name: Install yamllint and ansible-lint globally (for GitHub Actions runner)
+      pip:
+        name:
+          - yamllint
+          - ansible-lint
+        state: present
+
     - name: Install Ansible collections
       command: "{{ venv_path }}/bin/ansible-galaxy collection install -f arista.avd:>=6.3.0 arista.eos:>=7.0.0 ansible.netcommon ansible.utils ansible.posix community.general"
       become_user: "{{ avd_user }}"
