@@ -1,0 +1,168 @@
+aaa_root:
+  disabled: true
+config_end: true
+daemon_terminattr:
+  cvaddrs:
+  - 192.168.0.5:9910
+  cvauth:
+    method: token
+    token_file: /tmp/token
+  cvsourceintf: Management1
+  cvvrf: MGMT
+  disable_aaa: false
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+enable_password:
+  disabled: true
+ethernet_interfaces:
+- name: Ethernet49/1
+  description: MLAG_DC2-LEAF2A_Ethernet49/1
+  shutdown: false
+  channel_group:
+    id: 491
+    mode: active
+  metadata:
+    peer: DC2-LEAF2A
+    peer_interface: Ethernet49/1
+    peer_type: mlag_peer
+- name: Ethernet50/1
+  description: MLAG_DC2-LEAF2A_Ethernet50/1
+  shutdown: false
+  channel_group:
+    id: 491
+    mode: active
+  metadata:
+    peer: DC2-LEAF2A
+    peer_interface: Ethernet50/1
+    peer_type: mlag_peer
+- name: Ethernet51/1
+  description: L2_DC2-SPINE1_Ethernet4/1
+  shutdown: false
+  channel_group:
+    id: 511
+    mode: active
+  metadata:
+    peer: DC2-SPINE1
+    peer_interface: Ethernet4/1
+    peer_type: spine
+- name: Ethernet52/1
+  description: L2_DC2-SPINE2_Ethernet4/1
+  shutdown: false
+  channel_group:
+    id: 511
+    mode: active
+  metadata:
+    peer: DC2-SPINE2
+    peer_interface: Ethernet4/1
+    peer_type: spine
+- name: Ethernet53/1
+  description: L2_DC2-SPINE3_Ethernet4/1
+  shutdown: false
+  channel_group:
+    id: 511
+    mode: active
+  metadata:
+    peer: DC2-SPINE3
+    peer_interface: Ethernet4/1
+    peer_type: spine
+hostname: DC2-LEAF2B
+ip_igmp_snooping:
+  globally_enabled: true
+local_users:
+- name: admin
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$Df86J4/SFMDE3/1K$Hef4KstdoxNDaami37cBquTWOTplC.miMPjXVgQxMe92.e5wxlnXOLlebgPj8Fz1KO0za/RCO7ZIs4Q6Eiq1g1
+- name: ansible
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/
+- name: cvpadmin
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$qI16FDuEyTyahgyH$su2QQ4zgkOLu1269G7PM1pdM0xHV0AeBJ6nSUzCcGeTrIqCJYpEK8t/KKDtUy6Q8YyUGoYe2ZFPNYqprB482b0
+management_api_http:
+  enable_https: true
+  enable_vrfs:
+  - name: MGMT
+management_interfaces:
+- name: Management1
+  description: OOB_MANAGEMENT
+  shutdown: false
+  vrf: MGMT
+  ip_address: 192.168.0.27/24
+  type: oob
+  gateway: 192.168.0.1
+metadata:
+  is_deployed: true
+  platform: vEOS-lab
+  fabric_name: FABRIC
+  validate_hardware:
+    enabled: false
+mlag_configuration:
+  domain_id: DC2_LEAF2
+  local_interface: Vlan4094
+  peer_address: 10.60.0.24
+  peer_link: Port-Channel491
+  reload_delay_mlag: '300'
+  reload_delay_non_mlag: '330'
+ntp:
+  local_interface:
+    name: Management1
+    vrf: MGMT
+  servers:
+  - name: 0.pool.ntp.org
+    preferred: true
+  - name: 1.pool.ntp.org
+  vrf: MGMT
+port_channel_interfaces:
+- name: Port-Channel491
+  description: MLAG_DC2-LEAF2A_Port-Channel491
+  shutdown: false
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      groups:
+      - MLAG
+- name: Port-Channel511
+  description: L2_DC2-SPINE1_Port-Channel31
+  shutdown: false
+  mlag: 511
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      allowed_vlan: none
+service_routing_protocols_model: multi-agent
+spanning_tree:
+  mode: none
+  no_spanning_tree_vlan: '4094'
+static_routes:
+- vrf: MGMT
+  prefix: 0.0.0.0/0
+  next_hop: 192.168.0.1
+transceiver_qsfp_default_mode_4x10: true
+vlan_interfaces:
+- name: Vlan4094
+  description: MLAG
+  shutdown: false
+  ip_address: 10.60.0.25/31
+  mtu: 1500
+  no_autostate: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+vlans:
+- id: 4094
+  name: MLAG
+  trunk_groups:
+  - MLAG
+  metadata:
+    tenants:
+    - system
+vrfs:
+- name: MGMT
+  ip_routing: false
