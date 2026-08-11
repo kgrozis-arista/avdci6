@@ -1,0 +1,35 @@
+---
+# Spine switch configuration for DC2
+# Role-specific settings for spine switches with AVD 6.x structure
+
+type: spine
+
+spine:
+  defaults:
+    platform: vEOS-lab
+    bgp_as: 65200
+    loopback_ipv4_pool: 10.10.2.0/24
+    loopback_ipv4_offset: 0
+    spanning_tree_mode: none
+    bgp_defaults:
+      - timers bgp 5 15
+      - neighbor default send-community
+      - neighbor default send-community extended
+
+  node_groups:
+    - group: DC2_SPINES
+      nodes:
+        - name: DC2-SPINE1
+          id: 8
+          mgmt_ip: 192.168.0.20/24
+        - name: DC2-SPINE2
+          id: 9
+          mgmt_ip: 192.168.0.21/24
+        - name: DC2-SPINE3
+          id: 10
+          mgmt_ip: 192.168.0.22/24
+
+# Node numbering algorithm
+fabric_numbering:
+  node_id:
+    algorithm: pool_manager

@@ -6,7 +6,7 @@
 output_dir: AVD-information
 
 # Fabric identification
-fabric_name: AVDCI6
+fabric_name: FABRIC
 
 # Underlay and overlay routing protocols
 underlay_routing_protocol: ebgp
@@ -27,25 +27,21 @@ bfd_multihop:
   min_rx: 300
   multiplier: 3
 
-# Platform defaults
-platform: vEOS-lab
+# Spanning tree configuration
 spanning_tree_mode: none
 
-# Management interface configuration
+# Management interface configuration (AVD 6.x format)
+mgmt_interface_settings:
+  interface: Management1
+  vrf: MGMT
+
 mgmt_gateway: 192.168.0.1
-mgmt_interface: Management1
-mgmt_interface_vrf: MGMT
 
 # Management API (eAPI) configuration - required for ANTA validation
 # AVD 6.x flips management_eapi.enabled default from true to false.
 # Keep eAPI on so the httpapi connection in inventory.yml works.
 management_eapi:
   enabled: true
-
-management_api_http:
-  enable_vrfs:
-    - MGMT
-  enable_https: true
 
 # ANTA test catalog generation for validation
 anta_catalog:

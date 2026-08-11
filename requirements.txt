@@ -3,14 +3,14 @@
 # Core Ansible and supporting packages for running AVD automation
 
 # Ansible core (required for all Ansible automation)
-# AVD 6.x requires Ansible 2.13+ and collections support latest versions
+# AVD 6.x requires Ansible 2.14+
 ansible-core>=2.14.0
 
-# Jinja2 (template engine - pinned for stability)
-Jinja2>=3.1.0,<3.2.0
+# Jinja2 (template engine)
+Jinja2>=3.1.0
 
 # PyYAML (YAML parsing)
-PyYAML>=6.0,<7.0
+PyYAML>=6.0
 
 # Rich (formatted terminal output)
 rich>=13.0.0
@@ -30,3 +30,28 @@ paramiko>=3.0.0
 
 # Ansible Lint (linting for Ansible playbooks)
 ansible-lint>=6.0.0
+
+# AVD 6.x Core Dependencies
+# Arista Proto (protobuf definitions for Arista devices) - REQUIRED for eos_designs
+aristaproto>=0.1.1
+
+# Deep dictionary merge utility - REQUIRED for eos_designs
+deepmerge>=1.1.0
+
+# Schema validation and generation
+jsonschema>=4.0.0
+
+# YAML with includes support
+pyyaml-include>=1.3.0
+
+# Graph algorithms for topology
+networkx>=2.6.0
+
+# YAML diff and merge
+ruamel.yaml>=0.17.0
+
+# Python library distribution utilities - REQUIRED for AVD 6.3
+distlib>=0.3.9
+
+# PyAVD - Python package for Arista AVD automation (bundles all AVD deps)
+pyavd>=6.3.0

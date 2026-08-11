@@ -43,7 +43,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step0-setup-env setup setup-wizard build-check check syntax lint clean
+.PHONY: help step0-setup-env setup setup-wizard build-check build deploy validate check syntax lint clean
 
 # ============================================================================
 # Help
@@ -58,6 +58,11 @@ help:
 	@echo "    setup            - Create .venv and install Python/Ansible deps"
 	@echo "    setup-wizard     - Interactive prompt for project configuration"
 	@echo ""
+	@echo "Build, Deploy & Validate:"
+	@echo "  build              - Generate AVD configurations (eos_designs + eos_cli_config_gen)"
+	@echo "  deploy             - Deploy configurations to CloudVision Portal"
+	@echo "  validate           - Run ANTA validation tests on fabric"
+	@echo ""
 	@echo "Utilities:"
 	@echo "  check              - Dry-run: --check --diff"
 	@echo "  syntax             - Syntax-check the playbooks"
@@ -70,8 +75,10 @@ help:
 	@echo ""
 	@echo "Examples:"
 	@echo "  make step0-setup-env        # Bootstrap from scratch"
-	@echo "  make setup                  # Just setup venv"
-	@echo "  make setup-wizard           # Just run config wizard"
+	@echo "  make build                  # Generate configurations locally"
+	@echo "  make deploy                 # Deploy to CloudVision"
+	@echo "  make validate               # Validate fabric state"
+	@echo "  make build LIMIT=DC1-SPINE1 # Build for specific device"
 	@echo ""
 
 # ============================================================================
@@ -99,6 +106,19 @@ setup-wizard:
 	  python3 scripts/setup-wizard.py
 
 # ============================================================================
+# Build, Deploy & Validate
+# ============================================================================
+
+build:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/build.yml
+
+deploy:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/deploy.yml
+
+validate:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/validate.yml
+
+# ============================================================================
 # Validation & Diagnostics
 # ============================================================================
 
@@ -109,7 +129,7 @@ check:
 
 syntax:
 	@if [ -f avd_project/playbooks/build.yml ]; then \
-		cd avd_project && $(ANSIBLE_PLAYBOOK) --syntax-check playbooks/build.yml; \
+		cd avd_project && $(ANSIBLE_PLAYBOOK) -i inventory/inventory.yml --syntax-check playbooks/build.yml; \
 	else \
 		echo "⚠ Playbooks not yet created (skipping syntax check)"; \
 	fi

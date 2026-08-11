@@ -19,9 +19,6 @@
     - name: Run eos_designs role to generate structured configs
       import_role:
         name: arista.avd.eos_designs
-      vars:
-        design:
-          type: clos
 
     - name: Run eos_cli_config_gen role to render device CLI configs
       import_role:

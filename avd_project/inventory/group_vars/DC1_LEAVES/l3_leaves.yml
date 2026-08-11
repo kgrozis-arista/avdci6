@@ -10,6 +10,7 @@ leaf:
     loopback_ipv4_pool: 10.10.1.0/24
     loopback_ipv4_offset: 0
     uplink_ipv4_pool: 10.20.0.0/24
+    mlag_peer_ipv4_pool: 10.50.0.0/24
     uplink_switches: [DC1-SPINE1, DC1-SPINE2, DC1-SPINE3]
     uplink_interfaces: [Ethernet51/1, Ethernet52/1, Ethernet53/1]
     mlag_interfaces: [Ethernet49/1, Ethernet50/1]
@@ -24,11 +25,11 @@ leaf:
       bgp_as: 65101
       nodes:
         - name: DC1-LEAF1A
-          id: 1
+          id: 4
           mgmt_ip: 192.168.0.13/24
           uplink_switch_interfaces: [Ethernet1/1, Ethernet1/1, Ethernet1/1]
         - name: DC1-LEAF1B
-          id: 2
+          id: 5
           mgmt_ip: 192.168.0.14/24
           uplink_switch_interfaces: [Ethernet2/1, Ethernet2/1, Ethernet2/1]
 
@@ -36,13 +37,25 @@ leaf:
       bgp_as: 65102
       nodes:
         - name: DC1-LEAF2A
-          id: 3
+          id: 6
           mgmt_ip: 192.168.0.15/24
           uplink_switch_interfaces: [Ethernet3/1, Ethernet3/1, Ethernet3/1]
         - name: DC1-LEAF2B
-          id: 4
+          id: 7
           mgmt_ip: 192.168.0.16/24
           uplink_switch_interfaces: [Ethernet4/1, Ethernet4/1, Ethernet4/1]
+
+    - group: DC1_LEAF3
+      bgp_as: 65103
+      nodes:
+        - name: DC1-LEAF3A
+          id: 15
+          mgmt_ip: 192.168.0.17/24
+          uplink_switch_interfaces: [Ethernet5/1, Ethernet5/1, Ethernet5/1]
+        - name: DC1-LEAF3B
+          id: 16
+          mgmt_ip: 192.168.0.18/24
+          uplink_switch_interfaces: [Ethernet6/1, Ethernet6/1, Ethernet6/1]
 
 # Node numbering algorithm
 fabric_numbering:
