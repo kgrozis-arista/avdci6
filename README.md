@@ -127,15 +127,16 @@ avdci6/
 
 - **macOS or Linux** (development tested on macOS)
 - **Python 3.8+** (`python3 --version`)
-- **Ansible** (installed via `make step0-setup-env`)
 - **make** (`make --version`)
 - **Git** for version control
+- **Ansible, Ansible collections** (installed via `make step1-setup`)
 
 Optional:
 - **Arista Cloud Test (ACT)** account for virtual lab (https://ce.act.arista.com/)
-- **CloudVision Portal** instance (on-premises or CVaaS)
+- **CloudVision Portal** instance (on-premises or CVaaS) for deployment
+- **AVD-tooling server** for CI/CD automation and GitHub Actions runner
 
-### Bootstrap
+### Bootstrap (Step 1)
 
 Initialize your entire environment (local and remote) with a single command:
 
@@ -152,14 +153,16 @@ This target orchestrates:
    - Validates the Ansible installation
 
 2. **Remote Setup** (if AVD-tooling server in inventory)
-   - Bootstraps Ubuntu with Python, Ansible, AVD 6.3+
+   - Bootstraps Ubuntu with Python, Ansible, AVD 6.3+, all required dependencies
    - Registers GitHub Actions runner for CI/CD
-   - Creates systemd service for auto-startup
+   - Creates systemd service for auto-startup on server reboot
 
 **Expected output:**
 ```
 ✓ Step 1 complete: Full bootstrap done!
 ```
+
+After Step 1, your environment is ready. Proceed to Step 2 for the AVD workflow.
 
 ### Setup Configuration
 
@@ -244,6 +247,25 @@ Once labs are **Running**:
 
 ---
 
+## Workflow Overview
+
+The avdci6 project uses a **two-step make-based workflow**:
+
+### **Step 1: Bootstrap** (`make step1-setup`)
+One-time setup that configures:
+- Your local development machine (Python venv, Ansible, AVD collections)
+- Your remote AVD-tooling server (if in inventory) with AVD and GitHub Actions runner
+
+**When:** Run once after cloning the repo.
+
+### **Step 2: AVD Operations** (`make step2-avd`)
+Repeatable workflow for building, deploying, and validating:
+- **Build** — Generate device configurations from intent (YAML)
+- **Deploy** — Push configs to CloudVision Portal
+- **Validate** — Run ANTA tests to verify fabric state
+
+**When:** Run every time you make changes to the network intent.
+
 ## Network Design
 
 ### Underlay Routing
@@ -275,43 +297,51 @@ Once labs are **Running**:
 
 ## Build & Deploy
 
-### 1. Generate Configuration
+### Step 2: Full AVD Workflow
+
+Run the complete build, deploy, and validate workflow with a single command:
+
+```bash
+make step2-avd
+```
+
+This orchestrates:
+1. **Build** — Generate AVD configurations
+2. **Deploy** — Push to CloudVision Portal
+3. **Validate** — Run ANTA tests
+
+### Individual Commands
+
+If you prefer to run steps separately:
+
+#### Generate Configuration
+
+```bash
+make build
+```
 
 AVD reads your intent files and generates EOS configurations:
 
-```bash
-# Activate venv (if not already active)
-source .venv/bin/activate
-
-# Build configurations
-cd avd_project
-ansible-playbook playbooks/build.yml
-```
-
 **Outputs:**
-- `intended/configs/` — Final EOS commands per device
-- `documentation/` — Network topology and IP allocation reports
-- `structured_configs/` — Intermediate JSON (for CI tools)
+- `avd_project/AVD-information/configs/` — Final EOS commands per device
+- `avd_project/AVD-information/documentation/` — Network topology and IP allocation reports
+- `avd_project/AVD-information/structured_configs/` — Intermediate YAML (for CI tools)
 
-### 2. Deploy to CloudVision
-
-Push generated configurations to your CloudVision instance:
+#### Deploy to CloudVision
 
 ```bash
-ansible-playbook playbooks/deploy.yml
+make deploy
 ```
 
-CloudVision stages change controls. Review and approve in the WebUI before devices are configured.
+Pushes generated configurations to your CloudVision instance. CloudVision stages change controls. Review and approve in the WebUI before devices are configured.
 
-### 3. Validate Fabric State
-
-Run ANTA tests to verify actual device state matches design:
+#### Validate Fabric State
 
 ```bash
-ansible-playbook playbooks/validate.yml
+make validate
 ```
 
-Reports are written to `intended/reports/`.
+Runs ANTA tests to verify actual device state matches design. Reports are written to `avd_project/AVD-information/reports/`.
 
 ---
 
@@ -604,6 +634,21 @@ ansible-playbook -vvv playbooks/build.yml
 ---
 
 ## Getting Help
+
+### Available Make Targets
+
+```bash
+make help                    # Show all available targets
+make step1-setup             # One-time bootstrap (local + remote server)
+make step2-avd               # Full AVD workflow (build → deploy → validate)
+make build                   # Generate configs only
+make deploy                  # Deploy to CloudVision only
+make validate                # Run ANTA tests only
+make syntax                  # Check playbook syntax
+make lint                    # Run ansible-lint
+```
+
+### Support Resources
 
 - **Issues & Questions:** File a GitHub issue in this repository
 - **Documentation:** See [References](#references) section above

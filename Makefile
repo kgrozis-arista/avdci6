@@ -43,7 +43,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup setup setup-wizard setup-github-runner bootstrap-avd-server build-check build deploy validate check syntax lint clean
+.PHONY: help step1-setup step2-avd setup setup-wizard setup-github-runner bootstrap-avd-server build-check build deploy validate check syntax lint clean
 
 # ============================================================================
 # Help
@@ -61,9 +61,10 @@ help:
 	@echo "    setup-github-runner    - Configure GitHub Actions runner on AVD-tooling server"
 	@echo ""
 	@echo "Build, Deploy & Validate:"
-	@echo "  build                    - Generate AVD configurations (eos_designs + eos_cli_config_gen)"
-	@echo "  deploy                   - Deploy configurations to CloudVision Portal"
-	@echo "  validate                 - Run ANTA validation tests on fabric"
+	@echo "  step2-avd                - Full AVD workflow: build → deploy → validate"
+	@echo "    build                  - Generate AVD configurations (eos_designs + eos_cli_config_gen)"
+	@echo "    deploy                 - Deploy configurations to CloudVision Portal"
+	@echo "    validate               - Run ANTA validation tests on fabric"
 	@echo ""
 	@echo "Utilities:"
 	@echo "  check                    - Dry-run: --check --diff"
@@ -80,7 +81,8 @@ help:
 	@echo ""
 	@echo "Examples:"
 	@echo "  make step1-setup                          # Full bootstrap (local + remote)"
-	@echo "  make build                                # Generate configurations"
+	@echo "  make step2-avd                            # Full AVD workflow"
+	@echo "  make build                                # Generate configurations only"
 	@echo "  make deploy                               # Deploy to CloudVision"
 	@echo "  make validate                             # Validate fabric state"
 	@echo ""
@@ -160,6 +162,21 @@ bootstrap-avd-server:
 # ============================================================================
 # Build, Deploy & Validate
 # ============================================================================
+
+step2-avd: build deploy validate
+	@echo ""
+	@echo "✓ Step 2 complete: Full AVD workflow finished!"
+	@echo ""
+	@echo "Summary:"
+	@echo "  ✓ Generated AVD fabric configurations"
+	@echo "  ✓ Deployed to CloudVision Portal"
+	@echo "  ✓ Validated fabric state with ANTA tests"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Review configurations in avd_project/AVD-information/"
+	@echo "  2. Monitor devices in CloudVision Portal"
+	@echo "  3. Check validation reports in avd_project/AVD-information/reports/"
+	@echo ""
 
 build:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/build.yml
