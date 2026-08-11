@@ -144,9 +144,4 @@ jobs:
   #        else
   #          echo "✓ No validation report changes to commit"
   #        fi
-#
-  #    - name: Fail workflow if validation failed
-  #      if: failure()
-  #      run: |
-  #        echo "❌ Fabric validation failed. Review reports above."
-  #        exit 1
+
