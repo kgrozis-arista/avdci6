@@ -1,0 +1,32 @@
+# Python requirements for avdci6 AVD 6.x Project
+#
+# Core Ansible and supporting packages for running AVD automation
+
+# Ansible core (required for all Ansible automation)
+# AVD 6.x requires Ansible 2.13+ and collections support latest versions
+ansible-core>=2.14.0
+
+# Jinja2 (template engine - pinned for stability)
+Jinja2>=3.1.0,<3.2.0
+
+# PyYAML (YAML parsing)
+PyYAML>=6.0,<7.0
+
+# Rich (formatted terminal output)
+rich>=13.0.0
+
+# Netaddr (IP address utilities)
+netaddr>=0.9.0
+
+# ANTA (Arista Network Testing Automation)
+# Optional but recommended for network validation
+anta>=0.15.0
+
+# TextFSM (for structured text parsing)
+textfsm>=1.1.2
+
+# Paramiko (SSH protocol implementation for Ansible)
+paramiko>=3.0.0
+
+# Ansible Lint (linting for Ansible playbooks)
+ansible-lint>=6.0.0

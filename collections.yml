@@ -1,0 +1,30 @@
+---
+# Ansible Collections for avdci6 AVD 6.x Project
+# Specifies required Ansible collections for network automation
+
+collections:
+  # Arista Validated Design - core collection for AVD
+  # Includes roles for eos_designs, eos_cli_config_gen, eos_config_deploy, eos_validate_state
+  - name: arista.avd
+    version: ">=6.3.0"
+
+  # Arista EOS - core collection for EOS device management
+  # Note: arista.avd 6.3.0 requires arista.eos >= 7.0.0
+  - name: arista.eos
+    version: ">=7.0.0"
+
+  # Ansible Network Common - base networking collection
+  - name: ansible.netcommon
+    version: ">=6.0.0"
+
+  # Ansible network security - for network security modules
+  - name: community.general
+    version: ">=8.0.0"
+
+  # Ansible utilities
+  - name: ansible.utils
+    version: ">=2.10.0"
+
+  # Ansible POSIX
+  - name: ansible.posix
+    version: ">=1.5.0"
