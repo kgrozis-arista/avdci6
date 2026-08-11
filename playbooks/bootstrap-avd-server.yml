@@ -131,6 +131,7 @@
           - aristaproto>=0.1.1
           - deepmerge>=1.1.0
           - pyavd>=6.3.0
+          - distlib>=0.3.9
           - jsonschema
           - networkx
           - ruamel.yaml
@@ -142,11 +143,12 @@
         virtualenv: "{{ venv_path }}"
         virtualenv_command: "python3 -m venv"
 
-    - name: Install yamllint and ansible-lint globally (for GitHub Actions runner)
+    - name: Install tools globally (for GitHub Actions runner)
       pip:
         name:
           - yamllint
           - ansible-lint
+          - distlib>=0.3.9
         state: present
 
     - name: Install Ansible collections
