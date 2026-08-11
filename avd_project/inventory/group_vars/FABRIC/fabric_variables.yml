@@ -35,7 +35,7 @@ mgmt_interface_settings:
   interface: Management1
   vrf: MGMT
 
-mgmt_gateway: 192.168.0.1
+mgmt_gateway: 192.168.0.5
 
 # Management API (eAPI) configuration - required for ANTA validation
 # AVD 6.x flips management_eapi.enabled default from true to false.
