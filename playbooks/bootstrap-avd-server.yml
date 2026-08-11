@@ -132,6 +132,7 @@
           - deepmerge>=1.1.0
           - pyavd>=6.3.0
           - distlib>=0.3.9
+          - netaddr>=0.7.19
           - jsonschema
           - networkx
           - ruamel.yaml
@@ -149,6 +150,7 @@
           - yamllint
           - ansible-lint
           - distlib>=0.3.9
+          - netaddr>=0.7.19
         state: present
 
     - name: Install Ansible collections
