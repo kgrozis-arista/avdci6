@@ -5,7 +5,7 @@
 - name: Deploy fabric configurations to CloudVision
   hosts: FABRIC
   connection: local
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: Display banner
       debug:
@@ -19,7 +19,7 @@
       import_role:
         name: arista.avd.cv_deploy
       vars:
-        cv_deploy_diffs: yes
+        cv_deploy_diffs: true
         cv_tls_disable: false
 
     - name: Display completion banner

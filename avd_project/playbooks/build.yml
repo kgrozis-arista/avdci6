@@ -6,7 +6,7 @@
 - name: Build fabric configurations with AVD
   hosts: FABRIC
   connection: local
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: Display banner
       debug:
