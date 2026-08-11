@@ -5,6 +5,7 @@ all:
     ansible_password: cvp123!
 
   children:
+    # CVP management
     CVP:
       vars:
         ansible_become: true
@@ -17,125 +18,35 @@ all:
         ansible_python_interpreter: $(which python3)
       hosts:
         cv_dev_server:
-          # cvaas host:
-          ansible_httpapi_host: www.cv-staging.corp.arista.io
-          ansible_host: www.cv-staging.corp.arista.io
-          ansible_user: cvaas
-          # yamllint disable-line
-          ansible_ssh_pass: "{{ lookup('file','~/CV_TOKEN') }}"
-          ansible_password: "{{ lookup('ansible.builtin.file', '~/CV_TOKEN') }}"
-          # cvp host
-          # ansible_httpapi_host: 10.18.172.10
-          # ansible_host: 10.18.172.10
-        cv_prod_server:
-          # cvaas config:
-          # ansible_host: www.cv-staging.corp.arista.io
-          ansible_user: cvaas
-          # yamllint disable-line
-          ansible_ssh_pass: "{{ lookup('file','~/CV_TOKEN') }}"
-          ansible_password: "{{ lookup('ansible.builtin.file', '~/CV_TOKEN') }}"
-          ansible_httpapi_host: 10.18.180.129
-          ansible_host: 10.18.180.129
+          ansible_httpapi_host: 192.168.0.5
+          ansible_host: 192.168.0.5
 
-    AVD:
+    # AVD Tooling server for remote automation
+    AVD_TOOLING:
       vars:
-        ansible_connection: paramiko
         ansible_user: ansible
         ansible_password: ansible
+        ansible_become: true
+        ansible_become_method: sudo
         ansible_become_password: ansible
       hosts:
-        avd_dev:
-          # cvp host
-          # ansible_host: 10.18.172.8
-          # cvaas host
-          ansible_host: 10.18.130.1
-        avd_prod:
-          ansible_host: 10.18.133.228
+        avd:
+          ansible_host: 192.168.0.6
 
+    # NetBox for inventory management
     NETBOX:
       vars:
-        ansible_connection: paramiko
         ansible_user: ansible
         ansible_password: ansible
+        ansible_become: true
+        ansible_become_method: sudo
         ansible_become_password: ansible
       hosts:
-        netbox_dev:
-          ansible_host: 10.18.140.141
+        netbox:
+          ansible_host: 192.168.0.7
 
-    DC:
-      children:
-        DC1:
-          children:
-            DC1_SPINES:
-              hosts:
-                DC1-SPINE1:
-                  ansible_host: 192.168.0.110
-                DC1-SPINE2:
-                  ansible_host: 192.168.0.111
-                DC1-SPINE3:
-                  ansible_host: 192.168.0.112
-            DC1_L3LEAFS:
-              children:
-                DC1_LEAF1:
-                  hosts:
-                    DC1-LEAF1A:
-                      ansible_host: 192.168.0.113
-                    DC1-LEAF1B:
-                      ansible_host: 192.168.0.114
-                DC1_LEAF2:
-                  hosts:
-                    DC1-LEAF2A:
-                      ansible_host: 192.168.0.115
-                    DC1-LEAF2B:
-                      ansible_host: 192.168.0.116
-                DC1_LEAF3:
-                  hosts:
-                    DC1-LEAF3A:
-                      ansible_host: 192.168.0.117
-                    DC1-LEAF3B:
-                      ansible_host: 192.168.0.118
-        DC2:
-          children:
-            DC2_SPINES:
-              hosts:
-                DC2-SPINE1:
-                  ansible_host: 192.168.0.120
-                DC2-SPINE2:
-                  ansible_host: 192.168.0.121
-                DC2-SPINE3:
-                  ansible_host: 192.168.0.122
-            DC2_L3LEAFS:
-              children:
-                DC2_LEAF1:
-                  hosts:
-                    DC2-LEAF1A:
-                      ansible_host: 192.168.0.124
-                    DC2-LEAF1B:
-                      ansible_host: 192.168.0.125
-                      is_deplyed: false
-                DC2_LEAF2:
-                  hosts:
-                    DC2-LEAF2A:
-                      ansible_host: 192.168.0.126
-                    DC2-LEAF2B:
-                      ansible_host: 192.168.0.127
-
-    COMMON_SETTINGS:
-      children:
-        DC1:
-        DC2:
-
-    TENANTS_NETWORKS:
-      children:
-        DC1_L3LEAFS:
-        DC2_L3LEAFS:
-
-    SERVERS:
-      children:
-        DC1_L3LEAFS:
-        DC2_L3LEAFS:
-
-    DC_Hosts:
+    # Fabric - top-level fabric group containing all DCs
+    FABRIC:
       vars:
         ansible_connection: ansible.netcommon.httpapi
         ansible_network_os: arista.eos.eos
@@ -145,19 +56,93 @@ all:
         ansible_become_method: enable
         ansible_httpapi_use_ssl: true
         ansible_httpapi_validate_certs: false
+      children:
+        DC1:
+        DC2:
 
+    # DC1 - First datacenter with spine/leaf fabric nodes
+    DC1:
+      children:
+        DC1_SPINES:
+          hosts:
+            DC1-SPINE1:
+              ansible_host: 192.168.0.10
+            DC1-SPINE2:
+              ansible_host: 192.168.0.11
+            DC1-SPINE3:
+              ansible_host: 192.168.0.12
+        DC1_LEAVES:
+          children:
+            DC1_LEAF1:
+              hosts:
+                DC1-LEAF1A:
+                  ansible_host: 192.168.0.13
+                DC1-LEAF1B:
+                  ansible_host: 192.168.0.14
+            DC1_LEAF2:
+              hosts:
+                DC1-LEAF2A:
+                  ansible_host: 192.168.0.15
+                DC1-LEAF2B:
+                  ansible_host: 192.168.0.16
+            DC1_LEAF3:
+              hosts:
+                DC1-LEAF3A:
+                  ansible_host: 192.168.0.17
+                DC1-LEAF3B:
+                  ansible_host: 192.168.0.18
+
+    # DC2 - Second datacenter with spine/leaf fabric nodes
+    DC2:
+      children:
+        DC2_SPINES:
+          hosts:
+            DC2-SPINE1:
+              ansible_host: 192.168.0.20
+            DC2-SPINE2:
+              ansible_host: 192.168.0.21
+            DC2-SPINE3:
+              ansible_host: 192.168.0.22
+        DC2_LEAVES:
+          children:
+            DC2_LEAF1:
+              hosts:
+                DC2-LEAF1A:
+                  ansible_host: 192.168.0.24
+                DC2-LEAF1B:
+                  ansible_host: 192.168.0.25
+            DC2_LEAF2:
+              hosts:
+                DC2-LEAF2A:
+                  ansible_host: 192.168.0.26
+                DC2-LEAF2B:
+                  ansible_host: 192.168.0.27
+
+    # Connected endpoints (servers/hosts) for endpoint connectivity
+    CONNECTED_ENDPOINTS:
       children:
         HOSTS:
-          hosts:
-            DC1-HOST1:
-              serial_number: SN-DC1-HOST1
-              ansible_host: 192.168.0.51
-            DC1-HOST2:
-              serial_number: SN-DC1-HOST2
-              ansible_host: 192.168.0.52
-            DC2-HOST1:
-              serial_number: SN-DC2-HOST1
-              ansible_host: 192.168.0.53
-            DC2-HOST2:
-              serial_number: SN-DC2-HOST2
-              ansible_host: 192.168.0.54
+
+    # Hosts - all servers/endpoints across datacenters
+    HOSTS:
+      hosts:
+        DC1-HOST1:
+          ansible_host: 192.168.0.30
+        DC1-HOST2:
+          ansible_host: 192.168.0.31
+        DC2-HOST1:
+          ansible_host: 192.168.0.32
+        DC2-HOST2:
+          ansible_host: 192.168.0.33
+
+    # Network services group for VRF/VLAN management
+    NETWORK_SERVICES:
+      children:
+        DC1_LEAVES:
+        DC2_LEAVES:
+
+    # Common settings across all DCs
+    COMMON_SETTINGS:
+      children:
+        DC1:
+        DC2:
