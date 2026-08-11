@@ -61,21 +61,7 @@ This repository defines a **2-datacenter fabric** with high-availability pairs o
 
 ### Architecture
 
-```
-           ┌─────────────────────┐           ┌─────────────────────┐
-           │       DC1           │           │       DC2           │
-           └─────────────────────┘           └─────────────────────┘
-
-  Spines:      SPINE1  SPINE2  SPINE3     SPINE1  SPINE2  SPINE3
-               ├───────┼───────┤          ├───────┼───────┤
-               
-  Leafs:    LEAF1A  LEAF1B      LEAF2A  LEAF2B
-            (mlag)              (mlag)
-            ├──┤                ├──┤
-            
-  Hosts:    HOST1               HOST1
-            HOST2               HOST2
-```
+![avdci6 Topology Diagram](digital_twin/avdci6.png)
 
 ### Node Inventory
 
