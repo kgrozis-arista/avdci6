@@ -1,0 +1,12 @@
+---
+# DC1 datacenter-specific configuration
+# Applied to all DC1 devices (spines, leafs, hosts)
+
+dc_name: DC1
+
+# Node type definitions for this datacenter
+node_type_keys:
+  spine:
+    type: spine
+  leaf:
+    type: leaf

@@ -1,0 +1,62 @@
+---
+# Connected endpoints (servers/hosts) configuration for DC1 and DC2
+# Defines how endpoints are connected to the fabric
+
+endpoints:
+  # DC1 Hosts
+  - name: DC1-HOST1
+    type: server
+    devices:
+      - name: DC1-LEAF1A
+        adapters:
+          - endpoint_ports: [Ethernet1]
+            switch_ports: [Ethernet1]
+            mtu: 1500
+      - name: DC1-LEAF1B
+        adapters:
+          - endpoint_ports: [Ethernet2]
+            switch_ports: [Ethernet1]
+            mtu: 1500
+
+  - name: DC1-HOST2
+    type: server
+    devices:
+      - name: DC1-LEAF2A
+        adapters:
+          - endpoint_ports: [Ethernet1]
+            switch_ports: [Ethernet1]
+            mtu: 1500
+      - name: DC1-LEAF2B
+        adapters:
+          - endpoint_ports: [Ethernet2]
+            switch_ports: [Ethernet1]
+            mtu: 1500
+
+  # DC2 Hosts
+  - name: DC2-HOST1
+    type: server
+    devices:
+      - name: DC2-LEAF1A
+        adapters:
+          - endpoint_ports: [Ethernet1]
+            switch_ports: [Ethernet1]
+            mtu: 1500
+      - name: DC2-LEAF1B
+        adapters:
+          - endpoint_ports: [Ethernet2]
+            switch_ports: [Ethernet1]
+            mtu: 1500
+
+  - name: DC2-HOST2
+    type: server
+    devices:
+      - name: DC2-LEAF2A
+        adapters:
+          - endpoint_ports: [Ethernet1]
+            switch_ports: [Ethernet1]
+            mtu: 1500
+      - name: DC2-LEAF2B
+        adapters:
+          - endpoint_ports: [Ethernet2]
+            switch_ports: [Ethernet1]
+            mtu: 1500

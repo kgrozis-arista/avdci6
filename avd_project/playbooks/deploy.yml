@@ -1,0 +1,36 @@
+---
+# Deploy playbook - Push configurations to CloudVision and devices
+# This playbook uses the eos_config_deploy role to stage configs in CVP
+
+- name: Deploy fabric configurations to CloudVision
+  hosts: FABRIC
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Display banner
+      debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║            Deploying AVD Configurations to CVP                 ║
+          ║                    eos_config_deploy role                      ║
+          ╚════════════════════════════════════════════════════════════════╝
+
+    - name: Deploy configurations to CloudVision
+      import_role:
+        name: arista.avd.eos_config_deploy
+      vars:
+        cv_deploy_diffs: yes
+        cv_tls_disable: false
+        cv_servers: "{{ groups['CVP'] }}"
+        cv_username: "{{ hostvars['cv_dev_server']['ansible_user'] | default('cvpadmin') }}"
+        cv_password: "{{ hostvars['cv_dev_server']['ansible_password'] | default('cvp123!') }}"
+
+    - name: Display completion banner
+      debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║              Deployment Complete ✓                             ║
+          ║                                                                ║
+          ║  Configurations have been staged in CloudVision.              ║
+          ║  Review and approve change controls in the CVP UI.            ║
+          ╚════════════════════════════════════════════════════════════════╝

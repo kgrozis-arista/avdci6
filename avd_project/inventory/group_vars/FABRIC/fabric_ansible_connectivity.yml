@@ -1,0 +1,12 @@
+---
+# Ansible connectivity settings for fabric devices
+# Applied to all devices in the FABRIC group
+
+ansible_connection: ansible.netcommon.httpapi
+ansible_network_os: arista.eos.eos
+ansible_user: cvpadmin
+ansible_password: cvp123!
+ansible_become: true
+ansible_become_method: enable
+ansible_httpapi_use_ssl: true
+ansible_httpapi_validate_certs: false

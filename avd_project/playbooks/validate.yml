@@ -1,0 +1,35 @@
+---
+# Validate playbook - Run ANTA tests to validate fabric state
+# This playbook uses the anta_runner role to execute automated tests
+
+- name: Validate fabric state with ANTA tests
+  hosts: FABRIC
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Display banner
+      debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║          Validating Fabric State with ANTA Tests               ║
+          ║                     anta_runner role                           ║
+          ╚════════════════════════════════════════════════════════════════╝
+
+    - name: Run ANTA validation tests
+      import_role:
+        name: arista.avd.anta_runner
+      vars:
+        anta_skip_tests: |
+          - VerifyNTPAssociation
+          - VerifyReloadCause
+
+    - name: Display completion banner
+      debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║            Validation Complete ✓                               ║
+          ║                                                                ║
+          ║  Test reports available in: intended/reports/                ║
+          ║  - ANTA test results (Markdown)                              ║
+          ║  - Device validation status                                  ║
+          ╚════════════════════════════════════════════════════════════════╝

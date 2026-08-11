@@ -1,0 +1,40 @@
+---
+# Build playbook - Generate AVD configurations for the fabric
+# This playbook runs the eos_designs and eos_cli_config_gen roles
+# to generate structured configs and device CLI configurations
+
+- name: Build fabric configurations with AVD
+  hosts: FABRIC
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Display banner
+      debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║               Building AVD Fabric Configurations               ║
+          ║                      eos_designs role                          ║
+          ╚════════════════════════════════════════════════════════════════╝
+
+    - name: Run eos_designs role to generate structured configs
+      import_role:
+        name: arista.avd.eos_designs
+      vars:
+        design:
+          type: clos
+
+    - name: Run eos_cli_config_gen role to render device CLI configs
+      import_role:
+        name: arista.avd.eos_cli_config_gen
+
+    - name: Display completion banner
+      debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║                  Build Complete ✓                              ║
+          ║                                                                ║
+          ║  Outputs available in: intended/                              ║
+          ║  - configs/            (EOS device configurations)            ║
+          ║  - structured_configs/ (Data models in YAML)                  ║
+          ║  - documentation/      (Fabric topology and reports)          ║
+          ╚════════════════════════════════════════════════════════════════╝
