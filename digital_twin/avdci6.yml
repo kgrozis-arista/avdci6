@@ -215,10 +215,6 @@ nodes:
     ip_addr: 192.168.0.7
     node_type: generic
 
-- dhcp_server:
-    ip_addr: 192.168.0.8
-    node_type: generic
-
 links:
 # DC1
 # Spine Interfaces
