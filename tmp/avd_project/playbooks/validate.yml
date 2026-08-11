@@ -1,0 +1,51 @@
+---
+- name: Validate DC1 Spine-Leaf Fabric connectivity and BGP status
+  hosts: FABRIC
+  gather_facts: false
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 FABRIC CONNECTIVITY VALIDATION                     ║"
+        echo "║                                                                    ║"
+        echo "║  Validates DC1 fabric basic connectivity and BGP status.          ║"
+        echo "║  Checks interface connectivity, BGP neighbor status, and          ║"
+        echo "║  routing protocol health across all fabric devices.               ║"
+        echo "║                                                                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  tasks:
+    - name: Get BGP summary
+      arista.eos.eos_command:
+        commands:
+          - show bgp summary
+      register: bgp_summary
+
+    - name: Show BGP status
+      debug:
+        msg: |
+          Device: {{ inventory_hostname }}
+          BGP Summary:
+          {{ bgp_summary.stdout_lines[0] }}
+
+    - name: Get Interface status
+      arista.eos.eos_command:
+        commands:
+          - show interfaces status connected
+      register: int_status
+
+    - name: Show Interface status
+      debug:
+        msg: |
+          Device: {{ inventory_hostname }}
+          Connected Interfaces:
+          {{ int_status.stdout_lines[0] | default('No connected interfaces') }}

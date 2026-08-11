@@ -1,0 +1,160 @@
+---
+# Step 2: Automated Certification Testing (Remote Execution)
+#
+# Orchestrates certification testing with proper separation of concerns:
+# 1. Remote playbook: Setup directories, sync remote←local, then call non-remote playbook
+# 2. Non-remote playbook: Runs locally, connects to fabric via ansible.eos, collects configs
+# 3. Post-tasks: Sync results remote←local
+#
+# Usage:
+#   ansible-playbook playbooks/step2-cert-test-remote.yml
+
+- name: Setup & Orchestrate Certification Testing
+  hosts: "{{ target_hosts | default('avd') }}"
+  gather_facts: true
+  become: true
+  become_method: sudo
+
+  vars:
+    avd_project_dir: "{{ avd_project_path | default(playbook_dir | dirname) }}"
+    avd_host_ip: "{{ hostvars[inventory_hostname].ansible_host }}"
+    avd_user: "{{ hostvars[inventory_hostname].ansible_user | default('ansible') }}"
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║            AUTOMATED CERTIFICATION TESTING (7-Stage Workflow)      ║"
+        echo "║                                                                    ║"
+        echo "║  Stage 1: Setup - Prepare test environment and snapshot configs   ║"
+        echo "║  Stage 2: Pre Validate - Run baseline ANTA tests                  ║"
+        echo "║  Stage 3: Test Setup - Deploy test configuration changes          ║"
+        echo "║  Stage 4: Test Criteria - Execute test validations                ║"
+        echo "║  Stage 5: Tear Down - Restore original configs (always runs)      ║"
+        echo "║  Stage 6: Post Validate - Re-validate fabric (always runs)        ║"
+        echo "║  Stage 7: Report - Generate certification reports (always runs)   ║"
+        echo "║                                                                    ║"
+        echo "║  Execution: Remote on {{ inventory_hostname }}                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+    - name: Clean up old avd_project on remote (if exists)
+      ansible.builtin.file:
+        path: /tmp/avd_project
+        state: absent
+      tags: [setup, always]
+
+    - name: Ensure remote avd_project directory exists (writable)
+      ansible.builtin.file:
+        path: /tmp/avd_project
+        state: directory
+        mode: '0777'
+      tags: [setup, always]
+
+  tasks:
+    - name: Sync avd_project to remote server
+      ansible.posix.synchronize:
+        src: "{{ avd_project_dir }}/"
+        dest: "{{ avd_user }}@{{ avd_host_ip }}:/tmp/avd_project"
+        mode: push
+        delete: false
+        rsync_opts:
+          - "--exclude=.git"
+          - "--exclude=.venv"
+          - "--exclude=.pytest_cache"
+          - "--exclude=__pycache__"
+          - "--exclude=*.pyc"
+          - "--exclude=DC1-information/cert/archive"
+          - "--exclude=DC1-information/cert/snapshots/pre"
+          - "--exclude=DC1-information/cert/logs"
+          - "--exclude=DC1-information/cert/reports"
+      delegate_to: localhost
+      tags: [setup, always]
+
+    - name: Sync collections to remote server
+      ansible.posix.synchronize:
+        src: "{{ avd_project_dir | dirname }}/collections/"
+        dest: "{{ avd_user }}@{{ avd_host_ip }}:/tmp/avd_project/collections"
+        mode: push
+        delete: false
+        rsync_opts:
+          - "--exclude=.git"
+          - "--exclude=*.tar.gz"
+      delegate_to: localhost
+      tags: [setup, always]
+
+    - name: Install required Ansible collections on remote (for setup stage)
+      ansible.builtin.shell: |
+        python3 -m pip install --upgrade pip --quiet 2>&1 | grep -v "WARNING" || true
+        ansible-galaxy collection install \
+          arista.avd \
+          arista.eos \
+          ansible.netcommon \
+          community.general \
+          --force
+        mkdir -p /root/.ansible/collections/ansible_collections/arista
+        if [ -d /tmp/avd_project/collections/arista/auto_cert ]; then
+          cp -r /tmp/avd_project/collections/arista/auto_cert /root/.ansible/collections/ansible_collections/arista/ 2>/dev/null || true
+        fi
+      failed_when: false
+      tags: [setup, always]
+
+    - name: Execute setup stage on remote server (has fabric connectivity)
+      ansible.builtin.shell: |
+        cd /tmp/avd_project
+        ANSIBLE_COLLECTIONS_PATHS=/root/.ansible/collections:/root/.ansible/collections/ansible_collections \
+        ansible-playbook -i inventory/inventory.yml playbooks/step2-cert-test.yml \
+          -e "cert_root_dir=/tmp/avd_project/DC1-information" \
+          --tags setup 2>&1
+      register: setup_output
+      tags: [setup, always]
+
+    - name: Display setup stage output
+      ansible.builtin.debug:
+        msg: "{{ setup_output.stdout }}"
+      tags: [setup, always]
+
+    - name: Execute certification testing on remote (remaining stages 2-7)
+      ansible.builtin.shell: |
+        cd /tmp/avd_project
+        ANSIBLE_COLLECTIONS_PATHS=/root/.ansible/collections:/root/.ansible/collections/ansible_collections \
+        ansible-playbook -c local playbooks/step2-cert-test.yml \
+          -e "cert_root_dir=/tmp/avd_project/DC1-information" \
+          --tags {{ cert_tags | default('pre_validate,test_setup,test_criteria,teardown,post_validate,report_generator') }} 2>&1
+      register: cert_test_output
+      failed_when: false
+      tags: [always]
+
+    - name: Display certification testing output
+      ansible.builtin.debug:
+        msg: "{{ cert_test_output.stdout }}"
+      tags: [always]
+      when: cert_test_output.stdout | length > 0
+
+  post_tasks:
+    - name: Sync final results from remote to local
+      ansible.posix.synchronize:
+        src: "{{ avd_user }}@{{ avd_host_ip }}:/tmp/avd_project/DC1-information/cert/"
+        dest: "{{ avd_project_dir }}/DC1-information/cert/"
+        mode: pull
+        delete: false
+      delegate_to: localhost
+      tags: [always]
+
+    - name: Display certification test complete
+      ansible.builtin.debug:
+        msg: |
+          Certification Testing Complete
+          Setup stage executed locally (has fabric connectivity)
+          Results synced to: avd_project/DC1-information/cert/
+          - snapshots/pre/ — Pre-test switch configurations
+          - logs/ — Test execution logs
+          - reports/ — Generated certification reports
+      tags: [always]

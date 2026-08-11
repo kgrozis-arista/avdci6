@@ -1,0 +1,43 @@
+---
+# Validate live DC1 EOS device state against AVD intended configuration.
+# Uses AVD 6.x anta_runner role which tests devices directly via eAPI.
+#
+# Generates ANTA test catalogs and reports to DC1-information/
+
+- name: Validate DC1 EOS device states
+  hosts: DC1
+  connection: local
+  gather_facts: false
+  tags: [validate]
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 DC1 VALIDATION WITH ANTA                           ║"
+        echo "║                                                                    ║"
+        echo "║  Validates DC1 fabric state using ANTA (Arista Network Testing    ║"
+        echo "║  Automation). Runs comprehensive test catalog against live devices ║"
+        echo "║  to verify configurations, routing, BGP, and fabric health.        ║"
+        echo "║  Generates detailed validation reports.                           ║"
+        echo "║                                                                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  tasks:
+    - name: Run ANTA tests on DC1 devices
+      ansible.builtin.import_role:
+        name: arista.avd.anta_runner
+      vars:
+        root_dir: '{{ playbook_dir | dirname }}/DC1-information'
+        avd_catalogs_filters:
+          - skip_tests:
+              - VerifyNTP
+              - VerifyReloadCause

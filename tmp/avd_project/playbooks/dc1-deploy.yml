@@ -1,0 +1,46 @@
+---
+# Deploy AVD-rendered DC1 configurations to CloudVision via the cv_deploy role
+#
+# Auth:   on-prem CVP username/password — both read from cv_dev_server
+#         in inventory.yml (ansible_user / ansible_password)
+# Server: pulled from cv_dev_server.ansible_host in inventory.yml
+
+- name: DC1 configuration deployment to CloudVision
+  hosts: DC1
+  connection: local
+  gather_facts: false
+  tags: [cv_deploy]
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 DC1 DEPLOYMENT TO CLOUDVISION                      ║"
+        echo "║                                                                    ║"
+        echo "║  Deploys DC1 fabric configurations to CloudVision Portal via the   ║"
+        echo "║  cv_deploy role. Pushes device and interface configs, creates      ║"
+        echo "║  change control workflows, and orchestrates fabric provisioning.   ║"
+        echo "║                                                                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  tasks:
+    - name: Deploy configurations and tags to CloudVision
+      ansible.builtin.import_role:
+        name: arista.avd.cv_deploy
+      vars:
+        cv_inventory_hostname: cv_dev_server
+        cv_verify_certs: false
+        cv_run_change_control: true
+        cv_register_detailed_results: true
+        cv_workspace_description: "AVD deploy DC1 from {{ lookup('env', 'USER') }} on {{ ansible_date_time.iso8601 | default('') }}"
+        cv_username: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
+        cv_password: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
+        cv_token: ""

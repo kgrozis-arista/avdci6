@@ -1,0 +1,49 @@
+---
+# Build DC1 fabric configurations using AVD roles
+#
+# This playbook:
+# 1. Imports arista.avd.eos_designs to generate device data models from design intent
+# 2. Imports arista.avd.eos_cli_config_gen to render EOS device configurations
+#
+# Output locations:
+# - DC1-information/structured_configs/: Generated device data models
+# - DC1-information/configs/: EOS device configurations (.cfg files)
+# - DC1-information/documentation/: Fabric documentation
+
+- name: Build DC1 fabric configurations
+  hosts: DC1_SPINES, DC1_LEAVES
+  connection: local
+  gather_facts: false
+  tags: [build]
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 FABRIC CONFIGURATION BUILD                         ║"
+        echo "║                                                                    ║"
+        echo "║  Generates Arista EOS device and host configurations using        ║"
+        echo "║  Arista Validated Design (AVD). Transforms design intent into     ║"
+        echo "║  structured configs, renders CLI format, and generates            ║"
+        echo "║  documentation for DC1 fabric.                                    ║"
+        echo "║                                                                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  tasks:
+    - name: Run eos_designs role to generate structured configs
+      ansible.builtin.import_role:
+        name: arista.avd.eos_designs
+      tags: [eos_designs]
+
+    - name: Run eos_cli_config_gen role to render device configurations
+      ansible.builtin.import_role:
+        name: arista.avd.eos_cli_config_gen
+      tags: [eos_cli_config_gen]

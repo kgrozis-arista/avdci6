@@ -1,0 +1,103 @@
+---
+# Syncs the local avd_project/ to the AVD tooling server and runs the
+# DC1 build playbook there (AVD renders configs on the remote host,
+# not from the controller). Then syncs DC1-information back locally.
+#
+# Usage:
+#   make dc1-build
+# Or:
+#   ansible-playbook avd_project/playbooks/dc1-build-remote.yml \
+#     --extra-vars "target_hosts=avd"
+
+- name: Build DC1 fabric on the AVD tooling server
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 DC1 FABRIC BUILD                                   ║"
+        echo "║                                                                    ║"
+        echo "║  Generates Arista EOS device and host configurations using        ║"
+        echo "║  Arista Validated Design (AVD). Renders structured configs        ║"
+        echo "║  into CLI format, generates documentation, and prepares           ║"
+        echo "║  artifacts for deployment to CloudVision.                         ║"
+        echo "║                                                                    ║"
+        echo "║  Execution: Remote on {{ inventory_hostname }}                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  vars:
+    avd_project_src: "{{ playbook_dir }}/../"
+    avd_project_dest: "/home/{{ ansible_user }}/avd_project"
+    dc1_build_playbook: playbooks/build.yml
+    dc1_build_inventory: inventory/inventory.yml
+    # Where AVD writes rendered configs/docs on the server
+    dc1_information_remote: "{{ avd_project_dest }}/DC1-information"
+    dc1_information_local: "{{ playbook_dir }}/../DC1-information"
+
+  tasks:
+    - name: Sync avd_project to the AVD tooling server
+      ansible.posix.synchronize:
+        src: "{{ avd_project_src }}"
+        dest: "{{ avd_project_dest }}/"
+        delete: true
+        recursive: true
+        rsync_opts:
+          - "--exclude=.DS_Store"
+          - "--exclude=__pycache__"
+          - "--exclude=.git"
+          - "--exclude=.venv"
+          - "--exclude=.pytest_cache"
+
+    - name: Install AVD Python requirements on the remote host
+      ansible.builtin.pip:
+        name:
+          - anta>=1.8.0
+          - aristaproto>=0.1.1
+          - deepmerge>=1.1.0
+          - distlib>=0.3.9
+          - grpclib>=0.4.8
+          - netaddr>=0.7.19
+          - pyavd==6.3.0
+          - pyavd-utils==0.0.6
+          - python-socks[asyncio]>=2.7.2
+          - requests>=2.27.0
+        executable: pip3
+        state: present
+        extra_args: --upgrade
+      become: true
+
+    - name: Run DC1 build playbook on the AVD tooling server
+      ansible.builtin.shell: >-
+        ansible-playbook
+        -i {{ dc1_build_inventory }}
+        {{ dc1_build_playbook }}
+      args:
+        chdir: "{{ avd_project_dest }}"
+      environment:
+        PATH: "/home/{{ ansible_user }}/.local/bin:{{ ansible_env.PATH | default('/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin') }}"
+      register: build_result
+      changed_when: "'changed=' in build_result.stdout"
+
+    - name: Show DC1 build output
+      ansible.builtin.debug:
+        var: build_result.stdout_lines
+
+    - name: Pull DC1-information back to the controller
+      ansible.posix.synchronize:
+        mode: pull
+        src: "{{ dc1_information_remote }}/"
+        dest: "{{ dc1_information_local }}/"
+        delete: true
+        recursive: true
+        rsync_opts:
+          - "--exclude=cert"

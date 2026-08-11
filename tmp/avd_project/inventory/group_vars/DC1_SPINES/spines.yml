@@ -1,0 +1,27 @@
+---
+# Spine switch configuration for DC1
+# Role-specific settings for spine switches
+
+type: spine
+
+spine:
+  defaults:
+    platform: vEOS-lab
+    bgp_as: 65000
+    loopback_ipv4_pool: 10.10.0.0/24
+    loopback_ipv4_offset: 0
+    spanning_tree_mode: none
+    bgp_defaults:
+      - timers bgp 5 15
+      - neighbor default send-community
+      - neighbor default send-community extended
+
+  node_groups:
+    - group: DC1_SPINES
+      nodes:
+        - name: DC1-SPINE1
+          id: 1
+          mgmt_ip: 192.168.0.41/24
+        - name: DC1-SPINE2
+          id: 2
+          mgmt_ip: 192.168.0.42/24

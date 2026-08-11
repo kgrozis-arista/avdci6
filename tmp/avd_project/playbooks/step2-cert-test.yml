@@ -1,0 +1,165 @@
+---
+# Step 2: Automated Certification Testing (Categories 4-6)
+# ANTA with Orchestration - Advanced test cases with multiple stages
+#
+# Uses the arista.auto_cert collection which implements the 7-stage workflow:
+# 1. Setup - Ready compute for test, snapshot topology configs
+# 2. Pre Validate Topology - Execute ANTA test catalog baseline
+# 3. Test Step Setup - Make changes to network, deploy test config
+# 4. Test Step Criteria - Execute ANTA tests, validate test criteria
+# 5. Tear Down - Always run, restore snapshot configs
+# 6. Post Validate Topology - Always run, execute ANTA baseline tests again
+# 7. Write Report - Collect evidence and generate certification report
+#
+# Usage:
+#   ansible-playbook playbooks/step2-cert-test.yml \
+#     -e 'cert_test={test_case_name: "QoS Performance Test"}'
+#
+# Note: Configuration snapshots are collected by fabric hosts using ansible.eos
+# in the setup stage before the main certification workflow.
+
+- name: Collect Pre-Test Configuration Snapshots
+  hosts: DC1_SPINES, DC1_LEAVES
+  gather_facts: false
+  tags: [setup]
+
+  collections:
+    - arista.eos
+    - ansible.netcommon
+
+  vars:
+    cert_root_dir: "{{ playbook_dir | dirname }}/DC1-information"
+    cert_dir: "{{ cert_root_dir }}/cert"
+    snapshot_dir: "{{ cert_dir }}/snapshots/pre"
+
+  tasks:
+    - name: Ensure snapshot directory exists
+      ansible.builtin.file:
+        path: "{{ snapshot_dir }}"
+        state: directory
+        mode: '0755'
+      delegate_to: localhost
+      run_once: true
+
+    - name: Fetch running configuration via ansible.eos
+      arista.eos.eos_command:
+        commands:
+          - show running-config
+      register: config_result
+      ignore_errors: true
+
+    - name: Save pre-test configuration snapshot
+      ansible.builtin.copy:
+        content: "{{ config_result.stdout[0] }}"
+        dest: "{{ snapshot_dir }}/{{ inventory_hostname }}_config.txt"
+        mode: '0644'
+      delegate_to: localhost
+      when:
+        - config_result.stdout is defined
+        - config_result.stdout | length > 0
+
+    - name: Log snapshot status
+      ansible.builtin.debug:
+        msg: "✓ Captured configuration for {{ inventory_hostname }}"
+      delegate_to: localhost
+
+- name: Automated Certification Testing Workflow
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  tags: [cert_test]
+
+  collections:
+    - arista.auto_cert
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║            CERTIFICATION TESTING WORKFLOW (Stages 2-7)             ║"
+        echo "║                                                                    ║"
+        echo "║  Stage 2: Pre Validate - Run baseline ANTA tests                  ║"
+        echo "║  Stage 3: Test Setup - Deploy test configuration changes          ║"
+        echo "║  Stage 4: Test Criteria - Execute test validations                ║"
+        echo "║  Stage 5: Tear Down - Restore original configs (always runs)      ║"
+        echo "║  Stage 6: Post Validate - Re-validate fabric (always runs)        ║"
+        echo "║  Stage 7: Report - Generate certification reports (always runs)   ║"
+        echo "║                                                                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  vars:
+    cert_root_dir: "{{ playbook_dir | dirname }}/DC1-information"
+    cert_dir: "{{ cert_root_dir }}/cert"
+
+    cert_test:
+      test_case_name: "{{ test_case_name | default('DC1 Fabric Advanced Test Case') }}"
+      test_category: "{{ test_category | default(4) }}"
+
+    cert_test_setup:
+      snapshot_dir: "{{ cert_dir }}/snapshots"
+      test_log_dir: "{{ cert_dir }}/logs"
+      verify_connectivity: true
+      timeout: 300
+
+    cert_test_report:
+      report_dir: "{{ cert_dir }}/reports"
+      formats: [json, markdown, csv, html]
+      include_evidence: true
+
+  pre_tasks:
+    - name: Validate required variables
+      ansible.builtin.assert:
+        that:
+          - cert_test is defined
+          - cert_test.test_case_name is defined
+        fail_msg: "Required variables not defined. Please set cert_test.test_case_name"
+
+  roles:
+    # Stage 1: Setup - Prepare test environment
+    - role: arista.auto_cert.setup
+      tags: [setup]
+
+    # Stage 2: Pre Validate - Run baseline ANTA tests
+    - role: arista.auto_cert.pre_validate
+      tags: [pre_validate]
+
+    # Stage 3: Test Setup - Deploy test configuration
+    - role: arista.auto_cert.test_setup
+      tags: [test_setup]
+
+    # Stage 4: Test Criteria - Execute tests and validate
+    - role: arista.auto_cert.test_criteria
+      tags: [test_criteria]
+
+    # Stage 5: Tear Down - Restore network (always runs)
+    - role: arista.auto_cert.teardown
+      tags: [teardown]
+      when: true  # Always execute
+
+    # Stage 6: Post Validate - Re-validate fabric (always runs)
+    - role: arista.auto_cert.post_validate
+      tags: [post_validate]
+      when: true  # Always execute
+
+    # Stage 7: Report Generator - Generate reports (always runs)
+    - role: arista.auto_cert.report_generator
+      tags: [report_generator]
+      when: true  # Always execute
+
+  post_tasks:
+    - name: Certification testing workflow complete
+      ansible.builtin.debug:
+        msg: |
+          Automated Certification Testing Workflow Complete
+          Test Case: {{ cert_test.test_case_name }}
+          Category: {{ cert_test.test_category }}
+          Status: PASSED
+          Reports: {{ cert_test_report.report_dir }}/

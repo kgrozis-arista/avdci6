@@ -1,0 +1,36 @@
+---
+- name: Deploy intended configurations to DC1 devices via eAPI
+  hosts: FABRIC
+  gather_facts: false
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 FABRIC DEVICE DEPLOYMENT (eAPI)                    ║"
+        echo "║                                                                    ║"
+        echo "║  Deploys generated configurations directly to DC1 fabric devices   ║"
+        echo "║  using Arista eAPI. Pushes device configs via SSH and saves       ║"
+        echo "║  running-config to startup-config (startup persists).             ║"
+        echo "║                                                                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  tasks:
+    - name: Deploy EOS device configurations
+      arista.eos.eos_config:
+        src: ../DC1-information/intended/configs/{{ inventory_hostname }}.cfg
+      register: deploy_result
+
+    - name: Save running-config to startup-config
+      arista.eos.eos_command:
+        commands:
+          - write memory
+      when: deploy_result is changed

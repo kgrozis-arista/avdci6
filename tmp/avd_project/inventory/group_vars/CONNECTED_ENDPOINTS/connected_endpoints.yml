@@ -1,0 +1,38 @@
+---
+# Connected Endpoints configuration for DC1
+# Defines server/host connectivity to leaf switches
+
+endpoints:
+  - name: dc1-host1
+    type: server
+    description: DC1 Host Server 1
+    devices:
+      - name: dc1-leaf1
+        adapters:
+          - endpoint_ports: [Ethernet3]
+            switch_ports: [Ethernet3]
+            description: dc1-host1 uplink to dc1-leaf1
+            mtu: 1500
+      - name: dc1-leaf2
+        adapters:
+          - endpoint_ports: [Ethernet4]
+            switch_ports: [Ethernet3]
+            description: dc1-host1 uplink to dc1-leaf2
+            mtu: 1500
+
+  - name: dc1-host2
+    type: server
+    description: DC1 Host Server 2
+    devices:
+      - name: dc1-leaf3
+        adapters:
+          - endpoint_ports: [Ethernet3]
+            switch_ports: [Ethernet3]
+            description: dc1-host2 uplink to dc1-leaf3
+            mtu: 1500
+      - name: dc1-leaf4
+        adapters:
+          - endpoint_ports: [Ethernet4]
+            switch_ports: [Ethernet3]
+            description: dc1-host2 uplink to dc1-leaf4
+            mtu: 1500

@@ -1,0 +1,78 @@
+---
+# Syncs avd_project to remote AVD tooling server, renders host configs
+# using Jinja2 templates, then rsyncs host_configs/ back to controller.
+#
+# Run with: ansible-playbook playbooks/host-build-remote.yml \
+#            --extra-vars "target_hosts=avd"
+
+- name: Build host EOS configs on AVD tooling server
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 HOST ENDPOINTS BUILD                               ║"
+        echo "║                                                                    ║"
+        echo "║  Generates configurations for host endpoint devices using          ║"
+        echo "║  Jinja2 templates. Renders device-specific settings for           ║"
+        echo "║  attached end-systems and workload ports. Prepares host           ║"
+        echo "║  configs for deployment.                                          ║"
+        echo "║                                                                    ║"
+        echo "║  Execution: Remote on {{ inventory_hostname }}                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  vars:
+    avd_project_src: "{{ playbook_dir }}/../"
+    avd_project_dest: "/home/{{ ansible_user }}/avd_project"
+    host_build_playbook: playbooks/host-build.yml
+    host_build_inventory: inventory/inventory.yml
+    host_configs_remote: "{{ avd_project_dest }}/DC1-information/host_configs"
+    host_configs_local: "{{ playbook_dir }}/../DC1-information/host_configs"
+
+  tasks:
+    - name: Sync avd_project to the AVD tooling server
+      ansible.posix.synchronize:
+        src: "{{ avd_project_src }}"
+        dest: "{{ avd_project_dest }}/"
+        delete: true
+        recursive: true
+        rsync_opts:
+          - "--exclude=.DS_Store"
+          - "--exclude=__pycache__"
+          - "--exclude=.git"
+          - "--exclude=.pytest_cache"
+          - "--exclude=.venv"
+
+    - name: Run host-build playbook on AVD tooling server
+      ansible.builtin.shell: >-
+        ansible-playbook
+        -i {{ host_build_inventory }}
+        {{ host_build_playbook }}
+      args:
+        chdir: "{{ avd_project_dest }}"
+      environment:
+        PATH: "/home/{{ ansible_user }}/.local/bin:{{ ansible_env.PATH | default('/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin') }}"
+      register: host_build_result
+      changed_when: "'changed=' in host_build_result.stdout"
+
+    - name: Show host-build output
+      ansible.builtin.debug:
+        var: host_build_result.stdout_lines
+
+    - name: Pull host_configs back to controller
+      ansible.posix.synchronize:
+        mode: pull
+        src: "{{ host_configs_remote }}/"
+        dest: "{{ host_configs_local }}/"
+        delete: true
+        recursive: true

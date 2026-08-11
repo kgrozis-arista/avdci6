@@ -1,0 +1,12 @@
+---
+# DC1 datacenter-specific configuration
+# Settings specific to DC1, inherited by all DC1 devices
+
+dc_name: DC1
+
+# Node type definitions for AVD
+node_type_keys:
+  - key: spine
+    type: spine
+  - key: leaf
+    type: leaf

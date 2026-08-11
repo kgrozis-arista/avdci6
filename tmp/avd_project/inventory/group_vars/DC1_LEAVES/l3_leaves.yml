@@ -1,0 +1,45 @@
+---
+# Leaf switch configuration for DC1
+# Role-specific settings for L3 leaf switches
+
+type: leaf
+
+leaf:
+  defaults:
+    platform: vEOS-lab
+    loopback_ipv4_pool: 10.10.1.0/24
+    loopback_ipv4_offset: 0
+    uplink_ipv4_pool: 10.20.0.0/24
+    uplink_switches: [DC1-SPINE1, DC1-SPINE2]
+    uplink_interfaces: [Ethernet1, Ethernet2]
+    spanning_tree_mode: none
+    bgp_defaults:
+      - timers bgp 5 15
+      - neighbor default send-community
+      - neighbor default send-community extended
+
+  node_groups:
+    - group: DC1_LEAVES
+      bgp_as: 65100
+      nodes:
+        - name: DC1-LEAF1
+          id: 1
+          mgmt_ip: 192.168.0.51/24
+          uplink_switch_interfaces: [Ethernet1, Ethernet1]
+        - name: DC1-LEAF2
+          id: 2
+          mgmt_ip: 192.168.0.52/24
+          uplink_switch_interfaces: [Ethernet2, Ethernet2]
+        - name: DC1-LEAF3
+          id: 3
+          mgmt_ip: 192.168.0.53/24
+          uplink_switch_interfaces: [Ethernet3, Ethernet3]
+        - name: DC1-LEAF4
+          id: 4
+          mgmt_ip: 192.168.0.54/24
+          uplink_switch_interfaces: [Ethernet4, Ethernet4]
+
+# Node numbering algorithm
+fabric_numbering:
+  node_id:
+    algorithm: pool_manager

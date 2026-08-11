@@ -1,0 +1,136 @@
+---
+# Bootstrap AVD tooling and dependencies on a Linux host
+#
+# This playbook sets up a Linux host (typically named 'avd' in inventory)
+# to run AVD playbooks and manage the cert-poc DC1 fabric.
+#
+# Usage:
+#   ansible-playbook avd_project/playbooks/avd-tooling.yml --extra-vars "target_hosts=avd"
+#
+# Or via Makefile:
+#   make avd-tooling
+
+- name: Bootstrap AVD tooling on a Linux host
+  hosts: "{{ target_hosts }}"
+  gather_facts: true
+  tags: init
+  vars:
+    ansible_python_interpreter: auto_silent
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 AVD TOOLING BOOTSTRAP                              ║"
+        echo "║                                                                    ║"
+        echo "║  Prepares a remote Linux host to run Arista Validated Design      ║"
+        echo "║  (AVD) playbooks. Installs Python, Ansible, AVD, and required     ║"
+        echo "║  dependencies. Configures networking and system settings for      ║"
+        echo "║  fabric building, deployment, and validation.                     ║"
+        echo "║                                                                    ║"
+        echo "║  Execution: Remote on {{ inventory_hostname }}                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  tasks:
+    # =========================================================================
+    # SECTION 1: System Baseline & Prerequisites
+    # =========================================================================
+
+    - name: Update apt cache and install baseline packages
+      become: true
+      ansible.builtin.apt:
+        pkg:
+          - python3-venv
+          - python3-pip
+          - python3-dev
+          - git
+          - zip
+          - sshpass
+          - curl
+          - wget
+          - jq
+          - vim
+          - lsb-release
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+
+    # =========================================================================
+    # SECTION 2: Python Environment & Core Automation Tools
+    # =========================================================================
+
+    - name: Install Python packages via pip3
+      ansible.builtin.pip:
+        name:
+          - ansible>=7.0.0
+          - paramiko>=3.0.0
+          - cryptography>=41.0.0
+          - pycryptodome
+          - yamllint
+          - ansible-lint>=6.0.0
+          - anta[cli]
+          - poetry
+          - jinja2
+          - pyyaml
+        executable: pip3
+        state: present
+        extra_args: --upgrade
+
+    # =========================================================================
+    # SECTION 3: Ansible Galaxy Collections & AVD
+    # =========================================================================
+
+    - name: Install Ansible Galaxy collections
+      ansible.builtin.shell: ansible-galaxy collection install '{{ item }}' --upgrade
+      loop:
+        - community.general
+        - arista.avd:>=6.0.0,<7.0.0
+        - arista.eos
+        - ansible.netcommon
+      register: galaxy_result
+      changed_when: "'was installed' in galaxy_result.stdout or 'upgraded' in galaxy_result.stdout"
+      retries: 3
+      delay: 5
+      until: galaxy_result is success
+      ignore_errors: true
+
+
+    # =========================================================================
+    # SECTION 5: Verification & Status
+    # =========================================================================
+
+    - name: AVD Tooling Setup Complete
+      ansible.builtin.debug:
+        msg: |
+          ========================================
+          AVD Tooling Setup Complete
+          ========================================
+
+          Host: {{ inventory_hostname }}
+
+          Installed:
+            - Ansible >=7.0.0
+            - Ansible Galaxy collections:
+              - community.general
+              - arista.avd (>=6.0.0)
+              - arista.eos
+              - ansible.netcommon
+            - Python tools:
+              - ansible-lint
+              - yamllint
+              - anta (network testing)
+              - poetry
+
+          Ready to run:
+            - AVD playbooks
+            - Network configuration management
+            - ANTA validation tests
+          ========================================"

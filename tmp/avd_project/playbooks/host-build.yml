@@ -1,0 +1,57 @@
+---
+# Render EOS configurations for DC1-HOSTS (server/endpoint devices)
+# Output goes to DC1-information/host_configs/<hostname>.cfg
+#
+# These hosts use L3 routed uplinks to their leaf switches and static routes
+# (no dynamic routing protocol). Configuration includes management, NTP, DNS,
+# and interface setup matching the fabric settings.
+
+- name: Build host configurations for DC1
+  hosts: DC1_HOSTS
+  connection: local
+  gather_facts: false
+
+  vars:
+    output_dir: "{{ playbook_dir | dirname }}/DC1-information/host_configs"
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 HOST ENDPOINT CONFIGURATION BUILD                  ║"
+        echo "║                                                                    ║"
+        echo "║  Generates configurations for DC1-HOSTS (server/endpoint devices)  ║"
+        echo "║  using Jinja2 templates. Renders device-specific settings for     ║"
+        echo "║  management, NTP, DNS, and L3 routed uplinks to leaf switches.    ║"
+        echo "║                                                                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  tasks:
+    - name: Ensure host_configs output directory exists
+      ansible.builtin.file:
+        path: "{{ output_dir }}"
+        state: directory
+        mode: '0755'
+      run_once: true
+      delegate_to: localhost
+
+    - name: Render host EOS config from template
+      ansible.builtin.template:
+        src: host.cfg.j2
+        dest: "{{ output_dir }}/{{ inventory_hostname }}.cfg"
+        mode: '0644'
+      vars:
+        host_mgmt_ip: "{{ ansible_host }}/24"
+        host_mgmt_gateway: 192.168.0.1
+
+    - name: Report rendered host config path
+      ansible.builtin.debug:
+        msg: "✓ Wrote {{ output_dir }}/{{ inventory_hostname }}.cfg"

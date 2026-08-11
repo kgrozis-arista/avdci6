@@ -1,0 +1,68 @@
+---
+# Syncs avd_project to the remote AVD host, then runs the DC1 deploy playbook
+# to push rendered configs to CloudVision
+#
+# Run with: ansible-playbook playbooks/dc1-deploy-remote.yml \
+#            --extra-vars "target_hosts=avd"
+
+- name: Deploy DC1 AVD fabric to CloudVision from the AVD tooling server
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 DC1 FABRIC DEPLOYMENT                              ║"
+        echo "║                                                                    ║"
+        echo "║  Deploys generated device configurations to CloudVision Portal.    ║"
+        echo "║  Pushes device and host configs to CVP for orchestrated           ║"
+        echo "║  provisioning and validation. Prepares for network device          ║"
+        echo "║  provisioning and onboarding.                                      ║"
+        echo "║                                                                    ║"
+        echo "║  Execution: Remote on {{ inventory_hostname }}                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  vars:
+    avd_project_src: "{{ playbook_dir }}/../"
+    avd_project_dest: "/home/{{ ansible_user }}/avd_project"
+    dc1_deploy_playbook: playbooks/dc1-deploy.yml
+    dc1_deploy_inventory: inventory/inventory.yml
+
+  tasks:
+    - name: Sync avd_project to the AVD tooling server
+      ansible.posix.synchronize:
+        src: "{{ avd_project_src }}"
+        dest: "{{ avd_project_dest }}/"
+        delete: true
+        recursive: true
+        rsync_opts:
+          - "--exclude=.DS_Store"
+          - "--exclude=__pycache__"
+          - "--exclude=.git"
+          - "--exclude=.pytest_cache"
+          - "--exclude=.venv"
+
+    - name: Run DC1 deploy playbook on the AVD tooling server
+      ansible.builtin.shell: >-
+        ansible-playbook
+        -i {{ dc1_deploy_inventory }}
+        {{ dc1_deploy_playbook }}
+      args:
+        chdir: "{{ avd_project_dest }}"
+      environment:
+        PATH: "/home/{{ ansible_user }}/.local/bin:{{ ansible_env.PATH | default('/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin') }}"
+      register: deploy_result
+      changed_when: "'changed=' in deploy_result.stdout"
+
+    - name: Show DC1 deploy output
+      ansible.builtin.debug:
+        var: deploy_result.stdout_lines

@@ -1,0 +1,97 @@
+---
+# Syncs avd_project to remote AVD tooling server and runs dc1-validate.yml
+# to validate live DC1 fabric state with ANTA tests. Then syncs DC1-information
+# (including validation reports and ANTA catalogs) back to controller.
+#
+# Run with: ansible-playbook playbooks/dc1-validate-remote.yml \
+#            --extra-vars "target_hosts=avd"
+
+- name: Validate DC1 fabric from AVD tooling server
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 DC1 FABRIC VALIDATION                              ║"
+        echo "║                                                                    ║"
+        echo "║  Validates DC1 fabric state using ANTA (Arista Network Testing     ║"
+        echo "║  Automation). Runs test catalog against live devices to verify     ║"
+        echo "║  configurations, routing, BGP, and overall fabric health.          ║"
+        echo "║  Generates validation reports with test results.                   ║"
+        echo "║                                                                    ║"
+        echo "║  Execution: Remote on {{ inventory_hostname }}                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  vars:
+    avd_project_src: "{{ playbook_dir }}/../"
+    avd_project_dest: "/home/{{ ansible_user }}/avd_project"
+    dc1_validate_playbook: playbooks/dc1-validate.yml
+    dc1_validate_inventory: inventory/inventory.yml
+    dc1_information_remote: "{{ avd_project_dest }}/DC1-information"
+    dc1_information_local: "{{ playbook_dir }}/../DC1-information"
+
+  tasks:
+    - name: Sync avd_project to the AVD tooling server
+      ansible.posix.synchronize:
+        src: "{{ avd_project_src }}"
+        dest: "{{ avd_project_dest }}/"
+        delete: true
+        recursive: true
+        rsync_opts:
+          - "--exclude=.DS_Store"
+          - "--exclude=__pycache__"
+          - "--exclude=.git"
+          - "--exclude=.pytest_cache"
+          - "--exclude=.venv"
+
+    - name: Install Ansible collections on the AVD tooling server
+      ansible.builtin.shell: >-
+        ansible-galaxy collection install
+        arista.avd
+        arista.eos
+        ansible.netcommon
+        community.general
+        --upgrade
+      args:
+        chdir: "{{ avd_project_dest }}"
+      environment:
+        PATH: "/home/{{ ansible_user }}/.local/bin:{{ ansible_env.PATH | default('/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin') }}"
+
+    - name: Run DC1 validation playbook on the AVD tooling server
+      ansible.builtin.shell: >-
+        ansible-playbook
+        -i {{ dc1_validate_inventory }}
+        {{ dc1_validate_playbook }}
+      args:
+        chdir: "{{ avd_project_dest }}"
+      environment:
+        PATH: "/home/{{ ansible_user }}/.local/bin:{{ ansible_env.PATH | default('/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin') }}"
+      register: validate_result
+      changed_when: false
+      # Don't abort the run on validation failure — we still want the
+      # reports pulled back so you can see what broke.
+      failed_when: false
+
+    - name: Show DC1 validation output
+      ansible.builtin.debug:
+        var: validate_result.stdout_lines
+
+    - name: Pull DC1-information back to the controller
+      ansible.posix.synchronize:
+        mode: pull
+        src: "{{ dc1_information_remote }}/"
+        dest: "{{ dc1_information_local }}/"
+        delete: true
+        recursive: true
+        rsync_opts:
+          - "--exclude=cert"

@@ -1,0 +1,142 @@
+Device,Test Name,Test Status,Message(s),Test description,Test category
+DC1-LEAF1,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
+Aug 10 18:56:46 DC1-LEAF1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1478) -- Master ProcMgr (PID=1478) exiting.
+ Aug 10 18:56:46 DC1-LEAF1 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:1900) at tbl://stpListen/+n closed by peer (EOF)
+ Aug 10 18:56:46 DC1-LEAF1 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:1900))
+ Aug 10 18:56:46 DC1-LEAF1 ConfigAgent: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1672) at tbl://sysdb/+n closed by peer (EOF)
+ Aug 10 18:56:46 DC1-LEAF1 ConfigAgent: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1672))
+ Aug 10 18:56:46 DC1-LEAF1 ConfigAgent: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.
+ 
+",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
+DC1-LEAF2,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
+Aug 10 18:56:48 DC1-LEAF2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1487) -- Master ProcMgr (PID=1487) exiting.
+ Aug 10 18:56:48 DC1-LEAF2 Stp: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to StpTxRx (pid:1885) at tbl://stpTxRxListen/+n closed by peer (EOF)
+ Aug 10 18:56:48 DC1-LEAF2 Stp: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpTxRxListen/+n-in)(StpTxRx (pid:1885))
+ 
+",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
+DC1-LEAF3,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
+Aug 10 18:56:58 DC1-LEAF3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1488) -- Master ProcMgr (PID=1488) exiting.
+ Aug 10 18:56:58 DC1-LEAF3 Stp: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to StpTxRx (pid:1899) at tbl://stpTxRxListen/+n closed by peer (EOF)
+ Aug 10 18:56:58 DC1-LEAF3 Stp: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpTxRxListen/+n-in)(StpTxRx (pid:1899))
+ 
+",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
+DC1-LEAF4,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
+Aug 10 18:56:39 DC1-LEAF4 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1481) -- Master ProcMgr (PID=1481) exiting.
+ Aug 10 18:56:40 DC1-LEAF4 Stp: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to StpTxRx (pid:1872) at tbl://stpTxRxListen/+n closed by peer (EOF)
+ Aug 10 18:56:40 DC1-LEAF4 Stp: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpTxRxListen/+n-in)(StpTxRx (pid:1872))
+ 
+",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
+DC1-SPINE1,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
+Aug 10 18:56:47 DC1-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1486) -- Master ProcMgr (PID=1486) exiting.
+ Aug 10 18:56:47 DC1-SPINE1 Stp: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to StpTxRx (pid:1883) at tbl://stpTxRxListen/+n closed by peer (EOF)
+ Aug 10 18:56:47 DC1-SPINE1 Stp: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpTxRxListen/+n-in)(StpTxRx (pid:1883))
+ 
+",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
+DC1-SPINE2,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
+Aug 10 18:56:46 DC1-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1482) -- Master ProcMgr (PID=1482) exiting.
+ Aug 10 18:56:47 DC1-SPINE2 Stp: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to StpTxRx (pid:1880) at tbl://stpTxRxListen/+n closed by peer (EOF)
+ Aug 10 18:56:47 DC1-SPINE2 Stp: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpTxRxListen/+n-in)(StpTxRx (pid:1880))
+ 
+",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
+DC1-LEAF1,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
+DC1-LEAF1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
+DC1-LEAF1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
+DC1-LEAF1,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-LEAF1,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF1,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC1-LEAF1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
+DC1-LEAF1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
+DC1-LEAF1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
+DC1-LEAF1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
+DC1-LEAF1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
+DC1-LEAF1,VerifyCoredump,success,,Verifies there are no core dump files.,System
+DC1-LEAF1,VerifyFileSystemUtilization,success,,Verifies that no partition is utilizing more than 75% of its disk space.,System
+DC1-LEAF1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
+DC1-LEAF1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
+DC1-LEAF2,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
+DC1-LEAF2,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
+DC1-LEAF2,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
+DC1-LEAF2,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-LEAF2,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF2,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC1-LEAF2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
+DC1-LEAF2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
+DC1-LEAF2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
+DC1-LEAF2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
+DC1-LEAF2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
+DC1-LEAF2,VerifyCoredump,success,,Verifies there are no core dump files.,System
+DC1-LEAF2,VerifyFileSystemUtilization,success,,Verifies that no partition is utilizing more than 75% of its disk space.,System
+DC1-LEAF2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
+DC1-LEAF2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
+DC1-LEAF3,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
+DC1-LEAF3,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
+DC1-LEAF3,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
+DC1-LEAF3,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-LEAF3,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF3,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC1-LEAF3,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
+DC1-LEAF3,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
+DC1-LEAF3,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF3,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF3,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
+DC1-LEAF3,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
+DC1-LEAF3,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
+DC1-LEAF3,VerifyCoredump,success,,Verifies there are no core dump files.,System
+DC1-LEAF3,VerifyFileSystemUtilization,success,,Verifies that no partition is utilizing more than 75% of its disk space.,System
+DC1-LEAF3,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
+DC1-LEAF3,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
+DC1-LEAF4,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
+DC1-LEAF4,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
+DC1-LEAF4,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
+DC1-LEAF4,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-LEAF4,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF4,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC1-LEAF4,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
+DC1-LEAF4,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
+DC1-LEAF4,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF4,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF4,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
+DC1-LEAF4,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
+DC1-LEAF4,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
+DC1-LEAF4,VerifyCoredump,success,,Verifies there are no core dump files.,System
+DC1-LEAF4,VerifyFileSystemUtilization,success,,Verifies that no partition is utilizing more than 75% of its disk space.,System
+DC1-LEAF4,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
+DC1-LEAF4,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
+DC1-SPINE1,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
+DC1-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
+DC1-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
+DC1-SPINE1,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-SPINE1,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-SPINE1,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC1-SPINE1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
+DC1-SPINE1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
+DC1-SPINE1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-SPINE1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
+DC1-SPINE1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
+DC1-SPINE1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
+DC1-SPINE1,VerifyCoredump,success,,Verifies there are no core dump files.,System
+DC1-SPINE1,VerifyFileSystemUtilization,success,,Verifies that no partition is utilizing more than 75% of its disk space.,System
+DC1-SPINE1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
+DC1-SPINE1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
+DC1-SPINE2,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
+DC1-SPINE2,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
+DC1-SPINE2,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
+DC1-SPINE2,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-SPINE2,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-SPINE2,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC1-SPINE2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
+DC1-SPINE2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
+DC1-SPINE2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-SPINE2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
+DC1-SPINE2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
+DC1-SPINE2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
+DC1-SPINE2,VerifyCoredump,success,,Verifies there are no core dump files.,System
+DC1-SPINE2,VerifyFileSystemUtilization,success,,Verifies that no partition is utilizing more than 75% of its disk space.,System
+DC1-SPINE2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
+DC1-SPINE2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System

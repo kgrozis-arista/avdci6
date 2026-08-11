@@ -1,0 +1,86 @@
+---
+all:
+  vars:
+    ansible_user: cvpadmin
+    ansible_password: cvp123!
+
+  children:
+    # CVP management
+    CVP:
+      vars:
+        ansible_become: true
+        ansible_become_method: enable
+        ansible_httpapi_use_ssl: true
+        ansible_httpapi_validate_certs: false
+        ansible_network_os: eos
+        ansible_httpapi_port: 443
+        ansible_connection: httpapi
+        ansible_python_interpreter: $(which python3)
+      hosts:
+        cv_dev_server:
+          ansible_httpapi_host: 10.18.152.60
+          ansible_host: 10.18.152.60
+
+    # AVD Tooling server for remote automation
+    AVD_TOOLING:
+      vars:
+        ansible_user: ansible
+        ansible_password: ansible
+        ansible_become: true
+        ansible_become_method: sudo
+        ansible_become_password: ansible
+      hosts:
+        avd:
+          ansible_host: 10.18.152.12
+
+    # Fabric - top-level fabric group
+    FABRIC:
+      children:
+        DC1:
+
+    # DC1 - datacenter group containing spine/leaf fabric nodes
+    DC1:
+      vars:
+        ansible_connection: ansible.netcommon.httpapi
+        ansible_network_os: arista.eos.eos
+        ansible_user: ansible
+        ansible_password: ansible
+        ansible_become: true
+        ansible_become_method: enable
+        ansible_httpapi_use_ssl: true
+        ansible_httpapi_validate_certs: false
+      children:
+        DC1_SPINES:
+          hosts:
+            DC1-SPINE1:
+              ansible_host: 192.168.0.41
+            DC1-SPINE2:
+              ansible_host: 192.168.0.42
+        DC1_LEAVES:
+          hosts:
+            DC1-LEAF1:
+              ansible_host: 192.168.0.51
+            DC1-LEAF2:
+              ansible_host: 192.168.0.52
+            DC1-LEAF3:
+              ansible_host: 192.168.0.53
+            DC1-LEAF4:
+              ansible_host: 192.168.0.54
+
+    # DC1_HOSTS - servers/endpoints (separate from fabric design)
+    DC1_HOSTS:
+      hosts:
+        DC1-HOST1:
+          ansible_host: 192.168.0.61
+        DC1-HOST2:
+          ansible_host: 192.168.0.62
+
+    # Network services group for VRF/VLAN management
+    NETWORK_SERVICES:
+      children:
+        DC1_LEAVES:
+
+    # Connected endpoints (servers/hosts) for endpoint connectivity
+    CONNECTED_ENDPOINTS:
+      children:
+        DC1_HOSTS:

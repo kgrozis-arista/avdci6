@@ -1,0 +1,68 @@
+---
+# Syncs avd_project to remote AVD tooling server and runs host-deploy
+# playbook to push host configs to CloudVision via cv_deploy role.
+#
+# Run with: ansible-playbook playbooks/host-deploy-remote.yml \
+#            --extra-vars "target_hosts=avd"
+
+- name: Deploy host configs to CloudVision from AVD tooling server
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.shell: |
+        echo "╔════════════════════════════════════════════════════════════════════╗"
+        echo "║                 HOST ENDPOINTS DEPLOYMENT                          ║"
+        echo "║                                                                    ║"
+        echo "║  Deploys host endpoint configurations to CloudVision Portal.       ║"
+        echo "║  Pushes host device configs to CVP for orchestrated               ║"
+        echo "║  provisioning. Enables network onboarding of attached             ║"
+        echo "║  workload and management devices.                                  ║"
+        echo "║                                                                    ║"
+        echo "║  Execution: Remote on {{ inventory_hostname }}                    ║"
+        echo "║  Status: ▶ Starting                                               ║"
+        echo "╚════════════════════════════════════════════════════════════════════╝"
+      register: banner
+      run_once: true
+
+    - name: Show banner
+      ansible.builtin.debug:
+        var: banner.stdout_lines
+      run_once: true
+
+  vars:
+    avd_project_src: "{{ playbook_dir }}/../"
+    avd_project_dest: "/home/{{ ansible_user }}/avd_project"
+    host_deploy_playbook: playbooks/host-deploy.yml
+    host_deploy_inventory: inventory/inventory.yml
+
+  tasks:
+    - name: Sync avd_project to the AVD tooling server
+      ansible.posix.synchronize:
+        src: "{{ avd_project_src }}"
+        dest: "{{ avd_project_dest }}/"
+        delete: true
+        recursive: true
+        rsync_opts:
+          - "--exclude=.DS_Store"
+          - "--exclude=__pycache__"
+          - "--exclude=.git"
+          - "--exclude=.pytest_cache"
+          - "--exclude=.venv"
+
+    - name: Run host-deploy playbook on AVD tooling server
+      ansible.builtin.shell: >-
+        ansible-playbook
+        -i {{ host_deploy_inventory }}
+        {{ host_deploy_playbook }}
+      args:
+        chdir: "{{ avd_project_dest }}"
+      environment:
+        PATH: "/home/{{ ansible_user }}/.local/bin:{{ ansible_env.PATH | default('/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin') }}"
+      register: host_deploy_result
+      changed_when: "'changed=' in host_deploy_result.stdout"
+
+    - name: Show host-deploy output
+      ansible.builtin.debug:
+        var: host_deploy_result.stdout_lines
