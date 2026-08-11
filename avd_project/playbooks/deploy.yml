@@ -8,7 +8,7 @@
   gather_facts: false
   tasks:
     - name: Display banner
-      debug:
+      ansible.builtin.debug:
         msg: |
           ╔════════════════════════════════════════════════════════════════╗
           ║            Deploying AVD Configurations to CVP                 ║
@@ -16,14 +16,14 @@
           ╚════════════════════════════════════════════════════════════════╝
 
     - name: Deploy configurations to CloudVision
-      import_role:
+      ansible.builtin.import_role:
         name: arista.avd.cv_deploy
       vars:
         cv_deploy_diffs: true
         cv_tls_disable: false
 
     - name: Display completion banner
-      debug:
+      ansible.builtin.debug:
         msg: |
           ╔════════════════════════════════════════════════════════════════╗
           ║              Deployment Complete ✓                             ║

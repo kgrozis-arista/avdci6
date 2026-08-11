@@ -8,7 +8,7 @@
   gather_facts: false
   tasks:
     - name: Display banner
-      debug:
+      ansible.builtin.debug:
         msg: |
           ╔════════════════════════════════════════════════════════════════╗
           ║          Validating Fabric State with ANTA Tests               ║
@@ -16,7 +16,7 @@
           ╚════════════════════════════════════════════════════════════════╝
 
     - name: Run ANTA validation tests
-      import_role:
+      ansible.builtin.import_role:
         name: arista.avd.anta_runner
       vars:
         anta_skip_tests: |
@@ -24,7 +24,7 @@
           - VerifyReloadCause
 
     - name: Display completion banner
-      debug:
+      ansible.builtin.debug:
         msg: |
           ╔════════════════════════════════════════════════════════════════╗
           ║            Validation Complete ✓                               ║

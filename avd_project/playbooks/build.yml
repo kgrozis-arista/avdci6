@@ -9,7 +9,7 @@
   gather_facts: false
   tasks:
     - name: Display banner
-      debug:
+      ansible.builtin.debug:
         msg: |
           ╔════════════════════════════════════════════════════════════════╗
           ║               Building AVD Fabric Configurations               ║
@@ -17,15 +17,15 @@
           ╚════════════════════════════════════════════════════════════════╝
 
     - name: Run eos_designs role to generate structured configs
-      import_role:
+      ansible.builtin.import_role:
         name: arista.avd.eos_designs
 
     - name: Run eos_cli_config_gen role to render device CLI configs
-      import_role:
+      ansible.builtin.import_role:
         name: arista.avd.eos_cli_config_gen
 
     - name: Display completion banner
-      debug:
+      ansible.builtin.debug:
         msg: |
           ╔════════════════════════════════════════════════════════════════╗
           ║                  Build Complete ✓                              ║
