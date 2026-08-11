@@ -1,0 +1,391 @@
+veos:
+    # Define the global vEOS node parameters
+    username: cvpadmin
+    password: cvp123!
+    version: 4.35.4M
+
+generic:
+    # Define the global generic node parameters
+    version: ubuntu-2204-lts
+    username: ansible
+    password: ansible
+
+cvp:
+    # Define the global CVP node parameters
+    username: root
+    password: cvproot
+    version: 2026.2.0
+    instance: singlenode
+
+nodes:
+# Define individual node parameters
+#   - Parameters here will override global parameters
+
+# ===== CVP =====
+- cvp:
+    ip_addr: 192.168.0.5
+    node_type: cvp
+    auto_configuration: true
+    ntp_ip: 0.pool.ntp.org   # optional
+    instance_type: xlarge
+    onboard_device: true
+    ztp_dhcp:
+      enabled: true
+    firstname: Act
+    lastname: AutoConfig
+    email: "auto_config_act@arista.com"
+
+- DC1-SPINE1:
+    ip_addr: 192.168.0.10
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC1-SPINE1
+    ports:
+    - Ethernet1-32/1
+
+- DC1-SPINE2:
+    ip_addr: 192.168.0.11
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC1-SPINE2
+    ports:
+    - Ethernet1-32/1
+
+- DC1-SPINE3:
+    ip_addr: 192.168.0.12
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC1-SPINE3
+    ports:
+    - Ethernet1-32/1
+
+- DC1-LEAF1A:
+    ip_addr: 192.168.0.13
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC1-LEAF1A
+    ports:
+    - Ethernet1-48
+    - Ethernet49-56/1
+
+- DC1-LEAF1B:
+    ip_addr: 192.168.0.14
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC1-LEAF1B
+    ports:
+    - Ethernet1-48
+    - Ethernet49-56/1
+
+# Border Leafs
+- DC1-LEAF2A:
+    ip_addr: 192.168.0.15
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC1-LEAF2A
+    ports:
+    - Ethernet1-48
+    - Ethernet49-56/1
+
+- DC1-LEAF2B:
+    ip_addr: 192.168.0.16
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC1-LEAF2B
+    ports:
+    - Ethernet1-48
+    - Ethernet49-56/1
+
+- DC1-LEAF3A:
+    ip_addr: 192.168.0.17
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC1-LEAF3A
+    ports:
+    - Ethernet1-48
+    - Ethernet49-56/1
+
+- DC1-LEAF3B:
+    ip_addr: 192.168.0.18
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC1-LEAF3B
+    ports:
+    - Ethernet1-48
+    - Ethernet49-56/1
+
+# DC2
+- DC2-SPINE1:
+    ip_addr: 192.168.0.20
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC2-SPINE1
+    ports:
+    - Ethernet1-32/1
+
+- DC2-SPINE2:
+    ip_addr: 192.168.0.21
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC2-SPINE2
+    ports:
+    - Ethernet1-32/1
+
+- DC2-SPINE3:
+    ip_addr: 192.168.0.22
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC2-SPINE3
+    ports:
+    - Ethernet1-32/1
+
+- DC2-LEAF1A:
+    ip_addr: 192.168.0.24
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC2-LEAF1A
+    ports:
+    - Ethernet1-48
+    - Ethernet49-56/1
+
+- DC2-LEAF1B:
+    ip_addr: 192.168.0.25
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC2-LEAF1B
+    ports:
+    - Ethernet1-48
+    - Ethernet49-56/1
+
+- DC2-LEAF2A:
+    ip_addr: 192.168.0.26
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC2-LEAF2A
+    ports:
+    - Ethernet1-48
+    - Ethernet49-56/1
+
+- DC2-LEAF2B:
+    ip_addr: 192.168.0.27
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC2-LEAF2B
+    ports:
+    - Ethernet1-48
+    - Ethernet49-56/1
+
+- DC1-HOST1:
+    ip_addr: 192.168.0.30
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC1-HOST1
+    ports:
+    - Ethernet1-2
+
+- DC1-HOST2:
+    ip_addr: 192.168.0.31
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC1-HOST2
+    ports:
+    - Ethernet1-2
+
+- DC2-HOST1:
+    ip_addr: 192.168.0.32
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC2-HOST1
+    ports:
+    - Ethernet1-2
+
+- DC2-HOST2:
+    ip_addr: 192.168.0.33
+    node_type: veos
+    ztp: true
+    serial_number: SN-DC2-HOST2
+    ports:
+    - Ethernet1-2
+
+- avd:
+    ip_addr: 192.168.0.6
+    node_type: generic
+
+- netbox:
+    ip_addr: 192.168.0.7
+    node_type: generic
+
+- dhcp_server:
+    ip_addr: 192.168.0.8
+    node_type: generic
+
+links:
+# DC1
+# Spine Interfaces
+- connection:
+    - DC1-SPINE1:Ethernet1/1
+    - DC1-LEAF1A:Ethernet51/1
+- connection:
+    - DC1-SPINE1:Ethernet2/1
+    - DC1-LEAF1B:Ethernet51/1
+- connection:
+    - DC1-SPINE1:Ethernet3/1
+    - DC1-LEAF2A:Ethernet51/1
+- connection:
+    - DC1-SPINE1:Ethernet4/1
+    - DC1-LEAF2B:Ethernet51/1
+- connection:
+    - DC1-SPINE1:Ethernet5/1
+    - DC1-LEAF3A:Ethernet51/1
+- connection:
+    - DC1-SPINE1:Ethernet6/1
+    - DC1-LEAF3B:Ethernet51/1
+
+- connection:
+    - DC1-SPINE2:Ethernet1/1
+    - DC1-LEAF1A:Ethernet52/1
+- connection:
+    - DC1-SPINE2:Ethernet2/1
+    - DC1-LEAF1B:Ethernet52/1
+- connection:
+    - DC1-SPINE2:Ethernet3/1
+    - DC1-LEAF2A:Ethernet52/1
+- connection:
+    - DC1-SPINE2:Ethernet4/1
+    - DC1-LEAF2B:Ethernet52/1
+- connection:
+    - DC1-SPINE2:Ethernet5/1
+    - DC1-LEAF3A:Ethernet52/1
+- connection:
+    - DC1-SPINE2:Ethernet6/1
+    - DC1-LEAF3B:Ethernet52/1
+
+- connection:
+    - DC1-SPINE3:Ethernet1/1
+    - DC1-LEAF1A:Ethernet53/1
+- connection:
+    - DC1-SPINE3:Ethernet2/1
+    - DC1-LEAF1B:Ethernet53/1
+- connection:
+    - DC1-SPINE3:Ethernet3/1
+    - DC1-LEAF2A:Ethernet53/1
+- connection:
+    - DC1-SPINE3:Ethernet4/1
+    - DC1-LEAF2B:Ethernet53/1
+- connection:
+    - DC1-SPINE3:Ethernet5/1
+    - DC1-LEAF3A:Ethernet53/1
+- connection:
+    - DC1-SPINE3:Ethernet6/1
+    - DC1-LEAF3B:Ethernet53/1
+
+# MLAG Interfaces
+- connection:
+    - DC1-LEAF1A:Ethernet49/1
+    - DC1-LEAF1B:Ethernet49/1
+- connection:
+    - DC1-LEAF1A:Ethernet50/1
+    - DC1-LEAF1B:Ethernet50/1
+- connection:
+    - DC1-LEAF2A:Ethernet49/1
+    - DC1-LEAF2B:Ethernet49/1
+- connection:
+    - DC1-LEAF2A:Ethernet50/1
+    - DC1-LEAF2B:Ethernet50/1
+- connection:
+    - DC1-LEAF3A:Ethernet49/1
+    - DC1-LEAF3B:Ethernet49/1
+- connection:
+    - DC1-LEAF3A:Ethernet50/1
+    - DC1-LEAF3B:Ethernet50/1
+
+# Host Interface Connections
+- connection:
+    - DC1-LEAF1A:Ethernet1
+    - DC1-HOST1:Ethernet1
+- connection:
+    - DC1-LEAF1B:Ethernet1
+    - DC1-HOST1:Ethernet2
+- connection:
+    - DC1-LEAF2A:Ethernet1
+    - DC1-HOST2:Ethernet1
+- connection:
+    - DC1-LEAF2B:Ethernet1
+    - DC1-HOST2:Ethernet2
+
+# DC2
+# Spine Interfaces
+- connection:
+    - DC2-SPINE1:Ethernet1/1
+    - DC2-LEAF1A:Ethernet51/1
+- connection:
+    - DC2-SPINE1:Ethernet2/1
+    - DC2-LEAF1B:Ethernet51/1
+- connection:
+    - DC2-SPINE1:Ethernet3/1
+    - DC2-LEAF2A:Ethernet51/1
+- connection:
+    - DC2-SPINE1:Ethernet4/1
+    - DC2-LEAF2B:Ethernet51/1
+
+- connection:
+    - DC2-SPINE2:Ethernet1/1
+    - DC2-LEAF1A:Ethernet52/1
+- connection:
+    - DC2-SPINE2:Ethernet2/1
+    - DC2-LEAF1B:Ethernet52/1
+- connection:
+    - DC2-SPINE2:Ethernet3/1
+    - DC2-LEAF2A:Ethernet52/1
+- connection:
+    - DC2-SPINE2:Ethernet4/1
+    - DC2-LEAF2B:Ethernet52/1
+
+- connection:
+    - DC2-SPINE3:Ethernet1/1
+    - DC2-LEAF1A:Ethernet53/1
+- connection:
+    - DC2-SPINE3:Ethernet2/1
+    - DC2-LEAF1B:Ethernet53/1
+- connection:
+    - DC2-SPINE3:Ethernet3/1
+    - DC2-LEAF2A:Ethernet53/1
+- connection:
+    - DC2-SPINE3:Ethernet4/1
+    - DC2-LEAF2B:Ethernet53/1
+
+# MLAG Interfaces
+- connection:
+    - DC2-LEAF1A:Ethernet49/1
+    - DC2-LEAF1B:Ethernet49/1
+- connection:
+    - DC2-LEAF1A:Ethernet50/1
+    - DC2-LEAF1B:Ethernet50/1
+- connection:
+    - DC2-LEAF2A:Ethernet49/1
+    - DC2-LEAF2B:Ethernet49/1
+- connection:
+    - DC2-LEAF2A:Ethernet50/1
+    - DC2-LEAF2B:Ethernet50/1
+
+# Host Interface Connections
+- connection:
+    - DC2-LEAF1A:Ethernet1
+    - DC2-HOST1:Ethernet1
+- connection:
+    - DC2-LEAF1B:Ethernet1
+    - DC2-HOST1:Ethernet2
+- connection:
+    - DC2-LEAF2A:Ethernet1
+    - DC2-HOST2:Ethernet1
+- connection:
+    - DC2-LEAF2B:Ethernet1
+    - DC2-HOST2:Ethernet2
+
+# DCI Connections
+- connection:
+    - DC1-LEAF3A:Ethernet56/1
+    - DC2-LEAF2A:Ethernet56/1
+- connection:
+    - DC1-LEAF3B:Ethernet56/1
+    - DC2-LEAF2B:Ethernet56/1
