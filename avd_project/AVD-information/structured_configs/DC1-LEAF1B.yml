@@ -92,7 +92,7 @@ management_interfaces:
   vrf: MGMT
   ip_address: 192.168.0.14/24
   type: oob
-  gateway: 192.168.0.1
+  gateway: 192.168.0.5
 metadata:
   is_deployed: true
   platform: vEOS-lab
@@ -141,7 +141,7 @@ spanning_tree:
 static_routes:
 - vrf: MGMT
   prefix: 0.0.0.0/0
-  next_hop: 192.168.0.1
+  next_hop: 192.168.0.5
 transceiver_qsfp_default_mode_4x10: true
 vlan_interfaces:
 - name: Vlan4094
