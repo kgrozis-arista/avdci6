@@ -15,6 +15,7 @@ A demonstration of **Arista Validated Design (AVD) 6.x** applied to a multi-data
   - [Virtual Twin with ACT](#virtual-twin-with-act)
 - [Network Design](#network-design)
 - [Build & Deploy](#build--deploy)
+- [Continuous Integration (CI/CD)](#continuous-integration-cicd)
 - [Validation](#validation)
 - [Modern Operating Model](#modern-operating-model)
 - [Troubleshooting](#troubleshooting)
@@ -147,13 +148,28 @@ This target:
 2. Installs Python dependencies from `requirements.txt`
 3. Installs Ansible collections from `collections.yml` (arista.avd, arista.eos, etc.)
 4. Runs an interactive setup wizard to configure your inventory
-5. Validates the Ansible installation
+5. (Optional) Configures GitHub Actions runner on AVD-tooling server
+6. Validates the Ansible installation
 
 **Expected output:**
 ```
 ✓ All tools installed successfully
 ✓ Step 0 complete: venv setup and configuration done
 ```
+
+**GitHub Actions Runner (Optional):**
+If you plan to use GitHub Actions CI/CD, the bootstrap includes a runner setup target. To enable this:
+
+1. Generate a GitHub Personal Access Token (PAT) with `repo` and `admin:repo_hook` permissions
+2. Save it to `~/RUNNER_TOKEN` on your local machine
+3. Run `make step0-setup-env` — the runner setup will be executed automatically
+
+If you skip runner setup during bootstrap, you can set it up later:
+```bash
+make setup-github-runner RUNNER_TOKEN=your_token_here
+```
+
+For more details, see [Continuous Integration (CI/CD)](#continuous-integration-cicd).
 
 ### Setup Configuration
 
@@ -263,6 +279,121 @@ ansible-playbook playbooks/validate.yml
 ```
 
 Reports are written to `intended/reports/`.
+
+---
+
+## Continuous Integration (CI/CD)
+
+The repository includes GitHub Actions workflows that automate linting, building, deploying, and validating configurations on every push to non-main branches.
+
+### GitHub Actions Runner Setup
+
+GitHub Actions requires a **self-hosted runner** to access your CloudVision Portal and network infrastructure. The runner is typically deployed on your AVD-tooling server (Linux).
+
+#### 1. Generate GitHub Personal Access Token (PAT)
+
+1. Go to GitHub → Settings → Developer settings → Personal access tokens
+2. Click **Generate new token (classic)**
+3. Name: `avdci6-runner`
+4. Scopes: Check `repo` and `admin:repo_hook`
+5. Click **Generate token**
+6. Copy the token immediately (you won't see it again)
+
+#### 2. Save Token Locally
+
+On your development machine, save the token:
+
+```bash
+echo "YOUR_TOKEN_HERE" > ~/RUNNER_TOKEN
+chmod 600 ~/RUNNER_TOKEN
+```
+
+#### 3. Configure Runner on AVD-Tooling Server
+
+Run the Ansible playbook to configure the runner:
+
+```bash
+# During bootstrap (runs automatically if ~/RUNNER_TOKEN exists)
+make step0-setup-env
+
+# Or manually set up the runner later
+make setup-github-runner RUNNER_TOKEN=$(cat ~/RUNNER_TOKEN)
+```
+
+The playbook:
+- Downloads the GitHub Actions runner (v2.336.0)
+- Registers the runner with your GitHub repository
+- Creates a systemd service for automatic startup
+- Configures runner labels: `[self-hosted, Linux, X64, dev]`
+
+#### 4. Verify Runner is Online
+
+1. Go to GitHub → Repository Settings → Actions → Runners
+2. You should see your runner status as **Idle** (ready to accept jobs)
+
+### CI/CD Workflow
+
+The workflow defined in `.github/workflows/dev-runner.yml` runs on every push to non-main branches:
+
+**Pipeline Stages:**
+1. **Lint** (5 min timeout)
+   - Runs `yamllint` on inventory files
+   - Runs `ansible-lint` on playbooks
+   - Fails fast if configuration is invalid
+
+2. **Build** (15 min timeout)
+   - Runs `make build` to generate configurations
+   - Verifies output directory contains device configs
+   - Commits generated configs back to branch if changed
+
+3. **Deploy** (10 min timeout)
+   - Runs `make deploy` to push configs to CloudVision
+   - Waits 30 seconds for CloudVision to process changes
+
+4. **Validate** (15 min timeout)
+   - Runs `make validate` to execute ANTA tests
+   - Uploads test reports as artifacts
+   - Displays validation summary in GitHub
+
+### Testing Your Workflow
+
+Push a test branch to trigger the workflow:
+
+```bash
+git checkout -b test/my-config
+# Make a config change
+git add avd_project/
+git commit -m "test: sample config change"
+git push origin test/my-config
+```
+
+Then monitor progress:
+1. Go to GitHub → Actions
+2. Click your workflow run
+3. View step-by-step logs
+
+### Runner Management
+
+**View runner logs:**
+```bash
+# SSH into AVD-tooling server
+ssh ansible@<avd-tooling-ip>
+
+# View service status
+systemctl status github-runner
+
+# Tail logs
+journalctl -u github-runner -f
+
+# Restart runner if needed
+systemctl restart github-runner
+```
+
+**Unregister runner (cleanup):**
+```bash
+cd ~/actions-runner
+./config.sh remove --token <removal-token>
+```
 
 ---
 

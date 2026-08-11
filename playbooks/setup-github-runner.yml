@@ -1,0 +1,150 @@
+---
+# Setup GitHub Actions Self-Hosted Runner on AVD-Tooling Server
+# This playbook configures the runner for the avdci6 repository
+#
+# Usage via Makefile:
+#   make setup-github-runner
+#   make setup-github-runner RUNNER_TOKEN=your_token_here
+#   make setup-github-runner LIMIT=specific_host
+#
+# Usage directly:
+#   ansible-playbook playbooks/setup-github-runner.yml \
+#     -i inventory/inventory.yml \
+#     -l your_host \
+#     -e "runner_token=$(cat ~/RUNNER_TOKEN)"
+
+- name: Configure GitHub Actions Self-Hosted Runner
+  hosts: "{{ target_host | default('AVD_TOOLING', true) }}"
+  become: yes
+  gather_facts: yes
+
+  vars:
+    runner_version: "2.336.0"
+    runner_url: "https://github.com/{{ github_repo }}"
+    runner_home: "/home/{{ ansible_user }}/actions-runner"
+    runner_name: "{{ inventory_hostname | regex_replace('^.*-', '') }}-dev"
+    runner_labels: "self-hosted,Linux,X64,dev"
+    runner_work_folder: "_work"
+    github_repo: "kgrozis-arista/avdci6"
+
+  pre_tasks:
+    - name: Validate runner token is provided
+      assert:
+        that:
+          - runner_token is defined
+          - runner_token | length > 0
+        fail_msg: "ERROR: runner_token not provided. Use -e 'runner_token=YOUR_TOKEN' or set RUNNER_TOKEN environment variable"
+
+    - name: Check if runner already configured
+      stat:
+        path: "{{ runner_home }}/.runner"
+      register: runner_configured
+
+    - name: Display runner status
+      debug:
+        msg: "{{ 'Runner already configured. Skipping setup.' if runner_configured.stat.exists else 'Setting up new runner...' }}"
+
+  tasks:
+    - name: Install prerequisites
+      package:
+        name:
+          - curl
+          - tar
+          - git
+          - jq
+        state: present
+
+    - name: Create actions-runner directory
+      file:
+        path: "{{ runner_home }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Download GitHub Actions runner
+      get_url:
+        url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
+        dest: "{{ runner_home }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+      register: runner_download
+      when: not runner_configured.stat.exists
+
+    - name: Extract runner archive
+      unarchive:
+        src: "{{ runner_home }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
+        dest: "{{ runner_home }}"
+        remote_src: yes
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+      when: runner_download.changed
+
+    - name: Configure GitHub Actions runner
+      shell: |
+        cd {{ runner_home }}
+        ./config.sh \
+          --url {{ runner_url }} \
+          --token {{ runner_token }} \
+          --name {{ runner_name }} \
+          --labels {{ runner_labels }} \
+          --work {{ runner_work_folder }} \
+          --unattended \
+          --replace
+      become_user: "{{ ansible_user }}"
+      become: yes
+      when: not runner_configured.stat.exists
+      register: runner_config
+
+    - name: Display runner configuration result
+      debug:
+        msg: "{{ runner_config.stdout }}"
+      when: runner_config.changed
+
+    - name: Create systemd service for runner
+      template:
+        src: github-runner.service.j2
+        dest: /etc/systemd/system/github-runner.service
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Reload systemd
+
+    - name: Enable and start runner service
+      systemd:
+        name: github-runner
+        enabled: yes
+        state: started
+        daemon_reload: yes
+
+    - name: Verify runner is connected
+      command: systemctl status github-runner --no-pager
+      register: runner_status
+      changed_when: false
+
+    - name: Display runner status
+      debug:
+        msg: |
+          ✓ GitHub Actions Runner Configured Successfully
+
+          Runner Details:
+          - Name: {{ runner_name }}
+          - URL: {{ runner_url }}
+          - Home: {{ runner_home }}
+          - Work Folder: {{ runner_work_folder }}
+          - Labels: {{ runner_labels }}
+          - Service Status: Running
+
+          The runner will automatically start on system boot.
+
+          To view logs:
+            journalctl -u github-runner -f
+
+          To restart the runner:
+            systemctl restart github-runner
+
+  handlers:
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes

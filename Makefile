@@ -43,7 +43,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step0-setup-env setup setup-wizard build-check build deploy validate check syntax lint clean
+.PHONY: help step0-setup-env setup setup-wizard setup-github-runner build-check build deploy validate check syntax lint clean
 
 # ============================================================================
 # Help
@@ -54,9 +54,10 @@ help:
 	@echo "======================================"
 	@echo ""
 	@echo "Bootstrap (one-shot setup):"
-	@echo "  step0-setup-env    - Full bootstrap: setup → wizard → validate"
+	@echo "  step0-setup-env    - Full bootstrap: setup → wizard → runner → validate"
 	@echo "    setup            - Create .venv and install Python/Ansible deps"
 	@echo "    setup-wizard     - Interactive prompt for project configuration"
+	@echo "    setup-github-runner - Configure GitHub Actions runner on AVD-tooling server"
 	@echo ""
 	@echo "Build, Deploy & Validate:"
 	@echo "  build              - Generate AVD configurations (eos_designs + eos_cli_config_gen)"
@@ -72,6 +73,7 @@ help:
 	@echo "Optional variables:"
 	@echo "  VENV=$(VENV)"
 	@echo "  LIMIT=host1 TAGS=tag1 EXTRA='key=value'"
+	@echo "  RUNNER_TOKEN=token (for setup-github-runner)"
 	@echo ""
 	@echo "Examples:"
 	@echo "  make step0-setup-env        # Bootstrap from scratch"
@@ -85,9 +87,9 @@ help:
 # Bootstrap
 # ============================================================================
 
-step0-setup-env: setup setup-wizard build-check
+step0-setup-env: setup setup-wizard build-check setup-github-runner
 	@echo ""
-	@echo "✓ Step 0 complete: venv setup and configuration done"
+	@echo "✓ Step 0 complete: venv setup, configuration, and runner setup done"
 	@echo ""
 	@echo "Next steps:"
 	@echo "  1. Review your configuration:"
@@ -104,6 +106,26 @@ setup:
 setup-wizard:
 	@$(VENV)/bin/python3 scripts/setup-wizard.py 2>/dev/null || \
 	  python3 scripts/setup-wizard.py
+
+setup-github-runner:
+	@echo ""
+	@echo "Setting up GitHub Actions runner on AVD-tooling server..."
+	@echo ""
+	@if [ -f "$$HOME/RUNNER_TOKEN" ]; then \
+	  if [ -f "avd_project/inventory/inventory.yml" ]; then \
+	    $(ANSIBLE_PLAYBOOK) -i avd_project/inventory/inventory.yml \
+	      -e "runner_token=$$(cat $$HOME/RUNNER_TOKEN)" \
+	      $(if $(LIMIT),-l $(LIMIT),) \
+	      playbooks/setup-github-runner.yml; \
+	  else \
+	    echo "⚠ Inventory file not found (avd_project/inventory/inventory.yml)."; \
+	    echo "   Please run 'make step0-setup-env' first."; \
+	  fi; \
+	else \
+	  echo "⚠ RUNNER_TOKEN file not found at $$HOME/RUNNER_TOKEN"; \
+	  echo "   Usage: make setup-github-runner RUNNER_TOKEN=your_token"; \
+	  echo "   Or save token to: echo 'your_token' > ~/RUNNER_TOKEN"; \
+	fi
 
 # ============================================================================
 # Build, Deploy & Validate
