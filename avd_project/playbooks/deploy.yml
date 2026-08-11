@@ -21,7 +21,7 @@
       vars:
         cv_inventory_hostname: cv_dev_server
         cv_verify_certs: false
-        cv_run_change_control: true
+        cv_run_change_control: false
         cv_register_detailed_results: true
         cv_workspace_description: "AVD deploy DC1 from {{ lookup('env', 'USER') }} on {{ ansible_date_time.iso8601 | default('') }}"
         cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
