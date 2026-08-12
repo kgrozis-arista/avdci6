@@ -1,0 +1,55 @@
+---
+# Host endpoint configuration builder
+# Generates device configurations for DC hosts with L2 trunk connectivity and VLAN SVIs
+
+- name: Generate host endpoint configurations
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    host_list:
+      - DC1-HOST1
+      - DC1-HOST2
+      - DC2-HOST1
+      - DC2-HOST2
+  pre_tasks:
+    - name: Create config output directory
+      ansible.builtin.file:
+        path: "{{ playbook_dir }}/../AVD-information/configs"
+        state: directory
+        mode: '0755'
+      run_once: true
+
+  tasks:
+    - name: Display banner
+      ansible.builtin.debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║              Building Host Endpoint Configurations             ║
+          ║           L2 Trunks + VLAN 10-50 with SVIs                    ║
+          ╚════════════════════════════════════════════════════════════════╝
+      run_once: true
+
+    - name: Generate host configurations from Jinja2 template
+      ansible.builtin.template:
+        src: templates/host.j2
+        dest: "{{ playbook_dir }}/../AVD-information/configs/{{ host_item }}.cfg"
+        mode: '0644'
+      loop: "{{ host_list }}"
+      loop_control:
+        loop_var: host_item
+      vars:
+        inventory_hostname: "{{ host_item }}"
+
+  post_tasks:
+    - name: Display completion banner
+      ansible.builtin.debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║              Host Configurations Generated ✓                   ║
+          ║                                                                ║
+          ║  Outputs available in:                                         ║
+          ║  - AVD-information/configs/                                    ║
+          ║  - {{ inventory_hostname }}.cfg                               ║
+          ╚════════════════════════════════════════════════════════════════╝
+      run_once: true

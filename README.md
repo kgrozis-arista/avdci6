@@ -13,8 +13,10 @@ A demonstration of **Arista Validated Design (AVD) 6.x** applied to a multi-data
   - [Bootstrap Environment](#bootstrap-environment)
   - [Setup Configuration](#setup-configuration)
   - [Virtual Twin with ACT](#virtual-twin-with-act)
+- [Workflow Overview](#workflow-overview)
 - [Network Design](#network-design)
-- [Build & Deploy](#build--deploy)
+- [Build, Deploy & Validate](#build-deploy--validate)
+- [Configure Hosts](#configure-hosts)
 - [Continuous Integration (CI/CD)](#continuous-integration-cicd)
 - [Validation](#validation)
 - [Modern Operating Model](#modern-operating-model)
@@ -113,9 +115,13 @@ avdci6/
 │   │       ├── CONNECTED_ENDPOINTS/ # Host configuration
 │   │       └── NETWORK_SERVICES/    # VRF and VLAN definitions
 │   └── playbooks/
-│       ├── build.yml                # Generate configurations (AVD)
-│       ├── deploy.yml               # Deploy to CloudVision
-│       └── validate.yml             # Run ANTA validation tests
+│       ├── build.yml                # Generate fabric configurations (AVD)
+│       ├── deploy.yml               # Deploy fabric to CloudVision
+│       ├── validate.yml             # Run ANTA validation tests
+│       ├── host-build.yml           # Generate host endpoint configs
+│       ├── host-deploy.yml          # Deploy host configs to CloudVision
+│       └── templates/
+│           └── host.j2              # Jinja2 template for host configs
 └── README.md                         # This file
 ```
 
@@ -249,7 +255,7 @@ Once labs are **Running**:
 
 ## Workflow Overview
 
-The avdci6 project uses a **two-step make-based workflow**:
+The avdci6 project uses a **three-step make-based workflow**:
 
 ### **Step 1: Bootstrap** (`make step1-setup`)
 One-time setup that configures:
@@ -258,13 +264,20 @@ One-time setup that configures:
 
 **When:** Run once after cloning the repo.
 
-### **Step 2: AVD Operations** (`make step2-avd`)
-Repeatable workflow for building, deploying, and validating:
+### **Step 2: Fabric Operations** (`make step2-avd`)
+Repeatable workflow for building, deploying, and validating fabric:
 - **Build** — Generate device configurations from intent (YAML)
 - **Deploy** — Push configs to CloudVision Portal
 - **Validate** — Run ANTA tests to verify fabric state
 
-**When:** Run every time you make changes to the network intent.
+**When:** Run every time you make changes to the fabric network intent.
+
+### **Step 3: Configure Hosts** (`make step3-hosts`)
+Repeatable workflow for generating and deploying host endpoint configurations:
+- **Host Build** — Generate host endpoint configs from Jinja2 template
+- **Host Deploy** — Push host configs to CloudVision Portal using cv_deploy
+
+**When:** Run to configure server/host endpoints connected to the fabric.
 
 ## Network Design
 
@@ -295,9 +308,9 @@ Repeatable workflow for building, deploying, and validating:
 
 ---
 
-## Build & Deploy
+## Build, Deploy & Validate
 
-### Step 2: Full AVD Workflow
+### Step 2: Full Fabric Workflow
 
 Run the complete build, deploy, and validate workflow with a single command:
 
@@ -306,15 +319,15 @@ make step2-avd
 ```
 
 This orchestrates:
-1. **Build** — Generate AVD configurations
+1. **Build** — Generate fabric configurations using AVD eos_designs and eos_cli_config_gen
 2. **Deploy** — Push to CloudVision Portal
 3. **Validate** — Run ANTA tests
 
-### Individual Commands
+### Individual Fabric Commands
 
 If you prefer to run steps separately:
 
-#### Generate Configuration
+#### Generate Fabric Configuration
 
 ```bash
 make build
@@ -327,13 +340,13 @@ AVD reads your intent files and generates EOS configurations:
 - `avd_project/AVD-information/documentation/` — Network topology and IP allocation reports
 - `avd_project/AVD-information/structured_configs/` — Intermediate YAML (for CI tools)
 
-#### Deploy to CloudVision
+#### Deploy Fabric to CloudVision
 
 ```bash
 make deploy
 ```
 
-Pushes generated configurations to your CloudVision instance. CloudVision stages change controls. Review and approve in the WebUI before devices are configured.
+Pushes generated fabric configurations to your CloudVision instance using cv_deploy role. CloudVision stages change controls. Review and approve in the WebUI before devices are configured.
 
 #### Validate Fabric State
 
@@ -342,6 +355,72 @@ make validate
 ```
 
 Runs ANTA tests to verify actual device state matches design. Reports are written to `avd_project/AVD-information/reports/`.
+
+---
+
+## Configure Hosts
+
+### Step 3: Host Endpoint Configuration
+
+Run the complete host configuration and deployment workflow:
+
+```bash
+make step3-hosts
+```
+
+This orchestrates:
+1. **Host Build** — Generate host endpoint configurations from Jinja2 template
+2. **Host Deploy** — Push host configs to CloudVision Portal
+
+### Host Configuration Design
+
+Host configurations are generated using a Jinja2 template with the following topology:
+
+**L2 Trunk Connectivity:**
+- Each host has 2 L2 trunk ports connecting to the datacenter leaf pairs
+- All trunks carry VLANs 10-50 for multi-tenant isolation
+
+**VLAN SVI Configuration:**
+- **VLANs:** 10, 20, 30, 40, 50
+- **IP Addressing Pattern:** `<VLAN>.0.<DC>.<Host>/23`
+  - Example: DC1-HOST1 VLAN10 = `10.0.1.1/23`
+  - Example: DC2-HOST2 VLAN20 = `20.0.2.2/23`
+
+**Host Topology Map:**
+| Host | Leaf Uplinks | VRF | Management |
+|------|--------------|-----|------------|
+| DC1-HOST1 | DC1-LEAF1A, DC1-LEAF1B | Default | 192.168.0.30/24 |
+| DC1-HOST2 | DC1-LEAF2A, DC1-LEAF2B | Default | 192.168.0.31/24 |
+| DC2-HOST1 | DC2-LEAF1A, DC2-LEAF1B | Default | 192.168.0.32/24 |
+| DC2-HOST2 | DC2-LEAF2A, DC2-LEAF2B | Default | 192.168.0.33/24 |
+
+### Individual Host Commands
+
+If you prefer to run steps separately:
+
+#### Generate Host Configurations
+
+```bash
+make host-build
+```
+
+Generates host endpoint configurations from the Jinja2 template (`playbooks/templates/host.j2`):
+
+**Outputs:**
+- `avd_project/AVD-information/configs/DC1-HOST1.cfg`
+- `avd_project/AVD-information/configs/DC1-HOST2.cfg`
+- `avd_project/AVD-information/configs/DC2-HOST1.cfg`
+- `avd_project/AVD-information/configs/DC2-HOST2.cfg`
+
+#### Deploy Host Configurations
+
+```bash
+make host-deploy
+```
+
+Deploys host configurations to CloudVision Portal using cv_deploy role. Configuration is read from `~/DEV_AVDCI6_TOKEN` (local token file).
+
+**Note:** Unlike fabric deployment, host configurations use `cv_run_change_control: false` for faster orchestration.
 
 ---
 
@@ -640,10 +719,13 @@ ansible-playbook -vvv playbooks/build.yml
 ```bash
 make help                    # Show all available targets
 make step1-setup             # One-time bootstrap (local + remote server)
-make step2-avd               # Full AVD workflow (build → deploy → validate)
-make build                   # Generate configs only
-make deploy                  # Deploy to CloudVision only
+make step2-avd               # Full fabric workflow (build → deploy → validate)
+make step3-hosts             # Host configuration (host-build → host-deploy)
+make build                   # Generate fabric configs only
+make deploy                  # Deploy fabric to CloudVision only
 make validate                # Run ANTA tests only
+make host-build              # Generate host endpoint configs only
+make host-deploy             # Deploy host configs to CloudVision only
 make syntax                  # Check playbook syntax
 make lint                    # Run ansible-lint
 ```
@@ -656,7 +738,8 @@ make lint                    # Run ansible-lint
 
 ---
 
-**Last Updated:** August 2026  
+**Last Updated:** August 12, 2026  
+**Version:** 2.0 — Step 3 Host Configuration Added  
 **AVD Version:** 6.3+  
 **Ansible:** 2.14+  
 **Python:** 3.8+

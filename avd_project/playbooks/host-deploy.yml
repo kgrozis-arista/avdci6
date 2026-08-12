@@ -1,0 +1,68 @@
+---
+# Host endpoint deployment to CloudVision
+# Deploys host configurations using cv_deploy role
+
+- name: Deploy host endpoint configurations to CloudVision
+  hosts: HOSTS
+  connection: local
+  gather_facts: false
+  vars:
+    output_dir: "{{ playbook_dir | dirname }}/AVD-information"
+    configs_dir: "{{ output_dir }}/configs"
+    cv_inventory_hostname: cv_dev_server
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║          Deploying Host Endpoints to CloudVision              ║
+          ║                    cv_deploy Role                              ║
+          ╚════════════════════════════════════════════════════════════════╝
+      run_once: true
+
+  tasks:
+    - name: Verify host configuration file exists
+      ansible.builtin.stat:
+        path: "{{ configs_dir }}/{{ inventory_hostname }}.cfg"
+      register: host_cfg_stat
+      delegate_to: localhost
+
+    - name: Fail if host config is missing
+      ansible.builtin.assert:
+        that: host_cfg_stat.stat.exists
+        fail_msg: >-
+          Config for {{ inventory_hostname }} not found at
+          {{ configs_dir }}/. Run `make host-build` first.
+
+    - name: Deploy host configuration to CloudVision
+      ansible.builtin.import_role:
+        name: arista.avd.cv_deploy
+      vars:
+        cv_inventory_hostname: cv_dev_server
+        cv_verify_certs: false
+        cv_verify_devices_exist: false
+        cv_run_change_control: false
+        cv_register_detailed_results: true
+        cv_workspace_description: "Host {{ inventory_hostname }} from {{ lookup('env', 'USER') }} on {{ ansible_date_time.iso8601 | default('') }}"
+        cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
+        cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
+
+  post_tasks:
+    - name: Display completion banner
+      ansible.builtin.debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║          Host Deployment Complete ✓                            ║
+          ║                                                                ║
+          ║  Host configurations deployed to CloudVision:                 ║
+          ║  - DC1-HOST1                                                  ║
+          ║  - DC1-HOST2                                                  ║
+          ║  - DC2-HOST1                                                  ║
+          ║  - DC2-HOST2                                                  ║
+          ║                                                                ║
+          ║  Topology:                                                     ║
+          ║  - L2 trunks to respective leaf switches                       ║
+          ║  - VLANs 10-50 with SVIs: <VLAN>.0.<DC>.<Host>/23            ║
+          ╚════════════════════════════════════════════════════════════════╝
+      run_once: true

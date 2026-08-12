@@ -43,7 +43,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup step2-avd setup setup-wizard setup-github-runner bootstrap-avd-server build-check build deploy validate check syntax lint clean
+.PHONY: help step1-setup step2-avd step3-hosts setup setup-wizard setup-github-runner bootstrap-avd-server build-check build deploy validate host-build host-deploy check syntax lint clean
 
 # ============================================================================
 # Help
@@ -65,6 +65,11 @@ help:
 	@echo "    build                  - Generate AVD configurations (eos_designs + eos_cli_config_gen)"
 	@echo "    deploy                 - Deploy configurations to CloudVision Portal"
 	@echo "    validate               - Run ANTA validation tests on fabric"
+	@echo ""
+	@echo "Configure Hosts:"
+	@echo "  step3-hosts              - Configure hosts: host-build → host-deploy"
+	@echo "    host-build             - Generate host endpoint configurations"
+	@echo "    host-deploy            - Deploy host configurations to CloudVision Portal"
 	@echo ""
 	@echo "Utilities:"
 	@echo "  check                    - Dry-run: --check --diff"
@@ -186,6 +191,30 @@ deploy:
 
 validate:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/validate.yml
+
+# ============================================================================
+# Configure Hosts
+# ============================================================================
+
+step3-hosts: host-build host-deploy
+	@echo ""
+	@echo "✓ Step 3 complete: Host configuration finished!"
+	@echo ""
+	@echo "Summary:"
+	@echo "  ✓ Generated host endpoint configurations"
+	@echo "  ✓ Deployed to CloudVision Portal"
+	@echo ""
+	@echo "Host topology:"
+	@echo "  - L2 trunks connecting to each datacenter"
+	@echo "  - VLANs 10, 20, 30, 40, 50 with SVIs"
+	@echo "  - IP pattern: <VLAN>.0.<DC>.<Host>/23"
+	@echo ""
+
+host-build:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/host-build.yml
+
+host-deploy:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/host-deploy.yml
 
 # ============================================================================
 # Validation & Diagnostics
