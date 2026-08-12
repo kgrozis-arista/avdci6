@@ -240,7 +240,7 @@
     "ansible_play_name": "Build fabric configurations with AVD",
     "role_name": "eos_designs",
     "role_path": "/home/ansible/.ansible/collections/ansible_collections/arista/avd/roles/eos_designs",
-    "role_uuid": "ff9a222d-7b1e-99d8-83c6-00000000001f",
+    "role_uuid": "ff9a222d-7b1e-c4ea-079c-00000000001f",
     "ansible_collection_name": "arista.avd",
     "ansible_role_name": "arista.avd.eos_designs",
     "groups": {
@@ -476,7 +476,7 @@
         "DC2-LEAF2A",
         "DC2-LEAF2B"
     ],
-    "omit": "__omit_place_holder__a71992fa45cc3f4edb51cd44e548a364d19a1524",
+    "omit": "__omit_place_holder__4601f6a9be2c19cc65684c121c297169f6891ef8",
     "ansible_version": {
         "string": "2.17.14",
         "full": "2.17.14",
@@ -740,7 +740,7 @@
         "ansible_play_name": "Build fabric configurations with AVD",
         "role_name": "eos_designs",
         "role_path": "/home/ansible/.ansible/collections/ansible_collections/arista/avd/roles/eos_designs",
-        "role_uuid": "ff9a222d-7b1e-99d8-83c6-00000000001f",
+        "role_uuid": "ff9a222d-7b1e-c4ea-079c-00000000001f",
         "ansible_collection_name": "arista.avd",
         "ansible_role_name": "arista.avd.eos_designs",
         "groups": {
@@ -976,7 +976,7 @@
             "DC2-LEAF2A",
             "DC2-LEAF2B"
         ],
-        "omit": "__omit_place_holder__a71992fa45cc3f4edb51cd44e548a364d19a1524",
+        "omit": "__omit_place_holder__4601f6a9be2c19cc65684c121c297169f6891ef8",
         "ansible_version": {
             "string": "2.17.14",
             "full": "2.17.14",
