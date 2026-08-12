@@ -19,7 +19,7 @@
           ║          Deploying Host Endpoints to CloudVision              ║
           ║                    cv_deploy Role                              ║
           ╚════════════════════════════════════════════════════════════════╝
-      run_once: true
+      delegate_to: localhost
 
   tasks:
     - name: Verify host configuration file exists
@@ -65,4 +65,4 @@
           ║  - L2 trunks to respective leaf switches                       ║
           ║  - VLANs 10-50 with SVIs: <VLAN>.0.<DC>.<Host>/23            ║
           ╚════════════════════════════════════════════════════════════════╝
-      run_once: true
+      delegate_to: localhost
