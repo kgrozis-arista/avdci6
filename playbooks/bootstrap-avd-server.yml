@@ -170,7 +170,7 @@
     - name: Copy CloudVision token file
       copy:
         src: "~/DEV_AVDCI6_TOKEN"
-        dest: "{{ avd_workspace }}/DEV_AVDCI6_TOKEN"
+        dest: "/home/{{ avd_user }}/DEV_AVDCI6_TOKEN"
         owner: "{{ avd_user }}"
         group: "{{ avd_user }}"
         mode: '0600'
@@ -217,9 +217,9 @@
 
           CloudVision Token:
           {% if token_copy_result is succeeded %}
-          - DEV_AVDCI6_TOKEN copied to: {{ avd_workspace }}/DEV_AVDCI6_TOKEN
+          - DEV_AVDCI6_TOKEN copied to: /home/{{ avd_user }}/DEV_AVDCI6_TOKEN
           {% else %}
-          - DEV_AVDCI6_TOKEN not found - copy manually to {{ avd_workspace }}/
+          - DEV_AVDCI6_TOKEN not found - copy manually to /home/{{ avd_user }}/
           {% endif %}
 
           Next Steps:
@@ -235,7 +235,7 @@
              ansible-galaxy collection list | grep arista.avd
 
           4. Verify CloudVision connectivity:
-             ls -la {{ avd_workspace }}/DEV_AVDCI6_TOKEN
+             ls -la /home/{{ avd_user }}/DEV_AVDCI6_TOKEN
 
           5. Generate configurations:
              make build
