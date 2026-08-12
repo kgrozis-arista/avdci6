@@ -16,45 +16,49 @@ enable_password:
   disabled: true
 ethernet_interfaces:
 - name: Ethernet1/1
-  description: L2_DC2-LEAF1A_Ethernet52/1
+  description: P2P_DC2-LEAF1A_Ethernet52/1
   shutdown: false
-  channel_group:
-    id: 11
-    mode: active
+  mtu: 1500
+  ip_address: 10.30.0.62/31
   metadata:
     peer: DC2-LEAF1A
     peer_interface: Ethernet52/1
     peer_type: leaf
+  switchport:
+    enabled: false
 - name: Ethernet2/1
-  description: L2_DC2-LEAF1B_Ethernet52/1
+  description: P2P_DC2-LEAF1B_Ethernet52/1
   shutdown: false
-  channel_group:
-    id: 11
-    mode: active
+  mtu: 1500
+  ip_address: 10.30.0.68/31
   metadata:
     peer: DC2-LEAF1B
     peer_interface: Ethernet52/1
     peer_type: leaf
+  switchport:
+    enabled: false
 - name: Ethernet3/1
-  description: L2_DC2-LEAF2A_Ethernet52/1
+  description: P2P_DC2-LEAF2A_Ethernet52/1
   shutdown: false
-  channel_group:
-    id: 31
-    mode: active
+  mtu: 1500
+  ip_address: 10.30.0.74/31
   metadata:
     peer: DC2-LEAF2A
     peer_interface: Ethernet52/1
     peer_type: leaf
+  switchport:
+    enabled: false
 - name: Ethernet4/1
-  description: L2_DC2-LEAF2B_Ethernet52/1
+  description: P2P_DC2-LEAF2B_Ethernet52/1
   shutdown: false
-  channel_group:
-    id: 31
-    mode: active
+  mtu: 1500
+  ip_address: 10.30.0.80/31
   metadata:
     peer: DC2-LEAF2B
     peer_interface: Ethernet52/1
     peer_type: leaf
+  switchport:
+    enabled: false
 hostname: DC2-SPINE2
 ip_routing: true
 local_users:
@@ -90,6 +94,7 @@ management_interfaces:
 metadata:
   is_deployed: true
   platform: vEOS-lab
+  dc_name: DC2
   fabric_name: FABRIC
   validate_hardware:
     enabled: false
@@ -102,23 +107,6 @@ ntp:
     preferred: true
   - name: 1.pool.ntp.org
   vrf: MGMT
-port_channel_interfaces:
-- name: Port-Channel11
-  description: L2_DC2_LEAF1_Port-Channel511
-  shutdown: false
-  switchport:
-    enabled: true
-    mode: trunk
-    trunk:
-      allowed_vlan: none
-- name: Port-Channel31
-  description: L2_DC2_LEAF2_Port-Channel511
-  shutdown: false
-  switchport:
-    enabled: true
-    mode: trunk
-    trunk:
-      allowed_vlan: none
 prefix_lists:
 - name: PL-LOOPBACKS-EVPN-OVERLAY
   sequence_numbers:
@@ -131,11 +119,6 @@ route_maps:
     type: permit
     match:
     - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
-router_bfd:
-  multihop:
-    interval: 300
-    min_rx: 300
-    multiplier: 3
 router_bgp:
   as: '65200'
   router_id: 10.10.2.9
@@ -148,10 +131,45 @@ router_bgp:
   bgp:
     default:
       ipv4_unicast: false
+  peer_groups:
+  - name: IPv4-UNDERLAY-PEERS
+    metadata:
+      type: ipv4
+    send_community: all
+    maximum_routes: 256000
+  neighbors:
+  - ip_address: 10.30.0.63
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65201'
+    metadata:
+      peer: DC2-LEAF1A
+    description: DC2-LEAF1A_Ethernet52/1
+  - ip_address: 10.30.0.69
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65201'
+    metadata:
+      peer: DC2-LEAF1B
+    description: DC2-LEAF1B_Ethernet52/1
+  - ip_address: 10.30.0.75
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65202'
+    metadata:
+      peer: DC2-LEAF2A
+    description: DC2-LEAF2A_Ethernet52/1
+  - ip_address: 10.30.0.81
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65202'
+    metadata:
+      peer: DC2-LEAF2B
+    description: DC2-LEAF2B_Ethernet52/1
   redistribute:
     connected:
       enabled: true
       route_map: RM-CONN-2-BGP
+  address_family_ipv4:
+    peer_groups:
+    - name: IPv4-UNDERLAY-PEERS
+      activate: true
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: none

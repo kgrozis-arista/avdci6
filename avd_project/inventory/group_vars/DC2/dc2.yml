@@ -1,3 +1,12 @@
 ---
-# DC2 datacenter-specific settings (optional overrides)
-# Settings in FABRIC group_vars apply to all datacenters
+# DC2 datacenter-specific configuration
+# Settings specific to DC2, inherited by all DC2 devices
+
+dc_name: DC2
+
+# Node type definitions for AVD
+node_type_keys:
+  - key: spine
+    type: spine
+  - key: leaf
+    type: leaf

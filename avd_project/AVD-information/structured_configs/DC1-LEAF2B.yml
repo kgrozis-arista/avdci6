@@ -15,59 +15,41 @@ daemon_terminattr:
 enable_password:
   disabled: true
 ethernet_interfaces:
-- name: Ethernet49/1
-  description: MLAG_DC1-LEAF2A_Ethernet49/1
-  shutdown: false
-  channel_group:
-    id: 491
-    mode: active
-  metadata:
-    peer: DC1-LEAF2A
-    peer_interface: Ethernet49/1
-    peer_type: mlag_peer
-- name: Ethernet50/1
-  description: MLAG_DC1-LEAF2A_Ethernet50/1
-  shutdown: false
-  channel_group:
-    id: 491
-    mode: active
-  metadata:
-    peer: DC1-LEAF2A
-    peer_interface: Ethernet50/1
-    peer_type: mlag_peer
 - name: Ethernet51/1
-  description: L2_DC1-SPINE1_Ethernet4/1
+  description: P2P_DC1-SPINE1_Ethernet4/1
   shutdown: false
-  channel_group:
-    id: 511
-    mode: active
+  mtu: 1500
+  ip_address: 10.20.0.37/31
   metadata:
     peer: DC1-SPINE1
     peer_interface: Ethernet4/1
     peer_type: spine
+  switchport:
+    enabled: false
 - name: Ethernet52/1
-  description: L2_DC1-SPINE2_Ethernet4/1
+  description: P2P_DC1-SPINE2_Ethernet4/1
   shutdown: false
-  channel_group:
-    id: 511
-    mode: active
+  mtu: 1500
+  ip_address: 10.20.0.39/31
   metadata:
     peer: DC1-SPINE2
     peer_interface: Ethernet4/1
     peer_type: spine
+  switchport:
+    enabled: false
 - name: Ethernet53/1
-  description: L2_DC1-SPINE3_Ethernet4/1
+  description: P2P_DC1-SPINE3_Ethernet4/1
   shutdown: false
-  channel_group:
-    id: 511
-    mode: active
+  mtu: 1500
+  ip_address: 10.20.0.41/31
   metadata:
     peer: DC1-SPINE3
     peer_interface: Ethernet4/1
     peer_type: spine
+  switchport:
+    enabled: false
 hostname: DC1-LEAF2B
-ip_igmp_snooping:
-  globally_enabled: true
+ip_routing: true
 local_users:
 - name: admin
   privilege: 15
@@ -81,6 +63,11 @@ local_users:
   privilege: 15
   role: network-admin
   sha512_password: $6$qI16FDuEyTyahgyH$su2QQ4zgkOLu1269G7PM1pdM0xHV0AeBJ6nSUzCcGeTrIqCJYpEK8t/KKDtUy6Q8YyUGoYe2ZFPNYqprB482b0
+loopback_interfaces:
+- name: Loopback0
+  description: ROUTER_ID
+  shutdown: false
+  ip_address: 10.10.1.7/32
 management_api_http:
   enable_https: true
   enable_vrfs:
@@ -96,16 +83,10 @@ management_interfaces:
 metadata:
   is_deployed: true
   platform: vEOS-lab
+  dc_name: DC1
   fabric_name: FABRIC
   validate_hardware:
     enabled: false
-mlag_configuration:
-  domain_id: DC1_LEAF2
-  local_interface: Vlan4094
-  peer_address: 10.50.0.10
-  peer_link: Port-Channel491
-  reload_delay_mlag: '300'
-  reload_delay_non_mlag: '330'
 ntp:
   local_interface:
     name: Management1
@@ -115,54 +96,76 @@ ntp:
     preferred: true
   - name: 1.pool.ntp.org
   vrf: MGMT
-port_channel_interfaces:
-- name: Port-Channel491
-  description: MLAG_DC1-LEAF2A_Port-Channel491
-  shutdown: false
-  switchport:
-    enabled: true
-    mode: trunk
-    trunk:
-      groups:
-      - MLAG
-- name: Port-Channel511
-  description: L2_DC1-SPINE1_Port-Channel31
-  shutdown: false
-  mlag: 511
-  switchport:
-    enabled: true
-    mode: trunk
-    trunk:
-      allowed_vlan: none
+prefix_lists:
+- name: PL-LOOPBACKS-EVPN-OVERLAY
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.10.1.0/24 eq 32
+route_maps:
+- name: RM-CONN-2-BGP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+router_bgp:
+  as: '65102'
+  router_id: 10.10.1.7
+  maximum_paths:
+    paths: 4
+  bgp_defaults:
+  - timers bgp 5 15
+  - neighbor default send-community
+  - neighbor default send-community extended
+  bgp:
+    default:
+      ipv4_unicast: false
+  peer_groups:
+  - name: IPv4-UNDERLAY-PEERS
+    metadata:
+      type: ipv4
+    send_community: all
+    maximum_routes: 256000
+  neighbors:
+  - ip_address: 10.20.0.36
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65000'
+    metadata:
+      peer: DC1-SPINE1
+    description: DC1-SPINE1_Ethernet4/1
+  - ip_address: 10.20.0.38
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65000'
+    metadata:
+      peer: DC1-SPINE2
+    description: DC1-SPINE2_Ethernet4/1
+  - ip_address: 10.20.0.40
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65000'
+    metadata:
+      peer: DC1-SPINE3
+    description: DC1-SPINE3_Ethernet4/1
+  redistribute:
+    connected:
+      enabled: true
+      route_map: RM-CONN-2-BGP
+  address_family_ipv4:
+    peer_groups:
+    - name: IPv4-UNDERLAY-PEERS
+      activate: true
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: none
-  no_spanning_tree_vlan: '4094'
 static_routes:
 - vrf: MGMT
   prefix: 0.0.0.0/0
   next_hop: 192.168.0.5
 transceiver_qsfp_default_mode_4x10: true
-vlan_interfaces:
-- name: Vlan4094
-  description: MLAG
-  shutdown: false
-  ip_address: 10.50.0.11/31
-  mtu: 1500
-  no_autostate: true
 vlan_internal_order:
   allocation: ascending
   range:
     beginning: 1006
     ending: 1199
-vlans:
-- id: 4094
-  name: MLAG
-  trunk_groups:
-  - MLAG
-  metadata:
-    tenants:
-    - system
 vrfs:
 - name: MGMT
   ip_routing: false

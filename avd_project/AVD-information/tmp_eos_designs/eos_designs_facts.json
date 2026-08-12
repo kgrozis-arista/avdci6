@@ -7,24 +7,23 @@
         "mgmt_interface": "Management1",
         "mgmt_ip": "192.168.0.13/24",
         "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65101",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC1",
         "group": "DC1_LEAF1",
-        "pod": "FABRIC",
-        "mlag_peer": "DC1-LEAF1B",
-        "mlag_port_channel_id": 491,
-        "mlag_interfaces": [
-            "Ethernet49/1",
-            "Ethernet50/1"
-        ],
-        "mlag_ip": "10.50.0.6",
-        "mlag_switch_ids": {
-            "primary": 4,
-            "secondary": 5
-        },
+        "router_id": "10.10.1.4",
+        "pod": "DC1",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.4",
+            "evpn_mpls": false
         },
         "max_parallel_uplinks": 1,
         "max_uplink_switches": 3,
@@ -35,12 +34,11 @@
                 "peer_interface": "Ethernet1/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.19",
+                "peer_ip_address": "10.20.0.18"
             },
             {
                 "interface": "Ethernet52/1",
@@ -48,12 +46,11 @@
                 "peer_interface": "Ethernet1/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.21",
+                "peer_ip_address": "10.20.0.20"
             },
             {
                 "interface": "Ethernet53/1",
@@ -61,12 +58,11 @@
                 "peer_interface": "Ethernet1/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.23",
+                "peer_ip_address": "10.20.0.22"
             }
         ],
         "uplink_peers": [
@@ -89,24 +85,23 @@
         "mgmt_interface": "Management1",
         "mgmt_ip": "192.168.0.14/24",
         "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65101",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC1",
         "group": "DC1_LEAF1",
-        "pod": "FABRIC",
-        "mlag_peer": "DC1-LEAF1A",
-        "mlag_port_channel_id": 491,
-        "mlag_interfaces": [
-            "Ethernet49/1",
-            "Ethernet50/1"
-        ],
-        "mlag_ip": "10.50.0.7",
-        "mlag_switch_ids": {
-            "primary": 4,
-            "secondary": 5
-        },
+        "router_id": "10.10.1.5",
+        "pod": "DC1",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.5",
+            "evpn_mpls": false
         },
         "max_parallel_uplinks": 1,
         "max_uplink_switches": 3,
@@ -117,12 +112,11 @@
                 "peer_interface": "Ethernet2/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.25",
+                "peer_ip_address": "10.20.0.24"
             },
             {
                 "interface": "Ethernet52/1",
@@ -130,12 +124,11 @@
                 "peer_interface": "Ethernet2/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.27",
+                "peer_ip_address": "10.20.0.26"
             },
             {
                 "interface": "Ethernet53/1",
@@ -143,12 +136,11 @@
                 "peer_interface": "Ethernet2/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.29",
+                "peer_ip_address": "10.20.0.28"
             }
         ],
         "uplink_peers": [
@@ -171,24 +163,23 @@
         "mgmt_interface": "Management1",
         "mgmt_ip": "192.168.0.15/24",
         "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65102",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC1",
         "group": "DC1_LEAF2",
-        "pod": "FABRIC",
-        "mlag_peer": "DC1-LEAF2B",
-        "mlag_port_channel_id": 491,
-        "mlag_interfaces": [
-            "Ethernet49/1",
-            "Ethernet50/1"
-        ],
-        "mlag_ip": "10.50.0.10",
-        "mlag_switch_ids": {
-            "primary": 6,
-            "secondary": 7
-        },
+        "router_id": "10.10.1.6",
+        "pod": "DC1",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.6",
+            "evpn_mpls": false
         },
         "max_parallel_uplinks": 1,
         "max_uplink_switches": 3,
@@ -199,12 +190,11 @@
                 "peer_interface": "Ethernet3/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.31",
+                "peer_ip_address": "10.20.0.30"
             },
             {
                 "interface": "Ethernet52/1",
@@ -212,12 +202,11 @@
                 "peer_interface": "Ethernet3/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.33",
+                "peer_ip_address": "10.20.0.32"
             },
             {
                 "interface": "Ethernet53/1",
@@ -225,12 +214,11 @@
                 "peer_interface": "Ethernet3/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.35",
+                "peer_ip_address": "10.20.0.34"
             }
         ],
         "uplink_peers": [
@@ -253,24 +241,23 @@
         "mgmt_interface": "Management1",
         "mgmt_ip": "192.168.0.16/24",
         "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65102",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC1",
         "group": "DC1_LEAF2",
-        "pod": "FABRIC",
-        "mlag_peer": "DC1-LEAF2A",
-        "mlag_port_channel_id": 491,
-        "mlag_interfaces": [
-            "Ethernet49/1",
-            "Ethernet50/1"
-        ],
-        "mlag_ip": "10.50.0.11",
-        "mlag_switch_ids": {
-            "primary": 6,
-            "secondary": 7
-        },
+        "router_id": "10.10.1.7",
+        "pod": "DC1",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.7",
+            "evpn_mpls": false
         },
         "max_parallel_uplinks": 1,
         "max_uplink_switches": 3,
@@ -281,12 +268,11 @@
                 "peer_interface": "Ethernet4/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.37",
+                "peer_ip_address": "10.20.0.36"
             },
             {
                 "interface": "Ethernet52/1",
@@ -294,12 +280,11 @@
                 "peer_interface": "Ethernet4/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.39",
+                "peer_ip_address": "10.20.0.38"
             },
             {
                 "interface": "Ethernet53/1",
@@ -307,12 +292,11 @@
                 "peer_interface": "Ethernet4/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.41",
+                "peer_ip_address": "10.20.0.40"
             }
         ],
         "uplink_peers": [
@@ -335,24 +319,23 @@
         "mgmt_interface": "Management1",
         "mgmt_ip": "192.168.0.17/24",
         "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65103",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC1",
         "group": "DC1_LEAF3",
-        "pod": "FABRIC",
-        "mlag_peer": "DC1-LEAF3B",
-        "mlag_port_channel_id": 491,
-        "mlag_interfaces": [
-            "Ethernet49/1",
-            "Ethernet50/1"
-        ],
-        "mlag_ip": "10.50.0.28",
-        "mlag_switch_ids": {
-            "primary": 15,
-            "secondary": 16
-        },
+        "router_id": "10.10.1.15",
+        "pod": "DC1",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.15",
+            "evpn_mpls": false
         },
         "max_parallel_uplinks": 1,
         "max_uplink_switches": 3,
@@ -363,12 +346,11 @@
                 "peer_interface": "Ethernet5/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF3",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 51,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.85",
+                "peer_ip_address": "10.20.0.84"
             },
             {
                 "interface": "Ethernet52/1",
@@ -376,12 +358,11 @@
                 "peer_interface": "Ethernet5/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF3",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 51,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.87",
+                "peer_ip_address": "10.20.0.86"
             },
             {
                 "interface": "Ethernet53/1",
@@ -389,12 +370,11 @@
                 "peer_interface": "Ethernet5/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF3",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 51,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.89",
+                "peer_ip_address": "10.20.0.88"
             }
         ],
         "uplink_peers": [
@@ -417,24 +397,23 @@
         "mgmt_interface": "Management1",
         "mgmt_ip": "192.168.0.18/24",
         "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65103",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC1",
         "group": "DC1_LEAF3",
-        "pod": "FABRIC",
-        "mlag_peer": "DC1-LEAF3A",
-        "mlag_port_channel_id": 491,
-        "mlag_interfaces": [
-            "Ethernet49/1",
-            "Ethernet50/1"
-        ],
-        "mlag_ip": "10.50.0.29",
-        "mlag_switch_ids": {
-            "primary": 15,
-            "secondary": 16
-        },
+        "router_id": "10.10.1.16",
+        "pod": "DC1",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.16",
+            "evpn_mpls": false
         },
         "max_parallel_uplinks": 1,
         "max_uplink_switches": 3,
@@ -445,12 +424,11 @@
                 "peer_interface": "Ethernet6/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF3",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 51,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.91",
+                "peer_ip_address": "10.20.0.90"
             },
             {
                 "interface": "Ethernet52/1",
@@ -458,12 +436,11 @@
                 "peer_interface": "Ethernet6/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF3",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 51,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.93",
+                "peer_ip_address": "10.20.0.92"
             },
             {
                 "interface": "Ethernet53/1",
@@ -471,12 +448,11 @@
                 "peer_interface": "Ethernet6/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC1_LEAF3",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 51,
-                "vlans": "none"
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.95",
+                "peer_ip_address": "10.20.0.94"
             }
         ],
         "uplink_peers": [
@@ -503,14 +479,15 @@
         "bgp_as": "65000",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC1",
         "group": "DC1_SPINES",
         "router_id": "10.10.0.1",
-        "pod": "FABRIC",
+        "pod": "DC1",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
         },
-        "evpn_role": "server",
+        "evpn_role": "none",
         "overlay": {
             "peering_address": "10.10.0.1",
             "evpn_mpls": false
@@ -539,14 +516,15 @@
         "bgp_as": "65000",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC1",
         "group": "DC1_SPINES",
         "router_id": "10.10.0.2",
-        "pod": "FABRIC",
+        "pod": "DC1",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
         },
-        "evpn_role": "server",
+        "evpn_role": "none",
         "overlay": {
             "peering_address": "10.10.0.2",
             "evpn_mpls": false
@@ -575,14 +553,15 @@
         "bgp_as": "65000",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC1",
         "group": "DC1_SPINES",
         "router_id": "10.10.0.3",
-        "pod": "FABRIC",
+        "pod": "DC1",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
         },
-        "evpn_role": "server",
+        "evpn_role": "none",
         "overlay": {
             "peering_address": "10.10.0.3",
             "evpn_mpls": false
@@ -607,24 +586,23 @@
         "mgmt_interface": "Management1",
         "mgmt_ip": "192.168.0.24/24",
         "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.3.0/24",
+        "uplink_ipv4_pool": "10.30.0.0/24",
+        "bgp_as": "65201",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC2",
         "group": "DC2_LEAF1",
-        "pod": "FABRIC",
-        "mlag_peer": "DC2-LEAF1B",
-        "mlag_port_channel_id": 491,
-        "mlag_interfaces": [
-            "Ethernet49/1",
-            "Ethernet50/1"
-        ],
-        "mlag_ip": "10.60.0.20",
-        "mlag_switch_ids": {
-            "primary": 11,
-            "secondary": 12
-        },
+        "router_id": "10.10.3.11",
+        "pod": "DC2",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.3.11",
+            "evpn_mpls": false
         },
         "max_parallel_uplinks": 1,
         "max_uplink_switches": 3,
@@ -635,12 +613,11 @@
                 "peer_interface": "Ethernet1/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.61",
+                "peer_ip_address": "10.30.0.60"
             },
             {
                 "interface": "Ethernet52/1",
@@ -648,12 +625,11 @@
                 "peer_interface": "Ethernet1/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.63",
+                "peer_ip_address": "10.30.0.62"
             },
             {
                 "interface": "Ethernet53/1",
@@ -661,12 +637,11 @@
                 "peer_interface": "Ethernet1/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.65",
+                "peer_ip_address": "10.30.0.64"
             }
         ],
         "uplink_peers": [
@@ -689,24 +664,23 @@
         "mgmt_interface": "Management1",
         "mgmt_ip": "192.168.0.25/24",
         "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.3.0/24",
+        "uplink_ipv4_pool": "10.30.0.0/24",
+        "bgp_as": "65201",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC2",
         "group": "DC2_LEAF1",
-        "pod": "FABRIC",
-        "mlag_peer": "DC2-LEAF1A",
-        "mlag_port_channel_id": 491,
-        "mlag_interfaces": [
-            "Ethernet49/1",
-            "Ethernet50/1"
-        ],
-        "mlag_ip": "10.60.0.21",
-        "mlag_switch_ids": {
-            "primary": 11,
-            "secondary": 12
-        },
+        "router_id": "10.10.3.12",
+        "pod": "DC2",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.3.12",
+            "evpn_mpls": false
         },
         "max_parallel_uplinks": 1,
         "max_uplink_switches": 3,
@@ -717,12 +691,11 @@
                 "peer_interface": "Ethernet2/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.67",
+                "peer_ip_address": "10.30.0.66"
             },
             {
                 "interface": "Ethernet52/1",
@@ -730,12 +703,11 @@
                 "peer_interface": "Ethernet2/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.69",
+                "peer_ip_address": "10.30.0.68"
             },
             {
                 "interface": "Ethernet53/1",
@@ -743,12 +715,11 @@
                 "peer_interface": "Ethernet2/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF1",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 11,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.71",
+                "peer_ip_address": "10.30.0.70"
             }
         ],
         "uplink_peers": [
@@ -771,24 +742,23 @@
         "mgmt_interface": "Management1",
         "mgmt_ip": "192.168.0.26/24",
         "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.3.0/24",
+        "uplink_ipv4_pool": "10.30.0.0/24",
+        "bgp_as": "65202",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC2",
         "group": "DC2_LEAF2",
-        "pod": "FABRIC",
-        "mlag_peer": "DC2-LEAF2B",
-        "mlag_port_channel_id": 491,
-        "mlag_interfaces": [
-            "Ethernet49/1",
-            "Ethernet50/1"
-        ],
-        "mlag_ip": "10.60.0.24",
-        "mlag_switch_ids": {
-            "primary": 13,
-            "secondary": 14
-        },
+        "router_id": "10.10.3.13",
+        "pod": "DC2",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.3.13",
+            "evpn_mpls": false
         },
         "max_parallel_uplinks": 1,
         "max_uplink_switches": 3,
@@ -799,12 +769,11 @@
                 "peer_interface": "Ethernet3/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.73",
+                "peer_ip_address": "10.30.0.72"
             },
             {
                 "interface": "Ethernet52/1",
@@ -812,12 +781,11 @@
                 "peer_interface": "Ethernet3/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.75",
+                "peer_ip_address": "10.30.0.74"
             },
             {
                 "interface": "Ethernet53/1",
@@ -825,12 +793,11 @@
                 "peer_interface": "Ethernet3/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.77",
+                "peer_ip_address": "10.30.0.76"
             }
         ],
         "uplink_peers": [
@@ -853,24 +820,23 @@
         "mgmt_interface": "Management1",
         "mgmt_ip": "192.168.0.27/24",
         "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.3.0/24",
+        "uplink_ipv4_pool": "10.30.0.0/24",
+        "bgp_as": "65202",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC2",
         "group": "DC2_LEAF2",
-        "pod": "FABRIC",
-        "mlag_peer": "DC2-LEAF2A",
-        "mlag_port_channel_id": 491,
-        "mlag_interfaces": [
-            "Ethernet49/1",
-            "Ethernet50/1"
-        ],
-        "mlag_ip": "10.60.0.25",
-        "mlag_switch_ids": {
-            "primary": 13,
-            "secondary": 14
-        },
+        "router_id": "10.10.3.14",
+        "pod": "DC2",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.3.14",
+            "evpn_mpls": false
         },
         "max_parallel_uplinks": 1,
         "max_uplink_switches": 3,
@@ -881,12 +847,11 @@
                 "peer_interface": "Ethernet4/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.79",
+                "peer_ip_address": "10.30.0.78"
             },
             {
                 "interface": "Ethernet52/1",
@@ -894,12 +859,11 @@
                 "peer_interface": "Ethernet4/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.81",
+                "peer_ip_address": "10.30.0.80"
             },
             {
                 "interface": "Ethernet53/1",
@@ -907,12 +871,11 @@
                 "peer_interface": "Ethernet4/1",
                 "peer_type": "spine",
                 "peer_is_deployed": true,
-                "type": "underlay_l2",
-                "node_group": "DC2_LEAF2",
-                "peer_mlag": true,
-                "channel_group_id": 511,
-                "peer_channel_group_id": 31,
-                "vlans": "none"
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.83",
+                "peer_ip_address": "10.30.0.82"
             }
         ],
         "uplink_peers": [
@@ -939,14 +902,15 @@
         "bgp_as": "65200",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC2",
         "group": "DC2_SPINES",
         "router_id": "10.10.2.8",
-        "pod": "FABRIC",
+        "pod": "DC2",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
         },
-        "evpn_role": "server",
+        "evpn_role": "none",
         "overlay": {
             "peering_address": "10.10.2.8",
             "evpn_mpls": false
@@ -973,14 +937,15 @@
         "bgp_as": "65200",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC2",
         "group": "DC2_SPINES",
         "router_id": "10.10.2.9",
-        "pod": "FABRIC",
+        "pod": "DC2",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
         },
-        "evpn_role": "server",
+        "evpn_role": "none",
         "overlay": {
             "peering_address": "10.10.2.9",
             "evpn_mpls": false
@@ -1007,14 +972,15 @@
         "bgp_as": "65200",
         "underlay_routing_protocol": "ebgp",
         "inband_ztp": false,
+        "dc_name": "DC2",
         "group": "DC2_SPINES",
         "router_id": "10.10.2.10",
-        "pod": "FABRIC",
+        "pod": "DC2",
         "mlag_underlay_multicast": {
             "pim_sm": false,
             "static": false
         },
-        "evpn_role": "server",
+        "evpn_role": "none",
         "overlay": {
             "peering_address": "10.10.2.10",
             "evpn_mpls": false

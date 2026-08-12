@@ -16,65 +16,71 @@ enable_password:
   disabled: true
 ethernet_interfaces:
 - name: Ethernet1/1
-  description: L2_DC1-LEAF1A_Ethernet53/1
+  description: P2P_DC1-LEAF1A_Ethernet53/1
   shutdown: false
-  channel_group:
-    id: 11
-    mode: active
+  mtu: 1500
+  ip_address: 10.20.0.22/31
   metadata:
     peer: DC1-LEAF1A
     peer_interface: Ethernet53/1
     peer_type: leaf
+  switchport:
+    enabled: false
 - name: Ethernet2/1
-  description: L2_DC1-LEAF1B_Ethernet53/1
+  description: P2P_DC1-LEAF1B_Ethernet53/1
   shutdown: false
-  channel_group:
-    id: 11
-    mode: active
+  mtu: 1500
+  ip_address: 10.20.0.28/31
   metadata:
     peer: DC1-LEAF1B
     peer_interface: Ethernet53/1
     peer_type: leaf
+  switchport:
+    enabled: false
 - name: Ethernet3/1
-  description: L2_DC1-LEAF2A_Ethernet53/1
+  description: P2P_DC1-LEAF2A_Ethernet53/1
   shutdown: false
-  channel_group:
-    id: 31
-    mode: active
+  mtu: 1500
+  ip_address: 10.20.0.34/31
   metadata:
     peer: DC1-LEAF2A
     peer_interface: Ethernet53/1
     peer_type: leaf
+  switchport:
+    enabled: false
 - name: Ethernet4/1
-  description: L2_DC1-LEAF2B_Ethernet53/1
+  description: P2P_DC1-LEAF2B_Ethernet53/1
   shutdown: false
-  channel_group:
-    id: 31
-    mode: active
+  mtu: 1500
+  ip_address: 10.20.0.40/31
   metadata:
     peer: DC1-LEAF2B
     peer_interface: Ethernet53/1
     peer_type: leaf
+  switchport:
+    enabled: false
 - name: Ethernet5/1
-  description: L2_DC1-LEAF3A_Ethernet53/1
+  description: P2P_DC1-LEAF3A_Ethernet53/1
   shutdown: false
-  channel_group:
-    id: 51
-    mode: active
+  mtu: 1500
+  ip_address: 10.20.0.88/31
   metadata:
     peer: DC1-LEAF3A
     peer_interface: Ethernet53/1
     peer_type: leaf
+  switchport:
+    enabled: false
 - name: Ethernet6/1
-  description: L2_DC1-LEAF3B_Ethernet53/1
+  description: P2P_DC1-LEAF3B_Ethernet53/1
   shutdown: false
-  channel_group:
-    id: 51
-    mode: active
+  mtu: 1500
+  ip_address: 10.20.0.94/31
   metadata:
     peer: DC1-LEAF3B
     peer_interface: Ethernet53/1
     peer_type: leaf
+  switchport:
+    enabled: false
 hostname: DC1-SPINE3
 ip_routing: true
 local_users:
@@ -110,6 +116,7 @@ management_interfaces:
 metadata:
   is_deployed: true
   platform: vEOS-lab
+  dc_name: DC1
   fabric_name: FABRIC
   validate_hardware:
     enabled: false
@@ -122,31 +129,6 @@ ntp:
     preferred: true
   - name: 1.pool.ntp.org
   vrf: MGMT
-port_channel_interfaces:
-- name: Port-Channel11
-  description: L2_DC1_LEAF1_Port-Channel511
-  shutdown: false
-  switchport:
-    enabled: true
-    mode: trunk
-    trunk:
-      allowed_vlan: none
-- name: Port-Channel31
-  description: L2_DC1_LEAF2_Port-Channel511
-  shutdown: false
-  switchport:
-    enabled: true
-    mode: trunk
-    trunk:
-      allowed_vlan: none
-- name: Port-Channel51
-  description: L2_DC1_LEAF3_Port-Channel511
-  shutdown: false
-  switchport:
-    enabled: true
-    mode: trunk
-    trunk:
-      allowed_vlan: none
 prefix_lists:
 - name: PL-LOOPBACKS-EVPN-OVERLAY
   sequence_numbers:
@@ -159,11 +141,6 @@ route_maps:
     type: permit
     match:
     - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
-router_bfd:
-  multihop:
-    interval: 300
-    min_rx: 300
-    multiplier: 3
 router_bgp:
   as: '65000'
   router_id: 10.10.0.3
@@ -176,10 +153,57 @@ router_bgp:
   bgp:
     default:
       ipv4_unicast: false
+  peer_groups:
+  - name: IPv4-UNDERLAY-PEERS
+    metadata:
+      type: ipv4
+    send_community: all
+    maximum_routes: 256000
+  neighbors:
+  - ip_address: 10.20.0.23
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65101'
+    metadata:
+      peer: DC1-LEAF1A
+    description: DC1-LEAF1A_Ethernet53/1
+  - ip_address: 10.20.0.29
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65101'
+    metadata:
+      peer: DC1-LEAF1B
+    description: DC1-LEAF1B_Ethernet53/1
+  - ip_address: 10.20.0.35
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65102'
+    metadata:
+      peer: DC1-LEAF2A
+    description: DC1-LEAF2A_Ethernet53/1
+  - ip_address: 10.20.0.41
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65102'
+    metadata:
+      peer: DC1-LEAF2B
+    description: DC1-LEAF2B_Ethernet53/1
+  - ip_address: 10.20.0.89
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65103'
+    metadata:
+      peer: DC1-LEAF3A
+    description: DC1-LEAF3A_Ethernet53/1
+  - ip_address: 10.20.0.95
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65103'
+    metadata:
+      peer: DC1-LEAF3B
+    description: DC1-LEAF3B_Ethernet53/1
   redistribute:
     connected:
       enabled: true
       route_map: RM-CONN-2-BGP
+  address_family_ipv4:
+    peer_groups:
+    - name: IPv4-UNDERLAY-PEERS
+      activate: true
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: none
