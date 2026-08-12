@@ -20,6 +20,9 @@ all:
         cv_dev_server:
           ansible_httpapi_host: 10.18.152.60
           ansible_host: 10.18.152.60
+          ansible_user: cvaas
+          # yamllint disable-line
+          ansible_password: "{{ lookup('ansible.builtin.file', '~/DEV_AVDCI6_TOKEN') }}"
 
     # AVD Tooling server for remote automation
     AVD_TOOLING:

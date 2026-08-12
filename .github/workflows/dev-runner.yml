@@ -26,11 +26,34 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
 
+      - name: Detect venv activation script
+        id: venv
+        run: |
+          if [ -f "/home/ansible/avdci6/.venv/bin/activate" ]; then
+            echo "activate=/home/ansible/avdci6/.venv/bin/activate" >> $GITHUB_OUTPUT
+            echo "✓ Found venv at /home/ansible/avdci6/.venv"
+          else
+            echo "ERROR: venv not found at /home/ansible/avdci6/.venv"
+            echo "Checking for activation script..."
+            find /home -name ".venv" -type d 2>/dev/null | head -3
+            exit 1
+          fi
+
+      - name: Activate venv and verify tools
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          which yamllint && yamllint --version
+          which ansible-lint && ansible-lint --version
+
       - name: Lint YAML in inventory
-        run: yamllint avd_project/inventory/
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          yamllint avd_project/inventory/
 
       - name: Lint Ansible playbooks
-        run: ansible-lint avd_project/playbooks/
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          ansible-lint avd_project/playbooks/
 
   build:
     name: Build AVD Configurations
@@ -44,9 +67,33 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
 
+      - name: Detect venv activation script
+        id: venv
+        run: |
+          if [ -f "/home/ansible/avdci6/.venv/bin/activate" ]; then
+            echo "activate=/home/ansible/avdci6/.venv/bin/activate" >> $GITHUB_OUTPUT
+            echo "✓ Found venv at /home/ansible/avdci6/.venv"
+          else
+            echo "ERROR: venv not found at /home/ansible/avdci6/.venv"
+            exit 1
+          fi
+
+      - name: Verify build environment
+        run: |
+          echo "Workspace: $(pwd)"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          which make && make --version
+          which python3 && python3 --version
+          echo "Activating venv..."
+          source ${{ steps.venv.outputs.activate }}
+          which ansible && ansible --version | head -1
+          echo "✓ Build environment ready"
+
       - name: Generate AVD fabric configurations
-        run: make build
-        working-directory: ${{ github.workspace }}
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          make build
 
       - name: Verify configurations generated
         run: |
@@ -60,40 +107,54 @@ jobs:
       - name: Commit and push build artifacts
         if: success()
         run: |
+          source ${{ steps.venv.outputs.activate }}
           git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
           git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
+          git config --global pull.rebase false
           git add ${{ env.AVD_OUTPUT_DIR }}/
 
           # Only commit and push if there are changes
           if ! git diff --cached --quiet; then
             git commit -m "chore: update AVD configurations [skip-ci]"
-            git remote set-url origin https://x-access-token:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git
-            git pull --rebase origin "${{ github.ref_name }}"
+            git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
+            git pull origin "${{ github.ref_name }}"
             git push origin HEAD:"${{ github.ref_name }}"
             echo "✓ Pushed configuration changes"
           else
             echo "✓ No configuration changes to commit"
           fi
 
-  #deploy:
-  #  name: Deploy to CloudVision
-  #  needs: build
-  #  runs-on: [self-hosted, dev]
-  #  timeout-minutes: 10
-  #  steps:
-  #    - name: Checkout repository
-  #      uses: actions/checkout@v4
-  #      with:
-  #        fetch-depth: 0
-  #        token: ${{ secrets.AVDCI6_PAT }}
-#
-  #    - name: Deploy configurations to CloudVision Portal
-  #      run: make deploy
-  #      working-directory: ${{ github.workspace }}
-#
-  #    - name: Wait for CloudVision to process changes
-  #      run: sleep 30
-#
+  deploy:
+    name: Deploy to CloudVision
+    needs: build
+    runs-on: [self-hosted, dev]
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.AVDCI6_PAT }}
+
+      - name: Detect venv activation script
+        id: venv
+        run: |
+          if [ -f "/home/ansible/avdci6/.venv/bin/activate" ]; then
+            echo "activate=/home/ansible/avdci6/.venv/bin/activate" >> $GITHUB_OUTPUT
+            echo "✓ Found venv at /home/ansible/avdci6/.venv"
+          else
+            echo "ERROR: venv not found at /home/ansible/avdci6/.venv"
+            exit 1
+          fi
+
+      - name: Deploy configurations to CloudVision Portal
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          make deploy
+
+      - name: Wait for CloudVision to process changes
+        run: sleep 30
+
   #validate:
   #  name: Validate Fabric State
   #  needs: deploy
@@ -105,10 +166,22 @@ jobs:
   #      with:
   #        fetch-depth: 0
   #        token: ${{ secrets.AVDCI6_PAT }}
-#
+  #
+  #    - name: Detect venv activation script
+  #      id: venv
+  #      run: |
+  #        if [ -f "/home/ansible/avdci6/.venv/bin/activate" ]; then
+  #          echo "activate=/home/ansible/avdci6/.venv/bin/activate" >> $GITHUB_OUTPUT
+  #          echo "✓ Found venv at /home/ansible/avdci6/.venv"
+  #        else
+  #          echo "ERROR: venv not found at /home/ansible/avdci6/.venv"
+  #          exit 1
+  #        fi
+  #
   #    - name: Run ANTA validation tests
-  #      run: make validate
-  #      working-directory: ${{ github.workspace }}
+  #      run: |
+  #        source ${{ steps.venv.outputs.activate }}
+  #        make validate
 #
   #    - name: Upload validation reports
   #      if: always()
@@ -132,13 +205,14 @@ jobs:
   #      run: |
   #        git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
   #        git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
+  #        git config --global pull.rebase false
   #        git add ${{ env.AVD_OUTPUT_DIR }}/
-#
+  #
   #        # Only commit and push if there are changes
   #        if ! git diff --cached --quiet; then
   #          git commit -m "chore: update ANTA validation reports [skip-ci]"
-  #          git remote set-url origin https://x-access-token:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git
-  #          git pull --rebase origin "${{ github.ref_name }}"
+  #          git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
+  #          git pull origin "${{ github.ref_name }}"
   #          git push origin HEAD:"${{ github.ref_name }}"
   #          echo "✓ Pushed validation report changes"
   #        else

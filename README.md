@@ -13,8 +13,10 @@ A demonstration of **Arista Validated Design (AVD) 6.x** applied to a multi-data
   - [Bootstrap Environment](#bootstrap-environment)
   - [Setup Configuration](#setup-configuration)
   - [Virtual Twin with ACT](#virtual-twin-with-act)
+- [Workflow Overview](#workflow-overview)
 - [Network Design](#network-design)
-- [Build & Deploy](#build--deploy)
+- [Build, Deploy & Validate](#build-deploy--validate)
+- [Configure Hosts](#configure-hosts)
 - [Continuous Integration (CI/CD)](#continuous-integration-cicd)
 - [Validation](#validation)
 - [Modern Operating Model](#modern-operating-model)
@@ -113,9 +115,13 @@ avdci6/
 │   │       ├── CONNECTED_ENDPOINTS/ # Host configuration
 │   │       └── NETWORK_SERVICES/    # VRF and VLAN definitions
 │   └── playbooks/
-│       ├── build.yml                # Generate configurations (AVD)
-│       ├── deploy.yml               # Deploy to CloudVision
-│       └── validate.yml             # Run ANTA validation tests
+│       ├── build.yml                # Generate fabric configurations (AVD)
+│       ├── deploy.yml               # Deploy fabric to CloudVision
+│       ├── validate.yml             # Run ANTA validation tests
+│       ├── host-build.yml           # Generate host endpoint configs
+│       ├── host-deploy.yml          # Deploy host configs to CloudVision
+│       └── templates/
+│           └── host.j2              # Jinja2 template for host configs
 └── README.md                         # This file
 ```
 
@@ -127,49 +133,42 @@ avdci6/
 
 - **macOS or Linux** (development tested on macOS)
 - **Python 3.8+** (`python3 --version`)
-- **Ansible** (installed via `make step0-setup-env`)
 - **make** (`make --version`)
 - **Git** for version control
+- **Ansible, Ansible collections** (installed via `make step1-setup`)
 
 Optional:
 - **Arista Cloud Test (ACT)** account for virtual lab (https://ce.act.arista.com/)
-- **CloudVision Portal** instance (on-premises or CVaaS)
+- **CloudVision Portal** instance (on-premises or CVaaS) for deployment
+- **AVD-tooling server** for CI/CD automation and GitHub Actions runner
 
-### Bootstrap Environment
+### Bootstrap (Step 1)
 
-Initialize your development environment with a single command:
+Initialize your entire environment (local and remote) with a single command:
 
 ```bash
-make step0-setup-env
+make step1-setup
 ```
 
-This target:
-1. Creates a Python virtual environment (`.venv/`)
-2. Installs Python dependencies from `requirements.txt`
-3. Installs Ansible collections from `collections.yml` (arista.avd, arista.eos, etc.)
-4. Runs an interactive setup wizard to configure your inventory
-5. (Optional) Configures GitHub Actions runner on AVD-tooling server
-6. Validates the Ansible installation
+This target orchestrates:
+1. **Local Setup**
+   - Creates a Python virtual environment (`.venv/`)
+   - Installs Python dependencies from `requirements.txt`
+   - Installs Ansible collections from `collections.yml` (arista.avd, arista.eos, etc.)
+   - Runs an interactive setup wizard to configure your inventory
+   - Validates the Ansible installation
+
+2. **Remote Setup** (if AVD-tooling server in inventory)
+   - Bootstraps Ubuntu with Python, Ansible, AVD 6.3+, all required dependencies
+   - Registers GitHub Actions runner for CI/CD
+   - Creates systemd service for auto-startup on server reboot
 
 **Expected output:**
 ```
-✓ All tools installed successfully
-✓ Step 0 complete: venv setup and configuration done
+✓ Step 1 complete: Full bootstrap done!
 ```
 
-**GitHub Actions Runner (Optional):**
-If you plan to use GitHub Actions CI/CD, the bootstrap includes a runner setup target. To enable this:
-
-1. Generate a GitHub Personal Access Token (PAT) with `repo` and `admin:repo_hook` permissions
-2. Save it to `~/RUNNER_TOKEN` on your local machine
-3. Run `make step0-setup-env` — the runner setup will be executed automatically
-
-If you skip runner setup during bootstrap, you can set it up later:
-```bash
-make setup-github-runner RUNNER_TOKEN=your_token_here
-```
-
-For more details, see [Continuous Integration (CI/CD)](#continuous-integration-cicd).
+After Step 1, your environment is ready. Proceed to Step 2 for the AVD workflow.
 
 ### Setup Configuration
 
@@ -179,6 +178,49 @@ The setup wizard prompts for critical infrastructure IPs:
 - **AVD Tooling Server IP** — Optional remote server for automation execution
 
 These values are written to `avd_project/inventory/inventory.yml`.
+
+**Customizing Bootstrap for Remote Server:**
+
+If you have an AVD-tooling server in your Ansible inventory, `step1-setup` will automatically provision it. Customize with parameters:
+
+```bash
+make step1-setup \
+  LIMIT=avd-tooling-server \
+  AVD_USER=ansible \
+  AVD_WORKSPACE=/opt/avdci6 \
+  RUNNER_TOKEN=$(cat ~/RUNNER_TOKEN)
+```
+
+**What gets configured on remote server:**
+- ✓ Python 3.10 with virtual environment
+- ✓ Ansible 2.14+ with AVD 6.3+ collections
+- ✓ Passwordless sudo for automation user
+- ✓ Shell profile with venv auto-activation
+- ✓ GitHub Actions runner (systemd service)
+- ✓ Auto-startup on server reboot
+
+**Running components separately:**
+
+If you need to run setup steps individually:
+
+```bash
+# Local setup only
+make setup setup-wizard
+
+# Remote server only
+make bootstrap-avd-server LIMIT=avd-tooling-server
+make setup-github-runner LIMIT=avd-tooling-server
+```
+
+**Verify after bootstrap completes:**
+
+SSH into the server and run:
+```bash
+source .activate
+ansible --version
+ansible-galaxy collection list | grep arista
+systemctl status github-runner
+```
 
 ### Virtual Twin with ACT
 
@@ -211,6 +253,32 @@ Once labs are **Running**:
 
 ---
 
+## Workflow Overview
+
+The avdci6 project uses a **three-step make-based workflow**:
+
+### **Step 1: Bootstrap** (`make step1-setup`)
+One-time setup that configures:
+- Your local development machine (Python venv, Ansible, AVD collections)
+- Your remote AVD-tooling server (if in inventory) with AVD and GitHub Actions runner
+
+**When:** Run once after cloning the repo.
+
+### **Step 2: Fabric Operations** (`make step2-avd`)
+Repeatable workflow for building, deploying, and validating fabric:
+- **Build** — Generate device configurations from intent (YAML)
+- **Deploy** — Push configs to CloudVision Portal
+- **Validate** — Run ANTA tests to verify fabric state
+
+**When:** Run every time you make changes to the fabric network intent.
+
+### **Step 3: Configure Hosts** (`make step3-hosts`)
+Repeatable workflow for generating and deploying host endpoint configurations:
+- **Host Build** — Generate host endpoint configs from Jinja2 template
+- **Host Deploy** — Push host configs to CloudVision Portal using cv_deploy
+
+**When:** Run to configure server/host endpoints connected to the fabric.
+
 ## Network Design
 
 ### Underlay Routing
@@ -240,45 +308,119 @@ Once labs are **Running**:
 
 ---
 
-## Build & Deploy
+## Build, Deploy & Validate
 
-### 1. Generate Configuration
+### Step 2: Full Fabric Workflow
+
+Run the complete build, deploy, and validate workflow with a single command:
+
+```bash
+make step2-avd
+```
+
+This orchestrates:
+1. **Build** — Generate fabric configurations using AVD eos_designs and eos_cli_config_gen
+2. **Deploy** — Push to CloudVision Portal
+3. **Validate** — Run ANTA tests
+
+### Individual Fabric Commands
+
+If you prefer to run steps separately:
+
+#### Generate Fabric Configuration
+
+```bash
+make build
+```
 
 AVD reads your intent files and generates EOS configurations:
 
-```bash
-# Activate venv (if not already active)
-source .venv/bin/activate
+**Outputs:**
+- `avd_project/AVD-information/configs/` — Final EOS commands per device
+- `avd_project/AVD-information/documentation/` — Network topology and IP allocation reports
+- `avd_project/AVD-information/structured_configs/` — Intermediate YAML (for CI tools)
 
-# Build configurations
-cd avd_project
-ansible-playbook playbooks/build.yml
+#### Deploy Fabric to CloudVision
+
+```bash
+make deploy
 ```
+
+Pushes generated fabric configurations to your CloudVision instance using cv_deploy role. CloudVision stages change controls. Review and approve in the WebUI before devices are configured.
+
+#### Validate Fabric State
+
+```bash
+make validate
+```
+
+Runs ANTA tests to verify actual device state matches design. Reports are written to `avd_project/AVD-information/reports/`.
+
+---
+
+## Configure Hosts
+
+### Step 3: Host Endpoint Configuration
+
+Run the complete host configuration and deployment workflow:
+
+```bash
+make step3-hosts
+```
+
+This orchestrates:
+1. **Host Build** — Generate host endpoint configurations from Jinja2 template
+2. **Host Deploy** — Push host configs to CloudVision Portal
+
+### Host Configuration Design
+
+Host configurations are generated using a Jinja2 template with the following topology:
+
+**L2 Trunk Connectivity:**
+- Each host has 2 L2 trunk ports connecting to the datacenter leaf pairs
+- All trunks carry VLANs 10-50 for multi-tenant isolation
+
+**VLAN SVI Configuration:**
+- **VLANs:** 10, 20, 30, 40, 50
+- **IP Addressing Pattern:** `<VLAN>.0.<DC>.<Host>/23`
+  - Example: DC1-HOST1 VLAN10 = `10.0.1.1/23`
+  - Example: DC2-HOST2 VLAN20 = `20.0.2.2/23`
+
+**Host Topology Map:**
+| Host | Leaf Uplinks | VRF | Management |
+|------|--------------|-----|------------|
+| DC1-HOST1 | DC1-LEAF1A, DC1-LEAF1B | Default | 192.168.0.30/24 |
+| DC1-HOST2 | DC1-LEAF2A, DC1-LEAF2B | Default | 192.168.0.31/24 |
+| DC2-HOST1 | DC2-LEAF1A, DC2-LEAF1B | Default | 192.168.0.32/24 |
+| DC2-HOST2 | DC2-LEAF2A, DC2-LEAF2B | Default | 192.168.0.33/24 |
+
+### Individual Host Commands
+
+If you prefer to run steps separately:
+
+#### Generate Host Configurations
+
+```bash
+make host-build
+```
+
+Generates host endpoint configurations from the Jinja2 template (`playbooks/templates/host.j2`):
 
 **Outputs:**
-- `intended/configs/` — Final EOS commands per device
-- `documentation/` — Network topology and IP allocation reports
-- `structured_configs/` — Intermediate JSON (for CI tools)
+- `avd_project/AVD-information/configs/DC1-HOST1.cfg`
+- `avd_project/AVD-information/configs/DC1-HOST2.cfg`
+- `avd_project/AVD-information/configs/DC2-HOST1.cfg`
+- `avd_project/AVD-information/configs/DC2-HOST2.cfg`
 
-### 2. Deploy to CloudVision
-
-Push generated configurations to your CloudVision instance:
-
-```bash
-ansible-playbook playbooks/deploy.yml
-```
-
-CloudVision stages change controls. Review and approve in the WebUI before devices are configured.
-
-### 3. Validate Fabric State
-
-Run ANTA tests to verify actual device state matches design:
+#### Deploy Host Configurations
 
 ```bash
-ansible-playbook playbooks/validate.yml
+make host-deploy
 ```
 
-Reports are written to `intended/reports/`.
+Deploys host configurations to CloudVision Portal using cv_deploy role. Configuration is read from `~/DEV_AVDCI6_TOKEN` (local token file).
+
+**Note:** Unlike fabric deployment, host configurations use `cv_run_change_control: false` for faster orchestration.
 
 ---
 
@@ -286,9 +428,20 @@ Reports are written to `intended/reports/`.
 
 The repository includes GitHub Actions workflows that automate linting, building, deploying, and validating configurations on every push to non-main branches.
 
-### GitHub Actions Runner Setup
+### Setup Overview
 
-GitHub Actions requires a **self-hosted runner** to access your CloudVision Portal and network infrastructure. The runner is typically deployed on your AVD-tooling server (Linux).
+The complete setup is a single command that configures both local and remote environments:
+
+```bash
+make step1-setup
+```
+
+This orchestrates:
+- ✓ Local: Python venv, Ansible, AVD, project configuration
+- ✓ Remote: AVD-tooling server provisioning (if in inventory)
+- ✓ Remote: GitHub Actions runner setup and registration
+
+### GitHub Actions Runner Configuration
 
 #### 1. Generate GitHub Personal Access Token (PAT)
 
@@ -308,23 +461,19 @@ echo "YOUR_TOKEN_HERE" > ~/RUNNER_TOKEN
 chmod 600 ~/RUNNER_TOKEN
 ```
 
-#### 3. Configure Runner on AVD-Tooling Server
+#### 3. Run Bootstrap
 
-Run the Ansible playbook to configure the runner:
+The `step1-setup` target automatically configures the runner as part of full bootstrap:
 
 ```bash
-# During bootstrap (runs automatically if ~/RUNNER_TOKEN exists)
-make step0-setup-env
-
-# Or manually set up the runner later
-make setup-github-runner RUNNER_TOKEN=$(cat ~/RUNNER_TOKEN)
+make step1-setup
 ```
 
-The playbook:
-- Downloads the GitHub Actions runner (v2.336.0)
-- Registers the runner with your GitHub repository
-- Creates a systemd service for automatic startup
-- Configures runner labels: `[self-hosted, Linux, X64, dev]`
+This includes runner setup which will:
+- Download the GitHub Actions runner (v2.336.0)
+- Register the runner with your GitHub repository
+- Create a systemd service for automatic startup
+- Configure runner labels: `[self-hosted, Linux, X64, dev]`
 
 #### 4. Verify Runner is Online
 
@@ -565,13 +714,32 @@ ansible-playbook -vvv playbooks/build.yml
 
 ## Getting Help
 
+### Available Make Targets
+
+```bash
+make help                    # Show all available targets
+make step1-setup             # One-time bootstrap (local + remote server)
+make step2-avd               # Full fabric workflow (build → deploy → validate)
+make step3-hosts             # Host configuration (host-build → host-deploy)
+make build                   # Generate fabric configs only
+make deploy                  # Deploy fabric to CloudVision only
+make validate                # Run ANTA tests only
+make host-build              # Generate host endpoint configs only
+make host-deploy             # Deploy host configs to CloudVision only
+make syntax                  # Check playbook syntax
+make lint                    # Run ansible-lint
+```
+
+### Support Resources
+
 - **Issues & Questions:** File a GitHub issue in this repository
 - **Documentation:** See [References](#references) section above
 - **Arista Support:** Contact your Arista Technical Account Manager (TAM) or [Arista Support Portal](https://www.arista.com/en/support)
 
 ---
 
-**Last Updated:** August 2026  
+**Last Updated:** August 12, 2026  
+**Version:** 2.0 — Step 3 Host Configuration Added  
 **AVD Version:** 6.3+  
 **Ansible:** 2.14+  
 **Python:** 3.8+

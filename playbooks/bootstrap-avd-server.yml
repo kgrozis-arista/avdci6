@@ -1,0 +1,246 @@
+---
+# Bootstrap AVD-Tooling Server
+# Sets up a fresh Ubuntu server with Python, Ansible, and AVD dependencies
+#
+# Prerequisites:
+#   - Ubuntu 20.04 LTS or later
+#   - SSH access with sudo privileges
+#   - Internet connectivity
+#
+# Usage:
+#   ansible-playbook playbooks/bootstrap-avd-server.yml \
+#     -i inventory.txt \
+#     -l avd-tooling-server
+#
+#   Or with specific variables:
+#   ansible-playbook playbooks/bootstrap-avd-server.yml \
+#     -i inventory.txt \
+#     -l avd-tooling-server \
+#     -e "avd_user=ansible avd_workspace=/home/ansible/avdci6"
+
+- name: Bootstrap AVD-Tooling Server
+  hosts: "{{ target_host | default('AVD_TOOLING', true) }}"
+  become: yes
+  gather_facts: yes
+
+  vars:
+    python_version: "3.10"
+
+  pre_tasks:
+    - name: Set default variables
+      set_fact:
+        avd_user: "{{ avd_user | default('ansible') }}"
+        avd_workspace: "{{ avd_workspace | default('') }}"
+
+    - name: Set workspace default if not provided
+      set_fact:
+        avd_workspace: "/home/{{ avd_user }}/avdci6"
+      when: avd_workspace == ''
+
+    - name: Set venv path
+      set_fact:
+        venv_path: "{{ avd_workspace }}/.venv"
+
+    - name: Validate target OS
+      assert:
+        that:
+          - ansible_facts['os_family'] == "Debian"
+          - ansible_facts['distribution'] == "Ubuntu"
+        fail_msg: "This playbook requires Ubuntu. Detected: {{ ansible_facts['distribution'] }}"
+
+    - name: Validate Python version requirement
+      assert:
+        that:
+          - ansible_facts['python_version'] is version('3.8', '>=')
+        fail_msg: "Python 3.8+ required. Current: {{ ansible_facts['python_version'] }}"
+
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install system dependencies
+      apt:
+        name:
+          - python3-venv
+          - python3-pip
+          - python3-dev
+          - build-essential
+          - libssl-dev
+          - libffi-dev
+          - git
+          - curl
+          - wget
+          - jq
+          - openssh-client
+          - sshpass
+          - netcat-openbsd
+          - telnet
+          - nmap
+          - traceroute
+          - iputils-ping
+          - dnsutils
+        state: present
+
+    - name: Create AVD user if it doesn't exist
+      user:
+        name: "{{ avd_user }}"
+        groups: sudo
+        append: yes
+        shell: /bin/bash
+        createhome: yes
+        state: present
+
+    - name: Configure sudo for AVD user (NOPASSWD)
+      lineinfile:
+        path: /etc/sudoers.d/{{ avd_user }}
+        line: "{{ avd_user }} ALL=(ALL) NOPASSWD:ALL"
+        create: yes
+        mode: '0440'
+        validate: 'visudo -cf %s'
+
+    - name: Create AVD workspace directory
+      file:
+        path: "{{ avd_workspace }}"
+        state: directory
+        owner: "{{ avd_user }}"
+        group: "{{ avd_user }}"
+        mode: '0755'
+
+    - name: Create Python virtual environment
+      command: "python3 -m venv {{ venv_path }}"
+      become_user: "{{ avd_user }}"
+      args:
+        creates: "{{ venv_path }}/bin/python"
+
+    - name: Upgrade pip, setuptools, and wheel in venv
+      pip:
+        name:
+          - pip
+          - setuptools
+          - wheel
+        state: latest
+        virtualenv: "{{ venv_path }}"
+        virtualenv_command: "python3 -m venv"
+
+    - name: Install Python AVD dependencies
+      pip:
+        name:
+          - ansible-core>=2.14.0
+          - aristaproto>=0.1.1
+          - deepmerge>=1.1.0
+          - pyavd>=6.3.0
+          - distlib>=0.3.9
+          - netaddr>=0.7.19
+          - jsonschema
+          - networkx
+          - ruamel.yaml
+          - pyyaml-include
+          - paramiko
+          - ansible-lint
+          - yamllint
+        state: present
+        virtualenv: "{{ venv_path }}"
+        virtualenv_command: "python3 -m venv"
+
+    - name: Install tools globally (for GitHub Actions runner)
+      pip:
+        name:
+          - yamllint
+          - ansible-lint
+          - distlib>=0.3.9
+          - netaddr>=0.7.19
+        state: present
+
+    - name: Install Ansible collections
+      command: "{{ venv_path }}/bin/ansible-galaxy collection install -f arista.avd:>=6.3.0 arista.eos:>=7.0.0 ansible.netcommon ansible.utils ansible.posix community.general"
+      become_user: "{{ avd_user }}"
+      register: collection_install
+      changed_when: "'Installed' in collection_install.stdout or 'Updating' in collection_install.stdout"
+
+    - name: Create Ansible configuration
+      template:
+        src: ansible.cfg.j2
+        dest: "{{ avd_workspace }}/ansible.cfg"
+        owner: "{{ avd_user }}"
+        group: "{{ avd_user }}"
+        mode: '0644'
+
+    - name: Copy CloudVision token file
+      copy:
+        src: "~/DEV_AVDCI6_TOKEN"
+        dest: "{{ avd_workspace }}/DEV_AVDCI6_TOKEN"
+        owner: "{{ avd_user }}"
+        group: "{{ avd_user }}"
+        mode: '0600'
+      ignore_errors: yes
+      register: token_copy_result
+
+    - name: Display token file status
+      debug:
+        msg: "{{ 'Token file copied successfully' if token_copy_result is succeeded else 'Token file not found - will need to be added manually' }}"
+
+    - name: Create shell profile activation script
+      template:
+        src: activate-venv.sh.j2
+        dest: "{{ avd_workspace }}/.activate"
+        owner: "{{ avd_user }}"
+        group: "{{ avd_user }}"
+        mode: '0755'
+
+    - name: Add venv activation to shell profile
+      lineinfile:
+        path: "/home/{{ avd_user }}/.bashrc"
+        line: "source {{ avd_workspace }}/.activate"
+        state: present
+        create: yes
+
+    - name: Verify Ansible installation
+      shell: "source {{ venv_path }}/bin/activate && ansible --version"
+      become_user: "{{ avd_user }}"
+      args:
+        executable: /bin/bash
+      register: ansible_version
+      changed_when: false
+
+  post_tasks:
+    - name: Display completion summary
+      debug:
+        msg: |
+          ✓ AVD-Tooling Server Bootstrap Complete
+
+          Server Details:
+          - User: {{ avd_user }}
+          - Workspace: {{ avd_workspace }}
+          - Python venv: {{ venv_path }}
+
+          CloudVision Token:
+          {% if token_copy_result is succeeded %}
+          - DEV_AVDCI6_TOKEN copied to: {{ avd_workspace }}/DEV_AVDCI6_TOKEN
+          {% else %}
+          - DEV_AVDCI6_TOKEN not found - copy manually to {{ avd_workspace }}/
+          {% endif %}
+
+          Next Steps:
+          1. Clone your AVD project:
+             cd {{ avd_workspace }}
+             git clone <your-repo-url> .
+
+          2. Activate the environment:
+             source .activate
+
+          3. Verify Ansible installation:
+             ansible --version
+             ansible-galaxy collection list | grep arista.avd
+
+          4. Verify CloudVision connectivity:
+             ls -la {{ avd_workspace }}/DEV_AVDCI6_TOKEN
+
+          5. Generate configurations:
+             make build
+
+          Helpful Commands:
+          - View logs: journalctl -u github-runner -f
+          - Restart runner: systemctl restart github-runner
+          - Check runner status: systemctl status github-runner

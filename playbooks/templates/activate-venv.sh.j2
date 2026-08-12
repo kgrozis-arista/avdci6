@@ -1,0 +1,10 @@
+#!/bin/bash
+# Auto-activate AVD Python virtual environment
+# This script is sourced from ~/.bashrc on login
+
+VENV_PATH="{{ venv_path }}"
+
+if [ -f "$VENV_PATH/bin/activate" ]; then
+    source "$VENV_PATH/bin/activate"
+    export PS1="(avd) $PS1"
+fi

@@ -1,0 +1,17 @@
+[defaults]
+# Ansible configuration for AVD-Tooling Server
+inventory = inventory/inventory.yml
+host_key_checking = False
+timeout = 30
+remote_user = {{ avd_user }}
+log_path = ~/.ansible/log
+library = ./library
+roles_path = ./roles:~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
+collections_paths = ~/.ansible/collections:/usr/share/ansible/collections
+
+[inventory]
+enable_plugins = yaml, ini, aws_ec2
+
+[ssh_connection]
+ssh_args = -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no
+pipelining = True

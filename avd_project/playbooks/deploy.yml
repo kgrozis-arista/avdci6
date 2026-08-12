@@ -5,25 +5,30 @@
 - name: Deploy fabric configurations to CloudVision
   hosts: FABRIC
   connection: local
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: Display banner
-      debug:
+      ansible.builtin.debug:
         msg: |
           ╔════════════════════════════════════════════════════════════════╗
           ║            Deploying AVD Configurations to CVP                 ║
           ║                    eos_config_deploy role                      ║
           ╚════════════════════════════════════════════════════════════════╝
 
-    - name: Deploy configurations to CloudVision
-      import_role:
+    - name: Deploy configurations and tags to CloudVision
+      ansible.builtin.import_role:
         name: arista.avd.cv_deploy
       vars:
-        cv_deploy_diffs: yes
-        cv_tls_disable: false
+        cv_inventory_hostname: cv_dev_server
+        cv_verify_certs: false
+        cv_run_change_control: true
+        cv_register_detailed_results: true
+        cv_workspace_description: "AVD deploy DC1 from {{ lookup('env', 'USER') }} on {{ ansible_date_time.iso8601 | default('') }}"
+        cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
+        cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
 
     - name: Display completion banner
-      debug:
+      ansible.builtin.debug:
         msg: |
           ╔════════════════════════════════════════════════════════════════╗
           ║              Deployment Complete ✓                             ║

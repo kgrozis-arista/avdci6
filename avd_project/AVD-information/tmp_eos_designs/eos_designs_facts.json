@@ -1,0 +1,998 @@
+{
+    "DC1-LEAF1A": {
+        "id": 4,
+        "type": "leaf",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.13/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65101",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC1",
+        "group": "DC1_LEAF1",
+        "router_id": "10.10.1.4",
+        "pod": "DC1",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.4",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 3,
+        "uplinks": [
+            {
+                "interface": "Ethernet51/1",
+                "peer": "DC1-SPINE1",
+                "peer_interface": "Ethernet1/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.19",
+                "peer_ip_address": "10.20.0.18"
+            },
+            {
+                "interface": "Ethernet52/1",
+                "peer": "DC1-SPINE2",
+                "peer_interface": "Ethernet1/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.21",
+                "peer_ip_address": "10.20.0.20"
+            },
+            {
+                "interface": "Ethernet53/1",
+                "peer": "DC1-SPINE3",
+                "peer_interface": "Ethernet1/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.23",
+                "peer_ip_address": "10.20.0.22"
+            }
+        ],
+        "uplink_peers": [
+            "DC1-SPINE1",
+            "DC1-SPINE2",
+            "DC1-SPINE3"
+        ],
+        "vlans": "",
+        "uplink_switch_interfaces": [
+            "Ethernet1/1",
+            "Ethernet1/1",
+            "Ethernet1/1"
+        ]
+    },
+    "DC1-LEAF1B": {
+        "id": 5,
+        "type": "leaf",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.14/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65101",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC1",
+        "group": "DC1_LEAF1",
+        "router_id": "10.10.1.5",
+        "pod": "DC1",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.5",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 3,
+        "uplinks": [
+            {
+                "interface": "Ethernet51/1",
+                "peer": "DC1-SPINE1",
+                "peer_interface": "Ethernet2/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.25",
+                "peer_ip_address": "10.20.0.24"
+            },
+            {
+                "interface": "Ethernet52/1",
+                "peer": "DC1-SPINE2",
+                "peer_interface": "Ethernet2/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.27",
+                "peer_ip_address": "10.20.0.26"
+            },
+            {
+                "interface": "Ethernet53/1",
+                "peer": "DC1-SPINE3",
+                "peer_interface": "Ethernet2/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.29",
+                "peer_ip_address": "10.20.0.28"
+            }
+        ],
+        "uplink_peers": [
+            "DC1-SPINE1",
+            "DC1-SPINE2",
+            "DC1-SPINE3"
+        ],
+        "vlans": "",
+        "uplink_switch_interfaces": [
+            "Ethernet2/1",
+            "Ethernet2/1",
+            "Ethernet2/1"
+        ]
+    },
+    "DC1-LEAF2A": {
+        "id": 6,
+        "type": "leaf",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.15/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65102",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC1",
+        "group": "DC1_LEAF2",
+        "router_id": "10.10.1.6",
+        "pod": "DC1",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.6",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 3,
+        "uplinks": [
+            {
+                "interface": "Ethernet51/1",
+                "peer": "DC1-SPINE1",
+                "peer_interface": "Ethernet3/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.31",
+                "peer_ip_address": "10.20.0.30"
+            },
+            {
+                "interface": "Ethernet52/1",
+                "peer": "DC1-SPINE2",
+                "peer_interface": "Ethernet3/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.33",
+                "peer_ip_address": "10.20.0.32"
+            },
+            {
+                "interface": "Ethernet53/1",
+                "peer": "DC1-SPINE3",
+                "peer_interface": "Ethernet3/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.35",
+                "peer_ip_address": "10.20.0.34"
+            }
+        ],
+        "uplink_peers": [
+            "DC1-SPINE1",
+            "DC1-SPINE2",
+            "DC1-SPINE3"
+        ],
+        "vlans": "",
+        "uplink_switch_interfaces": [
+            "Ethernet3/1",
+            "Ethernet3/1",
+            "Ethernet3/1"
+        ]
+    },
+    "DC1-LEAF2B": {
+        "id": 7,
+        "type": "leaf",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.16/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65102",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC1",
+        "group": "DC1_LEAF2",
+        "router_id": "10.10.1.7",
+        "pod": "DC1",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.7",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 3,
+        "uplinks": [
+            {
+                "interface": "Ethernet51/1",
+                "peer": "DC1-SPINE1",
+                "peer_interface": "Ethernet4/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.37",
+                "peer_ip_address": "10.20.0.36"
+            },
+            {
+                "interface": "Ethernet52/1",
+                "peer": "DC1-SPINE2",
+                "peer_interface": "Ethernet4/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.39",
+                "peer_ip_address": "10.20.0.38"
+            },
+            {
+                "interface": "Ethernet53/1",
+                "peer": "DC1-SPINE3",
+                "peer_interface": "Ethernet4/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.41",
+                "peer_ip_address": "10.20.0.40"
+            }
+        ],
+        "uplink_peers": [
+            "DC1-SPINE1",
+            "DC1-SPINE2",
+            "DC1-SPINE3"
+        ],
+        "vlans": "",
+        "uplink_switch_interfaces": [
+            "Ethernet4/1",
+            "Ethernet4/1",
+            "Ethernet4/1"
+        ]
+    },
+    "DC1-LEAF3A": {
+        "id": 15,
+        "type": "leaf",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.17/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65103",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC1",
+        "group": "DC1_LEAF3",
+        "router_id": "10.10.1.15",
+        "pod": "DC1",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.15",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 3,
+        "uplinks": [
+            {
+                "interface": "Ethernet51/1",
+                "peer": "DC1-SPINE1",
+                "peer_interface": "Ethernet5/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.85",
+                "peer_ip_address": "10.20.0.84"
+            },
+            {
+                "interface": "Ethernet52/1",
+                "peer": "DC1-SPINE2",
+                "peer_interface": "Ethernet5/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.87",
+                "peer_ip_address": "10.20.0.86"
+            },
+            {
+                "interface": "Ethernet53/1",
+                "peer": "DC1-SPINE3",
+                "peer_interface": "Ethernet5/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.89",
+                "peer_ip_address": "10.20.0.88"
+            }
+        ],
+        "uplink_peers": [
+            "DC1-SPINE1",
+            "DC1-SPINE2",
+            "DC1-SPINE3"
+        ],
+        "vlans": "",
+        "uplink_switch_interfaces": [
+            "Ethernet5/1",
+            "Ethernet5/1",
+            "Ethernet5/1"
+        ]
+    },
+    "DC1-LEAF3B": {
+        "id": 16,
+        "type": "leaf",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.18/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.1.0/24",
+        "uplink_ipv4_pool": "10.20.0.0/24",
+        "bgp_as": "65103",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC1",
+        "group": "DC1_LEAF3",
+        "router_id": "10.10.1.16",
+        "pod": "DC1",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.1.16",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 3,
+        "uplinks": [
+            {
+                "interface": "Ethernet51/1",
+                "peer": "DC1-SPINE1",
+                "peer_interface": "Ethernet6/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.91",
+                "peer_ip_address": "10.20.0.90"
+            },
+            {
+                "interface": "Ethernet52/1",
+                "peer": "DC1-SPINE2",
+                "peer_interface": "Ethernet6/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.93",
+                "peer_ip_address": "10.20.0.92"
+            },
+            {
+                "interface": "Ethernet53/1",
+                "peer": "DC1-SPINE3",
+                "peer_interface": "Ethernet6/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65000",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.20.0.95",
+                "peer_ip_address": "10.20.0.94"
+            }
+        ],
+        "uplink_peers": [
+            "DC1-SPINE1",
+            "DC1-SPINE2",
+            "DC1-SPINE3"
+        ],
+        "vlans": "",
+        "uplink_switch_interfaces": [
+            "Ethernet6/1",
+            "Ethernet6/1",
+            "Ethernet6/1"
+        ]
+    },
+    "DC1-SPINE1": {
+        "id": 1,
+        "type": "spine",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.10/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.0.0/24",
+        "bgp_as": "65000",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC1",
+        "group": "DC1_SPINES",
+        "router_id": "10.10.0.1",
+        "pod": "DC1",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.0.1",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 0,
+        "vlans": "",
+        "downlink_switches": [
+            "DC1-LEAF1A",
+            "DC1-LEAF1B",
+            "DC1-LEAF2A",
+            "DC1-LEAF2B",
+            "DC1-LEAF3A",
+            "DC1-LEAF3B"
+        ]
+    },
+    "DC1-SPINE2": {
+        "id": 2,
+        "type": "spine",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.11/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.0.0/24",
+        "bgp_as": "65000",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC1",
+        "group": "DC1_SPINES",
+        "router_id": "10.10.0.2",
+        "pod": "DC1",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.0.2",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 0,
+        "vlans": "",
+        "downlink_switches": [
+            "DC1-LEAF1A",
+            "DC1-LEAF1B",
+            "DC1-LEAF2A",
+            "DC1-LEAF2B",
+            "DC1-LEAF3A",
+            "DC1-LEAF3B"
+        ]
+    },
+    "DC1-SPINE3": {
+        "id": 3,
+        "type": "spine",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.12/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.0.0/24",
+        "bgp_as": "65000",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC1",
+        "group": "DC1_SPINES",
+        "router_id": "10.10.0.3",
+        "pod": "DC1",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.0.3",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 0,
+        "vlans": "",
+        "downlink_switches": [
+            "DC1-LEAF1A",
+            "DC1-LEAF1B",
+            "DC1-LEAF2A",
+            "DC1-LEAF2B",
+            "DC1-LEAF3A",
+            "DC1-LEAF3B"
+        ]
+    },
+    "DC2-LEAF1A": {
+        "id": 11,
+        "type": "leaf",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.24/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.3.0/24",
+        "uplink_ipv4_pool": "10.30.0.0/24",
+        "bgp_as": "65201",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC2",
+        "group": "DC2_LEAF1",
+        "router_id": "10.10.3.11",
+        "pod": "DC2",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.3.11",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 3,
+        "uplinks": [
+            {
+                "interface": "Ethernet51/1",
+                "peer": "DC2-SPINE1",
+                "peer_interface": "Ethernet1/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.61",
+                "peer_ip_address": "10.30.0.60"
+            },
+            {
+                "interface": "Ethernet52/1",
+                "peer": "DC2-SPINE2",
+                "peer_interface": "Ethernet1/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.63",
+                "peer_ip_address": "10.30.0.62"
+            },
+            {
+                "interface": "Ethernet53/1",
+                "peer": "DC2-SPINE3",
+                "peer_interface": "Ethernet1/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.65",
+                "peer_ip_address": "10.30.0.64"
+            }
+        ],
+        "uplink_peers": [
+            "DC2-SPINE1",
+            "DC2-SPINE2",
+            "DC2-SPINE3"
+        ],
+        "vlans": "",
+        "uplink_switch_interfaces": [
+            "Ethernet1/1",
+            "Ethernet1/1",
+            "Ethernet1/1"
+        ]
+    },
+    "DC2-LEAF1B": {
+        "id": 12,
+        "type": "leaf",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.25/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.3.0/24",
+        "uplink_ipv4_pool": "10.30.0.0/24",
+        "bgp_as": "65201",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC2",
+        "group": "DC2_LEAF1",
+        "router_id": "10.10.3.12",
+        "pod": "DC2",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.3.12",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 3,
+        "uplinks": [
+            {
+                "interface": "Ethernet51/1",
+                "peer": "DC2-SPINE1",
+                "peer_interface": "Ethernet2/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.67",
+                "peer_ip_address": "10.30.0.66"
+            },
+            {
+                "interface": "Ethernet52/1",
+                "peer": "DC2-SPINE2",
+                "peer_interface": "Ethernet2/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.69",
+                "peer_ip_address": "10.30.0.68"
+            },
+            {
+                "interface": "Ethernet53/1",
+                "peer": "DC2-SPINE3",
+                "peer_interface": "Ethernet2/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.71",
+                "peer_ip_address": "10.30.0.70"
+            }
+        ],
+        "uplink_peers": [
+            "DC2-SPINE1",
+            "DC2-SPINE2",
+            "DC2-SPINE3"
+        ],
+        "vlans": "",
+        "uplink_switch_interfaces": [
+            "Ethernet2/1",
+            "Ethernet2/1",
+            "Ethernet2/1"
+        ]
+    },
+    "DC2-LEAF2A": {
+        "id": 13,
+        "type": "leaf",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.26/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.3.0/24",
+        "uplink_ipv4_pool": "10.30.0.0/24",
+        "bgp_as": "65202",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC2",
+        "group": "DC2_LEAF2",
+        "router_id": "10.10.3.13",
+        "pod": "DC2",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.3.13",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 3,
+        "uplinks": [
+            {
+                "interface": "Ethernet51/1",
+                "peer": "DC2-SPINE1",
+                "peer_interface": "Ethernet3/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.73",
+                "peer_ip_address": "10.30.0.72"
+            },
+            {
+                "interface": "Ethernet52/1",
+                "peer": "DC2-SPINE2",
+                "peer_interface": "Ethernet3/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.75",
+                "peer_ip_address": "10.30.0.74"
+            },
+            {
+                "interface": "Ethernet53/1",
+                "peer": "DC2-SPINE3",
+                "peer_interface": "Ethernet3/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.77",
+                "peer_ip_address": "10.30.0.76"
+            }
+        ],
+        "uplink_peers": [
+            "DC2-SPINE1",
+            "DC2-SPINE2",
+            "DC2-SPINE3"
+        ],
+        "vlans": "",
+        "uplink_switch_interfaces": [
+            "Ethernet3/1",
+            "Ethernet3/1",
+            "Ethernet3/1"
+        ]
+    },
+    "DC2-LEAF2B": {
+        "id": 14,
+        "type": "leaf",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.27/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.3.0/24",
+        "uplink_ipv4_pool": "10.30.0.0/24",
+        "bgp_as": "65202",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC2",
+        "group": "DC2_LEAF2",
+        "router_id": "10.10.3.14",
+        "pod": "DC2",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.3.14",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 3,
+        "uplinks": [
+            {
+                "interface": "Ethernet51/1",
+                "peer": "DC2-SPINE1",
+                "peer_interface": "Ethernet4/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.79",
+                "peer_ip_address": "10.30.0.78"
+            },
+            {
+                "interface": "Ethernet52/1",
+                "peer": "DC2-SPINE2",
+                "peer_interface": "Ethernet4/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.81",
+                "peer_ip_address": "10.30.0.80"
+            },
+            {
+                "interface": "Ethernet53/1",
+                "peer": "DC2-SPINE3",
+                "peer_interface": "Ethernet4/1",
+                "peer_type": "spine",
+                "peer_is_deployed": true,
+                "peer_bgp_as": "65200",
+                "type": "underlay_p2p",
+                "prefix_length": 31,
+                "ip_address": "10.30.0.83",
+                "peer_ip_address": "10.30.0.82"
+            }
+        ],
+        "uplink_peers": [
+            "DC2-SPINE1",
+            "DC2-SPINE2",
+            "DC2-SPINE3"
+        ],
+        "vlans": "",
+        "uplink_switch_interfaces": [
+            "Ethernet4/1",
+            "Ethernet4/1",
+            "Ethernet4/1"
+        ]
+    },
+    "DC2-SPINE1": {
+        "id": 8,
+        "type": "spine",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.20/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.2.0/24",
+        "bgp_as": "65200",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC2",
+        "group": "DC2_SPINES",
+        "router_id": "10.10.2.8",
+        "pod": "DC2",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.2.8",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 0,
+        "vlans": "",
+        "downlink_switches": [
+            "DC2-LEAF1A",
+            "DC2-LEAF1B",
+            "DC2-LEAF2A",
+            "DC2-LEAF2B"
+        ]
+    },
+    "DC2-SPINE2": {
+        "id": 9,
+        "type": "spine",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.21/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.2.0/24",
+        "bgp_as": "65200",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC2",
+        "group": "DC2_SPINES",
+        "router_id": "10.10.2.9",
+        "pod": "DC2",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.2.9",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 0,
+        "vlans": "",
+        "downlink_switches": [
+            "DC2-LEAF1A",
+            "DC2-LEAF1B",
+            "DC2-LEAF2A",
+            "DC2-LEAF2B"
+        ]
+    },
+    "DC2-SPINE3": {
+        "id": 10,
+        "type": "spine",
+        "platform": "vEOS-lab",
+        "is_deployed": true,
+        "mgmt_interface": "Management1",
+        "mgmt_ip": "192.168.0.22/24",
+        "mpls_lsr": false,
+        "loopback_ipv4_pool": "10.10.2.0/24",
+        "bgp_as": "65200",
+        "underlay_routing_protocol": "ebgp",
+        "inband_ztp": false,
+        "dc_name": "DC2",
+        "group": "DC2_SPINES",
+        "router_id": "10.10.2.10",
+        "pod": "DC2",
+        "mlag_underlay_multicast": {
+            "pim_sm": false,
+            "static": false
+        },
+        "evpn_role": "none",
+        "overlay": {
+            "peering_address": "10.10.2.10",
+            "evpn_mpls": false
+        },
+        "max_parallel_uplinks": 1,
+        "max_uplink_switches": 0,
+        "vlans": "",
+        "downlink_switches": [
+            "DC2-LEAF1A",
+            "DC2-LEAF1B",
+            "DC2-LEAF2A",
+            "DC2-LEAF2B"
+        ]
+    }
+}
