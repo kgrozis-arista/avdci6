@@ -22,10 +22,10 @@
         anta_report_expand_results: true
         anta_catalogs_filters:
           - skip_tests:
-            - VerifyNTP
-            - VerifyReloadCause
-            - VerifyLoggingErrors
-      ignore_errors: true
+              - VerifyNTP
+              - VerifyReloadCause
+              - VerifyLoggingErrors
+      failed_when: false
 
     - name: Display completion banner
       ansible.builtin.debug:
