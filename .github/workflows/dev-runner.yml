@@ -152,6 +152,12 @@ jobs:
           source ${{ steps.venv.outputs.activate }}
           make deploy
 
+  wait-for-cloudvision:
+    name: Wait for CloudVision Processing
+    needs: deploy
+    runs-on: [self-hosted, dev]
+    timeout-minutes: 2
+    steps:
       - name: Wait for CloudVision to process changes
         run: sleep 30
 
