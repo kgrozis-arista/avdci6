@@ -44,7 +44,9 @@
         cv_verify_devices_exist: false
         cv_run_change_control: false
         cv_register_detailed_results: true
-        cv_workspace_description: "Host {{ inventory_hostname }} from {{ lookup('env', 'USER') }} on {{ ansible_date_time.iso8601 | default('') }}"
+        cv_workspace_description: |
+          Host {{ inventory_hostname }} from {{ lookup('env', 'USER') }}
+          on {{ ansible_date_time.iso8601 | default('') }}
         cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
         cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
 
