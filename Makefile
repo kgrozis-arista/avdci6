@@ -46,7 +46,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup step2-avd step3-hosts setup setup-wizard setup-github-runner bootstrap-avd-server build-check build deploy validate host-build host-deploy check syntax lint clean
+.PHONY: help step1-setup step2-avd step3-hosts step99-reset setup setup-wizard setup-github-runner bootstrap-avd-server build-check build deploy validate host-build host-deploy reset-build reset-deploy check syntax lint clean
 
 # ============================================================================
 # Help
@@ -73,6 +73,11 @@ help:
 	@echo "  step3-hosts              - Configure hosts: host-build → host-deploy"
 	@echo "    host-build             - Generate host endpoint configurations"
 	@echo "    host-deploy            - Deploy host configurations to CloudVision Portal"
+	@echo ""
+	@echo "Reset & Recovery:"
+	@echo "  step99-reset             - Reset topology to baseline: reset-build → reset-deploy"
+	@echo "    reset-build            - Generate reset configurations for all devices"
+	@echo "    reset-deploy           - Deploy reset configs to fabric and hosts"
 	@echo ""
 	@echo "Utilities:"
 	@echo "  check                    - Dry-run: --check --diff"
@@ -218,6 +223,44 @@ host-build:
 
 host-deploy:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/host-deploy.yml
+
+# ============================================================================
+# Reset & Recovery
+# ============================================================================
+
+step99-reset: reset-build reset-deploy
+	@echo ""
+	@echo "✓ Step 99 complete: Topology reset finished!"
+	@echo ""
+	@echo "Summary:"
+	@echo "  ✓ Generated reset baseline configurations"
+	@echo "  ✓ Deployed reset configs to all devices"
+	@echo "  ✓ Restored fabric to original state"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Verify devices are reachable via management IP"
+	@echo "  2. Regenerate AVD configurations: make build"
+	@echo "  3. Redeploy to CloudVision: make deploy"
+	@echo ""
+
+reset-build:
+	@echo ""
+	@echo "Building reset configurations from baseline..."
+	@echo ""
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/reset-build.yml
+
+reset-deploy:
+	@echo ""
+	@echo "⚠ WARNING: Deploying reset configurations to ALL devices!"
+	@echo "This will remove all AVD configurations and restore baseline state."
+	@echo ""
+	@read -p "Are you sure? Type 'RESET' to continue: " confirm; \
+	if [ "$$confirm" = "RESET" ]; then \
+	  cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/reset-deploy.yml; \
+	else \
+	  echo "Reset cancelled."; \
+	  exit 1; \
+	fi
 
 # ============================================================================
 # Validation & Diagnostics

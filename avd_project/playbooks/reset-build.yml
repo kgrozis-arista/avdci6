@@ -1,0 +1,62 @@
+---
+# Reset Build Playbook - Generate reset configurations for all topology devices
+# This playbook generates baseline reset configs for spines, leaves, and hosts
+
+- name: Build reset configurations for fabric
+  hosts: FABRIC
+  connection: local
+  gather_facts: false
+  vars:
+    reset_output_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
+
+  pre_tasks:
+    - name: Display banner
+      ansible.builtin.debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║          Building Reset Configurations                          ║
+          ║       Restoring Fabric to Baseline State                       ║
+          ╚════════════════════════════════════════════════════════════════╝
+      run_once: true
+
+    - name: Create reset config output directory
+      ansible.builtin.file:
+        path: "{{ reset_output_dir }}"
+        state: directory
+        mode: '0755'
+      run_once: true
+
+  tasks:
+    - name: Generate reset configuration from template
+      ansible.builtin.template:
+        src: reset-config.j2
+        dest: "{{ reset_output_dir }}/{{ inventory_hostname }}.cfg"
+        mode: '0644'
+
+  post_tasks:
+    - name: Display completion banner
+      ansible.builtin.debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║              Reset Configs Generated ✓                         ║
+          ║                                                                ║
+          ║  Reset configurations available in:                           ║
+          ║  {{ reset_output_dir }}/                                      ║
+          ║                                                                ║
+          ║  Next: Deploy reset configs with 'make reset-deploy'         ║
+          ╚════════════════════════════════════════════════════════════════╝
+      run_once: true
+
+- name: Build reset configurations for hosts
+  hosts: HOSTS
+  connection: local
+  gather_facts: false
+  vars:
+    reset_output_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
+
+  tasks:
+    - name: Generate reset configuration from template
+      ansible.builtin.template:
+        src: reset-config.j2
+        dest: "{{ reset_output_dir }}/{{ inventory_hostname }}.cfg"
+        mode: '0644'

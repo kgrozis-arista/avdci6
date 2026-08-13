@@ -1,0 +1,55 @@
+! Reset Configuration for {{ inventory_hostname }}
+! Generated from baseline startup configuration
+! This configuration restores the device to its original state
+!
+no aaa root
+!
+username cvptemp privilege 15 secret sha512 $6$qHMq8MMpJt$Rq8eMp.OsJpKO.q.9SkVmqdNYuSRVnZPoJjHfi8.5KVAcyC6NdOWfKcI/m/SdVtsknf80HfskiTnr8KOIiil4/
+!
+management api http-commands
+   no shutdown
+!
+service configuration session max pending 10
+!
+daemon TerminAttr
+   exec /usr/bin/TerminAttr -cvaddr=192.168.0.5:9910 -taillogs -cvauth=token,/tmp/token -cvproxy= -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata
+   no shutdown
+!
+switchport default mode routed
+!
+no service interface inactive port-id allocation disabled
+!
+service routing protocols model multi-agent
+!
+logging console informational
+!
+{% for level in ['AAA', 'ACCOUNTING', 'ACL', 'AGENT', 'ALE', 'ARP', 'BFD', 'BGP', 'BMP', 'CAPACITY', 'CAPI', 'CLASSIFICATION', 'CLEAR', 'CVX', 'DATAPLANE', 'DHCP', 'DMF', 'DOT1X', 'DOT1XHTTP', 'DSCP', 'ENVMON', 'ETH', 'EVENTMON', 'EXTENSION', 'FHRP', 'FLOW', 'FLOWTRACKING', 'FORWARDING', 'FRU', 'FWK', 'GMP', 'HARDWARE', 'HEALTH', 'HTTPSERVICE', 'IGMP', 'IGMPSNOOPING', 'INFLUXTELEMETRY', 'INT', 'INTF', 'IP6ROUTING', 'IPRIB', 'IRA', 'ISIS', 'KERNELFIB', 'LACP', 'LAG', 'LAUNCHER', 'LDP', 'LICENSE', 'LINEPROTO', 'LLDP', 'LOGMGR', 'LOOPBACK', 'LOOPPROTECT', 'MCS', 'MIRRORING', 'MKA', 'MLAG', 'MLDSNOOPING', 'MMODE', 'MONITORSECURITY', 'MROUTE', 'MRP', 'MSDP', 'MSRP', 'MSSPOLICYMONITOR', 'MVRP', 'NAT', 'OPENCONFIG', 'OPENFLOW', 'OSPF', 'OSPF3', 'PACKAGE', 'PFC', 'PIMBSR', 'PORTSECURITY', 'POSTCARDTELEMETRY', 'PSEUDOWIRE', 'PTP', 'PWRMGMT', 'QOS', 'QUEUEMONITOR', 'RADIUS', 'REDUNDANCY', 'RIB', 'ROUTING', 'SECURITY', 'SERVERMONITOR', 'SERVERPROBE', 'SFE', 'SPANTREE', 'SSO', 'STAGEMGR', 'SYS', 'SYSDB', 'TAPAGG', 'TCP', 'TRAFFICPOLICY', 'TRANSCEIVER', 'TUNNEL', 'TUNNELINTF', 'VLAN', 'VMTRACERSESS', 'VMWAREVI', 'VMWAREVS', 'VRF', 'VRRP', 'VXLAN'] %}
+logging level {{ level }} errors
+{% endfor %}
+!
+hostname {{ inventory_hostname }}
+ip name-server vrf default 192.168.0.5
+!
+spanning-tree mode mstp
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
+!
+interface Management1
+   mtu 1500
+   ip address {{ ansible_host }}/24
+   ipv6 enable
+   ipv6 address auto-config
+   ipv6 nd ra rx accept default-route
+   ipv6 nd ra rx accept route-preference
+!
+no ip routing
+!
+system control-plane
+   no service-policy input copp-system-policy
+!
+ip route 0.0.0.0/0 192.168.0.5
+!
+end
