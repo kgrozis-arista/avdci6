@@ -26,7 +26,7 @@ Aug 13 17:56:29 DC1-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-LEAF2B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC1-LEAF3A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 1794239 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 1794239 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 582616,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC1-LEAF3A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 2908012 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 2908018 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 939054,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC1-LEAF3A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:33 DC1-LEAF3A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1619) -- Master ProcMgr (PID=1619) exiting.
  Aug 13 17:56:33 DC1-LEAF3A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3723) at tbl://stpListen/+n closed by peer (EOF)
@@ -39,6 +39,7 @@ Aug 13 17:56:32 DC1-LEAF3B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-LEAF3B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
+DC1-SPINE1,VerifyBGPPeerSession,failure,Peer: 10.20.0.19 VRF: default - Session has non-empty message queues - InQ: 0 OutQ: 19 - Peer: 10.20.0.85 VRF: default - Session has non-empty message queues - InQ: 0 OutQ: 19,Verifies the session state of BGP peers.,BGP
 DC1-SPINE1,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:25 DC1-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1592) -- Master ProcMgr (PID=1592) exiting.
  
@@ -66,7 +67,7 @@ Aug 13 17:56:46 DC2-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-LEAF1B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC2-LEAF2A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 637237 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 637233 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 574011,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC2-LEAF2A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 1030364 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 1030371 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 937213,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-LEAF2A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:42 DC2-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1623) -- Master ProcMgr (PID=1623) exiting.
  Aug 13 17:56:42 DC2-LEAF2A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3699) at tbl://stpListen/+n closed by peer (EOF)
@@ -74,7 +75,7 @@ Aug 13 17:56:42 DC2-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-LEAF2A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC2-LEAF2B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 550796 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 550793 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 1698715,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC2-LEAF2B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 892303 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 892306 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 2767485,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-LEAF2B,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:37 DC2-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.
  Aug 13 17:56:37 DC2-LEAF2B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3729) at tbl://stpListen/+n closed by peer (EOF)
@@ -210,7 +211,6 @@ DC1-LEAF3B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF3B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF3B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF3B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-SPINE1,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE1,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
