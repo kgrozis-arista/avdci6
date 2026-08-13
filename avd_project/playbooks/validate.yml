@@ -19,9 +19,14 @@
       ansible.builtin.import_role:
         name: arista.avd.anta_runner
       vars:
-        anta_skip_tests: |
-          - VerifyNTPAssociation
-          - VerifyReloadCause
+        anta_dir: "{{ playbook_dir }}/../AVD-information/anta"
+        anta_report_expand_results: true
+        anta_catalogs_filters:
+          - skip_tests:
+              - VerifyNTP
+              - VerifyReloadCause
+              - VerifyLoggingErrors
+      failed_when: anta_tests_summary.tests_error > 0
 
     - name: Display completion banner
       ansible.builtin.debug:

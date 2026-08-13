@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
@@ -62,7 +62,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
@@ -131,7 +131,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
@@ -152,70 +152,77 @@ jobs:
           source ${{ steps.venv.outputs.activate }}
           make deploy
 
+  wait-for-cloudvision:
+    name: Wait for Network Convergence
+    needs: deploy
+    runs-on: [self-hosted, dev]
+    timeout-minutes: 2
+    steps:
       - name: Wait for CloudVision to process changes
         run: sleep 30
 
-  #validate:
-  #  name: Validate Fabric State
-  #  needs: deploy
-  #  runs-on: [self-hosted, dev]
-  #  timeout-minutes: 15
-  #  steps:
-  #    - name: Checkout repository
-  #      uses: actions/checkout@v4
-  #      with:
-  #        fetch-depth: 0
-  #        token: ${{ secrets.AVDCI6_PAT }}
-  #
-  #    - name: Detect venv activation script
-  #      id: venv
-  #      run: |
-  #        if [ -f "/home/ansible/avdci6/.venv/bin/activate" ]; then
-  #          echo "activate=/home/ansible/avdci6/.venv/bin/activate" >> $GITHUB_OUTPUT
-  #          echo "✓ Found venv at /home/ansible/avdci6/.venv"
-  #        else
-  #          echo "ERROR: venv not found at /home/ansible/avdci6/.venv"
-  #          exit 1
-  #        fi
-  #
-  #    - name: Run ANTA validation tests
-  #      run: |
-  #        source ${{ steps.venv.outputs.activate }}
-  #        make validate
-#
-  #    - name: Upload validation reports
-  #      if: always()
-  #      uses: actions/upload-artifact@v4
-  #      with:
-  #        name: ANTA-Validation-Reports
-  #        path: ${{ env.AVD_OUTPUT_DIR }}/reports/
-  #        retention-days: 30
-#
-  #    - name: Display validation summary
-  #      if: always()
-  #      run: |
-  #        if [ -f "${{ env.AVD_OUTPUT_DIR }}/reports/FABRIC-state.md" ]; then
-  #          cat "${{ env.AVD_OUTPUT_DIR }}/reports/FABRIC-state.md" >> $GITHUB_STEP_SUMMARY
-  #        else
-  #          echo "⚠ Validation report not found" >> $GITHUB_STEP_SUMMARY
-  #        fi
-#
-  #    - name: Commit and push validation reports
-  #      if: always()
-  #      run: |
-  #        git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
-  #        git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
-  #        git config --global pull.rebase false
-  #        git add ${{ env.AVD_OUTPUT_DIR }}/
-  #
-  #        # Only commit and push if there are changes
-  #        if ! git diff --cached --quiet; then
-  #          git commit -m "chore: update ANTA validation reports [skip-ci]"
-  #          git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
-  #          git pull origin "${{ github.ref_name }}"
-  #          git push origin HEAD:"${{ github.ref_name }}"
-  #          echo "✓ Pushed validation report changes"
-  #        else
-  #          echo "✓ No validation report changes to commit"
-  #        fi
+  validate:
+    name: Validate Fabric State
+    needs: wait-for-cloudvision
+    runs-on: [self-hosted, dev]
+    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.7
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.AVDCI6_PAT }}
 
+      - name: Detect venv activation script
+        id: venv
+        run: |
+          if [ -f "/home/ansible/avdci6/.venv/bin/activate" ]; then
+            echo "activate=/home/ansible/avdci6/.venv/bin/activate" >> $GITHUB_OUTPUT
+            echo "✓ Found venv at /home/ansible/avdci6/.venv"
+          else
+            echo "ERROR: venv not found at /home/ansible/avdci6/.venv"
+            exit 1
+          fi
+
+      - name: Run ANTA validation tests
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          make validate
+
+      - name: Upload validation reports
+        if: always()
+        uses: actions/upload-artifact@v4.3.6
+        with:
+          name: ANTA-Validation-Reports
+          path: ${{ env.AVD_OUTPUT_DIR }}/anta/reports/
+          retention-days: 30
+
+      - name: Display validation summary
+        if: always()
+        run: |
+          if [ -f "${{ env.AVD_OUTPUT_DIR }}/anta/reports/anta_report.md" ]; then
+            echo "## ANTA Validation Results" >> $GITHUB_STEP_SUMMARY
+            cat "${{ env.AVD_OUTPUT_DIR }}/anta/reports/anta_report.md" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠ Validation report not found" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Commit and push validation reports
+        if: always()
+        run: |
+          git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
+          git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
+          git config --global pull.rebase false
+          git add ${{ env.AVD_OUTPUT_DIR }}/anta/
+
+          # Only commit and push if there are changes
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update ANTA validation reports [skip-ci]"
+            git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
+            git pull origin "${{ github.ref_name }}"
+            git push origin HEAD:"${{ github.ref_name }}"
+            echo "✓ Pushed validation report changes"
+          else
+            echo "✓ No validation report changes to commit"
+          fi
