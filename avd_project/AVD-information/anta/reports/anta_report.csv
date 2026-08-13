@@ -1,5 +1,4 @@
 Device,Test Name,Test Status,Message(s),Test description,Test category
-DC1-LEAF1A,VerifyBGPPeerSession,failure,Peer: 10.20.0.20 VRF: default - Session has non-empty message queues - InQ: 0 OutQ: 19,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:28 DC1-LEAF1A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1617) -- Master ProcMgr (PID=1617) exiting.
  
@@ -27,8 +26,7 @@ Aug 13 17:56:29 DC1-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-LEAF2B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC1-LEAF3A,VerifyBGPPeerSession,failure,Peer: 10.20.0.88 VRF: default - Session has non-empty message queues - InQ: 0 OutQ: 19,Verifies the session state of BGP peers.,BGP
-DC1-LEAF3A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 1445352 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 1445351 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 469837,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC1-LEAF3A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 1794239 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 1794239 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 582616,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC1-LEAF3A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:33 DC1-LEAF3A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1619) -- Master ProcMgr (PID=1619) exiting.
  Aug 13 17:56:33 DC1-LEAF3A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3723) at tbl://stpListen/+n closed by peer (EOF)
@@ -68,8 +66,7 @@ Aug 13 17:56:46 DC2-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-LEAF1B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC2-LEAF2A,VerifyBGPPeerSession,failure,Peer: 10.30.0.74 VRF: default - Session has non-empty message queues - InQ: 0 OutQ: 19,Verifies the session state of BGP peers.,BGP
-DC2-LEAF2A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 513933 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 513930 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 461134,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC2-LEAF2A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 637237 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 637233 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 574011,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-LEAF2A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:42 DC2-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1623) -- Master ProcMgr (PID=1623) exiting.
  Aug 13 17:56:42 DC2-LEAF2A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3699) at tbl://stpListen/+n closed by peer (EOF)
@@ -77,7 +74,7 @@ Aug 13 17:56:42 DC2-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-LEAF2A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC2-LEAF2B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 443310 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 443306 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 1365470,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC2-LEAF2B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 550796 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 550793 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 1698715,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-LEAF2B,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:37 DC2-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.
  Aug 13 17:56:37 DC2-LEAF2B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3729) at tbl://stpListen/+n closed by peer (EOF)
@@ -92,7 +89,6 @@ Aug 13 17:56:39 DC2-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-SPINE1,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC2-SPINE2,VerifyBGPPeerSession,failure,Peer: 10.30.0.75 VRF: default - Session has non-empty message queues - InQ: 0 OutQ: 19,Verifies the session state of BGP peers.,BGP
 DC2-SPINE2,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:47 DC2-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1594) -- Master ProcMgr (PID=1594) exiting.
  Aug 13 17:56:47 DC2-SPINE2 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3687) at tbl://stpListen/+n closed by peer (EOF)
@@ -100,7 +96,6 @@ Aug 13 17:56:47 DC2-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-SPINE2,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC2-SPINE3,VerifyBGPPeerSession,failure,Peer: 10.30.0.65 VRF: default - Session has non-empty message queues - InQ: 0 OutQ: 19,Verifies the session state of BGP peers.,BGP
 DC2-SPINE3,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:34 DC2-SPINE3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1592) -- Master ProcMgr (PID=1592) exiting.
  Aug 13 17:56:34 DC2-SPINE3 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3675) at tbl://stpListen/+n closed by peer (EOF)
@@ -108,6 +103,7 @@ Aug 13 17:56:34 DC2-SPINE3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-SPINE3,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
+DC1-LEAF1A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF1A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -179,6 +175,7 @@ DC1-LEAF2B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF2B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF2B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF2B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-LEAF3A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF3A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF3A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF3A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -303,6 +300,7 @@ DC2-LEAF1B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF1B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF1B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF1B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-LEAF2A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -354,6 +352,7 @@ DC2-SPINE1,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-SPINE1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-SPINE1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-SPINE1,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-SPINE2,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE2,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE2,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE2,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -371,6 +370,7 @@ DC2-SPINE2,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-SPINE2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-SPINE2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-SPINE2,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-SPINE3,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE3,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE3,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE3,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
