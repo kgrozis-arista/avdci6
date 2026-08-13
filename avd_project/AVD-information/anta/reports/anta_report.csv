@@ -26,7 +26,7 @@ Aug 13 17:56:29 DC1-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-LEAF2B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC1-LEAF3A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 826559 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 826559 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 269783,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC1-LEAF3A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 886605 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 886605 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 287983,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC1-LEAF3A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:33 DC1-LEAF3A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1619) -- Master ProcMgr (PID=1619) exiting.
  Aug 13 17:56:33 DC1-LEAF3A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3723) at tbl://stpListen/+n closed by peer (EOF)
@@ -66,8 +66,7 @@ Aug 13 17:56:46 DC2-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-LEAF1B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC2-LEAF2A,VerifyBGPPeerSession,failure,Peer: 10.30.0.76 VRF: default - Session has non-empty message queues - InQ: 0 OutQ: 19,Verifies the session state of BGP peers.,BGP
-DC2-LEAF2A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 292247 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 292247 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 264423,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC2-LEAF2A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 313979 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 313976 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 283973,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-LEAF2A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:42 DC2-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1623) -- Master ProcMgr (PID=1623) exiting.
  Aug 13 17:56:42 DC2-LEAF2A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3699) at tbl://stpListen/+n closed by peer (EOF)
@@ -75,7 +74,7 @@ Aug 13 17:56:42 DC2-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-LEAF2A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC2-LEAF2B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 256047 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 256047 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 785313,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC2-LEAF2B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 272826 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 272824 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 840973,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-LEAF2B,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 13 17:56:37 DC2-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.
  Aug 13 17:56:37 DC2-LEAF2B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3729) at tbl://stpListen/+n closed by peer (EOF)
@@ -301,6 +300,7 @@ DC2-LEAF1B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF1B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF1B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF1B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-LEAF2A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
