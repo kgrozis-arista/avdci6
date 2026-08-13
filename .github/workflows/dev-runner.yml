@@ -195,15 +195,15 @@ jobs:
         uses: actions/upload-artifact@v4.3.6
         with:
           name: ANTA-Validation-Reports
-          path: ${{ env.AVD_OUTPUT_DIR }}/reports/
+          path: ${{ env.AVD_OUTPUT_DIR }}/anta/reports/
           retention-days: 30
 
       - name: Display validation summary
         if: always()
         run: |
-          if [ -f "${{ env.AVD_OUTPUT_DIR }}/reports/FABRIC-state.md" ]; then
+          if [ -f "${{ env.AVD_OUTPUT_DIR }}/anta/reports/anta_report.md" ]; then
             echo "## ANTA Validation Results" >> $GITHUB_STEP_SUMMARY
-            cat "${{ env.AVD_OUTPUT_DIR }}/reports/FABRIC-state.md" >> $GITHUB_STEP_SUMMARY
+            cat "${{ env.AVD_OUTPUT_DIR }}/anta/reports/anta_report.md" >> $GITHUB_STEP_SUMMARY
           else
             echo "⚠ Validation report not found" >> $GITHUB_STEP_SUMMARY
           fi
@@ -214,7 +214,7 @@ jobs:
           git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
           git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
           git config --global pull.rebase false
-          git add ${{ env.AVD_OUTPUT_DIR }}/
+          git add ${{ env.AVD_OUTPUT_DIR }}/anta/
 
           # Only commit and push if there are changes
           if ! git diff --cached --quiet; then
