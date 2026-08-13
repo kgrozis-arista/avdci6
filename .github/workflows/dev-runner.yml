@@ -153,7 +153,7 @@ jobs:
           make deploy
 
   wait-for-cloudvision:
-    name: Wait for CloudVision Processing
+    name: Wait for Network Convergence
     needs: deploy
     runs-on: [self-hosted, dev]
     timeout-minutes: 2

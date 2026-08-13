@@ -19,6 +19,7 @@
       ansible.builtin.import_role:
         name: arista.avd.anta_runner
       vars:
+        anta_results_dir: "{{ playbook_dir }}/../AVD-information/reports"
         anta_report_expand_results: true
         anta_catalogs_filters:
           - skip_tests:
