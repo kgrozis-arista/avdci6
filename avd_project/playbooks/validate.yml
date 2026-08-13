@@ -25,7 +25,8 @@
               - VerifyNTP
               - VerifyReloadCause
               - VerifyLoggingErrors
-      failed_when: false
+      # failed_when: false
+      ignore_errors: true
 
     - name: Display completion banner
       ansible.builtin.debug:
