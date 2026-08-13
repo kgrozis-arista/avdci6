@@ -288,8 +288,8 @@
     "ansible_playbook_python": "/home/ansible/avdci6/.venv/bin/python3",
     "ansible_config_file": null,
     "ansible_role_names": [
-        "arista.avd.eos_cli_config_gen",
-        "arista.avd.eos_designs"
+        "arista.avd.eos_designs",
+        "arista.avd.eos_cli_config_gen"
     ],
     "ansible_play_role_names": [
         "arista.avd.eos_designs",
@@ -303,7 +303,7 @@
     "ansible_play_name": "Build fabric configurations with AVD",
     "role_name": "eos_designs",
     "role_path": "/home/ansible/.ansible/collections/ansible_collections/arista/avd/roles/eos_designs",
-    "role_uuid": "53ecfcea-2bca-c57a-82ee-00000000001f",
+    "role_uuid": "53ecfcea-2bca-73be-4787-00000000001f",
     "ansible_collection_name": "arista.avd",
     "ansible_role_name": "arista.avd.eos_designs",
     "groups": {
@@ -539,7 +539,7 @@
         "DC2-LEAF2A",
         "DC2-LEAF2B"
     ],
-    "omit": "__omit_place_holder__fb471db031b92ecdc10fe1f0ee47dcd3a35ceb30",
+    "omit": "__omit_place_holder__5298f58ef1858950c66ef2cb9582768edfd9416d",
     "ansible_version": {
         "string": "2.17.14",
         "full": "2.17.14",
@@ -851,8 +851,8 @@
         "ansible_playbook_python": "/home/ansible/avdci6/.venv/bin/python3",
         "ansible_config_file": null,
         "ansible_role_names": [
-            "arista.avd.eos_cli_config_gen",
-            "arista.avd.eos_designs"
+            "arista.avd.eos_designs",
+            "arista.avd.eos_cli_config_gen"
         ],
         "ansible_play_role_names": [
             "arista.avd.eos_designs",
@@ -866,7 +866,7 @@
         "ansible_play_name": "Build fabric configurations with AVD",
         "role_name": "eos_designs",
         "role_path": "/home/ansible/.ansible/collections/ansible_collections/arista/avd/roles/eos_designs",
-        "role_uuid": "53ecfcea-2bca-c57a-82ee-00000000001f",
+        "role_uuid": "53ecfcea-2bca-73be-4787-00000000001f",
         "ansible_collection_name": "arista.avd",
         "ansible_role_name": "arista.avd.eos_designs",
         "groups": {
@@ -1102,7 +1102,7 @@
             "DC2-LEAF2A",
             "DC2-LEAF2B"
         ],
-        "omit": "__omit_place_holder__fb471db031b92ecdc10fe1f0ee47dcd3a35ceb30",
+        "omit": "__omit_place_holder__5298f58ef1858950c66ef2cb9582768edfd9416d",
         "ansible_version": {
             "string": "2.17.14",
             "full": "2.17.14",
