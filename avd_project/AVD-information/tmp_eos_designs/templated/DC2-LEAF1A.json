@@ -303,7 +303,7 @@
     "ansible_play_name": "Build fabric configurations with AVD",
     "role_name": "eos_designs",
     "role_path": "/home/ansible/.ansible/collections/ansible_collections/arista/avd/roles/eos_designs",
-    "role_uuid": "53ecfcea-2bca-21ac-3e71-00000000001f",
+    "role_uuid": "53ecfcea-2bca-8631-f26a-00000000001f",
     "ansible_collection_name": "arista.avd",
     "ansible_role_name": "arista.avd.eos_designs",
     "groups": {
@@ -437,16 +437,16 @@
             "DC2-HOST2"
         ],
         "NETWORK_SERVICES": [
+            "DC2-LEAF1A",
+            "DC2-LEAF1B",
+            "DC2-LEAF2A",
+            "DC2-LEAF2B",
             "DC1-LEAF1A",
             "DC1-LEAF1B",
             "DC1-LEAF2A",
             "DC1-LEAF2B",
             "DC1-LEAF3A",
-            "DC1-LEAF3B",
-            "DC2-LEAF1A",
-            "DC2-LEAF1B",
-            "DC2-LEAF2A",
-            "DC2-LEAF2B"
+            "DC1-LEAF3B"
         ],
         "COMMON_SETTINGS": [
             "DC1-SPINE1",
@@ -539,7 +539,7 @@
         "DC2-LEAF2A",
         "DC2-LEAF2B"
     ],
-    "omit": "__omit_place_holder__99d6601de226b430dbc71bce0455f25004bca2cd",
+    "omit": "__omit_place_holder__6b423b1b70eae62c8e91c8dab2ba58361a4ce231",
     "ansible_version": {
         "string": "2.17.14",
         "full": "2.17.14",
@@ -866,7 +866,7 @@
         "ansible_play_name": "Build fabric configurations with AVD",
         "role_name": "eos_designs",
         "role_path": "/home/ansible/.ansible/collections/ansible_collections/arista/avd/roles/eos_designs",
-        "role_uuid": "53ecfcea-2bca-21ac-3e71-00000000001f",
+        "role_uuid": "53ecfcea-2bca-8631-f26a-00000000001f",
         "ansible_collection_name": "arista.avd",
         "ansible_role_name": "arista.avd.eos_designs",
         "groups": {
@@ -1000,16 +1000,16 @@
                 "DC2-HOST2"
             ],
             "NETWORK_SERVICES": [
+                "DC2-LEAF1A",
+                "DC2-LEAF1B",
+                "DC2-LEAF2A",
+                "DC2-LEAF2B",
                 "DC1-LEAF1A",
                 "DC1-LEAF1B",
                 "DC1-LEAF2A",
                 "DC1-LEAF2B",
                 "DC1-LEAF3A",
-                "DC1-LEAF3B",
-                "DC2-LEAF1A",
-                "DC2-LEAF1B",
-                "DC2-LEAF2A",
-                "DC2-LEAF2B"
+                "DC1-LEAF3B"
             ],
             "COMMON_SETTINGS": [
                 "DC1-SPINE1",
@@ -1102,7 +1102,7 @@
             "DC2-LEAF2A",
             "DC2-LEAF2B"
         ],
-        "omit": "__omit_place_holder__99d6601de226b430dbc71bce0455f25004bca2cd",
+        "omit": "__omit_place_holder__6b423b1b70eae62c8e91c8dab2ba58361a4ce231",
         "ansible_version": {
             "string": "2.17.14",
             "full": "2.17.14",
