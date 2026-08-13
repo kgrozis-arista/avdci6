@@ -34,11 +34,11 @@
 | **DC1-SPINE3** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC2-LEAF1A** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC2-LEAF1B** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
-| **DC2-LEAF2A** | 20 | 17 | 0 | 3 | 0 | - | Interfaces, Logging, System |
+| **DC2-LEAF2A** | 20 | 16 | 0 | 4 | 0 | - | BGP, Interfaces, Logging, System |
 | **DC2-LEAF2B** | 20 | 17 | 0 | 3 | 0 | - | Interfaces, Logging, System |
 | **DC2-SPINE1** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC2-SPINE2** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
-| **DC2-SPINE3** | 20 | 17 | 0 | 3 | 0 | - | BGP, Logging, System |
+| **DC2-SPINE3** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 
 ### 🗂️ Summary Totals Per Category <a id="summary-totals-per-category"></a>
 
@@ -114,14 +114,14 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet46 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet47 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet48 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 769812 |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 769815 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 826559 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 826559 |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet54/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet55/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 250333 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 269783 |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | DC1-LEAF3A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 13 17:56:33 DC1-LEAF3A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1619) -- Master ProcMgr (PID=1619) exiting.<br> Aug 13 17:56:33 DC1-LEAF3A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3723) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 13 17:56:33 DC1-LEAF3A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3723))<br> <br> |
 | DC1-LEAF3A | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
@@ -137,6 +137,10 @@
 | DC2-LEAF1A | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
 | DC2-LEAF1B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 13 17:56:46 DC2-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1620) -- Master ProcMgr (PID=1620) exiting.<br> <br> |
 | DC2-LEAF1B | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
+| DC2-LEAF2A | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ❌&nbsp;Failure | 1/3&nbsp;checks&nbsp;failed |
+| | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.30.0.72 VRF: default | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.30.0.74 VRF: default | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Peer: 10.30.0.76 VRF: default | ❌&nbsp;Failure | Session has non-empty message queues - InQ: 0 OutQ: 19 |
 | DC2-LEAF2A | Interfaces | VerifyInterfaceDiscards | Verifies that the interfaces packet discard counters are equal to zero. | ❌&nbsp;Failure | 3/57&nbsp;checks&nbsp;failed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet2 | ✅&nbsp;Success | - |
@@ -186,14 +190,14 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet46 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet47 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet48 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 272241 |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 272242 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 292247 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 292247 |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet54/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet55/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 246072 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 264423 |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | DC2-LEAF2A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 13 17:56:42 DC2-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1623) -- Master ProcMgr (PID=1623) exiting.<br> Aug 13 17:56:42 DC2-LEAF2A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3699) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 13 17:56:42 DC2-LEAF2A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3699))<br> <br> |
 | DC2-LEAF2A | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
@@ -246,14 +250,14 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet46 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet47 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet48 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 236495 |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 236493 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 256047 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 256047 |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet54/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet55/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 728700 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 785313 |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | DC2-LEAF2B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 13 17:56:37 DC2-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.<br> Aug 13 17:56:37 DC2-LEAF2B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3729) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 13 17:56:37 DC2-LEAF2B StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3729))<br> <br> |
 | DC2-LEAF2B | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
@@ -261,11 +265,6 @@
 | DC2-SPINE1 | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
 | DC2-SPINE2 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 13 17:56:47 DC2-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1594) -- Master ProcMgr (PID=1594) exiting.<br> Aug 13 17:56:47 DC2-SPINE2 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3687) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 13 17:56:47 DC2-SPINE2 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3687))<br> <br> |
 | DC2-SPINE2 | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC2-SPINE3 | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ❌&nbsp;Failure | 1/4&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.30.0.65 VRF: default | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.30.0.71 VRF: default | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.30.0.77 VRF: default | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Peer: 10.30.0.83 VRF: default | ❌&nbsp;Failure | Session has non-empty message queues - InQ: 0 OutQ: 19 |
 | DC2-SPINE3 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 13 17:56:34 DC2-SPINE3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1592) -- Master ProcMgr (PID=1592) exiting.<br> Aug 13 17:56:34 DC2-SPINE3 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3675) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 13 17:56:34 DC2-SPINE3 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3675))<br> <br> |
 | DC2-SPINE3 | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
 | DC1-LEAF1A | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
@@ -2252,10 +2251,6 @@
 | DC2-LEAF1B | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC2-LEAF1B | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC2-LEAF1B | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
-| DC2-LEAF2A | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
-| | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.30.0.72 VRF: default | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.30.0.74 VRF: default | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Peer: 10.30.0.76 VRF: default | ✅&nbsp;Success | - |
 | DC2-LEAF2A | Configuration | VerifyRunningConfigDiffs | Verifies there is no difference between the running-config and the startup-config. | ✅&nbsp;Success | - |
 | DC2-LEAF2A | Configuration | VerifyZeroTouch | Verifies ZeroTouch is disabled. | ✅&nbsp;Success | - |
 | DC2-LEAF2A | Connectivity | VerifyLLDPNeighbors | Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
@@ -2808,6 +2803,11 @@
 | DC2-SPINE2 | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC2-SPINE2 | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC2-SPINE2 | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
+| DC2-SPINE3 | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;4&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.30.0.65 VRF: default | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.30.0.71 VRF: default | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.30.0.77 VRF: default | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Peer: 10.30.0.83 VRF: default | ✅&nbsp;Success | - |
 | DC2-SPINE3 | Configuration | VerifyRunningConfigDiffs | Verifies there is no difference between the running-config and the startup-config. | ✅&nbsp;Success | - |
 | DC2-SPINE3 | Configuration | VerifyZeroTouch | Verifies ZeroTouch is disabled. | ✅&nbsp;Success | - |
 | DC2-SPINE3 | Connectivity | VerifyLLDPNeighbors | Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors. | ✅&nbsp;Success | All&nbsp;4&nbsp;checks&nbsp;passed |
