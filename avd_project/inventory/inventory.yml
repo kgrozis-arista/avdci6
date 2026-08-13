@@ -128,6 +128,9 @@ all:
 
     # Hosts - all servers/endpoints across datacenters
     HOSTS:
+      vars:
+        ansible_connection: local
+        ansible_python_interpreter: "{{ ansible_playbook_python }}"
       hosts:
         DC1-HOST1:
           ansible_host: 192.168.0.30
