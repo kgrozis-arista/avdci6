@@ -18,6 +18,9 @@ LIMIT      ?=
 TAGS       ?=
 EXTRA      ?=
 
+# macOS fork safety - required for Python multiprocessing on macOS
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
 # Auto-prefer venv binaries when available; fall back to system tools
 # Use absolute paths so targets work after cd
 VENV_ABS         := $(abspath $(VENV))
