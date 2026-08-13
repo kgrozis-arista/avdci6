@@ -1,4 +1,4 @@
-! Reset Configuration for {{ inventory_hostname }}
+! Reset Configuration for {{ device_name | default(inventory_hostname) }}
 ! Generated from baseline startup configuration
 ! This configuration restores the device to its original state
 !
@@ -27,7 +27,7 @@ logging console informational
 logging level {{ level }} errors
 {% endfor %}
 !
-hostname {{ inventory_hostname }}
+hostname {{ device_name | default(inventory_hostname) }}
 ip name-server vrf default 192.168.0.5
 !
 spanning-tree mode mstp
@@ -39,7 +39,7 @@ system l1
 !
 interface Management1
    mtu 1500
-   ip address {{ ansible_host }}/24
+   ip address {{ device_mgmt_ip | default(ansible_host) }}/24
    ipv6 enable
    ipv6 address auto-config
    ipv6 nd ra rx accept default-route
