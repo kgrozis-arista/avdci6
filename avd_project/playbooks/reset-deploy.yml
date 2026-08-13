@@ -8,7 +8,7 @@
   gather_facts: false
   vars:
     output_dir: "{{ playbook_dir | dirname }}/AVD-information"
-    reset_configs_dir: "{{ output_dir }}/reset-configs"
+    configs_dir: "{{ output_dir }}/reset-configs"
     cv_inventory_hostname: cv_dev_server
 
   pre_tasks:
@@ -22,12 +22,15 @@
           ║  This will remove all AVD configurations!                      ║
           ║  Devices will return to factory/startup state.                ║
           ╚════════════════════════════════════════════════════════════════╝
+      delegate_to: localhost
       run_once: true
 
   tasks:
     - name: Deploy reset configuration to CloudVision
       ansible.builtin.import_role:
         name: arista.avd.cv_deploy
+      environment:
+        PYTHONWARNINGS: "ignore:Unverified HTTPS request"
       vars:
         cv_inventory_hostname: cv_dev_server
         cv_verify_certs: false
@@ -41,7 +44,7 @@
         cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
         cv_device_configs:
           - device_name: "{{ inventory_hostname }}"
-            config: "{{ lookup('file', reset_configs_dir + '/' + inventory_hostname + '.cfg') }}"
+            config: "{{ lookup('file', configs_dir + '/' + inventory_hostname + '.cfg') }}"
 
   post_tasks:
     - name: Display completion banner
