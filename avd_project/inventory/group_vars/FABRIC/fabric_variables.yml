@@ -61,8 +61,8 @@ cv_settings:
 ntp_settings:
   server_vrf: use_mgmt_interface_vrf
   servers:
-    - name: 0.pool.ntp.org
-    - name: 1.pool.ntp.org
+    - name: 216.239.35.4
+    - name: 216.239.35.8
 
 # Local users for device access
 aaa_settings:
