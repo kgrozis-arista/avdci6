@@ -47,6 +47,7 @@
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
       run_once: true
+
 - name: Build reset configurations for hosts
   hosts: localhost
   connection: local

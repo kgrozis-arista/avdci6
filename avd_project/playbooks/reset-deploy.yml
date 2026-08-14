@@ -27,6 +27,7 @@
             cp {{ reset_configs_dir }}/*.cfg {{ eos_config_dir }}/
           changed_when: true
       run_once: true
+
 - name: Deploy reset configurations to fabric
   hosts: FABRIC
   connection: local
@@ -75,7 +76,6 @@
         cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
         cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
       failed_when: false
-
   post_tasks:
     - name: Display completion banner
       ansible.builtin.debug:
@@ -92,3 +92,4 @@
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
       run_once: true
+
