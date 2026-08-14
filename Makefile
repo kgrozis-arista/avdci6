@@ -46,7 +46,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step4-prod-avd step99-reset setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy host-build host-deploy reset-build reset-deploy check syntax lint clean
+.PHONY: help step1-setup step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step4-prod-avd step5-prod-validate step99-reset setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy reset-build reset-deploy check syntax lint clean
 
 # ============================================================================
 # Help
@@ -93,6 +93,10 @@ help:
 	@echo "    prod-build             - Generate AVD configurations (prod)"
 	@echo "    prod-deploy            - Deploy configurations to prod CloudVision Portal"
 	@echo ""
+	@echo "Production Validation:"
+	@echo "  step5-prod-validate      - Validate prod fabric: prod-validate"
+	@echo "    prod-validate          - Run ANTA validation tests on prod fabric"
+	@echo ""
 	@echo "Reset & Recovery:"
 	@echo "  step99-reset             - Reset topology to baseline: reset-build → reset-deploy"
 	@echo "    reset-build            - Generate reset configurations for all devices"
@@ -118,10 +122,12 @@ help:
 	@echo "  make step2-dev-avd                        # Full dev AVD workflow"
 	@echo "  make step3-hosts                          # Configure hosts"
 	@echo "  make step4-prod-avd                       # Full prod AVD workflow"
+	@echo "  make step5-prod-validate                  # Validate prod fabric"
 	@echo "  make dev-build                            # Generate configs for dev"
 	@echo "  make dev-deploy                           # Deploy to dev CloudVision"
 	@echo "  make prod-build                           # Generate configs for prod"
 	@echo "  make prod-deploy                          # Deploy to prod CloudVision"
+	@echo "  make prod-validate                        # Validate prod fabric"
 	@echo "  make bootstrap-avd-server LIMIT=dev_avd   # Manual: bootstrap specific server"
 	@echo ""
 
@@ -408,6 +414,27 @@ prod-build:
 
 prod-deploy:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml -e "cloudvision_host=cv_prod_server" playbooks/deploy.yml
+
+# ============================================================================
+# Production Validation
+# ============================================================================
+
+step5-prod-validate: prod-validate
+	@echo ""
+	@echo "✓ Step 5 complete: Prod fabric validation finished!"
+	@echo ""
+	@echo "Summary:"
+	@echo "  ✓ Ran ANTA validation tests on prod fabric"
+	@echo "  ✓ Generated validation reports"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Review validation reports in avd_project/AVD-information/reports/"
+	@echo "  2. If tests failed, fix configuration issues and redeploy"
+	@echo "  3. If all tests pass, fabric is ready for operations"
+	@echo ""
+
+prod-validate:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/validate.yml
 
 # ============================================================================
 # Reset & Recovery

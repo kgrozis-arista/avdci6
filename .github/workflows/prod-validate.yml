@@ -34,7 +34,7 @@ jobs:
       - name: Run ANTA validation tests
         run: |
           source ${{ steps.venv.outputs.activate }}
-          make dev-validate
+          make prod-validate
 
       - name: Upload validation reports
         if: always()
