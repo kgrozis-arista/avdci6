@@ -93,7 +93,7 @@ jobs:
       - name: Generate AVD fabric configurations
         run: |
           source ${{ steps.venv.outputs.activate }}
-          make build
+          make prod-build
 
       - name: Verify configurations generated
         run: |
@@ -149,4 +149,4 @@ jobs:
       - name: Deploy configurations to CloudVision Portal (Prod)
         run: |
           source ${{ steps.venv.outputs.activate }}
-          make deploy cloudvision_host=cv_prod_server
+          make prod-deploy

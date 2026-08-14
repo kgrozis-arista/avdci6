@@ -93,7 +93,7 @@ jobs:
       - name: Generate AVD fabric configurations
         run: |
           source ${{ steps.venv.outputs.activate }}
-          make build
+          make dev-build
 
       - name: Verify configurations generated
         run: |
@@ -149,7 +149,7 @@ jobs:
       - name: Deploy configurations to CloudVision Portal
         run: |
           source ${{ steps.venv.outputs.activate }}
-          make deploy
+          make dev-deploy
 
   wait-for-cloudvision:
     name: Wait for Network Convergence
@@ -187,7 +187,7 @@ jobs:
       - name: Run ANTA validation tests
         run: |
           source ${{ steps.venv.outputs.activate }}
-          make validate
+          make dev-validate
 
       - name: Upload validation reports
         if: always()
