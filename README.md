@@ -295,7 +295,7 @@ Once labs are **Running**:
 
 ## Workflow Overview
 
-The avdci6 project uses a **three-step make-based workflow** with dev/prod environment support:
+The avdci6 project uses a **multi-step make-based workflow** with dev and prod environment separation:
 
 ### **Step 1: Bootstrap** (`make step1-setup`, `make step1-setup-dev`, `make step1-setup-prod`)
 
@@ -324,20 +324,29 @@ make step1-setup-prod
 
 **When:** Run once after cloning the repo, then run `step1-setup-dev` and/or `step1-setup-prod` for each environment.
 
-### **Step 2: Fabric Operations** (`make step2-avd`)
-Repeatable workflow for building, deploying, and validating fabric:
-- **Build** — Generate device configurations from intent (YAML)
-- **Deploy** — Push configs to CloudVision Portal
-- **Validate** — Run ANTA tests to verify fabric state
+### **Step 2: Dev Fabric Operations** (`make step2-dev-avd`)
+Repeatable workflow for building, deploying, and validating fabric in **dev environment**:
+- **Dev Build** (`make dev-build`) — Generate device configurations from intent (YAML) using CloudVision dev instance
+- **Dev Deploy** (`make dev-deploy`) — Push configs to **dev** CloudVision Portal with change controls enabled
+- **Dev Validate** (`make dev-validate`) — Run ANTA tests to verify fabric state
 
-**When:** Run every time you make changes to the fabric network intent.
+**When:** Run every time you make changes to the fabric network intent for testing in dev.
 
 ### **Step 3: Configure Hosts** (`make step3-hosts`)
 Repeatable workflow for generating and deploying host endpoint configurations:
-- **Host Build** — Generate host endpoint configs from Jinja2 template
-- **Host Deploy** — Push host configs to CloudVision Portal using cv_deploy
+- **Host Build** (`make host-build`) — Generate host endpoint configs from Jinja2 template
+- **Host Deploy** (`make host-deploy`) — Push host configs to CloudVision Portal using cv_deploy
 
 **When:** Run to configure server/host endpoints connected to the fabric.
+
+### **Step 4: Prod Fabric Operations** (`make step4-prod-avd`)
+Repeatable workflow for building and deploying fabric in **prod environment**:
+- **Prod Build** (`make prod-build`) — Generate device configurations from intent (YAML) using CloudVision prod instance
+- **Prod Deploy** (`make prod-deploy`) — Push configs to **prod** CloudVision Portal **without change controls** (direct config push)
+
+**Note:** Prod deployment skips change control approval for direct device configuration. Only merge PRs to `main` to trigger prod deployment.
+
+**When:** Run when you're ready to deploy validated configurations to production (via merged PR to main).
 
 ### **Step 99: Reset Topology** (`make step99-reset`)
 Emergency recovery workflow to restore all devices to baseline state:
@@ -385,27 +394,41 @@ Emergency recovery workflow to restore all devices to baseline state:
 
 ## Build, Deploy & Validate
 
-### Step 2: Full Fabric Workflow
+### Step 2: Dev Fabric Workflow
 
-Run the complete build, deploy, and validate workflow with a single command:
+Run the complete dev build, deploy, and validate workflow with a single command:
 
 ```bash
-make step2-avd
+make step2-dev-avd
 ```
 
 This orchestrates:
-1. **Build** — Generate fabric configurations using AVD eos_designs and eos_cli_config_gen
-2. **Deploy** — Push to CloudVision Portal
-3. **Validate** — Run ANTA tests
+1. **Dev Build** — Generate fabric configurations using AVD eos_designs and eos_cli_config_gen against **dev** CloudVision
+2. **Dev Deploy** — Push to **dev** CloudVision Portal with change controls enabled (requires approval)
+3. **Dev Validate** — Run ANTA tests to verify fabric state
+
+### Step 4: Prod Fabric Workflow
+
+Run the complete prod build and deploy workflow with a single command:
+
+```bash
+make step4-prod-avd
+```
+
+This orchestrates:
+1. **Prod Build** — Generate fabric configurations using AVD eos_designs and eos_cli_config_gen against **prod** CloudVision
+2. **Prod Deploy** — Push to **prod** CloudVision Portal **without change controls** (direct deployment)
+
+**Note:** Prod workflow is triggered by merging a PR to `main`. See [CI/CD Workflow](#cicd-workflow) for details on automated prod deployment.
 
 ### Individual Fabric Commands
 
 If you prefer to run steps separately:
 
-#### Generate Fabric Configuration
+#### Generate Fabric Configuration (Dev)
 
 ```bash
-make build
+make dev-build
 ```
 
 AVD reads your intent files and generates EOS configurations:
@@ -415,21 +438,46 @@ AVD reads your intent files and generates EOS configurations:
 - `avd_project/AVD-information/documentation/` — Network topology and IP allocation reports
 - `avd_project/AVD-information/structured_configs/` — Intermediate YAML (for CI tools)
 
-#### Deploy Fabric to CloudVision
+#### Generate Fabric Configuration (Prod)
 
 ```bash
-make deploy
+make prod-build
 ```
 
-Pushes generated fabric configurations to your CloudVision instance using cv_deploy role. CloudVision stages change controls. Review and approve in the WebUI before devices are configured.
+Same output as dev-build, but targeting **prod** CloudVision Portal.
 
-#### Validate Fabric State
+#### Deploy Fabric to CloudVision (Dev)
 
 ```bash
-make validate
+make dev-deploy
 ```
 
-Runs ANTA tests to verify actual device state matches design. Reports are written to `avd_project/AVD-information/reports/`.
+Pushes dev fabric configurations to **dev** CloudVision instance using cv_deploy role with change controls enabled. CloudVision stages changes. Review and approve in the WebUI before devices are configured.
+
+#### Deploy Fabric to CloudVision (Prod)
+
+```bash
+make prod-deploy
+```
+
+Pushes prod fabric configurations to **prod** CloudVision instance. **No change control approval required** — configurations deploy directly to devices.
+
+#### Validate Fabric State (Dev)
+
+```bash
+make dev-validate
+```
+
+Runs ANTA tests on **dev** fabric to verify actual device state matches design. Reports are written to `avd_project/AVD-information/reports/`.
+
+#### Backwards Compatibility Aliases (Dev)
+
+For convenience, `make build`, `make deploy`, and `make validate` are aliased to the dev versions:
+```bash
+make build       # Same as: make dev-build
+make deploy      # Same as: make dev-deploy
+make validate    # Same as: make dev-validate
+```
 
 ---
 
@@ -626,7 +674,9 @@ This includes runner setup which will:
 
 ### CI/CD Workflow
 
-The workflow defined in `.github/workflows/dev-runner.yml` runs on every push to non-main branches:
+#### Dev Pipeline (`.github/workflows/dev-runner.yml`)
+
+Runs on every push to **non-main branches**:
 
 **Pipeline Stages:**
 1. **Lint** (5 min timeout)
@@ -635,18 +685,42 @@ The workflow defined in `.github/workflows/dev-runner.yml` runs on every push to
    - Fails fast if configuration is invalid
 
 2. **Build** (15 min timeout)
-   - Runs `make build` to generate configurations
+   - Runs `make dev-build` to generate configurations in dev
    - Verifies output directory contains device configs
    - Commits generated configs back to branch if changed
 
 3. **Deploy** (10 min timeout)
-   - Runs `make deploy` to push configs to CloudVision
+   - Runs `make dev-deploy` to push configs to **dev** CloudVision Portal
    - Waits 30 seconds for CloudVision to process changes
 
-4. **Validate** (15 min timeout)
-   - Runs `make validate` to execute ANTA tests
+4. **Wait** (2 min timeout)
+   - Sleeps 30 seconds to allow CloudVision processing
+
+5. **Validate** (15 min timeout)
+   - Runs `make dev-validate` to execute ANTA tests
    - Uploads test reports as artifacts
    - Displays validation summary in GitHub
+
+#### Prod Pipeline (`.github/workflows/prod-runner.yml`)
+
+Runs on **pull request merge to main**:
+
+**Pipeline Stages:**
+1. **Lint** (5 min timeout)
+   - Runs `yamllint` on inventory files
+   - Runs `ansible-lint` on playbooks
+   - Fails fast if configuration is invalid
+
+2. **Build** (15 min timeout)
+   - Runs `make prod-build` to generate configurations in prod
+   - Verifies output directory contains device configs
+   - Commits generated configs back to main if changed
+
+3. **Deploy** (10 min timeout)
+   - Runs `make prod-deploy` to push configs to **prod** CloudVision Portal
+   - **No change control** — configurations deploy directly to devices
+
+**Key Difference:** Prod deployment happens **automatically on merge**, with no manual approval step required in CloudVision.
 
 ### Testing Your Workflow
 
@@ -909,19 +983,26 @@ make clean                   # Remove generated outputs
 # Step 1: Local setup (configure both dev and prod inventory)
 make step1-setup
 
-# Step 2a: Bootstrap dev environment
+# Step 1a: Bootstrap dev environment
 echo "YOUR_DEV_TOKEN" > ~/RUNNER_TOKEN
 make step1-setup-dev
 
-# Step 2b: Bootstrap prod environment
+# Step 1b: Bootstrap prod environment
 echo "YOUR_PROD_TOKEN" > ~/RUNNER_TOKEN
 make step1-setup-prod
 
-# Step 3: Generate and deploy fabric
-make step2-avd
+# Step 2: Generate, deploy, and validate dev fabric
+make step2-dev-avd
 
-# Step 4: Configure hosts
+# Step 3: Configure hosts
 make step3-hosts
+
+# Step 4: Deploy to prod (when ready)
+# Merge your PR to main branch, which will trigger prod deployment automatically
+git checkout main
+git merge <your-feature-branch>
+git push origin main
+# Prod deployment will run automatically via .github/workflows/prod-runner.yml
 ```
 
 **Reset devices to baseline state:**
@@ -931,9 +1012,19 @@ make step99-reset
 
 **Run only specific operations:**
 ```bash
-make build                   # Generate configurations only
-make deploy cloudvision_host=cv_prod_server  # Deploy to prod
-make validate                # Run ANTA tests
+# Dev operations
+make dev-build               # Generate dev configurations only
+make dev-deploy              # Deploy to dev CloudVision only
+make dev-validate            # Run ANTA tests on dev only
+
+# Prod operations
+make prod-build              # Generate prod configurations only
+make prod-deploy             # Deploy to prod CloudVision only
+
+# Backwards compatible (maps to dev)
+make build                   # Same as: make dev-build
+make deploy                  # Same as: make dev-deploy
+make validate                # Same as: make dev-validate
 ```
 
 **Check your setup:**
@@ -952,7 +1043,7 @@ make check                   # Verify environment
 ---
 
 **Last Updated:** August 14, 2026  
-**Version:** 3.1 — Dev/Prod Multi-Environment Bootstrap Support  
+**Version:** 3.2 — Dev/Prod CI/CD Pipeline with Separate Step 2 & Step 4  
 **AVD Version:** 6.3+  
 **Ansible:** 2.14+  
 **Python:** 3.8+
