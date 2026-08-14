@@ -57,7 +57,7 @@
           ╔════════════════════════════════════════════════════════════════╗
           ║              Reset Deployment Complete ✓                       ║
           ║                                                                ║
-          ║  All fabric devices have been reset to baseline state.        ║
+          ║  All fabric and host devices have been reset to baseline.    ║
           ║                                                                ║
           ║  Next steps:                                                   ║
           ║  1. Verify device connectivity: ping <mgmt_ip>               ║
@@ -66,56 +66,3 @@
           ╚════════════════════════════════════════════════════════════════╝
       run_once: true
 
-- name: Deploy reset configurations to hosts via CloudVision
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars:
-    inventory_dir: "{{ playbook_dir | dirname }}/inventory"
-    reset_output_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
-    eos_config_dir: "{{ playbook_dir | dirname }}/AVD-information/configs"
-    cv_inventory_hostname: cv_dev_server
-    host_list:
-      - DC1-HOST1
-      - DC1-HOST2
-      - DC2-HOST1
-      - DC2-HOST2
-
-  pre_tasks:
-    - name: Copy host reset configs to standard location for deployment
-      ansible.builtin.shell: |
-        for host in {{ host_list | join(' ') }}; do
-          cp {{ reset_output_dir }}/$host.cfg {{ eos_config_dir }}/
-        done
-      changed_when: true
-      run_once: true
-
-  tasks:
-    - name: Deploy host reset configurations to CloudVision
-      ansible.builtin.import_role:
-        name: arista.avd.cv_deploy
-      environment:
-        PYTHONWARNINGS: "ignore:Unverified HTTPS request"
-      vars:
-        cv_inventory_hostname: cv_dev_server
-        cv_verify_certs: false
-        cv_verify_devices_exist: false
-        cv_run_change_control: false
-        cv_register_detailed_results: true
-        cv_workspace_description: |
-          Reset hosts from {{ lookup('env', 'USER') }}
-          on {{ ansible_date_time.iso8601 | default('') }}
-        cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
-        cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
-      run_once: true
-
-  post_tasks:
-    - name: Display host deployment completion
-      ansible.builtin.debug:
-        msg: |
-          ╔════════════════════════════════════════════════════════════════╗
-          ║         Host Reset Deployment Complete ✓                       ║
-          ║                                                                ║
-          ║  All host configurations have been reset to baseline state.   ║
-          ╚════════════════════════════════════════════════════════════════╝
-      run_once: true
