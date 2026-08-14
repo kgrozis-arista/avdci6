@@ -26,9 +26,9 @@
     github_repo: "kgrozis-arista/avdci6"
 
   pre_tasks:
-    - name: Extract environment from inventory hostname
+    - name: Extract deployment environment from inventory hostname
       set_fact:
-        environment: "{{ inventory_hostname.split('_')[0] }}"
+        runner_environment: "{{ inventory_hostname.split('_')[0] }}"
         runner_name: "{{ inventory_hostname }}-{{ inventory_hostname.split('_')[0] }}"
         runner_labels: "self-hosted,Linux,X64,{{ inventory_hostname.split('_')[0] }}"
     - name: Validate runner token is provided

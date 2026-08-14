@@ -167,7 +167,7 @@
         group: "{{ avd_user }}"
         mode: '0644'
 
-    - name: Set CloudVision token filename based on environment
+    - name: Set CloudVision token filename based on deployment environment
       set_fact:
         cv_token_filename: "{{ inventory_hostname.split('_')[0].upper() }}_AVDCI6_TOKEN"
 
