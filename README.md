@@ -148,73 +148,109 @@ Optional:
 
 ### Bootstrap (Step 1)
 
-Initialize your entire environment (local and remote) with a single command:
+The bootstrap process has two phases:
+
+#### Phase 1: Local Setup (All Environments)
+
+Initialize local development environment:
 
 ```bash
 make step1-setup
 ```
 
-This target orchestrates:
-1. **Local Setup**
-   - Creates a Python virtual environment (`.venv/`)
-   - Installs Python dependencies from `requirements.txt`
-   - Installs Ansible collections from `collections.yml` (arista.avd, arista.eos, etc.)
-   - Runs an interactive setup wizard to configure your inventory
-   - Validates the Ansible installation
+This configures:
+- Python virtual environment (`.venv/`)
+- Python dependencies from `requirements.txt`
+- Ansible collections (arista.avd, arista.eos, etc.)
+- Interactive setup wizard for **both dev and prod** environments
+- Validates Ansible installation
 
-2. **Remote Setup** (if AVD-tooling server in inventory)
-   - Bootstraps Ubuntu with Python, Ansible, AVD 6.3+, all required dependencies
-   - Registers GitHub Actions runner for CI/CD
-   - Creates systemd service for auto-startup on server reboot
+**Output:**
+```
+✓ Step 1 complete: Local bootstrap done!
+```
+
+#### Phase 2: Remote Server Bootstrap (Dev or Prod)
+
+After local setup, bootstrap your dev or prod environment:
+
+**Option A: Bootstrap Dev Environment**
+```bash
+make step1-setup-dev
+```
+
+**Option B: Bootstrap Prod Environment**
+```bash
+make step1-setup-prod
+```
+
+Each option:
+- Prompts for environment-specific CloudVision Portal and AVD Tooling server IPs
+- Bootstraps Ubuntu server with Python, Ansible, AVD 6.3+
+- Registers GitHub Actions runner for CI/CD
+- Creates systemd service for auto-startup on server reboot
 
 **Expected output:**
 ```
-✓ Step 1 complete: Full bootstrap done!
+✓ Step 1 Dev complete: Full dev environment bootstrap done!
 ```
-
-After Step 1, your environment is ready. Proceed to Step 2 for the AVD workflow.
+or
+```
+✓ Step 1 Prod complete: Full prod environment bootstrap done!
+```
 
 ### Setup Configuration
 
-The setup wizard prompts for critical infrastructure IPs:
+The setup wizard prompts for critical infrastructure IPs in two phases:
 
-- **CloudVision Portal IP** — Where configurations are deployed and monitored
-- **AVD Tooling Server IP** — Optional remote server for automation execution
+**Local Setup (step1-setup):**
+- **Dev CloudVision Portal IP** — Where dev configurations are deployed
+- **Dev AVD Tooling Server IP** — Dev automation server
+- **Prod CloudVision Portal IP** — Where prod configurations are deployed
+- **Prod AVD Tooling Server IP** — Prod automation server
 
-These values are written to `avd_project/inventory/inventory.yml`.
+**Environment-Specific Setup:**
+- `make step1-setup-dev` — Configure dev environment only
+- `make step1-setup-prod` — Configure prod environment only
 
-**Customizing Bootstrap for Remote Server:**
+These values are written to `avd_project/inventory/inventory.yml`:
+```yaml
+cv_dev_server:
+  ansible_httpapi_host: <dev-cvp-ip>
 
-If you have an AVD-tooling server in your Ansible inventory, `step1-setup` will automatically provision it. Customize with parameters:
+cv_prod_server:
+  ansible_httpapi_host: <prod-cvp-ip>
 
-```bash
-make step1-setup \
-  LIMIT=avd-tooling-server \
-  AVD_USER=ansible \
-  AVD_WORKSPACE=/opt/avdci6 \
-  RUNNER_TOKEN=$(cat ~/RUNNER_TOKEN)
+dev_avd:
+  ansible_host: <dev-avd-ip>
+
+prod_avd:
+  ansible_host: <prod-avd-ip>
 ```
 
-**What gets configured on remote server:**
-- ✓ Python 3.10 with virtual environment
-- ✓ Ansible 2.14+ with AVD 6.3+ collections
-- ✓ Passwordless sudo for automation user
-- ✓ Shell profile with venv auto-activation
-- ✓ GitHub Actions runner (systemd service)
-- ✓ Auto-startup on server reboot
+### GitHub Actions Runner Setup
 
-**Running components separately:**
+GitHub runner tokens are **one-time use only**. Each time you need to register a new runner:
 
-If you need to run setup steps individually:
+1. Go to your repository: https://github.com/kgrozis-arista/avdci6
+2. Navigate to **Settings → Actions → Runners**
+3. Click **"New self-hosted runner"**
+4. Select **Linux** and **x64**
+5. GitHub will display a registration token (in the "Configure" section)
+6. Save the token locally:
+   ```bash
+   echo "YOUR_NEW_TOKEN_HERE" > ~/RUNNER_TOKEN
+   chmod 600 ~/RUNNER_TOKEN
+   ```
+7. Run the setup:
+   ```bash
+   make step1-setup-dev   # For dev runner
+   make step1-setup-prod  # For prod runner
+   ```
 
-```bash
-# Local setup only
-make setup setup-wizard
-
-# Remote server only
-make bootstrap-avd-server LIMIT=avd-tooling-server
-make setup-github-runner LIMIT=avd-tooling-server
-```
+**Runner Naming:**
+- Dev runner: `dev` (label: `self-hosted,Linux,X64,dev`)
+- Prod runner: `prod` (label: `self-hosted,Linux,X64,prod`)
 
 **Verify after bootstrap completes:**
 
@@ -222,7 +258,7 @@ SSH into the server and run:
 ```bash
 source .activate
 ansible --version
-ansible-galaxy collection list | grep arista
+ansible-galaxy collection list | grep arista.avd
 systemctl status github-runner
 ```
 
@@ -259,14 +295,34 @@ Once labs are **Running**:
 
 ## Workflow Overview
 
-The avdci6 project uses a **three-step make-based workflow**:
+The avdci6 project uses a **three-step make-based workflow** with dev/prod environment support:
 
-### **Step 1: Bootstrap** (`make step1-setup`)
-One-time setup that configures:
-- Your local development machine (Python venv, Ansible, AVD collections)
-- Your remote AVD-tooling server (if in inventory) with AVD and GitHub Actions runner
+### **Step 1: Bootstrap** (`make step1-setup`, `make step1-setup-dev`, `make step1-setup-prod`)
 
-**When:** Run once after cloning the repo.
+**Local Setup (all environments):**
+```bash
+make step1-setup
+```
+- Creates Python venv and installs dependencies
+- Runs interactive setup wizard for **both dev and prod** CloudVision and AVD Tooling servers
+
+**Dev Environment:**
+```bash
+make step1-setup-dev
+```
+- Bootstraps dev AVD-tooling server with Python, Ansible, AVD 6.3+
+- Registers dev GitHub Actions runner (label: `dev`)
+- Runs playbooks targeting `dev_avd` host
+
+**Prod Environment:**
+```bash
+make step1-setup-prod
+```
+- Bootstraps prod AVD-tooling server with Python, Ansible, AVD 6.3+
+- Registers prod GitHub Actions runner (label: `prod`)
+- Runs playbooks targeting `prod_avd` host
+
+**When:** Run once after cloning the repo, then run `step1-setup-dev` and/or `step1-setup-prod` for each environment.
 
 ### **Step 2: Fabric Operations** (`make step2-avd`)
 Repeatable workflow for building, deploying, and validating fabric:
@@ -808,7 +864,20 @@ ansible-playbook -vvv playbooks/build.yml
 make help                    # Show all available targets
 
 # Bootstrap (one-time setup)
-make step1-setup             # Full bootstrap: local + remote server
+make step1-setup             # Local bootstrap: venv + wizard (both dev & prod)
+make step1-setup-dev         # Full dev bootstrap: local + dev_avd server + runner
+make step1-setup-prod        # Full prod bootstrap: local + prod_avd server + runner
+
+# Dev/Prod Component Targets
+make dev-setup               # Create venv (local only)
+make dev-setup-wizard        # Configure dev environment in inventory
+make dev-bootstrap-avd-server - Bootstrap dev AVD-tooling server
+make dev-setup-github-runner - Register dev GitHub Actions runner
+
+make prod-setup              # Create venv (local only)
+make prod-setup-wizard       # Configure prod environment in inventory
+make prod-bootstrap-avd-server - Bootstrap prod AVD-tooling server
+make prod-setup-github-runner - Register prod GitHub Actions runner
 
 # Fabric Operations
 make step2-avd               # Full fabric workflow (build → deploy → validate)
@@ -833,6 +902,47 @@ make lint                    # Run ansible-lint
 make clean                   # Remove generated outputs
 ```
 
+### Quick Examples
+
+**First-time setup with dev and prod environments:**
+```bash
+# Step 1: Local setup (configure both dev and prod inventory)
+make step1-setup
+
+# Step 2a: Bootstrap dev environment
+echo "YOUR_DEV_TOKEN" > ~/RUNNER_TOKEN
+make step1-setup-dev
+
+# Step 2b: Bootstrap prod environment
+echo "YOUR_PROD_TOKEN" > ~/RUNNER_TOKEN
+make step1-setup-prod
+
+# Step 3: Generate and deploy fabric
+make step2-avd
+
+# Step 4: Configure hosts
+make step3-hosts
+```
+
+**Reset devices to baseline state:**
+```bash
+make step99-reset
+```
+
+**Run only specific operations:**
+```bash
+make build                   # Generate configurations only
+make deploy cloudvision_host=cv_prod_server  # Deploy to prod
+make validate                # Run ANTA tests
+```
+
+**Check your setup:**
+```bash
+make lint                    # Validate playbooks
+make syntax                  # Check syntax
+make check                   # Verify environment
+```
+
 ### Support Resources
 
 - **Issues & Questions:** File a GitHub issue in this repository
@@ -842,7 +952,7 @@ make clean                   # Remove generated outputs
 ---
 
 **Last Updated:** August 14, 2026  
-**Version:** 3.0 — Step 99 Reset & Recovery Added  
+**Version:** 3.1 — Dev/Prod Multi-Environment Bootstrap Support  
 **AVD Version:** 6.3+  
 **Ansible:** 2.14+  
 **Python:** 3.8+
