@@ -32,9 +32,9 @@
         avd_user: "{{ avd_user | default('ansible') }}"
         avd_workspace: "{{ avd_workspace | default('') }}"
 
-    - name: Set workspace default if not provided
+    - name: Set workspace default based on environment
       set_fact:
-        avd_workspace: "/home/{{ avd_user }}/avdci6"
+        avd_workspace: "/home/{{ avd_user }}/avdci6{% if 'prod' in inventory_hostname %}-prod{% endif %}"
       when: avd_workspace == ''
 
     - name: Set venv path
