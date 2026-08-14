@@ -72,7 +72,7 @@
         cv_inventory_hostname: cv_dev_server
         cv_verify_certs: false
         cv_verify_devices_exist: false
-        cv_run_change_control: false
+        cv_run_change_control: true
         cv_register_detailed_results: true
         cv_workspace_description: |
           Reset {{ inventory_hostname }} from {{ lookup('env', 'USER') }}
