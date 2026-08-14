@@ -9,7 +9,7 @@
   vars:
     output_dir: "{{ playbook_dir | dirname }}/AVD-information"
     configs_dir: "{{ output_dir }}/configs"
-    cv_inventory_hostname: cv_dev_server
+    cv_inventory_hostname: "{{ cloudvision_host | default('cv_dev_server') }}"
 
   pre_tasks:
     - name: Display banner
@@ -39,7 +39,6 @@
       ansible.builtin.import_role:
         name: arista.avd.cv_deploy
       vars:
-        cv_inventory_hostname: cv_dev_server
         cv_verify_certs: false
         cv_verify_devices_exist: false
         cv_run_change_control: true

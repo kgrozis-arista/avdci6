@@ -36,7 +36,7 @@
   connection: local
   gather_facts: false
   vars:
-    cv_inventory_hostname: cv_dev_server
+    cv_inventory_hostname: "{{ cloudvision_host | default('cv_dev_server') }}"
   tasks:
     - name: Deploy fabric reset configuration to CloudVision  # noqa: key-order[task]
       ansible.builtin.import_role:
@@ -44,7 +44,6 @@
       environment:
         PYTHONWARNINGS: "ignore:Unverified HTTPS request"
       vars:
-        cv_inventory_hostname: cv_dev_server
         cv_verify_certs: false
         cv_verify_devices_exist: false
         cv_run_change_control: true
@@ -60,7 +59,7 @@
   connection: local
   gather_facts: false
   vars:
-    cv_inventory_hostname: cv_dev_server
+    cv_inventory_hostname: "{{ cloudvision_host | default('cv_dev_server') }}"
   tasks:
     - name: Deploy host reset configuration to CloudVision  # noqa: key-order[task]
       ansible.builtin.import_role:
@@ -68,7 +67,6 @@
       environment:
         PYTHONWARNINGS: "ignore:Unverified HTTPS request"
       vars:
-        cv_inventory_hostname: cv_dev_server
         cv_verify_certs: false
         cv_verify_devices_exist: false
         cv_run_change_control: true

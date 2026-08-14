@@ -167,10 +167,14 @@
         group: "{{ avd_user }}"
         mode: '0644'
 
+    - name: Set CloudVision token filename based on environment
+      set_fact:
+        cv_token_filename: "{{ inventory_hostname.split('_')[0].upper() }}_AVDCI6_TOKEN"
+
     - name: Copy CloudVision token file
       copy:
-        src: "~/DEV_AVDCI6_TOKEN"
-        dest: "/home/{{ avd_user }}/DEV_AVDCI6_TOKEN"
+        src: "~/{{ cv_token_filename }}"
+        dest: "/home/{{ avd_user }}/{{ cv_token_filename }}"
         owner: "{{ avd_user }}"
         group: "{{ avd_user }}"
         mode: '0600'
@@ -211,15 +215,16 @@
           ✓ AVD-Tooling Server Bootstrap Complete
 
           Server Details:
+          - Host: {{ inventory_hostname }}
           - User: {{ avd_user }}
           - Workspace: {{ avd_workspace }}
           - Python venv: {{ venv_path }}
 
           CloudVision Token:
           {% if token_copy_result is succeeded %}
-          - DEV_AVDCI6_TOKEN copied to: /home/{{ avd_user }}/DEV_AVDCI6_TOKEN
+          - {{ cv_token_filename }} copied to: /home/{{ avd_user }}/{{ cv_token_filename }}
           {% else %}
-          - DEV_AVDCI6_TOKEN not found - copy manually to /home/{{ avd_user }}/
+          - {{ cv_token_filename }} not found - copy manually to /home/{{ avd_user }}/
           {% endif %}
 
           Next Steps:
@@ -235,7 +240,7 @@
              ansible-galaxy collection list | grep arista.avd
 
           4. Verify CloudVision connectivity:
-             ls -la /home/{{ avd_user }}/DEV_AVDCI6_TOKEN
+             ls -la /home/{{ avd_user }}/{{ cv_token_filename }}
 
           5. Generate configurations:
              make build
