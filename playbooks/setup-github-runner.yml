@@ -85,25 +85,65 @@
       when: runner_download.changed
 
     - name: Configure GitHub Actions runner
-      shell: |
-        cd {{ runner_home }}
-        ./config.sh \
-          --url {{ runner_url }} \
-          --token {{ runner_token }} \
-          --name {{ runner_name }} \
-          --labels {{ runner_labels }} \
-          --work {{ runner_work_folder }} \
-          --unattended \
-          --replace
-      become_user: "{{ ansible_user }}"
-      become: yes
-      when: not runner_configured.stat.exists
-      register: runner_config
+      block:
+        - name: Configure GitHub Actions runner  # noqa: key-order[task]
+          shell: |
+            cd {{ runner_home }}
+            ./config.sh \
+              --url {{ runner_url }} \
+              --token {{ runner_token }} \
+              --name {{ runner_name }} \
+              --labels {{ runner_labels }} \
+              --work {{ runner_work_folder }} \
+              --unattended \
+              --replace
+          become_user: "{{ ansible_user }}"
+          become: yes
+          when: not runner_configured.stat.exists
+          register: runner_config
+      rescue:
+        - name: Display token error instructions
+          debug:
+            msg: |
+              ╔════════════════════════════════════════════════════════════════╗
+              ║         GitHub Runner Registration Failed (404)                 ║
+              ║                                                                ║
+              ║  The registration token has expired or is invalid.             ║
+              ║  GitHub runner tokens are ONE-TIME USE only.                   ║
+              ║                                                                ║
+              ║  To fix this:                                                  ║
+              ║                                                                ║
+              ║  1. Go to your repository settings:                            ║
+              ║     https://github.com/kgrozis-arista/avdci6/settings/actions ║
+              ║                                                                ║
+              ║  2. Navigate to: Actions → Runners                             ║
+              ║                                                                ║
+              ║  3. Click: "New self-hosted runner"                            ║
+              ║                                                                ║
+              ║  4. Select: Linux, x64                                         ║
+              ║                                                                ║
+              ║  5. GitHub will display a NEW registration token              ║
+              ║     (in the "Configure" section)                               ║
+              ║                                                                ║
+              ║  6. Save the token locally:                                    ║
+              ║     echo "YOUR_NEW_TOKEN" > ~/RUNNER_TOKEN                    ║
+              ║     chmod 600 ~/RUNNER_TOKEN                                   ║
+              ║                                                                ║
+              ║  7. Retry the setup:                                           ║
+              ║     make step1-setup-dev        # For dev runner              ║
+              ║     make step1-setup-prod       # For prod runner             ║
+              ║                                                                ║
+              ║  Each runner registration requires a fresh token from GitHub. ║
+              ╚════════════════════════════════════════════════════════════════╝
+          when: not runner_configured.stat.exists
+        - name: Fail with helpful message
+          fail:
+            msg: "GitHub runner registration failed. See instructions above."
 
     - name: Display runner configuration result
       debug:
         msg: "{{ runner_config.stdout }}"
-      when: runner_config.changed
+      when: runner_config is defined and runner_config.changed
 
     - name: Create systemd service for runner
       template:
