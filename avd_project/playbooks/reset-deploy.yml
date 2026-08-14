@@ -26,6 +26,13 @@
       delegate_to: localhost
       run_once: true
 
+    - name: Copy reset configs to standard location for deployment
+      ansible.builtin.command: |
+        cp {{ reset_configs_dir }}/*.cfg {{ eos_config_dir }}/
+      delegate_to: localhost
+      run_once: true
+      changed_when: true
+
   tasks:
     - name: Deploy reset configuration to CloudVision
       ansible.builtin.import_role:
@@ -43,9 +50,6 @@
           on {{ ansible_date_time.iso8601 | default('') }}
         cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
         cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
-        cv_device_configs:
-          - device_name: "{{ inventory_hostname }}"
-            config: "{{ lookup('file', reset_configs_dir + '/' + inventory_hostname + '.cfg') }}"
 
   post_tasks:
     - name: Display completion banner
