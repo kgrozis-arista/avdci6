@@ -26,7 +26,7 @@
           ansible.builtin.shell: |
             cp {{ reset_configs_dir }}/*.cfg {{ eos_config_dir }}/
           changed_when: true
-      run_once: true
+      run_once: true  # noqa: run-once[task]
 
 - name: Deploy reset configurations to fabric
   hosts: FABRIC
@@ -91,5 +91,5 @@
           ║  3. Redeploy to devices: make deploy                          ║
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
-      run_once: true
+      run_once: true  # noqa: run-once[task]
 
