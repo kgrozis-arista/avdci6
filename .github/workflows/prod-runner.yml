@@ -152,3 +152,48 @@ jobs:
         run: |
           source ${{ steps.venv.outputs.activate }}
           make prod-deploy
+
+      - name: Post-Deployment Instructions
+        if: success()
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          ## ✓ Prod Deployment Complete
+
+          Configurations have been deployed to **CloudVision Portal (Production)**.
+
+          ### Next Steps — Review & Approve Change Control
+
+          1. **Open CloudVision Portal:**
+             - Navigate to your prod CloudVision instance
+             - Go to **Change Control** section
+
+          2. **Review the deployment:**
+             - Look for the latest change control with the deployment timestamp
+             - Review the configuration changes
+             - Verify all devices and interfaces are correct
+
+          3. **Approve & Deploy:**
+             - Click **Approve** to authorize the change control
+             - Devices will receive the configuration
+             - Monitor the rollout in CloudVision
+
+          4. **Verify Devices:**
+             - Once approved, devices will receive configurations
+             - Check device status in CloudVision: **Devices → Compliance**
+             - Verify no errors or warnings
+
+          ⏱️ **Deployment Timeline:**
+          - Configuration staging: Immediate (when this job completed)
+          - Configuration push: After you approve in CloudVision
+          - Device configuration: ~1-5 minutes per device
+
+          💡 **Tips:**
+          - Use `show configuration | grep <keyword>` on devices to verify
+          - Monitor `show bgp summary` for control plane convergence
+          - Check `show vxlan tunnel` to verify VXLAN tunnels are up
+
+          ---
+          **Repository:** ${{ github.repository }}
+          **Branch:** ${{ github.ref_name }}
+          **Commit:** ${{ github.event.pull_request.merge_commit_sha }}
+          EOF
