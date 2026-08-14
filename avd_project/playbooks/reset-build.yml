@@ -46,7 +46,7 @@
           ║  Next: Deploy reset configs with 'make reset-deploy'         ║
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
-      run_once: true
+      run_once: true  # noqa: run-once[task]
 
 - name: Build reset configurations for hosts
   hosts: localhost
