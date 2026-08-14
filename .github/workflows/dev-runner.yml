@@ -1,4 +1,4 @@
-name: AVD CI/CD Pipeline
+name: Dev AVD CI/CD Pipeline
 
 on:
   push:
