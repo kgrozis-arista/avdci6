@@ -348,6 +348,14 @@ Repeatable workflow for building and deploying fabric in **prod environment**:
 
 **When:** Run when you're ready to deploy validated configurations to production (via merged PR to main).
 
+### **Step 5: Prod Fabric Validation** (`make step5-prod-validate`)
+Repeatable workflow for validating fabric state in **prod environment**:
+- **Prod Validate** (`make prod-validate`) — Run ANTA tests to verify prod fabric is operating as designed
+
+**Note:** Prod validation is automatically triggered after deployment in the prod-runner CI/CD pipeline. Can also be run manually anytime.
+
+**When:** Run after prod deployment to verify fabric health, or run manually to check fabric state on-demand.
+
 ### **Step 99: Reset Topology** (`make step99-reset`)
 Emergency recovery workflow to restore all devices to baseline state:
 - **Reset Build** — Generate baseline reset configurations for fabric and hosts
@@ -719,8 +727,17 @@ Runs on **pull request merge to main**:
 3. **Deploy** (10 min timeout)
    - Runs `make prod-deploy` to push configs to **prod** CloudVision Portal
    - **No change control** — configurations deploy directly to devices
+   - Waits 30 seconds for CloudVision to process changes
 
-**Key Difference:** Prod deployment happens **automatically on merge**, with no manual approval step required in CloudVision.
+4. **Validate** (15 min timeout)
+   - Runs `make prod-validate` to execute ANTA tests on **prod** fabric
+   - Uploads validation reports as artifacts
+   - Commits validation results to main branch
+
+**Key Differences:** 
+- Prod deployment happens **automatically on merge**, with no manual approval step required in CloudVision
+- Prod validation is **automatic** — runs right after deployment to verify fabric health
+- Results are logged and committed back to the repository for audit trail
 
 ### Testing Your Workflow
 
@@ -953,16 +970,28 @@ make prod-setup-wizard       # Configure prod environment in inventory
 make prod-bootstrap-avd-server - Bootstrap prod AVD-tooling server
 make prod-setup-github-runner - Register prod GitHub Actions runner
 
-# Fabric Operations
-make step2-avd               # Full fabric workflow (build → deploy → validate)
-make build                   # Generate fabric configs only
-make deploy                  # Deploy fabric to CloudVision only
-make validate                # Run ANTA tests only
+# Dev Fabric Operations
+make step2-dev-avd           # Full dev AVD workflow (dev-build → dev-deploy → dev-validate)
+make dev-build               # Generate dev configs only
+make dev-deploy              # Deploy to dev CloudVision only
+make dev-validate            # Run ANTA tests on dev fabric only
+
+# Backwards compatible aliases (map to dev)
+make build                   # Same as: make dev-build
+make deploy                  # Same as: make dev-deploy
+make validate                # Same as: make dev-validate
 
 # Host Configuration
 make step3-hosts             # Host configuration (host-build → host-deploy)
 make host-build              # Generate host endpoint configs only
 make host-deploy             # Deploy host configs to CloudVision only
+
+# Prod Fabric Operations
+make step4-prod-avd          # Full prod AVD workflow (prod-build → prod-deploy)
+make step5-prod-validate     # Validate prod fabric (prod-validate)
+make prod-build              # Generate prod configs only
+make prod-deploy             # Deploy to prod CloudVision only
+make prod-validate           # Run ANTA tests on prod fabric only
 
 # Reset & Recovery
 make step99-reset            # Reset topology to baseline (reset-build → reset-deploy)
@@ -998,11 +1027,15 @@ make step2-dev-avd
 make step3-hosts
 
 # Step 4: Deploy to prod (when ready)
-# Merge your PR to main branch, which will trigger prod deployment automatically
+# Merge your PR to main branch, which will trigger prod deployment + validation automatically
 git checkout main
 git merge <your-feature-branch>
 git push origin main
-# Prod deployment will run automatically via .github/workflows/prod-runner.yml
+# Prod runner will automatically: lint → build → deploy → validate
+# Check GitHub Actions for deployment and validation results
+
+# Step 5: Manually validate prod fabric (optional, or use make step5-prod-validate)
+make prod-validate
 ```
 
 **Reset devices to baseline state:**
@@ -1015,11 +1048,13 @@ make step99-reset
 # Dev operations
 make dev-build               # Generate dev configurations only
 make dev-deploy              # Deploy to dev CloudVision only
-make dev-validate            # Run ANTA tests on dev only
+make dev-validate            # Run ANTA tests on dev fabric only
 
 # Prod operations
 make prod-build              # Generate prod configurations only
 make prod-deploy             # Deploy to prod CloudVision only
+make prod-validate           # Run ANTA tests on prod fabric only
+make step5-prod-validate     # Same as: make prod-validate
 
 # Backwards compatible (maps to dev)
 make build                   # Same as: make dev-build
@@ -1043,7 +1078,7 @@ make check                   # Verify environment
 ---
 
 **Last Updated:** August 14, 2026  
-**Version:** 3.2 — Dev/Prod CI/CD Pipeline with Separate Step 2 & Step 4  
+**Version:** 3.3 — Production Fabric Validation (Step 5) with Auto-Validation in Prod Runner  
 **AVD Version:** 6.3+  
 **Ansible:** 2.14+  
 **Python:** 3.8+
