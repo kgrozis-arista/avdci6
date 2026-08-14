@@ -227,3 +227,31 @@ jobs:
           else
             echo "✓ No validation report changes to commit"
           fi
+
+      - name: Validation Complete Summary
+        if: success()
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          ## ✓ Dev Validation Complete
+
+          ANTA tests have been executed against the dev fabric.
+
+          ### Results
+          - Check the **ANTA-Validation-Reports** artifact for detailed results
+          - Review validation report above for test status
+          - All test results have been committed to the branch
+
+          ### Next Steps
+          1. **Review validation results:**
+             - If all tests pass: configurations are ready for prod merge
+             - If tests failed: review errors and fix configuration issues
+
+          2. **Ready for production?**
+             - Once validation passes, merge this PR to main
+             - This will trigger automatic prod deployment and validation
+             - Monitor GitHub Actions for prod deployment progress
+
+          ---
+          **Repository:** ${{ github.repository }}
+          **Branch:** ${{ github.ref_name }}
+          EOF
