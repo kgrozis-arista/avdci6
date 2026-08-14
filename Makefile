@@ -46,7 +46,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup step1-setup-dev step1-setup-prod step2-avd step3-hosts step99-reset setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate host-build host-deploy reset-build reset-deploy check syntax lint clean
+.PHONY: help step1-setup step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step4-prod-avd step99-reset setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy host-build host-deploy reset-build reset-deploy check syntax lint clean
 
 # ============================================================================
 # Help
@@ -77,16 +77,21 @@ help:
 	@echo "    prod-bootstrap-avd-server - Bootstrap prod AVD-tooling server"
 	@echo "    prod-setup-github-runner - Configure prod GitHub Actions runner"
 	@echo ""
-	@echo "Build, Deploy & Validate:"
-	@echo "  step2-avd                - Full AVD workflow: build → deploy → validate"
-	@echo "    build                  - Generate AVD configurations (eos_designs + eos_cli_config_gen)"
-	@echo "    deploy                 - Deploy configurations to CloudVision Portal"
-	@echo "    validate               - Run ANTA validation tests on fabric"
+	@echo "Build, Deploy & Validate (Dev):"
+	@echo "  step2-dev-avd            - Full dev AVD workflow: dev-build → dev-deploy → dev-validate"
+	@echo "    dev-build              - Generate AVD configurations (dev)"
+	@echo "    dev-deploy             - Deploy configurations to dev CloudVision Portal"
+	@echo "    dev-validate           - Run ANTA validation tests on dev fabric"
 	@echo ""
 	@echo "Configure Hosts:"
 	@echo "  step3-hosts              - Configure hosts: host-build → host-deploy"
 	@echo "    host-build             - Generate host endpoint configurations"
 	@echo "    host-deploy            - Deploy host configurations to CloudVision Portal"
+	@echo ""
+	@echo "Production Deployment:"
+	@echo "  step4-prod-avd           - Full prod AVD workflow: prod-build → prod-deploy"
+	@echo "    prod-build             - Generate AVD configurations (prod)"
+	@echo "    prod-deploy            - Deploy configurations to prod CloudVision Portal"
 	@echo ""
 	@echo "Reset & Recovery:"
 	@echo "  step99-reset             - Reset topology to baseline: reset-build → reset-deploy"
@@ -110,10 +115,13 @@ help:
 	@echo "  make step1-setup                          # Local bootstrap only"
 	@echo "  make step1-setup-dev                      # Full dev bootstrap (local + dev_avd)"
 	@echo "  make step1-setup-prod                     # Full prod bootstrap (local + prod_avd)"
-	@echo "  make step2-avd                            # Full AVD workflow"
-	@echo "  make build                                # Generate configurations only"
-	@echo "  make deploy                               # Deploy to CloudVision"
-	@echo "  make validate                             # Validate fabric state"
+	@echo "  make step2-dev-avd                        # Full dev AVD workflow"
+	@echo "  make step3-hosts                          # Configure hosts"
+	@echo "  make step4-prod-avd                       # Full prod AVD workflow"
+	@echo "  make dev-build                            # Generate configs for dev"
+	@echo "  make dev-deploy                           # Deploy to dev CloudVision"
+	@echo "  make prod-build                           # Generate configs for prod"
+	@echo "  make prod-deploy                          # Deploy to prod CloudVision"
 	@echo "  make bootstrap-avd-server LIMIT=dev_avd   # Manual: bootstrap specific server"
 	@echo ""
 
@@ -321,32 +329,37 @@ bootstrap-avd-server:
 
 
 # ============================================================================
-# Build, Deploy & Validate
+# Build, Deploy & Validate (Dev)
 # ============================================================================
 
-step2-avd: build deploy validate
+step2-dev-avd: dev-build dev-deploy dev-validate
 	@echo ""
-	@echo "✓ Step 2 complete: Full AVD workflow finished!"
+	@echo "✓ Step 2 complete: Full dev AVD workflow finished!"
 	@echo ""
 	@echo "Summary:"
 	@echo "  ✓ Generated AVD fabric configurations"
-	@echo "  ✓ Deployed to CloudVision Portal"
+	@echo "  ✓ Deployed to dev CloudVision Portal"
 	@echo "  ✓ Validated fabric state with ANTA tests"
 	@echo ""
 	@echo "Next steps:"
 	@echo "  1. Review configurations in avd_project/AVD-information/"
-	@echo "  2. Monitor devices in CloudVision Portal"
+	@echo "  2. Monitor devices in dev CloudVision Portal"
 	@echo "  3. Check validation reports in avd_project/AVD-information/reports/"
 	@echo ""
 
-build:
+dev-build:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/build.yml
 
-deploy:
+dev-deploy:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/deploy.yml
 
-validate:
+dev-validate:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/validate.yml
+
+# Backwards compatibility aliases
+build: dev-build
+deploy: dev-deploy
+validate: dev-validate
 
 # ============================================================================
 # Configure Hosts
@@ -371,6 +384,30 @@ host-build:
 
 host-deploy:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/host-deploy.yml
+
+# ============================================================================
+# Production Build & Deploy
+# ============================================================================
+
+step4-prod-avd: prod-build prod-deploy
+	@echo ""
+	@echo "✓ Step 4 complete: Full prod AVD workflow finished!"
+	@echo ""
+	@echo "Summary:"
+	@echo "  ✓ Generated AVD fabric configurations"
+	@echo "  ✓ Deployed to prod CloudVision Portal"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Review configurations in avd_project/AVD-information/"
+	@echo "  2. Monitor devices in prod CloudVision Portal"
+	@echo "  3. Run 'make dev-validate' to validate fabric state"
+	@echo ""
+
+prod-build:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/build.yml
+
+prod-deploy:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/deploy.yml cloudvision_host=cv_prod_server
 
 # ============================================================================
 # Reset & Recovery

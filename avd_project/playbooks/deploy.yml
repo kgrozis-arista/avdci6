@@ -22,7 +22,7 @@
         name: arista.avd.cv_deploy
       vars:
         cv_verify_certs: false
-        cv_run_change_control: true
+        cv_run_change_control: "{{ 'dev' in (cloudvision_host | default('cv_dev_server')) }}"
         cv_register_detailed_results: true
         cv_workspace_description: |
           AVD deploy DC1 from {{ lookup('env', 'USER') }}
