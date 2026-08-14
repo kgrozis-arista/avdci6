@@ -110,7 +110,10 @@ jobs:
           source ${{ steps.venv.outputs.activate }}
           git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
           git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
-          git add ${{ env.AVD_OUTPUT_DIR }}/
+
+          # Add only committed artifacts, excluding temporary design files
+          git add ${{ env.AVD_OUTPUT_DIR }}/configs/ ${{ env.AVD_OUTPUT_DIR }}/documentation/ 2>/dev/null || true
+          git add ${{ env.AVD_OUTPUT_DIR }}/*.html 2>/dev/null || true
 
           # Only commit and push if there are changes
           if ! git diff --cached --quiet; then
