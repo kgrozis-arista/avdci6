@@ -1,0 +1,125 @@
+name: Prod AVD CI/CD Pipeline
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+env:
+  GITHUB_ACTIONS_BOT_NAME: 'github-actions[bot]'
+  GITHUB_ACTIONS_BOT_EMAIL: 'github-actions[bot]@users.noreply.github.com'
+  AVD_OUTPUT_DIR: 'avd_project/AVD-information'
+
+jobs:
+  lint:
+    name: Lint Configuration
+    runs-on: [self-hosted, prod]
+    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.0
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.AVDCI6_PAT }}
+
+      - name: Detect venv activation script
+        id: venv
+        run: |
+          if [ -f "/home/ansible/avdci6-prod/.venv/bin/activate" ]; then
+            echo "activate=/home/ansible/avdci6-prod/.venv/bin/activate" >> $GITHUB_OUTPUT
+            echo "✓ Found venv at /home/ansible/avdci6-prod/.venv"
+          else
+            echo "ERROR: venv not found at /home/ansible/avdci6-prod/.venv"
+            echo "Checking for activation script..."
+            find /home -name ".venv" -type d 2>/dev/null | head -3
+            exit 1
+          fi
+
+      - name: Activate venv and verify tools
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          which yamllint && yamllint --version
+          which ansible-lint && ansible-lint --version
+
+      - name: Lint YAML in inventory
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          yamllint avd_project/inventory/
+
+      - name: Lint Ansible playbooks
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          ansible-lint avd_project/playbooks/
+
+  build:
+    name: Build AVD Configurations
+    needs: lint
+    runs-on: [self-hosted, prod]
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.0
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.AVDCI6_PAT }}
+
+      - name: Detect venv activation script
+        id: venv
+        run: |
+          if [ -f "/home/ansible/avdci6-prod/.venv/bin/activate" ]; then
+            echo "activate=/home/ansible/avdci6-prod/.venv/bin/activate" >> $GITHUB_OUTPUT
+            echo "✓ Found venv at /home/ansible/avdci6-prod/.venv"
+          else
+            echo "ERROR: venv not found at /home/ansible/avdci6-prod/.venv"
+            exit 1
+          fi
+
+      - name: Verify build environment
+        run: |
+          echo "Workspace: $(pwd)"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          which make && make --version
+          which python3 && python3 --version
+          echo "Activating venv..."
+          source ${{ steps.venv.outputs.activate }}
+          which ansible && ansible --version | head -1
+          echo "✓ Build environment ready"
+
+      - name: Generate AVD fabric configurations
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          make build
+
+      - name: Verify configurations generated
+        run: |
+          if [ ! -d "${{ env.AVD_OUTPUT_DIR }}/configs" ]; then
+            echo "ERROR: Configuration output directory not found!"
+            exit 1
+          fi
+          CONFIG_COUNT=$(find ${{ env.AVD_OUTPUT_DIR }}/configs -name "*.cfg" | wc -l)
+          echo "✓ Generated $CONFIG_COUNT device configurations"
+
+      - name: Commit and push build artifacts
+        if: success()
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
+          git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
+          git add ${{ env.AVD_OUTPUT_DIR }}/
+
+          # Only commit and push if there are changes
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update AVD configurations [skip-ci]"
+            git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
+            git pull --rebase origin "${{ github.ref_name }}"
+            git push origin HEAD:"${{ github.ref_name }}"
+            echo "✓ Pushed configuration changes"
+          else
+            echo "✓ No configuration changes to commit"
+          fi
+
