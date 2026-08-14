@@ -2,11 +2,12 @@
 # Reset Deploy Playbook - Deploy reset configurations to all topology devices
 # This playbook pushes reset baseline configs to fabric spines, leaves, and hosts via CloudVision
 
-- name: Deploy reset configurations to fabric
-  hosts: FABRIC
+- name: Deploy reset configurations to all devices
+  hosts: localhost
   connection: local
   gather_facts: false
   vars:
+    inventory_dir: "{{ playbook_dir | dirname }}/inventory"
     eos_config_dir: "{{ playbook_dir | dirname }}/AVD-information/configs"
     reset_configs_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
     cv_inventory_hostname: cv_dev_server
