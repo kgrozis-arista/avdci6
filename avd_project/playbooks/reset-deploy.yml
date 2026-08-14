@@ -10,25 +10,24 @@
     reset_configs_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
     eos_config_dir: "{{ playbook_dir | dirname }}/AVD-information/configs"
 
-  pre_tasks:
-    - name: Display banner
-      ansible.builtin.debug:
-        msg: |
-          ╔════════════════════════════════════════════════════════════════╗
-          ║          Deploying Reset Configurations                        ║
-          ║       WARNING: Restoring devices to baseline state             ║
-          ║                                                                ║
-          ║  This will remove all AVD configurations!                      ║
-          ║  Devices will return to factory/startup state.                ║
-          ╚════════════════════════════════════════════════════════════════╝
-      run_once: true
-
   tasks:
-    - name: Copy reset configs to standard location for deployment
-      ansible.builtin.shell: |
-        cp {{ reset_configs_dir }}/*.cfg {{ eos_config_dir }}/
+    - name: Display banner and copy reset configs
+      block:
+        - name: Display banner
+          ansible.builtin.debug:
+            msg: |
+              ╔════════════════════════════════════════════════════════════════╗
+              ║          Deploying Reset Configurations                        ║
+              ║       WARNING: Restoring devices to baseline state             ║
+              ║                                                                ║
+              ║  This will remove all AVD configurations!                      ║
+              ║  Devices will return to factory/startup state.                ║
+              ╚════════════════════════════════════════════════════════════════╝
+        - name: Copy reset configs to standard location for deployment
+          ansible.builtin.shell: |
+            cp {{ reset_configs_dir }}/*.cfg {{ eos_config_dir }}/
+          changed_when: true
       run_once: true
-      changed_when: true
 
 - name: Deploy reset configurations to fabric
   hosts: FABRIC
@@ -79,7 +78,7 @@
           on {{ ansible_date_time.iso8601 | default('') }}
         cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
         cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
-      ignore_errors: true
+      failed_when: false
 
   post_tasks:
     - name: Display completion banner
@@ -95,5 +94,6 @@
           ║  2. Regenerate AVD configs: make build                         ║
           ║  3. Redeploy to devices: make deploy                          ║
           ╚════════════════════════════════════════════════════════════════╝
+      delegate_to: localhost
       run_once: true
 
