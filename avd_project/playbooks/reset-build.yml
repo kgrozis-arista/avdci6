@@ -7,8 +7,7 @@
   connection: local
   gather_facts: false
   vars:
-    output_dir: "{{ inventory_dir }}/intended"
-    reset_output_dir: "{{ output_dir }}/reset-configs"
+    reset_output_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
 
   pre_tasks:
     - name: Display banner
@@ -45,7 +44,7 @@
           ║              Reset Configs Generated ✓                         ║
           ║                                                                ║
           ║  Reset configurations available in:                           ║
-          ║  intended/reset-configs/                                       ║
+          ║  AVD-information/reset-configs/                                ║
           ║                                                                ║
           ║  Next: Deploy reset configs with 'make reset-deploy'         ║
           ╚════════════════════════════════════════════════════════════════╝
@@ -57,8 +56,7 @@
   gather_facts: false
   vars:
     inventory_dir: "{{ playbook_dir | dirname }}/inventory"
-    output_dir: "{{ inventory_dir }}/intended"
-    reset_output_dir: "{{ output_dir }}/reset-configs"
+    reset_output_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
     host_list:
       - DC1-HOST1
       - DC1-HOST2
