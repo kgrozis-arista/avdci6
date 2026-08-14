@@ -1,0 +1,9 @@
+---
+skip_list:
+  - '206'  # Trailing whitespace
+
+exclude_paths:
+  - .github/
+  - tmp/
+  - venv/
+  - .venv/

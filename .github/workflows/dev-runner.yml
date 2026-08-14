@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
         with:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
@@ -62,7 +62,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
         with:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
@@ -110,14 +110,13 @@ jobs:
           source ${{ steps.venv.outputs.activate }}
           git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
           git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
-          git config --global pull.rebase false
           git add ${{ env.AVD_OUTPUT_DIR }}/
 
           # Only commit and push if there are changes
           if ! git diff --cached --quiet; then
             git commit -m "chore: update AVD configurations [skip-ci]"
             git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
-            git pull origin "${{ github.ref_name }}"
+            git pull --rebase origin "${{ github.ref_name }}"
             git push origin HEAD:"${{ github.ref_name }}"
             echo "✓ Pushed configuration changes"
           else
@@ -131,7 +130,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
         with:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
@@ -169,7 +168,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
         with:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
@@ -213,14 +212,13 @@ jobs:
         run: |
           git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
           git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
-          git config --global pull.rebase false
           git add ${{ env.AVD_OUTPUT_DIR }}/anta/
 
           # Only commit and push if there are changes
           if ! git diff --cached --quiet; then
             git commit -m "chore: update ANTA validation reports [skip-ci]"
             git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
-            git pull origin "${{ github.ref_name }}"
+            git pull --rebase origin "${{ github.ref_name }}"
             git push origin HEAD:"${{ github.ref_name }}"
             echo "✓ Pushed validation report changes"
           else

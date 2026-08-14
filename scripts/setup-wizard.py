@@ -218,29 +218,83 @@ def configure_host_ip(
 
 
 def main() -> int:
-    """Run the setup wizard."""
+    """Run the setup wizard.
+
+    Optional arguments:
+      dev     - Configure dev environment only
+      prod    - Configure prod environment only
+      both    - Configure both dev and prod (default)
+      (none)  - Configure both dev and prod (default)
+    """
+    # Parse environment argument
+    environment = "both"
+    if len(sys.argv) > 1:
+        env_arg = sys.argv[1].strip().lower()
+        if env_arg in ("dev", "prod", "both"):
+            environment = env_arg
+        else:
+            print(f"ERROR: Unknown environment '{env_arg}'", file=sys.stderr)
+            print("  Valid options: dev, prod, both", file=sys.stderr)
+            return 1
+
     print("=" * 70)
     print("  avdci6 AVD Project Setup Wizard")
     print("=" * 70)
     print()
+    print(f"Configuring: {environment.upper()}")
+    print()
 
-    # CloudVision Portal
-    configure_host_ip(
-        label="CloudVision Portal IP",
-        hint="",
-        file_path=REPO_ROOT / "avd_project" / "inventory" / "inventory.yml",
-        host_name="cv_dev_server",
-        key_names=["ansible_httpapi_host", "ansible_host"],
-    )
+    inventory_path = REPO_ROOT / "avd_project" / "inventory" / "inventory.yml"
 
-    # AVD Tooling server
-    configure_host_ip(
-        label="AVD Tooling Server IP",
-        hint="",
-        file_path=REPO_ROOT / "avd_project" / "inventory" / "inventory.yml",
-        host_name="avd",
-        key_names=["ansible_host"],
-    )
+    # Configure Dev environment
+    if environment in ("dev", "both"):
+        print("─" * 70)
+        print("DEV ENVIRONMENT")
+        print("─" * 70)
+        print()
+
+        # Dev CloudVision Portal
+        configure_host_ip(
+            label="Dev CloudVision Portal IP",
+            hint="",
+            file_path=inventory_path,
+            host_name="cv_dev_server",
+            key_names=["ansible_httpapi_host", "ansible_host"],
+        )
+
+        # Dev AVD Tooling server
+        configure_host_ip(
+            label="Dev AVD Tooling Server IP",
+            hint="",
+            file_path=inventory_path,
+            host_name="dev_avd",
+            key_names=["ansible_host"],
+        )
+
+    # Configure Prod environment
+    if environment in ("prod", "both"):
+        print("─" * 70)
+        print("PROD ENVIRONMENT")
+        print("─" * 70)
+        print()
+
+        # Prod CloudVision Portal
+        configure_host_ip(
+            label="Prod CloudVision Portal IP",
+            hint="",
+            file_path=inventory_path,
+            host_name="cv_prod_server",
+            key_names=["ansible_httpapi_host", "ansible_host"],
+        )
+
+        # Prod AVD Tooling server
+        configure_host_ip(
+            label="Prod AVD Tooling Server IP",
+            hint="",
+            file_path=inventory_path,
+            host_name="prod_avd",
+            key_names=["ansible_host"],
+        )
 
     print("=" * 70)
     print("Setup wizard complete.")

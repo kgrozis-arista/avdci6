@@ -223,7 +223,7 @@
     },
     "playbook_dir": "/home/ansible/actions-runner/_work/avdci6/avdci6/avd_project/playbooks",
     "ansible_playbook_python": "/home/ansible/avdci6/.venv/bin/python3",
-    "ansible_config_file": null,
+    "ansible_config_file": "/home/ansible/actions-runner/_work/avdci6/avdci6/avd_project/ansible.cfg",
     "ansible_role_names": [
         "arista.avd.eos_designs",
         "arista.avd.eos_cli_config_gen"
@@ -240,7 +240,7 @@
     "ansible_play_name": "Build fabric configurations with AVD",
     "role_name": "eos_designs",
     "role_path": "/home/ansible/.ansible/collections/ansible_collections/arista/avd/roles/eos_designs",
-    "role_uuid": "53ecfcea-2bca-c813-e69f-00000000001f",
+    "role_uuid": "4b94d688-496e-ba96-c8c6-00000000001f",
     "ansible_collection_name": "arista.avd",
     "ansible_role_name": "arista.avd.eos_designs",
     "groups": {
@@ -280,12 +280,12 @@
             "netbox"
         ],
         "FABRIC": [
-            "DC1-SPINE1",
-            "DC1-SPINE2",
-            "DC1-SPINE3",
             "DC2-SPINE1",
             "DC2-SPINE2",
             "DC2-SPINE3",
+            "DC1-SPINE1",
+            "DC1-SPINE2",
+            "DC1-SPINE3",
             "DC1-LEAF1A",
             "DC1-LEAF1B",
             "DC1-LEAF2A",
@@ -374,24 +374,24 @@
             "DC2-HOST2"
         ],
         "NETWORK_SERVICES": [
-            "DC2-LEAF1A",
-            "DC2-LEAF1B",
-            "DC2-LEAF2A",
-            "DC2-LEAF2B",
             "DC1-LEAF1A",
             "DC1-LEAF1B",
             "DC1-LEAF2A",
             "DC1-LEAF2B",
             "DC1-LEAF3A",
-            "DC1-LEAF3B"
+            "DC1-LEAF3B",
+            "DC2-LEAF1A",
+            "DC2-LEAF1B",
+            "DC2-LEAF2A",
+            "DC2-LEAF2B"
         ],
         "COMMON_SETTINGS": [
-            "DC1-SPINE1",
-            "DC1-SPINE2",
-            "DC1-SPINE3",
             "DC2-SPINE1",
             "DC2-SPINE2",
             "DC2-SPINE3",
+            "DC1-SPINE1",
+            "DC1-SPINE2",
+            "DC1-SPINE3",
             "DC1-LEAF1A",
             "DC1-LEAF1B",
             "DC1-LEAF2A",
@@ -405,12 +405,12 @@
         ]
     },
     "ansible_play_hosts_all": [
-        "DC1-SPINE1",
-        "DC1-SPINE2",
-        "DC1-SPINE3",
         "DC2-SPINE1",
         "DC2-SPINE2",
         "DC2-SPINE3",
+        "DC1-SPINE1",
+        "DC1-SPINE2",
+        "DC1-SPINE3",
         "DC1-LEAF1A",
         "DC1-LEAF1B",
         "DC1-LEAF2A",
@@ -423,12 +423,12 @@
         "DC2-LEAF2B"
     ],
     "ansible_play_hosts": [
-        "DC1-SPINE1",
-        "DC1-SPINE2",
-        "DC1-SPINE3",
         "DC2-SPINE1",
         "DC2-SPINE2",
         "DC2-SPINE3",
+        "DC1-SPINE1",
+        "DC1-SPINE2",
+        "DC1-SPINE3",
         "DC1-LEAF1A",
         "DC1-LEAF1B",
         "DC1-LEAF2A",
@@ -476,7 +476,7 @@
         "DC2-LEAF2A",
         "DC2-LEAF2B"
     ],
-    "omit": "__omit_place_holder__9a239b88248dc39672c63dad6683d5533b75116c",
+    "omit": "__omit_place_holder__6414c2a3743c5f01d3264670a7d8e3a18eb9dec9",
     "ansible_version": {
         "string": "2.17.14",
         "full": "2.17.14",
@@ -723,7 +723,7 @@
         },
         "playbook_dir": "/home/ansible/actions-runner/_work/avdci6/avdci6/avd_project/playbooks",
         "ansible_playbook_python": "/home/ansible/avdci6/.venv/bin/python3",
-        "ansible_config_file": null,
+        "ansible_config_file": "/home/ansible/actions-runner/_work/avdci6/avdci6/avd_project/ansible.cfg",
         "ansible_role_names": [
             "arista.avd.eos_designs",
             "arista.avd.eos_cli_config_gen"
@@ -740,7 +740,7 @@
         "ansible_play_name": "Build fabric configurations with AVD",
         "role_name": "eos_designs",
         "role_path": "/home/ansible/.ansible/collections/ansible_collections/arista/avd/roles/eos_designs",
-        "role_uuid": "53ecfcea-2bca-c813-e69f-00000000001f",
+        "role_uuid": "4b94d688-496e-ba96-c8c6-00000000001f",
         "ansible_collection_name": "arista.avd",
         "ansible_role_name": "arista.avd.eos_designs",
         "groups": {
@@ -780,12 +780,12 @@
                 "netbox"
             ],
             "FABRIC": [
-                "DC1-SPINE1",
-                "DC1-SPINE2",
-                "DC1-SPINE3",
                 "DC2-SPINE1",
                 "DC2-SPINE2",
                 "DC2-SPINE3",
+                "DC1-SPINE1",
+                "DC1-SPINE2",
+                "DC1-SPINE3",
                 "DC1-LEAF1A",
                 "DC1-LEAF1B",
                 "DC1-LEAF2A",
@@ -874,24 +874,24 @@
                 "DC2-HOST2"
             ],
             "NETWORK_SERVICES": [
-                "DC2-LEAF1A",
-                "DC2-LEAF1B",
-                "DC2-LEAF2A",
-                "DC2-LEAF2B",
                 "DC1-LEAF1A",
                 "DC1-LEAF1B",
                 "DC1-LEAF2A",
                 "DC1-LEAF2B",
                 "DC1-LEAF3A",
-                "DC1-LEAF3B"
+                "DC1-LEAF3B",
+                "DC2-LEAF1A",
+                "DC2-LEAF1B",
+                "DC2-LEAF2A",
+                "DC2-LEAF2B"
             ],
             "COMMON_SETTINGS": [
-                "DC1-SPINE1",
-                "DC1-SPINE2",
-                "DC1-SPINE3",
                 "DC2-SPINE1",
                 "DC2-SPINE2",
                 "DC2-SPINE3",
+                "DC1-SPINE1",
+                "DC1-SPINE2",
+                "DC1-SPINE3",
                 "DC1-LEAF1A",
                 "DC1-LEAF1B",
                 "DC1-LEAF2A",
@@ -905,12 +905,12 @@
             ]
         },
         "ansible_play_hosts_all": [
-            "DC1-SPINE1",
-            "DC1-SPINE2",
-            "DC1-SPINE3",
             "DC2-SPINE1",
             "DC2-SPINE2",
             "DC2-SPINE3",
+            "DC1-SPINE1",
+            "DC1-SPINE2",
+            "DC1-SPINE3",
             "DC1-LEAF1A",
             "DC1-LEAF1B",
             "DC1-LEAF2A",
@@ -923,12 +923,12 @@
             "DC2-LEAF2B"
         ],
         "ansible_play_hosts": [
-            "DC1-SPINE1",
-            "DC1-SPINE2",
-            "DC1-SPINE3",
             "DC2-SPINE1",
             "DC2-SPINE2",
             "DC2-SPINE3",
+            "DC1-SPINE1",
+            "DC1-SPINE2",
+            "DC1-SPINE3",
             "DC1-LEAF1A",
             "DC1-LEAF1B",
             "DC1-LEAF2A",
@@ -976,7 +976,7 @@
             "DC2-LEAF2A",
             "DC2-LEAF2B"
         ],
-        "omit": "__omit_place_holder__9a239b88248dc39672c63dad6683d5533b75116c",
+        "omit": "__omit_place_holder__6414c2a3743c5f01d3264670a7d8e3a18eb9dec9",
         "ansible_version": {
             "string": "2.17.14",
             "full": "2.17.14",

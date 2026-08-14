@@ -1,0 +1,97 @@
+---
+# Reset Deploy Playbook - Deploy reset configurations to all topology devices
+# This playbook copies reset configs to the standard location and deploys via CloudVision
+# After reset, run 'make build' to restore normal AVD config management
+
+- name: Copy reset configs to standard location for deployment
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    reset_configs_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
+    eos_config_dir: "{{ playbook_dir | dirname }}/AVD-information/configs"
+  tasks:
+    - name: Display banner and copy reset configs  # noqa: key-order[task]
+      block:
+        - name: Display reset deployment banner
+          ansible.builtin.debug:
+            msg: |
+              ╔════════════════════════════════════════════════════════════════╗
+              ║          Deploying Reset Configurations                        ║
+              ║       WARNING: Restoring devices to baseline state             ║
+              ║                                                                ║
+              ║  This will remove all AVD configurations!                      ║
+              ║  Devices will return to factory/startup state.                ║
+              ║                                                                ║
+              ║  Copying reset-configs/ to standard configs/ for deployment   ║
+              ╚════════════════════════════════════════════════════════════════╝
+        - name: Copy reset configs to standard location for deployment
+          ansible.builtin.shell: |
+            cp {{ reset_configs_dir }}/*.cfg {{ eos_config_dir }}/
+          changed_when: true
+      run_once: true  # noqa: run-once[task]
+
+- name: Deploy reset configurations to fabric
+  hosts: FABRIC
+  connection: local
+  gather_facts: false
+  vars:
+    cv_inventory_hostname: "{{ cloudvision_host | default('cv_dev_server') }}"
+  tasks:
+    - name: Deploy fabric reset configuration to CloudVision  # noqa: key-order[task]
+      ansible.builtin.import_role:
+        name: arista.avd.cv_deploy
+      environment:
+        PYTHONWARNINGS: "ignore:Unverified HTTPS request"
+      vars:
+        cv_verify_certs: false
+        cv_verify_devices_exist: false
+        cv_run_change_control: true
+        cv_register_detailed_results: true
+        cv_workspace_description: |
+          Reset {{ inventory_hostname }} from {{ lookup('env', 'USER') }}
+          on {{ ansible_date_time.iso8601 | default('') }}
+        cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
+        cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
+
+- name: Deploy reset configurations to hosts
+  hosts: HOSTS
+  connection: local
+  gather_facts: false
+  vars:
+    cv_inventory_hostname: "{{ cloudvision_host | default('cv_dev_server') }}"
+  tasks:
+    - name: Deploy host reset configuration to CloudVision  # noqa: key-order[task]
+      ansible.builtin.import_role:
+        name: arista.avd.cv_deploy
+      environment:
+        PYTHONWARNINGS: "ignore:Unverified HTTPS request"
+      vars:
+        cv_verify_certs: false
+        cv_verify_devices_exist: false
+        cv_run_change_control: true
+        cv_register_detailed_results: true
+        cv_workspace_description: |
+          Reset {{ inventory_hostname }} from {{ lookup('env', 'USER') }}
+          on {{ ansible_date_time.iso8601 | default('') }}
+        cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
+        cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
+      failed_when: false
+  post_tasks:
+    - name: Display completion banner  # noqa: key-order[task]
+      ansible.builtin.debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║              Reset Deployment Complete ✓                       ║
+          ║                                                                ║
+          ║  All fabric and host devices have been reset to baseline.    ║
+          ║  Reset configs are now in AVD-information/configs/            ║
+          ║                                                                ║
+          ║  Next steps:                                                   ║
+          ║  1. Verify device connectivity: ping <mgmt_ip>               ║
+          ║  2. Regenerate AVD configs: make build                         ║
+          ║     (This regenerates normal AVD configs)                      ║
+          ║  3. Redeploy to devices: make deploy                          ║
+          ╚════════════════════════════════════════════════════════════════╝
+      delegate_to: localhost
+      run_once: true  # noqa: run-once[task]

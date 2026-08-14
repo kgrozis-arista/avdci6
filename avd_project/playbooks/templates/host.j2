@@ -22,7 +22,7 @@ transceiver qsfp default-mode 4x10G
 !
 service routing protocols model multi-agent
 !
-hostname {{ inventory_hostname }}
+hostname {{ item | default(inventory_hostname) }}
 !
 spanning-tree mode rapid
 !
