@@ -92,9 +92,9 @@ ntp:
     name: Management1
     vrf: MGMT
   servers:
-  - name: 0.pool.ntp.org
+  - name: 216.239.35.4
     preferred: true
-  - name: 1.pool.ntp.org
+  - name: 216.239.35.8
   vrf: MGMT
 prefix_lists:
 - name: PL-LOOPBACKS-EVPN-OVERLAY
