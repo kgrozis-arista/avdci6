@@ -1,33 +1,26 @@
 ---
 # Reset Deploy Playbook - Deploy reset configurations to all topology devices
-# This playbook pushes reset baseline configs to fabric spines, leaves, and hosts via CloudVision
-# IMPORTANT: This copies reset configs to the standard configs/ directory.
-# Do NOT run 'make build' until you want to restore normal AVD management.
+# This playbook pushes reset baseline configs from reset-configs/ directory
+# Does NOT use the standard configs/ directory, keeping resets separate from normal AVD builds
 
-- name: Copy reset configs to standard location
+- name: Display banner
   hosts: localhost
   connection: local
   gather_facts: false
-  vars:
-    reset_configs_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
-    eos_config_dir: "{{ playbook_dir | dirname }}/AVD-information/configs"
   tasks:
-    - name: Display banner and copy reset configs  # noqa: key-order[task]
-      block:
-        - name: Display banner
-          ansible.builtin.debug:
-            msg: |
-              ╔════════════════════════════════════════════════════════════════╗
-              ║          Deploying Reset Configurations                        ║
-              ║       WARNING: Restoring devices to baseline state             ║
-              ║                                                                ║
-              ║  This will remove all AVD configurations!                      ║
-              ║  Devices will return to factory/startup state.                ║
-              ╚════════════════════════════════════════════════════════════════╝
-        - name: Copy reset configs to standard location for deployment
-          ansible.builtin.shell: |
-            cp {{ reset_configs_dir }}/*.cfg {{ eos_config_dir }}/
-          changed_when: true
+    - name: Display reset deployment banner  # noqa: key-order[task]
+      ansible.builtin.debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║          Deploying Reset Configurations                        ║
+          ║       WARNING: Restoring devices to baseline state             ║
+          ║                                                                ║
+          ║  This will remove all AVD configurations!                      ║
+          ║  Devices will return to factory/startup state.                ║
+          ║                                                                ║
+          ║  Reading from: AVD-information/reset-configs/                 ║
+          ║  NOT from standard configs/ directory                          ║
+          ╚════════════════════════════════════════════════════════════════╝
       run_once: true  # noqa: run-once[task]
 
 - name: Deploy reset configurations to fabric
@@ -36,6 +29,7 @@
   gather_facts: false
   vars:
     cv_inventory_hostname: cv_dev_server
+    deploy_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
   tasks:
     - name: Deploy fabric reset configuration to CloudVision  # noqa: key-order[task]
       ansible.builtin.import_role:
@@ -48,6 +42,7 @@
         cv_verify_devices_exist: false
         cv_run_change_control: false
         cv_register_detailed_results: true
+        deploy_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
         cv_workspace_description: |
           Reset {{ inventory_hostname }} from {{ lookup('env', 'USER') }}
           on {{ ansible_date_time.iso8601 | default('') }}
@@ -60,6 +55,7 @@
   gather_facts: false
   vars:
     cv_inventory_hostname: cv_dev_server
+    deploy_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
   tasks:
     - name: Deploy host reset configuration to CloudVision  # noqa: key-order[task]
       ansible.builtin.import_role:
@@ -72,6 +68,7 @@
         cv_verify_devices_exist: false
         cv_run_change_control: true
         cv_register_detailed_results: true
+        deploy_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
         cv_workspace_description: |
           Reset {{ inventory_hostname }} from {{ lookup('env', 'USER') }}
           on {{ ansible_date_time.iso8601 | default('') }}
@@ -86,6 +83,8 @@
           ║              Reset Deployment Complete ✓                       ║
           ║                                                                ║
           ║  All fabric and host devices have been reset to baseline.    ║
+          ║                                                                ║
+          ║  Reset configs deployed from: AVD-information/reset-configs/  ║
           ║                                                                ║
           ║  Next steps:                                                   ║
           ║  1. Verify device connectivity: ping <mgmt_ip>               ║
