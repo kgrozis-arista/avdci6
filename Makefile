@@ -361,30 +361,6 @@ deploy: dev-deploy
 validate: dev-validate
 
 # ============================================================================
-# Production Build & Deploy
-# ============================================================================
-
-step4-prod-avd: prod-build prod-deploy
-	@echo ""
-	@echo "✓ Step 4 complete: Full prod AVD workflow finished!"
-	@echo ""
-	@echo "Summary:"
-	@echo "  ✓ Generated AVD fabric configurations"
-	@echo "  ✓ Deployed to prod CloudVision Portal"
-	@echo ""
-	@echo "Next steps:"
-	@echo "  1. Review configurations in avd_project/AVD-information/"
-	@echo "  2. Monitor devices in prod CloudVision Portal"
-	@echo "  3. Run 'make dev-validate' to validate fabric state"
-	@echo ""
-
-prod-build:
-	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/build.yml
-
-prod-deploy:
-	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/deploy.yml cloudvision_host=cv_prod_server
-
-# ============================================================================
 # Configure Hosts
 # ============================================================================
 
@@ -407,6 +383,30 @@ host-build:
 
 host-deploy:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/host-deploy.yml
+
+# ============================================================================
+# Production Build & Deploy
+# ============================================================================
+
+step4-prod-avd: prod-build prod-deploy
+	@echo ""
+	@echo "✓ Step 4 complete: Full prod AVD workflow finished!"
+	@echo ""
+	@echo "Summary:"
+	@echo "  ✓ Generated AVD fabric configurations"
+	@echo "  ✓ Deployed to prod CloudVision Portal"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Review configurations in avd_project/AVD-information/"
+	@echo "  2. Monitor devices in prod CloudVision Portal"
+	@echo "  3. Run 'make dev-validate' to validate fabric state"
+	@echo ""
+
+prod-build:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/build.yml
+
+prod-deploy:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/deploy.yml cloudvision_host=cv_prod_server
 
 # ============================================================================
 # Reset & Recovery
