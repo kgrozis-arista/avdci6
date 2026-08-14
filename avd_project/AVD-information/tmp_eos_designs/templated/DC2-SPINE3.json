@@ -225,8 +225,8 @@
     "ansible_playbook_python": "/home/ansible/avdci6/.venv/bin/python3",
     "ansible_config_file": "/home/ansible/actions-runner/_work/avdci6/avdci6/avd_project/ansible.cfg",
     "ansible_role_names": [
-        "arista.avd.eos_designs",
-        "arista.avd.eos_cli_config_gen"
+        "arista.avd.eos_cli_config_gen",
+        "arista.avd.eos_designs"
     ],
     "ansible_play_role_names": [
         "arista.avd.eos_designs",
@@ -240,7 +240,7 @@
     "ansible_play_name": "Build fabric configurations with AVD",
     "role_name": "eos_designs",
     "role_path": "/home/ansible/.ansible/collections/ansible_collections/arista/avd/roles/eos_designs",
-    "role_uuid": "4b94d688-496e-fdcd-6122-000000000021",
+    "role_uuid": "4b94d688-496e-adb5-94f6-000000000021",
     "ansible_collection_name": "arista.avd",
     "ansible_role_name": "arista.avd.eos_designs",
     "groups": {
@@ -480,7 +480,7 @@
         "DC1-LEAF3A",
         "DC1-LEAF3B"
     ],
-    "omit": "__omit_place_holder__afcde6217b25a156b39b7bef8e5f3c4e810fa03a",
+    "omit": "__omit_place_holder__55070fabac4982833d1270a9a4555317d60a28c6",
     "ansible_version": {
         "string": "2.17.14",
         "full": "2.17.14",
@@ -729,8 +729,8 @@
         "ansible_playbook_python": "/home/ansible/avdci6/.venv/bin/python3",
         "ansible_config_file": "/home/ansible/actions-runner/_work/avdci6/avdci6/avd_project/ansible.cfg",
         "ansible_role_names": [
-            "arista.avd.eos_designs",
-            "arista.avd.eos_cli_config_gen"
+            "arista.avd.eos_cli_config_gen",
+            "arista.avd.eos_designs"
         ],
         "ansible_play_role_names": [
             "arista.avd.eos_designs",
@@ -744,7 +744,7 @@
         "ansible_play_name": "Build fabric configurations with AVD",
         "role_name": "eos_designs",
         "role_path": "/home/ansible/.ansible/collections/ansible_collections/arista/avd/roles/eos_designs",
-        "role_uuid": "4b94d688-496e-fdcd-6122-000000000021",
+        "role_uuid": "4b94d688-496e-adb5-94f6-000000000021",
         "ansible_collection_name": "arista.avd",
         "ansible_role_name": "arista.avd.eos_designs",
         "groups": {
@@ -984,7 +984,7 @@
             "DC1-LEAF3A",
             "DC1-LEAF3B"
         ],
-        "omit": "__omit_place_holder__afcde6217b25a156b39b7bef8e5f3c4e810fa03a",
+        "omit": "__omit_place_holder__55070fabac4982833d1270a9a4555317d60a28c6",
         "ansible_version": {
             "string": "2.17.14",
             "full": "2.17.14",
