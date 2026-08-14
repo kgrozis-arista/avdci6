@@ -123,3 +123,30 @@ jobs:
             echo "✓ No configuration changes to commit"
           fi
 
+  deploy:
+    name: Deploy to CloudVision
+    needs: build
+    runs-on: [self-hosted, prod]
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.0
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.AVDCI6_PAT }}
+
+      - name: Detect venv activation script
+        id: venv
+        run: |
+          if [ -f "/home/ansible/avdci6-prod/.venv/bin/activate" ]; then
+            echo "activate=/home/ansible/avdci6-prod/.venv/bin/activate" >> $GITHUB_OUTPUT
+            echo "✓ Found venv at /home/ansible/avdci6-prod/.venv"
+          else
+            echo "ERROR: venv not found at /home/ansible/avdci6-prod/.venv"
+            exit 1
+          fi
+
+      - name: Deploy configurations to CloudVision Portal (Prod)
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          make deploy cloudvision_host=cv_prod_server
