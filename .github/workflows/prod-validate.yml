@@ -1,0 +1,103 @@
+name: Prod Fabric Validation
+
+on:
+  workflow_dispatch:
+
+env:
+  GITHUB_ACTIONS_BOT_NAME: 'github-actions[bot]'
+  GITHUB_ACTIONS_BOT_EMAIL: 'github-actions[bot]@users.noreply.github.com'
+  AVD_OUTPUT_DIR: 'avd_project/AVD-information'
+
+jobs:
+  validate:
+    name: Validate Fabric State
+    runs-on: [self-hosted, prod]
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.0
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.AVDCI6_PAT }}
+
+      - name: Detect venv activation script
+        id: venv
+        run: |
+          if [ -f "/home/ansible/avdci6-prod/.venv/bin/activate" ]; then
+            echo "activate=/home/ansible/avdci6-prod/.venv/bin/activate" >> $GITHUB_OUTPUT
+            echo "✓ Found venv at /home/ansible/avdci6-prod/.venv"
+          else
+            echo "ERROR: venv not found at /home/ansible/avdci6-prod/.venv"
+            exit 1
+          fi
+
+      - name: Run ANTA validation tests
+        run: |
+          source ${{ steps.venv.outputs.activate }}
+          make dev-validate
+
+      - name: Upload validation reports
+        if: always()
+        uses: actions/upload-artifact@v4.3.6
+        with:
+          name: ANTA-Validation-Reports-Prod
+          path: ${{ env.AVD_OUTPUT_DIR }}/anta/reports/
+          retention-days: 30
+
+      - name: Display validation summary
+        if: always()
+        run: |
+          if [ -f "${{ env.AVD_OUTPUT_DIR }}/anta/reports/anta_report.md" ]; then
+            echo "## ANTA Validation Results" >> $GITHUB_STEP_SUMMARY
+            cat "${{ env.AVD_OUTPUT_DIR }}/anta/reports/anta_report.md" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠ Validation report not found" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Commit and push validation reports
+        if: always()
+        run: |
+          git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
+          git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
+          git add ${{ env.AVD_OUTPUT_DIR }}/anta/ 2>/dev/null || true
+
+          # Only commit and push if there are changes
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update ANTA validation reports [skip-ci]"
+            git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
+            git pull --rebase origin "${{ github.ref_name }}"
+            git push origin HEAD:"${{ github.ref_name }}"
+            echo "✓ Pushed validation report changes"
+          else
+            echo "✓ No validation report changes to commit"
+          fi
+
+      - name: Validation Summary
+        if: success()
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          ## ✓ Production Fabric Validation Complete
+
+          ANTA tests have been executed against the production fabric.
+
+          ### Results
+          - Check the **ANTA-Validation-Reports-Prod** artifact for detailed results
+          - Review validation report above for test status
+          - All test results have been committed to the repository
+
+          ### Next Steps
+          1. **Review failed tests (if any):**
+             - Fix configuration issues identified by ANTA
+             - Make changes locally and push to trigger dev validation first
+             - Once dev validation passes, merge to main for prod redeployment
+
+          2. **If all tests pass:**
+             - Fabric is operating as designed
+             - No configuration changes required
+             - Continue with normal operations
+
+          ---
+          **Repository:** ${{ github.repository }}
+          **Branch:** ${{ github.ref_name }}
+          **Timestamp:** $(date)
+          EOF
