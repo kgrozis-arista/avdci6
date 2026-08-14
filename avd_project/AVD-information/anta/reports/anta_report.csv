@@ -1,17 +1,11 @@
 Device,Test Name,Test Status,Message(s),Test description,Test category
-DC1-LEAF1A,VerifyBGPPeerSession,failure,Peer: 10.20.0.18 VRF: default - Not found - Peer: 10.20.0.20 VRF: default - Not found - Peer: 10.20.0.22 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC1-LEAF1A,VerifyReachability,failure,Destination 10.20.0.18 (DC1-SPINE1_Ethernet1/1) from 10.20.0.19 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.20 (DC1-SPINE2_Ethernet1/1) from 10.20.0.21 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.22 (DC1-SPINE3_Ethernet1/1) from 10.20.0.23 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC1-LEAF1A,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF1A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:32 DC1-LEAF1A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1617) -- Master ProcMgr (PID=1617) exiting.
  Aug 14 13:13:32 DC1-LEAF1A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3509) at tbl://stpListen/+n closed by peer (EOF)
  Aug 14 13:13:32 DC1-LEAF1A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3509))
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC1-LEAF1A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC1-LEAF1B,VerifyBGPPeerSession,failure,Peer: 10.20.0.24 VRF: default - Not found - Peer: 10.20.0.26 VRF: default - Not found - Peer: 10.20.0.28 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC1-LEAF1B,VerifyReachability,failure,Destination 10.20.0.24 (DC1-SPINE1_Ethernet2/1) from 10.20.0.25 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.26 (DC1-SPINE2_Ethernet2/1) from 10.20.0.27 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.28 (DC1-SPINE3_Ethernet2/1) from 10.20.0.29 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC1-LEAF1B,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF1A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC1-LEAF1B,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:16 DC1-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1610) -- Master ProcMgr (PID=1610) exiting.
  Aug 14 13:13:16 DC1-LEAF1B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3498) at tbl://stpListen/+n closed by peer (EOF)
@@ -19,10 +13,7 @@ Aug 14 13:13:16 DC1-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  Aug 14 13:14:16 DC1-LEAF1B Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.26 (VRF default AS 65000) 6/7 (Cease/connection collision resolution) 0 bytes 
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC1-LEAF1B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC1-LEAF2A,VerifyBGPPeerSession,failure,Peer: 10.20.0.30 VRF: default - Not found - Peer: 10.20.0.32 VRF: default - Not found - Peer: 10.20.0.34 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC1-LEAF2A,VerifyReachability,failure,Destination 10.20.0.30 (DC1-SPINE1_Ethernet3/1) from 10.20.0.31 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.32 (DC1-SPINE2_Ethernet3/1) from 10.20.0.33 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.34 (DC1-SPINE3_Ethernet3/1) from 10.20.0.35 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC1-LEAF2A,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF1B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC1-LEAF2A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:24 DC1-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.
  Aug 14 13:13:24 DC1-LEAF2A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3633) at tbl://stpListen/+n closed by peer (EOF)
@@ -35,41 +26,29 @@ Aug 14 13:13:24 DC1-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  Aug 14 13:13:24 DC1-LEAF2A ConfigAgent: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC1-LEAF2A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC1-LEAF2B,VerifyBGPPeerSession,failure,Peer: 10.20.0.36 VRF: default - Not found - Peer: 10.20.0.38 VRF: default - Not found - Peer: 10.20.0.40 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC1-LEAF2B,VerifyReachability,failure,Destination 10.20.0.36 (DC1-SPINE1_Ethernet4/1) from 10.20.0.37 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.38 (DC1-SPINE2_Ethernet4/1) from 10.20.0.39 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.40 (DC1-SPINE3_Ethernet4/1) from 10.20.0.41 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC1-LEAF2B,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF2A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC1-LEAF2B,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:25 DC1-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.
  Aug 14 13:13:26 DC1-LEAF2B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3526) at tbl://stpListen/+n closed by peer (EOF)
  Aug 14 13:13:26 DC1-LEAF2B StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3526))
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC1-LEAF2B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC1-LEAF3A,VerifyBGPPeerSession,failure,Peer: 10.20.0.84 VRF: default - Not found - Peer: 10.20.0.86 VRF: default - Not found - Peer: 10.20.0.88 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC1-LEAF3A,VerifyReachability,failure,Destination 10.20.0.84 (DC1-SPINE1_Ethernet5/1) from 10.20.0.85 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.86 (DC1-SPINE2_Ethernet5/1) from 10.20.0.87 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.88 (DC1-SPINE3_Ethernet5/1) from 10.20.0.89 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF2B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC1-LEAF3A,VerifyInterfaceDiscards,failure,Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 13050,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
-DC1-LEAF3A,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF3A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:28 DC1-LEAF3A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1618) -- Master ProcMgr (PID=1618) exiting.
  Aug 14 13:13:28 DC1-LEAF3A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3587) at tbl://stpListen/+n closed by peer (EOF)
  Aug 14 13:13:28 DC1-LEAF3A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3587))
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC1-LEAF3A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC1-LEAF3B,VerifyBGPPeerSession,failure,Peer: 10.20.0.90 VRF: default - Not found - Peer: 10.20.0.92 VRF: default - Not found - Peer: 10.20.0.94 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC1-LEAF3B,VerifyReachability,failure,Destination 10.20.0.90 (DC1-SPINE1_Ethernet6/1) from 10.20.0.91 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.92 (DC1-SPINE2_Ethernet6/1) from 10.20.0.93 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.94 (DC1-SPINE3_Ethernet6/1) from 10.20.0.95 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF3A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC1-LEAF3B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 5376555 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 5376558 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 5460972,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
-DC1-LEAF3B,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF3B,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:29 DC1-LEAF3B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1618) -- Master ProcMgr (PID=1618) exiting.
  Aug 14 13:14:33 DC1-LEAF3B Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.90 (VRF default AS 65000) 6/7 (Cease/connection collision resolution) 0 bytes 
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC1-LEAF3B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC1-SPINE1,VerifyBGPPeerSession,failure,Peer: 10.20.0.19 VRF: default - Not found - Peer: 10.20.0.25 VRF: default - Not found - Peer: 10.20.0.31 VRF: default - Not found - Peer: 10.20.0.37 VRF: default - Not found - Peer: 10.20.0.85 VRF: default - Not found - Peer: 10.20.0.91 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC1-SPINE1,VerifyReachability,failure,Destination 10.20.0.19 (DC1-LEAF1A_Ethernet51/1) from 10.20.0.18 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.25 (DC1-LEAF1B_Ethernet51/1) from 10.20.0.24 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.31 (DC1-LEAF2A_Ethernet51/1) from 10.20.0.30 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.37 (DC1-LEAF2B_Ethernet51/1) from 10.20.0.36 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.85 (DC1-LEAF3A_Ethernet51/1) from 10.20.0.84 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.91 (DC1-LEAF3B_Ethernet51/1) from 10.20.0.90 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC1-SPINE1,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF3B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC1-SPINE1,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:26 DC1-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1590) -- Master ProcMgr (PID=1590) exiting.
  Aug 14 13:13:27 DC1-SPINE1 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3496) at tbl://stpListen/+n closed by peer (EOF)
@@ -77,10 +56,7 @@ Aug 14 13:13:26 DC1-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  Aug 14 13:14:33 DC1-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.91 (VRF default AS 65103) 6/7 (Cease/connection collision resolution) 0 bytes 
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC1-SPINE1,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC1-SPINE2,VerifyBGPPeerSession,failure,Peer: 10.20.0.21 VRF: default - Not found - Peer: 10.20.0.27 VRF: default - Not found - Peer: 10.20.0.33 VRF: default - Not found - Peer: 10.20.0.39 VRF: default - Not found - Peer: 10.20.0.87 VRF: default - Not found - Peer: 10.20.0.93 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC1-SPINE2,VerifyReachability,failure,Destination 10.20.0.21 (DC1-LEAF1A_Ethernet52/1) from 10.20.0.20 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.27 (DC1-LEAF1B_Ethernet52/1) from 10.20.0.26 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.33 (DC1-LEAF2A_Ethernet52/1) from 10.20.0.32 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.39 (DC1-LEAF2B_Ethernet52/1) from 10.20.0.38 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.87 (DC1-LEAF3A_Ethernet52/1) from 10.20.0.86 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.93 (DC1-LEAF3B_Ethernet52/1) from 10.20.0.92 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC1-SPINE2,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE1,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC1-SPINE2,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:23 DC1-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1591) -- Master ProcMgr (PID=1591) exiting.
  Aug 14 13:13:23 DC1-SPINE2 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3531) at tbl://stpListen/+n closed by peer (EOF)
@@ -88,63 +64,45 @@ Aug 14 13:13:23 DC1-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  Aug 14 13:14:16 DC1-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.27 (VRF default AS 65101) 6/7 (Cease/connection collision resolution) 0 bytes 
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC1-SPINE2,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC1-SPINE3,VerifyBGPPeerSession,failure,Peer: 10.20.0.23 VRF: default - Not found - Peer: 10.20.0.29 VRF: default - Not found - Peer: 10.20.0.35 VRF: default - Not found - Peer: 10.20.0.41 VRF: default - Not found - Peer: 10.20.0.89 VRF: default - Not found - Peer: 10.20.0.95 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC1-SPINE3,VerifyReachability,failure,Destination 10.20.0.23 (DC1-LEAF1A_Ethernet53/1) from 10.20.0.22 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.29 (DC1-LEAF1B_Ethernet53/1) from 10.20.0.28 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.35 (DC1-LEAF2A_Ethernet53/1) from 10.20.0.34 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.41 (DC1-LEAF2B_Ethernet53/1) from 10.20.0.40 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.89 (DC1-LEAF3A_Ethernet53/1) from 10.20.0.88 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.20.0.95 (DC1-LEAF3B_Ethernet53/1) from 10.20.0.94 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC1-SPINE3,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE2,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC1-SPINE3,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:31 DC1-SPINE3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1588) -- Master ProcMgr (PID=1588) exiting.
  Aug 14 13:13:31 DC1-SPINE3 Stp: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to StpTxRx (pid:3536) at tbl://stpTxRxListen/+n closed by peer (EOF)
  Aug 14 13:13:31 DC1-SPINE3 Stp: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpTxRxListen/+n-in)(StpTxRx (pid:3536))
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC1-SPINE3,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC2-LEAF1A,VerifyBGPPeerSession,failure,Peer: 10.30.0.60 VRF: default - Not found - Peer: 10.30.0.62 VRF: default - Not found - Peer: 10.30.0.64 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC2-LEAF1A,VerifyReachability,failure,Destination 10.30.0.60 (DC2-SPINE1_Ethernet1/1) from 10.30.0.61 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.62 (DC2-SPINE2_Ethernet1/1) from 10.30.0.63 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.64 (DC2-SPINE3_Ethernet1/1) from 10.30.0.65 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC2-LEAF1A,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE3,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC2-LEAF1A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:24 DC2-LEAF1A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.
  Aug 14 13:13:24 DC2-LEAF1A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3585) at tbl://stpListen/+n closed by peer (EOF)
  Aug 14 13:13:24 DC2-LEAF1A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3585))
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC2-LEAF1A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC2-LEAF1B,VerifyBGPPeerSession,failure,Peer: 10.30.0.66 VRF: default - Not found - Peer: 10.30.0.68 VRF: default - Not found - Peer: 10.30.0.70 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC2-LEAF1B,VerifyReachability,failure,Destination 10.30.0.66 (DC2-SPINE1_Ethernet2/1) from 10.30.0.67 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.68 (DC2-SPINE2_Ethernet2/1) from 10.30.0.69 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.70 (DC2-SPINE3_Ethernet2/1) from 10.30.0.71 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC2-LEAF1B,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF1A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC2-LEAF1B,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:28 DC2-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1615) -- Master ProcMgr (PID=1615) exiting.
  Aug 14 13:13:28 DC2-LEAF1B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3556) at tbl://stpListen/+n closed by peer (EOF)
  Aug 14 13:13:28 DC2-LEAF1B StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3556))
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC2-LEAF1B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC2-LEAF2A,VerifyBGPPeerSession,failure,Peer: 10.30.0.72 VRF: default - Not found - Peer: 10.30.0.74 VRF: default - Not found - Peer: 10.30.0.76 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC2-LEAF2A,VerifyReachability,failure,Destination 10.30.0.72 (DC2-SPINE1_Ethernet3/1) from 10.30.0.73 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.74 (DC2-SPINE2_Ethernet3/1) from 10.30.0.75 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.76 (DC2-SPINE3_Ethernet3/1) from 10.30.0.77 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC2-LEAF1B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC2-LEAF2A,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 1657472 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 1657479 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 1412,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-LEAF2A,VerifyInterfaceErrDisabled,failure,Interface: Ethernet49/1 - Error disabled - Causes: bpduguard,Verifies there are no interfaces in the errdisabled state.,Interfaces
-DC2-LEAF2A,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-LEAF2A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:26 DC2-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1612) -- Master ProcMgr (PID=1612) exiting.
  Aug 14 13:13:26 DC2-LEAF2A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3528) at tbl://stpListen/+n closed by peer (EOF)
  Aug 14 13:13:26 DC2-LEAF2A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3528))
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC2-LEAF2A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC2-LEAF2B,VerifyBGPPeerSession,failure,Peer: 10.30.0.78 VRF: default - Not found - Peer: 10.30.0.80 VRF: default - Not found - Peer: 10.30.0.82 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC2-LEAF2B,VerifyReachability,failure,Destination 10.30.0.78 (DC2-SPINE1_Ethernet4/1) from 10.30.0.79 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.80 (DC2-SPINE2_Ethernet4/1) from 10.30.0.81 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.82 (DC2-SPINE3_Ethernet4/1) from 10.30.0.83 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC2-LEAF2A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC2-LEAF2B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 1584486 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 1584487,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
-DC2-LEAF2B,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-LEAF2B,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:29 DC2-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1614) -- Master ProcMgr (PID=1614) exiting.
  Aug 14 13:13:29 DC2-LEAF2B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3571) at tbl://stpListen/+n closed by peer (EOF)
  Aug 14 13:13:29 DC2-LEAF2B StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3571))
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC2-LEAF2B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC2-SPINE1,VerifyBGPPeerSession,failure,Peer: 10.30.0.61 VRF: default - Not found - Peer: 10.30.0.67 VRF: default - Not found - Peer: 10.30.0.73 VRF: default - Not found - Peer: 10.30.0.79 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC2-SPINE1,VerifyReachability,failure,Destination 10.30.0.61 (DC2-LEAF1A_Ethernet51/1) from 10.30.0.60 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.67 (DC2-LEAF1B_Ethernet51/1) from 10.30.0.66 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.73 (DC2-LEAF2A_Ethernet51/1) from 10.30.0.72 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.79 (DC2-LEAF2B_Ethernet51/1) from 10.30.0.78 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC2-SPINE1,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF2B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC2-SPINE1,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:31 DC2-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1594) -- Master ProcMgr (PID=1594) exiting.
  Aug 14 13:13:31 DC2-SPINE1 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3565) at tbl://stpListen/+n closed by peer (EOF)
@@ -154,34 +112,31 @@ Aug 14 13:13:31 DC2-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  Aug 14 13:13:31 DC2-SPINE1 ConfigAgent: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC2-SPINE1,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC2-SPINE2,VerifyBGPPeerSession,failure,Peer: 10.30.0.63 VRF: default - Not found - Peer: 10.30.0.69 VRF: default - Not found - Peer: 10.30.0.75 VRF: default - Not found - Peer: 10.30.0.81 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC2-SPINE2,VerifyReachability,failure,Destination 10.30.0.63 (DC2-LEAF1A_Ethernet52/1) from 10.30.0.62 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.69 (DC2-LEAF1B_Ethernet52/1) from 10.30.0.68 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.75 (DC2-LEAF2A_Ethernet52/1) from 10.30.0.74 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.81 (DC2-LEAF2B_Ethernet52/1) from 10.30.0.80 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC2-SPINE2,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-SPINE1,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC2-SPINE2,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:29 DC2-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1594) -- Master ProcMgr (PID=1594) exiting.
  Aug 14 13:13:29 DC2-SPINE2 Stp: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to StpTxRx (pid:3550) at tbl://stpTxRxListen/+n closed by peer (EOF)
  Aug 14 13:13:29 DC2-SPINE2 Stp: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpTxRxListen/+n-in)(StpTxRx (pid:3550))
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC2-SPINE2,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
-DC2-SPINE3,VerifyBGPPeerSession,failure,Peer: 10.30.0.65 VRF: default - Not found - Peer: 10.30.0.71 VRF: default - Not found - Peer: 10.30.0.77 VRF: default - Not found - Peer: 10.30.0.83 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
-DC2-SPINE3,VerifyReachability,failure,Destination 10.30.0.65 (DC2-LEAF1A_Ethernet53/1) from 10.30.0.64 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.71 (DC2-LEAF1B_Ethernet53/1) from 10.30.0.70 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.77 (DC2-LEAF2A_Ethernet53/1) from 10.30.0.76 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address' - Destination 10.30.0.83 (DC2-LEAF2B_Ethernet53/1) from 10.30.0.82 in VRF default - Error when executing ping: 'ping: bind: Cannot assign requested address',Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
-DC2-SPINE3,VerifyInterfacesStatus,failure,Interface: Loopback0 - Not configured,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-SPINE2,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC2-SPINE3,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 14 13:13:34 DC2-SPINE3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1592) -- Master ProcMgr (PID=1592) exiting.
  Aug 14 13:13:35 DC2-SPINE3 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3536) at tbl://stpListen/+n closed by peer (EOF)
  Aug 14 13:13:35 DC2-SPINE3 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3536))
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
-DC2-SPINE3,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: NTP is disabled.,Verifies if NTP is synchronised.,System
+DC2-SPINE3,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
+DC1-LEAF1A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF1A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-LEAF1A,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC1-LEAF1A,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC1-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF1A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -190,13 +145,16 @@ DC1-LEAF1A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF1A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF1A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF1A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-LEAF1B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF1B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF1B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-LEAF1B,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC1-LEAF1B,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC1-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF1B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -205,13 +163,16 @@ DC1-LEAF1B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF1B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF1B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF1B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-LEAF2A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-LEAF2A,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC1-LEAF2A,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC1-LEAF2A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF2A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -220,13 +181,16 @@ DC1-LEAF2A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF2A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF2A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF2A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-LEAF2B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF2B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF2B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF2B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-LEAF2B,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC1-LEAF2B,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC1-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF2B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -235,12 +199,15 @@ DC1-LEAF2B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF2B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF2B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF2B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-LEAF3A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF3A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF3A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF3A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-LEAF3A,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC1-LEAF3A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF3A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF3A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF3A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF3A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -249,12 +216,15 @@ DC1-LEAF3A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF3A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF3A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF3A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-LEAF3B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF3B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF3B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF3B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-LEAF3B,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC1-LEAF3B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF3B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF3B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF3B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF3B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -263,13 +233,16 @@ DC1-LEAF3B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF3B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF3B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF3B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-SPINE1,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE1,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-SPINE1,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC1-SPINE1,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC1-SPINE1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-SPINE1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-SPINE1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-SPINE1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -278,13 +251,16 @@ DC1-SPINE1,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE1,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-SPINE2,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE2,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE2,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE2,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-SPINE2,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC1-SPINE2,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC1-SPINE2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-SPINE2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-SPINE2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-SPINE2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -293,13 +269,16 @@ DC1-SPINE2,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE2,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-SPINE3,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE3,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE3,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE3,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-SPINE3,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC1-SPINE3,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC1-SPINE3,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-SPINE3,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE3,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-SPINE3,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-SPINE3,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE3,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE3,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -308,13 +287,16 @@ DC1-SPINE3,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE3,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE3,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE3,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-LEAF1A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF1A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC2-LEAF1A,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC2-LEAF1A,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF1A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -323,13 +305,16 @@ DC2-LEAF1A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF1A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF1A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF1A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-LEAF1B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF1B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF1B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF1B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC2-LEAF1B,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC2-LEAF1B,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF1B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -338,11 +323,14 @@ DC2-LEAF1B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF1B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF1B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF1B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-LEAF2A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC2-LEAF2A,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC2-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF2A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -351,12 +339,15 @@ DC2-LEAF2A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF2A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF2A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF2A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-LEAF2B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF2B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF2B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC2-LEAF2B,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC2-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF2B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -365,13 +356,16 @@ DC2-LEAF2B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF2B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF2B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF2B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-SPINE1,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE1,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC2-SPINE1,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC2-SPINE1,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-SPINE1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-SPINE1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-SPINE1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-SPINE1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -380,13 +374,16 @@ DC2-SPINE1,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-SPINE1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-SPINE1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-SPINE1,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-SPINE2,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE2,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE2,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE2,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC2-SPINE2,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC2-SPINE2,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-SPINE2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-SPINE2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-SPINE2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-SPINE2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -395,13 +392,16 @@ DC2-SPINE2,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-SPINE2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-SPINE2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-SPINE2,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-SPINE3,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE3,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE3,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE3,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC2-SPINE3,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
 DC2-SPINE3,VerifyInterfaceDiscards,success,,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-SPINE3,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-SPINE3,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE3,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-SPINE3,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-SPINE3,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE3,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE3,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
