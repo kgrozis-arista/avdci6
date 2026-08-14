@@ -9,7 +9,7 @@
   vars:
     reset_output_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
   pre_tasks:
-    - name: Display banner and create output directory
+    - name: Display banner and create output directory  # noqa: key-order[task]
       block:
         - name: Display banner
           ansible.builtin.debug:
@@ -25,7 +25,7 @@
             mode: '0755'
       run_once: true  # noqa: run-once[task]
   tasks:
-    - name: Generate reset configuration from template
+    - name: Generate reset configuration from template  # noqa: key-order[task]
       ansible.builtin.template:
         src: reset-config.j2
         dest: "{{ reset_output_dir }}/{{ inventory_hostname }}.cfg"

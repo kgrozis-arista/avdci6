@@ -10,7 +10,7 @@
     reset_configs_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
     eos_config_dir: "{{ playbook_dir | dirname }}/AVD-information/configs"
   tasks:
-    - name: Display banner and copy reset configs
+    - name: Display banner and copy reset configs  # noqa: key-order[task]
       block:
         - name: Display banner
           ansible.builtin.debug:
@@ -35,7 +35,7 @@
   vars:
     cv_inventory_hostname: cv_dev_server
   tasks:
-    - name: Deploy fabric reset configuration to CloudVision
+    - name: Deploy fabric reset configuration to CloudVision  # noqa: key-order[task]
       ansible.builtin.import_role:
         name: arista.avd.cv_deploy
       environment:
@@ -59,7 +59,7 @@
   vars:
     cv_inventory_hostname: cv_dev_server
   tasks:
-    - name: Deploy host reset configuration to CloudVision
+    - name: Deploy host reset configuration to CloudVision  # noqa: key-order[task]
       ansible.builtin.import_role:
         name: arista.avd.cv_deploy
       environment:
@@ -77,7 +77,7 @@
         cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
       failed_when: false
   post_tasks:
-    - name: Display completion banner
+    - name: Display completion banner  # noqa: key-order[task]
       ansible.builtin.debug:
         msg: |
           ╔════════════════════════════════════════════════════════════════╗
@@ -92,4 +92,3 @@
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
       run_once: true  # noqa: run-once[task]
-
