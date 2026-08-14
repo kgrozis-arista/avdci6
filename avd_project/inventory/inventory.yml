@@ -23,6 +23,12 @@ all:
           ansible_user: 10.18.157.189
           # yamllint disable-line rule:line-length
           ansible_password: "{{ lookup('file', lookup('env', 'HOME') + '/DEV_AVDCI6_TOKEN') }}"
+        cv_prod_server:
+          ansible_httpapi_host: 10.18.134.214
+          ansible_host: 10.18.134.214
+          ansible_user: 10.18.134.214
+          # yamllint disable-line rule:line-length
+          ansible_password: "{{ lookup('file', lookup('env', 'HOME') + '/PROD_AVDCI6_TOKEN') }}"
 
     # AVD Tooling server for remote automation
     AVD_TOOLING:
@@ -33,8 +39,10 @@ all:
         ansible_become_method: sudo
         ansible_become_password: ansible
       hosts:
-        avd:
+        dev_avd:
           ansible_host: 10.18.157.188
+        prod_avd:
+          ansible_host: 10.18.137.158
 
     # NetBox for inventory management
     NETBOX:
