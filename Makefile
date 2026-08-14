@@ -188,14 +188,16 @@ setup:
 	@scripts/setup-venv.sh
 
 setup-wizard:
-	@$(VENV)/bin/python3 scripts/setup-wizard.py 2>/dev/null || \
-	  python3 scripts/setup-wizard.py
+	@$(VENV)/bin/python3 scripts/setup-wizard.py both 2>/dev/null || \
+	  python3 scripts/setup-wizard.py both
 
 # Dev environment targets
 dev-setup: setup
 	@echo "✓ Dev local setup complete"
 
-dev-setup-wizard: setup-wizard
+dev-setup-wizard:
+	@$(VENV)/bin/python3 scripts/setup-wizard.py dev 2>/dev/null || \
+	  python3 scripts/setup-wizard.py dev
 	@echo "✓ Dev inventory configuration complete"
 
 dev-bootstrap-avd-server:
@@ -235,7 +237,9 @@ dev-setup-github-runner:
 prod-setup: setup
 	@echo "✓ Prod local setup complete"
 
-prod-setup-wizard: setup-wizard
+prod-setup-wizard:
+	@$(VENV)/bin/python3 scripts/setup-wizard.py prod 2>/dev/null || \
+	  python3 scripts/setup-wizard.py prod
 	@echo "✓ Prod inventory configuration complete"
 
 prod-bootstrap-avd-server:

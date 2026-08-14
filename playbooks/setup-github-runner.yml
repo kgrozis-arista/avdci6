@@ -22,8 +22,9 @@
     runner_version: "2.336.0"
     runner_url: "https://github.com/{{ github_repo }}"
     runner_home: "/home/{{ ansible_user }}/actions-runner"
-    runner_name: "{{ inventory_hostname | regex_replace('^.*-', '') }}-dev"
-    runner_labels: "self-hosted,Linux,X64,dev"
+    environment: "{{ inventory_hostname.split('_')[0] }}"
+    runner_name: "{{ inventory_hostname | regex_replace('^.*-', '') }}-{{ environment }}"
+    runner_labels: "self-hosted,Linux,X64,{{ environment }}"
     runner_work_folder: "_work"
     github_repo: "kgrozis-arista/avdci6"
 
