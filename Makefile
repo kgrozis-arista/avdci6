@@ -407,7 +407,7 @@ prod-build:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/build.yml
 
 prod-deploy:
-	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/deploy.yml cloudvision_host=cv_prod_server
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml -e "cloudvision_host=cv_prod_server" playbooks/deploy.yml
 
 # ============================================================================
 # Reset & Recovery
