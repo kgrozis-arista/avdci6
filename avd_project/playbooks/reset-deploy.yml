@@ -79,6 +79,7 @@
           on {{ ansible_date_time.iso8601 | default('') }}
         cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
         cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
+      ignore_errors: true
 
   post_tasks:
     - name: Display completion banner
