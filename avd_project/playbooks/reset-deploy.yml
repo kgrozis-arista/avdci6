@@ -1,6 +1,8 @@
 ---
 # Reset Deploy Playbook - Deploy reset configurations to all topology devices
 # This playbook pushes reset baseline configs to fabric spines, leaves, and hosts via CloudVision
+# IMPORTANT: This copies reset configs to the standard configs/ directory.
+# Do NOT run 'make build' until you want to restore normal AVD management.
 
 - name: Copy reset configs to standard location
   hosts: localhost
