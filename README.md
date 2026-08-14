@@ -17,6 +17,7 @@ A demonstration of **Arista Validated Design (AVD) 6.x** applied to a multi-data
 - [Network Design](#network-design)
 - [Build, Deploy & Validate](#build-deploy--validate)
 - [Configure Hosts](#configure-hosts)
+- [Reset & Recovery](#reset--recovery)
 - [Continuous Integration (CI/CD)](#continuous-integration-cicd)
 - [Validation](#validation)
 - [Modern Operating Model](#modern-operating-model)
@@ -120,8 +121,11 @@ avdci6/
 │       ├── validate.yml             # Run ANTA validation tests
 │       ├── host-build.yml           # Generate host endpoint configs
 │       ├── host-deploy.yml          # Deploy host configs to CloudVision
+│       ├── reset-build.yml          # Generate reset baseline configs
+│       ├── reset-deploy.yml         # Deploy reset configs to CloudVision
 │       └── templates/
-│           └── host.j2              # Jinja2 template for host configs
+│           ├── host.j2              # Jinja2 template for host configs
+│           └── reset-config.j2      # Jinja2 template for reset configs
 └── README.md                         # This file
 ```
 
@@ -279,6 +283,21 @@ Repeatable workflow for generating and deploying host endpoint configurations:
 
 **When:** Run to configure server/host endpoints connected to the fabric.
 
+### **Step 99: Reset Topology** (`make step99-reset`)
+Emergency recovery workflow to restore all devices to baseline state:
+- **Reset Build** — Generate baseline reset configurations for fabric and hosts
+- **Reset Deploy** — Push reset configs to CloudVision Portal
+
+**When:** Run to wipe all AVD configurations and restore devices to factory startup state.
+
+**Important Notes:**
+- Reset configurations are stored separately in `avd_project/AVD-information/reset-configs/`
+- Normal AVD configs remain in `avd_project/AVD-information/configs/`
+- After running reset, execute `make build` to regenerate and redeploy normal AVD configurations
+- This is a **destructive operation** — all network configuration will be removed
+
+---
+
 ## Network Design
 
 ### Underlay Routing
@@ -421,6 +440,75 @@ make host-deploy
 Deploys host configurations to CloudVision Portal using cv_deploy role. Configuration is read from `~/DEV_AVDCI6_TOKEN` (local token file).
 
 **Note:** Unlike fabric deployment, host configurations use `cv_run_change_control: false` for faster orchestration.
+
+---
+
+## Reset & Recovery
+
+### Step 99: Reset Topology to Baseline
+
+Use this workflow when you need to restore all devices to their baseline state, removing all AVD-managed configurations:
+
+```bash
+make step99-reset
+```
+
+This orchestrates:
+1. **Reset Build** — Generate baseline reset configurations for all fabric (spines, leafs) and host devices
+2. **Reset Deploy** — Deploy reset configs to CloudVision Portal
+
+### How Reset Works
+
+**Reset Configurations:**
+- Stored separately in `avd_project/AVD-information/reset-configs/`
+- Based on factory startup configuration with minimal management settings
+- Includes standard usernames (admin, ansible, cvpadmin, cvptemp)
+- Configures Management1 interface for connectivity
+- Disables IP routing, removes all VLAN/routing configuration
+
+**Reset vs. Normal Configs:**
+- Reset: Minimal baseline (factory state)
+- Normal AVD: Full fabric design (eos_designs generated)
+- These use **separate directories** to prevent conflicts
+
+### Reset Workflow
+
+1. **Run reset:**
+   ```bash
+   make step99-reset
+   ```
+   - Generates reset configs from template
+   - Confirms deployment (type "RESET" to proceed)
+   - Deploys to CloudVision Portal
+   - Devices revert to baseline state
+
+2. **Restore normal management:**
+   ```bash
+   make build     # Regenerates normal AVD configs
+   make deploy    # Deploys normal configs to CloudVision
+   ```
+
+3. **Verify devices:**
+   ```bash
+   ping <device_mgmt_ip>
+   ssh admin@<device_mgmt_ip>
+   show version
+   ```
+
+### When to Use Reset
+
+- **Device Troubleshooting:** Clear all custom config to return to known state
+- **Multi-tenancy Cleanup:** Reset before repurposing device in different datacenter
+- **Configuration Mistakes:** If invalid config is deployed and needs rollback
+- **Lab Testing:** Return virtual devices to clean state between test runs
+
+### Important Warnings
+
+⚠️ **DESTRUCTIVE OPERATION**
+- All network configuration will be removed
+- Device will disconnect from fabric
+- All routing (BGP, OSPF, etc.) will be disabled
+- Ensure you want this operation before typing "RESET"
 
 ---
 
@@ -718,16 +806,31 @@ ansible-playbook -vvv playbooks/build.yml
 
 ```bash
 make help                    # Show all available targets
-make step1-setup             # One-time bootstrap (local + remote server)
+
+# Bootstrap (one-time setup)
+make step1-setup             # Full bootstrap: local + remote server
+
+# Fabric Operations
 make step2-avd               # Full fabric workflow (build → deploy → validate)
-make step3-hosts             # Host configuration (host-build → host-deploy)
 make build                   # Generate fabric configs only
 make deploy                  # Deploy fabric to CloudVision only
 make validate                # Run ANTA tests only
+
+# Host Configuration
+make step3-hosts             # Host configuration (host-build → host-deploy)
 make host-build              # Generate host endpoint configs only
 make host-deploy             # Deploy host configs to CloudVision only
+
+# Reset & Recovery
+make step99-reset            # Reset topology to baseline (reset-build → reset-deploy)
+make reset-build             # Generate reset configs only
+make reset-deploy            # Deploy reset configs to CloudVision only
+
+# Validation & Diagnostics
+make check                   # Verify Ansible/venv configuration
 make syntax                  # Check playbook syntax
 make lint                    # Run ansible-lint
+make clean                   # Remove generated outputs
 ```
 
 ### Support Resources
@@ -738,8 +841,8 @@ make lint                    # Run ansible-lint
 
 ---
 
-**Last Updated:** August 12, 2026  
-**Version:** 2.0 — Step 3 Host Configuration Added  
+**Last Updated:** August 14, 2026  
+**Version:** 3.0 — Step 99 Reset & Recovery Added  
 **AVD Version:** 6.3+  
 **Ansible:** 2.14+  
 **Python:** 3.8+
