@@ -56,6 +56,7 @@
   connection: local
   gather_facts: false
   vars:
+    inventory_dir: "{{ playbook_dir | dirname }}/inventory"
     output_dir: "{{ inventory_dir }}/intended"
     reset_output_dir: "{{ output_dir }}/reset-configs"
     host_list:
