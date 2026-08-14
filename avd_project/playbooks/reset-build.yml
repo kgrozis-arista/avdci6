@@ -8,7 +8,6 @@
   gather_facts: false
   vars:
     reset_output_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
-
   pre_tasks:
     - name: Display banner and create output directory
       block:
@@ -25,7 +24,6 @@
             state: directory
             mode: '0755'
       run_once: true
-
   tasks:
     - name: Generate reset configuration from template
       ansible.builtin.template:
@@ -35,7 +33,6 @@
       vars:
         device_name: "{{ inventory_hostname }}"
         device_mgmt_ip: "{{ ansible_host }}"
-
   post_tasks:
     - name: Display completion banner
       ansible.builtin.debug:
@@ -56,7 +53,6 @@
   connection: local
   gather_facts: false
   vars:
-    inventory_dir: "{{ playbook_dir | dirname }}/inventory"
     reset_output_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
     host_list:
       - DC1-HOST1
@@ -68,14 +64,12 @@
       DC1-HOST2: 192.168.0.31
       DC2-HOST1: 192.168.0.32
       DC2-HOST2: 192.168.0.33
-
   pre_tasks:
     - name: Ensure reset-configs directory exists
       ansible.builtin.file:
         path: "{{ reset_output_dir }}"
         state: directory
         mode: '0755'
-
   tasks:
     - name: Generate reset configuration from template for hosts
       ansible.builtin.template:

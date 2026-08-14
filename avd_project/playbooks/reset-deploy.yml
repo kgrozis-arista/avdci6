@@ -9,7 +9,6 @@
   vars:
     reset_configs_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
     eos_config_dir: "{{ playbook_dir | dirname }}/AVD-information/configs"
-
   tasks:
     - name: Display banner and copy reset configs
       block:
@@ -35,7 +34,6 @@
   gather_facts: false
   vars:
     cv_inventory_hostname: cv_dev_server
-
   tasks:
     - name: Deploy fabric reset configuration to CloudVision
       ansible.builtin.import_role:
@@ -60,7 +58,6 @@
   gather_facts: false
   vars:
     cv_inventory_hostname: cv_dev_server
-
   tasks:
     - name: Deploy host reset configuration to CloudVision
       ansible.builtin.import_role:
@@ -79,7 +76,6 @@
         cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
         cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
       failed_when: false
-
   post_tasks:
     - name: Display completion banner
       ansible.builtin.debug:
