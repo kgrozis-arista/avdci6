@@ -26,7 +26,7 @@
       run_once: true
 
     - name: Copy reset configs to standard location for deployment
-      ansible.builtin.command: |
+      ansible.builtin.shell: |
         cp {{ reset_configs_dir }}/*.cfg {{ eos_config_dir }}/
       delegate_to: localhost
       run_once: true
