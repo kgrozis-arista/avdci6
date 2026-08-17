@@ -20,6 +20,8 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.25/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-SPINE1
     peer_interface: Ethernet2/1
@@ -31,6 +33,8 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.27/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-SPINE2
     peer_interface: Ethernet2/1
@@ -42,6 +46,8 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.29/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-SPINE3
     peer_interface: Ethernet2/1
@@ -68,6 +74,7 @@ loopback_interfaces:
   description: ROUTER_ID
   shutdown: false
   ip_address: 10.10.1.5/32
+  ospf_area: 0.0.0.0
 management_api_http:
   enable_https: true
   enable_vrfs:
@@ -96,63 +103,19 @@ ntp:
     preferred: true
   - name: 216.239.35.8
   vrf: MGMT
-prefix_lists:
-- name: PL-LOOPBACKS-EVPN-OVERLAY
-  sequence_numbers:
-  - sequence: 10
-    action: permit 10.10.1.0/24 eq 32
-route_maps:
-- name: RM-CONN-2-BGP
-  sequence_numbers:
-  - sequence: 10
-    type: permit
-    match:
-    - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
-router_bgp:
-  as: '65101'
-  router_id: 10.10.1.5
-  maximum_paths:
-    paths: 4
-  bgp_defaults:
-  - timers bgp 5 15
-  - neighbor default send-community
-  - neighbor default send-community extended
-  bgp:
-    default:
-      ipv4_unicast: false
-  peer_groups:
-  - name: IPv4-UNDERLAY-PEERS
-    metadata:
-      type: ipv4
-    send_community: all
-    maximum_routes: 256000
-  neighbors:
-  - ip_address: 10.20.0.24
-    peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65000'
-    metadata:
-      peer: DC1-SPINE1
-    description: DC1-SPINE1_Ethernet2/1
-  - ip_address: 10.20.0.26
-    peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65000'
-    metadata:
-      peer: DC1-SPINE2
-    description: DC1-SPINE2_Ethernet2/1
-  - ip_address: 10.20.0.28
-    peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65000'
-    metadata:
-      peer: DC1-SPINE3
-    description: DC1-SPINE3_Ethernet2/1
-  redistribute:
-    connected:
+router_ospf:
+  process_ids:
+  - id: 100
+    passive_interface_default: true
+    router_id: 10.10.1.5
+    bfd_enable: false
+    no_passive_interfaces:
+    - Ethernet51/1
+    - Ethernet52/1
+    - Ethernet53/1
+    max_lsa: 12000
+    graceful_restart:
       enabled: true
-      route_map: RM-CONN-2-BGP
-  address_family_ipv4:
-    peer_groups:
-    - name: IPv4-UNDERLAY-PEERS
-      activate: true
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: none
