@@ -275,9 +275,15 @@ router_bgp:
       tenants:
       - Customer1
     rd: 10.10.3.13:20030
+    rd_evpn_domain:
+      domain: remote
+      rd: 10.10.3.13:20030
     route_targets:
       both:
       - 20030:20030
+      import_export_evpn_domains:
+      - domain: remote
+        route_target: 20030:20030
     redistribute_routes:
     - learned
   - id: 10
@@ -285,9 +291,15 @@ router_bgp:
       tenants:
       - Customer2
     rd: 10.10.3.13:10010
+    rd_evpn_domain:
+      domain: remote
+      rd: 10.10.3.13:10010
     route_targets:
       both:
       - 10010:10010
+      import_export_evpn_domains:
+      - domain: remote
+        route_target: 10010:10010
     redistribute_routes:
     - learned
   - id: 20
@@ -295,9 +307,15 @@ router_bgp:
       tenants:
       - Customer2
     rd: 10.10.3.13:10020
+    rd_evpn_domain:
+      domain: remote
+      rd: 10.10.3.13:10020
     route_targets:
       both:
       - 10020:10020
+      import_export_evpn_domains:
+      - domain: remote
+        route_target: 10020:10020
     redistribute_routes:
     - learned
   - id: 50
@@ -305,12 +323,22 @@ router_bgp:
       tenants:
       - Customer2
     rd: 10.10.3.13:10050
+    rd_evpn_domain:
+      domain: remote
+      rd: 10.10.3.13:10050
     route_targets:
       both:
       - 10050:10050
+      import_export_evpn_domains:
+      - domain: remote
+        route_target: 10050:10050
     redistribute_routes:
     - learned
   address_family_evpn:
+    neighbor_default:
+      next_hop_self_received_evpn_routes:
+        enable: true
+        inter_domain: true
     peer_groups:
     - name: EVPN-OVERLAY-PEERS
       activate: true
