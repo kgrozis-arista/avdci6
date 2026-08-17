@@ -68,6 +68,18 @@ ethernet_interfaces:
     peer_type: spine
   switchport:
     enabled: false
+- name: Ethernet1
+  description: DC2-HOST2 dual uplinks
+  shutdown: false
+  channel_group:
+    id: 1
+    mode: active
+  metadata:
+    peer: DC2-HOST2
+    peer_interface: Ethernet2
+    peer_type: server
+    peer_key: servers
+    port_profile: TENANT_Customer1_Customer2
 hostname: DC2-LEAF2B
 ip_igmp_snooping:
   globally_enabled: true
@@ -150,6 +162,17 @@ port_channel_interfaces:
     trunk:
       groups:
       - MLAG
+- name: Port-Channel1
+  description: DC2-HOST2 LAG
+  shutdown: false
+  mlag: 1
+  spanning_tree_portfast: edge
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      allowed_vlan: 10,20,30,50
+      native_vlan: 4092
 prefix_lists:
 - name: PL-LOOPBACKS-EVPN-OVERLAY
   sequence_numbers:

@@ -132,6 +132,8 @@ all:
     # Connected endpoints (servers/hosts) for endpoint connectivity
     CONNECTED_ENDPOINTS:
       children:
+        DC1_LEAVES:
+        DC2_LEAVES:
         HOSTS:
 
     # Hosts - all servers/endpoints across datacenters

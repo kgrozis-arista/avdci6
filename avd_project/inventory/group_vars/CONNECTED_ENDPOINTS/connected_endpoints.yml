@@ -2,61 +2,62 @@
 # Connected endpoints (servers/hosts) configuration for DC1 and DC2
 # Defines how endpoints are connected to the fabric
 
-endpoints:
+# Reusable port profiles for consistent endpoint configurations
+port_profiles:
+  - profile: TENANT_Customer1_Customer2
+    mode: trunk
+    vlans: "10,20,30,50"
+    native_vlan: 4092
+    spanning_tree_portfast: edge
+
+# Server/host endpoint definitions
+servers:
   # DC1 Hosts
   - name: DC1-HOST1
-    type: server
-    devices:
-      - name: DC1-LEAF1A
-        adapters:
-          - endpoint_ports: [Ethernet1]
-            switch_ports: [Ethernet1]
-            mtu: 1500
-      - name: DC1-LEAF1B
-        adapters:
-          - endpoint_ports: [Ethernet2]
-            switch_ports: [Ethernet1]
-            mtu: 1500
+    rack: DC1-RackA
+    adapters:
+      - endpoint_ports: [Ethernet1, Ethernet2]
+        switch_ports: [Ethernet1, Ethernet1]
+        switches: [DC1-LEAF1A, DC1-LEAF1B]
+        description: DC1-HOST1 dual uplinks
+        profile: TENANT_Customer1_Customer2
+        port_channel:
+          description: DC1-HOST1 LAG
+          mode: active
 
   - name: DC1-HOST2
-    type: server
-    devices:
-      - name: DC1-LEAF2A
-        adapters:
-          - endpoint_ports: [Ethernet1]
-            switch_ports: [Ethernet1]
-            mtu: 1500
-      - name: DC1-LEAF2B
-        adapters:
-          - endpoint_ports: [Ethernet2]
-            switch_ports: [Ethernet1]
-            mtu: 1500
+    rack: DC1-RackB
+    adapters:
+      - endpoint_ports: [Ethernet1, Ethernet2]
+        switch_ports: [Ethernet1, Ethernet1]
+        switches: [DC1-LEAF2A, DC1-LEAF2B]
+        description: DC1-HOST2 dual uplinks
+        profile: TENANT_Customer1_Customer2
+        port_channel:
+          description: DC1-HOST2 LAG
+          mode: active
 
   # DC2 Hosts
   - name: DC2-HOST1
-    type: server
-    devices:
-      - name: DC2-LEAF1A
-        adapters:
-          - endpoint_ports: [Ethernet1]
-            switch_ports: [Ethernet1]
-            mtu: 1500
-      - name: DC2-LEAF1B
-        adapters:
-          - endpoint_ports: [Ethernet2]
-            switch_ports: [Ethernet1]
-            mtu: 1500
+    rack: DC2-RackA
+    adapters:
+      - endpoint_ports: [Ethernet1, Ethernet2]
+        switch_ports: [Ethernet1, Ethernet1]
+        switches: [DC2-LEAF1A, DC2-LEAF1B]
+        description: DC2-HOST1 dual uplinks
+        profile: TENANT_Customer1_Customer2
+        port_channel:
+          description: DC2-HOST1 LAG
+          mode: active
 
   - name: DC2-HOST2
-    type: server
-    devices:
-      - name: DC2-LEAF2A
-        adapters:
-          - endpoint_ports: [Ethernet1]
-            switch_ports: [Ethernet1]
-            mtu: 1500
-      - name: DC2-LEAF2B
-        adapters:
-          - endpoint_ports: [Ethernet2]
-            switch_ports: [Ethernet1]
-            mtu: 1500
+    rack: DC2-RackB
+    adapters:
+      - endpoint_ports: [Ethernet1, Ethernet2]
+        switch_ports: [Ethernet1, Ethernet1]
+        switches: [DC2-LEAF2A, DC2-LEAF2B]
+        description: DC2-HOST2 dual uplinks
+        profile: TENANT_Customer1_Customer2
+        port_channel:
+          description: DC2-HOST2 LAG
+          mode: active
