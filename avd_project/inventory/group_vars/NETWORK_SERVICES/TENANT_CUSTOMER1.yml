@@ -1,16 +1,16 @@
 ---
-tenant_dev:
-  name: Dev
+tenant_customer1:
+  name: Customer1
   mac_vrf_vni_base: 20000
   vrfs:
-    - name: Dev
+    - name: Customer1
       vtep_diagnostic:
         loopback: 7
         loopback_ip_range: 9.9.2.0/27
       vrf_vni: 300
       svis:
         - id: 30
-          name: VLAN30_VRF_Dev
-          # tags: [ Dev ]
+          name: VLAN30_VRF_Customer1
+          # tags: [ Customer1 ]
           enabled: true
           ip_address_virtual: 30.30.30.1/24

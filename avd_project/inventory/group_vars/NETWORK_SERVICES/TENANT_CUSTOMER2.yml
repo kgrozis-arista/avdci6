@@ -1,22 +1,22 @@
 ---
-tenant_prod:
-  name: Prod
+tenant_customer2:
+  name: Customer2
   mac_vrf_vni_base: 10000
   vrfs:
-    - name: Prod
+    - name: Customer2
       vrf_vni: 100
       vtep_diagnostic:
         loopback: 6
         loopback_ip_range: 9.9.1.0/27
       svis:
         - id: 10
-          name: VRF_Prod_VLAN10
-          # tags: [ Prod ]
+          name: VRF_Customer2_VLAN10
+          # tags: [ Customer2 ]
           enabled: true
           ip_address_virtual: 10.10.10.1/24
         - id: 20
-          name: VRF_Prod_VLAN20
-          # tags: [ Dev ]
+          name: VRF_Customer2_VLAN20
+          # tags: [ Customer2 ]
           enabled: true
           ip_address_virtual: 20.20.20.1/24
   l2vlans:
