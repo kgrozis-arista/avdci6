@@ -92,7 +92,6 @@ reports/
 # Exclude temporary AVD design and deploy files (conflict-prone during rebases)
 avd_project/AVD-information/tmp_eos_designs/
 avd_project/AVD-information/tmp_eos_cli_config_gen/
-avd_project/AVD-information/tmp_cv_deploy/
 # Also allow HTML files in AVD-information directory
 !avd_project/AVD-information/**/*.html
 *.html
