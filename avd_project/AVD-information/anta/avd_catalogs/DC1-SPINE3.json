@@ -222,6 +222,30 @@
         },
         "bgp_peers": [
           {
+            "peer_address": "10.10.1.4",
+            "vrf": "default"
+          },
+          {
+            "peer_address": "10.10.1.5",
+            "vrf": "default"
+          },
+          {
+            "peer_address": "10.10.1.6",
+            "vrf": "default"
+          },
+          {
+            "peer_address": "10.10.1.7",
+            "vrf": "default"
+          },
+          {
+            "peer_address": "10.10.1.15",
+            "vrf": "default"
+          },
+          {
+            "peer_address": "10.10.1.16",
+            "vrf": "default"
+          },
+          {
             "peer_address": "10.20.0.23",
             "vrf": "default"
           },

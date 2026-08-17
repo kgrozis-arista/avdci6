@@ -1,13 +1,28 @@
 Device,Test Name,Test Status,Message(s),Test description,Test category
+DC1-LEAF1A,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
+DC1-LEAF1B,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
+DC1-LEAF2A,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
+DC1-LEAF2B,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
+DC1-LEAF3A,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
+DC1-LEAF3B,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
+DC2-LEAF1A,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
+DC2-LEAF1B,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
+DC2-LEAF2A,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
+DC2-LEAF2B,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
 DC1-LEAF1A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF1A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
 DC1-LEAF1A,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF1A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets in port channels.,Interfaces
 DC1-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF1A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF1A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
+DC1-LEAF1A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF1A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC1-LEAF1A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC1-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -21,10 +36,15 @@ DC1-LEAF1B,VerifyRunningConfigDiffs,success,,Verifies there is no difference bet
 DC1-LEAF1B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF1B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
 DC1-LEAF1B,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF1B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets in port channels.,Interfaces
 DC1-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF1B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF1B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
+DC1-LEAF1B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF1B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC1-LEAF1B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC1-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -38,10 +58,15 @@ DC1-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference bet
 DC1-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
 DC1-LEAF2A,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF2A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets in port channels.,Interfaces
 DC1-LEAF2A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF2A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF2A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
+DC1-LEAF2A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF2A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC1-LEAF2A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC1-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -55,10 +80,15 @@ DC1-LEAF2B,VerifyRunningConfigDiffs,success,,Verifies there is no difference bet
 DC1-LEAF2B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF2B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
 DC1-LEAF2B,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF2B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets in port channels.,Interfaces
 DC1-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF2B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF2B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
+DC1-LEAF2B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF2B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC1-LEAF2B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC1-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -72,10 +102,15 @@ DC1-LEAF3A,VerifyRunningConfigDiffs,success,,Verifies there is no difference bet
 DC1-LEAF3A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF3A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
 DC1-LEAF3A,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF3A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets in port channels.,Interfaces
 DC1-LEAF3A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF3A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF3A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF3A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF3A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
+DC1-LEAF3A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF3A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC1-LEAF3A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC1-LEAF3A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -89,10 +124,15 @@ DC1-LEAF3B,VerifyRunningConfigDiffs,success,,Verifies there is no difference bet
 DC1-LEAF3B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF3B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
 DC1-LEAF3B,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-LEAF3B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets in port channels.,Interfaces
 DC1-LEAF3B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF3B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF3B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF3B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF3B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
+DC1-LEAF3B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF3B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC1-LEAF3B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC1-LEAF3B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -157,10 +197,15 @@ DC2-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference bet
 DC2-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF1A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
 DC2-LEAF1A,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC2-LEAF1A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets in port channels.,Interfaces
 DC2-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF1A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF1A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
+DC2-LEAF1A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF1A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC2-LEAF1A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC2-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -174,10 +219,15 @@ DC2-LEAF1B,VerifyRunningConfigDiffs,success,,Verifies there is no difference bet
 DC2-LEAF1B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF1B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
 DC2-LEAF1B,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC2-LEAF1B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets in port channels.,Interfaces
 DC2-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF1B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF1B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
+DC2-LEAF1B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF1B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC2-LEAF1B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC2-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -191,10 +241,15 @@ DC2-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference bet
 DC2-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
 DC2-LEAF2A,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC2-LEAF2A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets in port channels.,Interfaces
 DC2-LEAF2A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF2A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF2A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
+DC2-LEAF2A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF2A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC2-LEAF2A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC2-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -208,10 +263,15 @@ DC2-LEAF2B,VerifyRunningConfigDiffs,success,,Verifies there is no difference bet
 DC2-LEAF2B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
 DC2-LEAF2B,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC2-LEAF2B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets in port channels.,Interfaces
 DC2-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF2B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF2B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
+DC2-LEAF2B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF2B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC2-LEAF2B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC2-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
