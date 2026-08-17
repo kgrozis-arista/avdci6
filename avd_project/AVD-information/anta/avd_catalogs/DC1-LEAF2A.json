@@ -164,6 +164,10 @@
         },
         "interfaces": [
           {
+            "name": "Ethernet1",
+            "status": "up"
+          },
+          {
             "name": "Ethernet49/1",
             "status": "up"
           },
@@ -197,6 +201,10 @@
           },
           {
             "name": "Loopback7",
+            "status": "up"
+          },
+          {
+            "name": "Port-Channel1",
             "status": "up"
           },
           {
