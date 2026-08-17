@@ -20,7 +20,7 @@ all:
         cv_dev_server:
           ansible_httpapi_host: 10.18.142.57
           ansible_host: 10.18.142.57
-          ansible_user: 10.18.157.189
+          ansible_user: 10.18.142.57
           # yamllint disable-line rule:line-length
           ansible_password: "{{ lookup('file', lookup('env', 'HOME') + '/DEV_AVDCI6_TOKEN') }}"
         cv_prod_server:
