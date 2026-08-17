@@ -18,8 +18,8 @@ all:
         ansible_python_interpreter: $(which python3)
       hosts:
         cv_dev_server:
-          ansible_httpapi_host: 10.18.157.189
-          ansible_host: 10.18.157.189
+          ansible_httpapi_host: 10.18.142.57
+          ansible_host: 10.18.142.57
           ansible_user: 10.18.157.189
           # yamllint disable-line rule:line-length
           ansible_password: "{{ lookup('file', lookup('env', 'HOME') + '/DEV_AVDCI6_TOKEN') }}"
@@ -40,7 +40,7 @@ all:
         ansible_become_password: ansible
       hosts:
         dev_avd:
-          ansible_host: 10.18.157.188
+          ansible_host: 10.18.139.4
         prod_avd:
           ansible_host: 10.18.137.158
 

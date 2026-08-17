@@ -46,7 +46,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step4-prod-avd step5-prod-validate step99-reset setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy reset-build reset-deploy check syntax lint clean
+.PHONY: help step1-setup step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step99-reset setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy check syntax lint clean
 
 # ============================================================================
 # Help
@@ -84,9 +84,13 @@ help:
 	@echo "    dev-validate           - Run ANTA validation tests on dev fabric"
 	@echo ""
 	@echo "Configure Hosts:"
-	@echo "  step3-hosts              - Configure hosts: host-build → host-deploy"
-	@echo "    host-build             - Generate host endpoint configurations"
-	@echo "    host-deploy            - Deploy host configurations to CloudVision Portal"
+	@echo "  step3-hosts              - Configure hosts (all environments): dev + prod"
+	@echo "    step3-dev-hosts        - Configure dev hosts: dev-host-build → dev-host-deploy"
+	@echo "      dev-host-build       - Generate dev host endpoint configurations"
+	@echo "      dev-host-deploy      - Deploy dev host configurations to dev CloudVision"
+	@echo "    step3-prod-hosts       - Configure prod hosts: prod-host-build → prod-host-deploy"
+	@echo "      prod-host-build      - Generate prod host endpoint configurations"
+	@echo "      prod-host-deploy     - Deploy prod host configurations to prod CloudVision"
 	@echo ""
 	@echo "Production Deployment:"
 	@echo "  step4-prod-avd           - Full prod AVD workflow: prod-build → prod-deploy"
@@ -120,7 +124,9 @@ help:
 	@echo "  make step1-setup-dev                      # Full dev bootstrap (local + dev_avd)"
 	@echo "  make step1-setup-prod                     # Full prod bootstrap (local + prod_avd)"
 	@echo "  make step2-dev-avd                        # Full dev AVD workflow"
-	@echo "  make step3-hosts                          # Configure hosts"
+	@echo "  make step3-hosts                          # Configure hosts (dev + prod)"
+	@echo "  make step3-dev-hosts                      # Configure dev hosts only"
+	@echo "  make step3-prod-hosts                     # Configure prod hosts only"
 	@echo "  make step4-prod-avd                       # Full prod AVD workflow"
 	@echo "  make step5-prod-validate                  # Validate prod fabric"
 	@echo "  make dev-build                            # Generate configs for dev"
@@ -128,6 +134,8 @@ help:
 	@echo "  make prod-build                           # Generate configs for prod"
 	@echo "  make prod-deploy                          # Deploy to prod CloudVision"
 	@echo "  make prod-validate                        # Validate prod fabric"
+	@echo "  make dev-host-build dev-host-deploy       # Build and deploy dev hosts"
+	@echo "  make prod-host-build prod-host-deploy     # Build and deploy prod hosts"
 	@echo "  make bootstrap-avd-server LIMIT=dev_avd   # Manual: bootstrap specific server"
 	@echo ""
 
@@ -371,25 +379,53 @@ validate: dev-validate
 # Configure Hosts
 # ============================================================================
 
-step3-hosts: host-build host-deploy
+step3-hosts: step3-dev-hosts step3-prod-hosts
 	@echo ""
-	@echo "✓ Step 3 complete: Host configuration finished!"
+	@echo "✓ Step 3 complete: Host configuration finished (all environments)!"
 	@echo ""
 	@echo "Summary:"
-	@echo "  ✓ Generated host endpoint configurations"
-	@echo "  ✓ Deployed to CloudVision Portal"
+	@echo "  ✓ Generated host endpoint configurations (dev + prod)"
+	@echo "  ✓ Deployed to CloudVision Portal (both environments)"
 	@echo ""
 	@echo "Host topology:"
 	@echo "  - L2 trunks connecting to each datacenter"
-	@echo "  - VLANs 10, 20, 30, 40, 50 with SVIs"
+	@echo "  - VLANs 10, 20, 30, 50 with SVIs"
 	@echo "  - IP pattern: <VLAN>.0.<DC>.<Host>/23"
 	@echo ""
 
-host-build:
+step3-dev-hosts: dev-host-build dev-host-deploy
+	@echo ""
+	@echo "✓ Step 3 (Dev) complete: Dev host configuration finished!"
+	@echo ""
+	@echo "Summary:"
+	@echo "  ✓ Generated dev host endpoint configurations"
+	@echo "  ✓ Deployed to dev CloudVision Portal"
+	@echo ""
+
+step3-prod-hosts: prod-host-build prod-host-deploy
+	@echo ""
+	@echo "✓ Step 3 (Prod) complete: Prod host configuration finished!"
+	@echo ""
+	@echo "Summary:"
+	@echo "  ✓ Generated prod host endpoint configurations"
+	@echo "  ✓ Deployed to prod CloudVision Portal"
+	@echo ""
+
+dev-host-build:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/host-build.yml
 
-host-deploy:
+dev-host-deploy:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/host-deploy.yml
+
+prod-host-build:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/host-build.yml
+
+prod-host-deploy:
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml -e "cloudvision_host=cv_prod_server" playbooks/host-deploy.yml
+
+# Backwards compatibility aliases
+host-build: dev-host-build
+host-deploy: dev-host-deploy
 
 # ============================================================================
 # Production Build & Deploy

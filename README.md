@@ -383,17 +383,23 @@ Emergency recovery workflow to restore all devices to baseline state:
 
 ### Overlay Routing
 
-- **Protocol:** eBGP (EVPN Address Family) — RFC 7432
-- **VXLAN:** Encapsulation for tenant traffic
-- **Multi-homing:** All leafs active via MLAG
+- **Protocol:** eBGP EVPN (Ethernet VPN Address Family) — RFC 7432
+- **VXLAN:** Encapsulation for tenant traffic across multi-site fabric
+- **Multi-homing:** All leafs active via MLAG (active-active redundancy)
 - **Redundancy:** Full mesh BGP peering between leafs and spines
+- **MLAG Peer Links:** Ethernet49/1, Ethernet50/1 on all leaf pairs
+- **Tenants:** Customer1 (VRF 300, VLAN 30) and Customer2 (VRF 100, VLANs 10, 20)
 
 ### Data Plane
 
-- **VLAN-based:** Tenant isolation via VLAN
+- **Tenant Isolation:** VRF-based multi-tenancy
+  - **Customer1:** VRF 300, VLAN 30 (loopback 9.9.2.0/24)
+  - **Customer2:** VRF 100, VLANs 10, 20 (loopback 9.9.1.0/24)
+  - **L2-Only:** VLAN 50 (no VRF)
 - **MTU:** 1500 (vEOS-lab compatibility)
 - **BFD:** Enabled for fast failure detection (300ms holdtime)
-- **Spanning Tree:** Disabled (fabric uses BGP for all paths)
+- **Spanning Tree:** Disabled on fabric (BGP for all paths); portfast edge on host ports
+- **NTP:** Google DNS servers (216.239.35.4, 216.239.35.8) for BGP timer accuracy
 
 **For full design details, see:**
 - [AVD 6.3 Leaf-Spine Design](https://avd.arista.com/6.3/ansible_collections/arista/avd/roles/eos_designs/index.html#layer-3-leaf-spine-with-vxlan-evpn)
@@ -493,13 +499,25 @@ make validate    # Same as: make dev-validate
 
 ### Step 3: Host Endpoint Configuration
 
-Run the complete host configuration and deployment workflow:
+Run the complete host configuration and deployment workflow for **all environments** (dev + prod):
 
 ```bash
 make step3-hosts
 ```
 
-This orchestrates:
+Or configure specific environments:
+
+**Dev Hosts:**
+```bash
+make step3-dev-hosts
+```
+
+**Prod Hosts:**
+```bash
+make step3-prod-hosts
+```
+
+Each orchestrates:
 1. **Host Build** — Generate host endpoint configurations from Jinja2 template
 2. **Host Deploy** — Push host configs to CloudVision Portal
 
@@ -507,32 +525,46 @@ This orchestrates:
 
 Host configurations are generated using a Jinja2 template with the following topology:
 
-**L2 Trunk Connectivity:**
-- Each host has 2 L2 trunk ports connecting to the datacenter leaf pairs
-- All trunks carry VLANs 10-50 for multi-tenant isolation
+**LAG (Link Aggregation) Connectivity:**
+- Each host has 2 ethernet ports forming a LAG (Port-Channel1)
+- Active-active connection to datacenter leaf pair for redundancy
+- Spanning-tree portfast edge enabled for fast convergence
+- LACP mode: active (industry standard)
+
+**Port Profile Configuration:**
+- **Profile:** TENANT_Customer1_Customer2
+- **Mode:** Trunk
+- **Native VLAN:** 4092 (management)
+- **Allowed VLANs:** 10, 20, 30, 50
+- **Spanning Tree:** Portfast edge enabled
 
 **VLAN SVI Configuration:**
-- **VLANs:** 10, 20, 30, 40, 50
+- **VLANs:** 10 (Customer2), 20 (Customer2), 30 (Customer1), 50 (L2-only)
 - **IP Addressing Pattern:** `<VLAN>.0.<DC>.<Host>/23`
   - Example: DC1-HOST1 VLAN10 = `10.0.1.1/23`
   - Example: DC2-HOST2 VLAN20 = `20.0.2.2/23`
 
+**Connectivity Monitoring:**
+- **Monitor Connectivity probes** enabled on all hosts
+- Each host probes other hosts across VLANs 10, 20, 30, 50
+- Provides reachability verification between datacenters
+
 **Host Topology Map:**
-| Host | Leaf Uplinks | VRF | Management |
-|------|--------------|-----|------------|
-| DC1-HOST1 | DC1-LEAF1A, DC1-LEAF1B | Default | 192.168.0.30/24 |
-| DC1-HOST2 | DC1-LEAF2A, DC1-LEAF2B | Default | 192.168.0.31/24 |
-| DC2-HOST1 | DC2-LEAF1A, DC2-LEAF1B | Default | 192.168.0.32/24 |
-| DC2-HOST2 | DC2-LEAF2A, DC2-LEAF2B | Default | 192.168.0.33/24 |
+| Host | Leaf Uplinks | LAG | Management | Tenants |
+|------|--------------|-----|------------|---------|
+| DC1-HOST1 | DC1-LEAF1A:E1, DC1-LEAF1B:E1 | Po1 | 192.168.0.30/24 | Customer1, Customer2 |
+| DC1-HOST2 | DC1-LEAF2A:E1, DC1-LEAF2B:E1 | Po1 | 192.168.0.31/24 | Customer1, Customer2 |
+| DC2-HOST1 | DC2-LEAF1A:E1, DC2-LEAF1B:E1 | Po1 | 192.168.0.32/24 | Customer1, Customer2 |
+| DC2-HOST2 | DC2-LEAF2A:E1, DC2-LEAF2B:E1 | Po1 | 192.168.0.33/24 | Customer1, Customer2 |
 
 ### Individual Host Commands
 
 If you prefer to run steps separately:
 
-#### Generate Host Configurations
+#### Generate Host Configurations (Dev)
 
 ```bash
-make host-build
+make dev-host-build
 ```
 
 Generates host endpoint configurations from the Jinja2 template (`playbooks/templates/host.j2`):
@@ -543,15 +575,37 @@ Generates host endpoint configurations from the Jinja2 template (`playbooks/temp
 - `avd_project/AVD-information/configs/DC2-HOST1.cfg`
 - `avd_project/AVD-information/configs/DC2-HOST2.cfg`
 
-#### Deploy Host Configurations
+#### Generate Host Configurations (Prod)
 
 ```bash
-make host-deploy
+make prod-host-build
 ```
 
-Deploys host configurations to CloudVision Portal using cv_deploy role. Configuration is read from `~/DEV_AVDCI6_TOKEN` (local token file).
+Same as dev-host-build (host configurations are environment-agnostic).
 
-**Note:** Unlike fabric deployment, host configurations use `cv_run_change_control: false` for faster orchestration.
+#### Deploy Host Configurations (Dev)
+
+```bash
+make dev-host-deploy
+```
+
+Deploys host configurations to **dev** CloudVision Portal using cv_deploy role with direct deployment (no change control).
+
+#### Deploy Host Configurations (Prod)
+
+```bash
+make prod-host-deploy
+```
+
+Deploys host configurations to **prod** CloudVision Portal. Uses `-e "cloudvision_host=cv_prod_server"` to target production credentials.
+
+#### Backwards Compatibility
+
+For convenience, `make host-build` and `make host-deploy` are aliased to the dev versions:
+```bash
+make host-build    # Same as: make dev-host-build
+make host-deploy   # Same as: make dev-host-deploy
+```
 
 ---
 
@@ -982,9 +1036,17 @@ make deploy                  # Same as: make dev-deploy
 make validate                # Same as: make dev-validate
 
 # Host Configuration
-make step3-hosts             # Host configuration (host-build → host-deploy)
-make host-build              # Generate host endpoint configs only
-make host-deploy             # Deploy host configs to CloudVision only
+make step3-hosts             # Configure hosts (all environments): dev + prod
+make step3-dev-hosts         # Configure dev hosts: dev-host-build → dev-host-deploy
+make step3-prod-hosts        # Configure prod hosts: prod-host-build → prod-host-deploy
+make dev-host-build          # Generate dev host endpoint configs only
+make dev-host-deploy         # Deploy dev host configs to dev CloudVision only
+make prod-host-build         # Generate prod host endpoint configs only
+make prod-host-deploy        # Deploy prod host configs to prod CloudVision only
+
+# Backwards compatible aliases (map to dev)
+make host-build              # Same as: make dev-host-build
+make host-deploy             # Same as: make dev-host-deploy
 
 # Prod Fabric Operations
 make step4-prod-avd          # Full prod AVD workflow (prod-build → prod-deploy)
@@ -1023,8 +1085,12 @@ make step1-setup-prod
 # Step 2: Generate, deploy, and validate dev fabric
 make step2-dev-avd
 
-# Step 3: Configure hosts
+# Step 3: Configure hosts (dev + prod)
 make step3-hosts
+
+# Or configure specific environments
+make step3-dev-hosts         # Dev hosts only
+make step3-prod-hosts        # Prod hosts only (usually via CI/CD)
 
 # Step 4: Deploy to prod (when ready)
 # Merge your PR to main branch, which will trigger prod deployment + validation automatically
@@ -1077,8 +1143,16 @@ make check                   # Verify environment
 
 ---
 
-**Last Updated:** August 14, 2026  
-**Version:** 3.3 — Production Fabric Validation (Step 5) with Auto-Validation in Prod Runner  
+**Last Updated:** August 17, 2026  
+**Version:** 3.4 — Host Configuration (Step 3) with Dev/Prod Separation and LAG/Port Profiles  
 **AVD Version:** 6.3+  
 **Ansible:** 2.14+  
 **Python:** 3.8+
+**Key Features:**
+- ✓ eBGP Underlay + eBGP EVPN Overlay (RFC 7432, 4271)
+- ✓ MLAG on all leaf pairs for active-active redundancy
+- ✓ Customer1/Customer2 VRF/VLAN isolation
+- ✓ Host LAG with connectivity monitoring (Ethernet1, Ethernet2 → Port-Channel1)
+- ✓ Port profiles and spanning-tree portfast edge
+- ✓ Separate dev/prod make targets for all workflows
+- ✓ CI/CD with GitHub Actions (self-hosted runners)
