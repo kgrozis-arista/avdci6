@@ -19,8 +19,8 @@ rich>=13.0.0
 netaddr>=0.9.0
 
 # ANTA (Arista Network Testing Automation)
-# Optional but recommended for network validation
-anta>=0.15.0
+# Required for cv_deploy role (>= 1.8.0) and network validation
+anta>=1.8.0
 
 # TextFSM (for structured text parsing)
 textfsm>=1.1.2
