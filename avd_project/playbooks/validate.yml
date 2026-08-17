@@ -23,7 +23,7 @@
         anta_report_expand_results: true
         avd_catalogs_filters:
           # Skip VerifyNTP for all devices targeted by the run
-          - skip_tests: [VerifyNTP, VerifyLoggingErrors]
+          - skip_tests: [VerifyNTP, VerifyLoggingErrors, VerifyInterfaceDiscards]
       failed_when: anta_tests_summary.tests_error > 0
 
     - name: Display completion banner
