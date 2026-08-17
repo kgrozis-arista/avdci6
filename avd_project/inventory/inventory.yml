@@ -134,7 +134,6 @@ all:
       children:
         DC1_LEAVES:
         DC2_LEAVES:
-        HOSTS:
 
     # Hosts - all servers/endpoints across datacenters
     HOSTS:
