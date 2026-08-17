@@ -2,18 +2,20 @@
 # Leaf switch configuration for DC2
 # Role-specific settings for L3 leaf switches with AVD 6.x structure
 
-type: leaf
+type: l3leaf
 
-leaf:
+l3leaf:
   defaults:
     platform: vEOS-lab
     loopback_ipv4_pool: 10.10.3.0/24
     loopback_ipv4_offset: 0
     uplink_ipv4_pool: 10.30.0.0/24
-    mlag_peer_ipv4_pool: 10.60.0.0/24
     uplink_switches: [DC2-SPINE1, DC2-SPINE2, DC2-SPINE3]
     uplink_interfaces: [Ethernet51/1, Ethernet52/1, Ethernet53/1]
+    mlag_peer_ipv4_pool: 10.60.0.0/24
+    mlag_peer_l3_ipv4_pool: 10.65.0.0/24
     mlag_interfaces: [Ethernet49/1, Ethernet50/1]
+    vtep_loopback_ipv4_pool: 101.1.2.0/24
     spanning_tree_mode: none
     bgp_defaults:
       - timers bgp 5 15

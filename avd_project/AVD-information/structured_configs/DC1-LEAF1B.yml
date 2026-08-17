@@ -15,13 +15,31 @@ daemon_terminattr:
 enable_password:
   disabled: true
 ethernet_interfaces:
+- name: Ethernet49/1
+  description: MLAG_DC1-LEAF1A_Ethernet49/1
+  shutdown: false
+  channel_group:
+    id: 491
+    mode: active
+  metadata:
+    peer: DC1-LEAF1A
+    peer_interface: Ethernet49/1
+    peer_type: mlag_peer
+- name: Ethernet50/1
+  description: MLAG_DC1-LEAF1A_Ethernet50/1
+  shutdown: false
+  channel_group:
+    id: 491
+    mode: active
+  metadata:
+    peer: DC1-LEAF1A
+    peer_interface: Ethernet50/1
+    peer_type: mlag_peer
 - name: Ethernet51/1
   description: P2P_DC1-SPINE1_Ethernet2/1
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.25/31
-  ospf_network_point_to_point: true
-  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-SPINE1
     peer_interface: Ethernet2/1
@@ -33,8 +51,6 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.27/31
-  ospf_network_point_to_point: true
-  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-SPINE2
     peer_interface: Ethernet2/1
@@ -46,8 +62,6 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.29/31
-  ospf_network_point_to_point: true
-  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-SPINE3
     peer_interface: Ethernet2/1
@@ -55,6 +69,8 @@ ethernet_interfaces:
   switchport:
     enabled: false
 hostname: DC1-LEAF1B
+ip_igmp_snooping:
+  globally_enabled: true
 ip_routing: true
 local_users:
 - name: admin
@@ -74,7 +90,10 @@ loopback_interfaces:
   description: ROUTER_ID
   shutdown: false
   ip_address: 10.10.1.5/32
-  ospf_area: 0.0.0.0
+- name: Loopback1
+  description: VXLAN_TUNNEL_SOURCE
+  shutdown: false
+  ip_address: 101.1.1.4/32
 management_api_http:
   enable_https: true
   enable_vrfs:
@@ -94,6 +113,13 @@ metadata:
   fabric_name: FABRIC
   validate_hardware:
     enabled: false
+mlag_configuration:
+  domain_id: DC1_LEAF1
+  local_interface: Vlan4094
+  peer_address: 10.50.0.6
+  peer_link: Port-Channel491
+  reload_delay_mlag: '300'
+  reload_delay_non_mlag: '330'
 ntp:
   local_interface:
     name: Management1
@@ -103,32 +129,183 @@ ntp:
     preferred: true
   - name: 216.239.35.8
   vrf: MGMT
-router_ospf:
-  process_ids:
-  - id: 100
-    passive_interface_default: true
-    router_id: 10.10.1.5
-    bfd_enable: false
-    no_passive_interfaces:
-    - Ethernet51/1
-    - Ethernet52/1
-    - Ethernet53/1
-    max_lsa: 12000
-    graceful_restart:
+port_channel_interfaces:
+- name: Port-Channel491
+  description: MLAG_DC1-LEAF1A_Port-Channel491
+  shutdown: false
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      groups:
+      - MLAG
+prefix_lists:
+- name: PL-LOOPBACKS-EVPN-OVERLAY
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.10.1.0/24 eq 32
+  - sequence: 20
+    action: permit 101.1.1.0/24 eq 32
+route_maps:
+- name: RM-MLAG-PEER-IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    description: Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing
+    set:
+    - origin incomplete
+- name: RM-CONN-2-BGP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+router_bfd:
+  multihop:
+    interval: 300
+    min_rx: 300
+    multiplier: 3
+router_bgp:
+  as: '65101'
+  router_id: 10.10.1.5
+  maximum_paths:
+    paths: 4
+  bgp_defaults:
+  - timers bgp 5 15
+  - neighbor default send-community
+  - neighbor default send-community extended
+  bgp:
+    default:
+      ipv4_unicast: false
+  peer_groups:
+  - name: MLAG-IPv4-UNDERLAY-PEER
+    metadata:
+      type: ipv4
+    remote_as: '65101'
+    description: DC1-LEAF1A
+    next_hop_self: true
+    send_community: all
+    maximum_routes: 256000
+    route_map_in: RM-MLAG-PEER-IN
+  - name: IPv4-UNDERLAY-PEERS
+    metadata:
+      type: ipv4
+    send_community: all
+    maximum_routes: 256000
+  - name: EVPN-OVERLAY-PEERS
+    metadata:
+      type: evpn
+    update_source: Loopback0
+    bfd: true
+    ebgp_multihop: 3
+    send_community: all
+    maximum_routes: 0
+  neighbors:
+  - ip_address: 10.55.0.6
+    peer_group: MLAG-IPv4-UNDERLAY-PEER
+    metadata:
+      peer: DC1-LEAF1A
+    description: DC1-LEAF1A_Vlan4093
+  - ip_address: 10.20.0.24
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65000'
+    metadata:
+      peer: DC1-SPINE1
+    description: DC1-SPINE1_Ethernet2/1
+  - ip_address: 10.20.0.26
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65000'
+    metadata:
+      peer: DC1-SPINE2
+    description: DC1-SPINE2_Ethernet2/1
+  - ip_address: 10.20.0.28
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65000'
+    metadata:
+      peer: DC1-SPINE3
+    description: DC1-SPINE3_Ethernet2/1
+  - ip_address: 10.10.0.1
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65000'
+    metadata:
+      peer: DC1-SPINE1
+    description: DC1-SPINE1_Loopback0
+  - ip_address: 10.10.0.2
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65000'
+    metadata:
+      peer: DC1-SPINE2
+    description: DC1-SPINE2_Loopback0
+  - ip_address: 10.10.0.3
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65000'
+    metadata:
+      peer: DC1-SPINE3
+    description: DC1-SPINE3_Loopback0
+  redistribute:
+    connected:
       enabled: true
+      route_map: RM-CONN-2-BGP
+  address_family_evpn:
+    peer_groups:
+    - name: EVPN-OVERLAY-PEERS
+      activate: true
+  address_family_ipv4:
+    peer_groups:
+    - name: MLAG-IPv4-UNDERLAY-PEER
+      activate: true
+    - name: IPv4-UNDERLAY-PEERS
+      activate: true
+    - name: EVPN-OVERLAY-PEERS
+      activate: false
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: none
+  no_spanning_tree_vlan: 4093-4094
 static_routes:
 - vrf: MGMT
   prefix: 0.0.0.0/0
   next_hop: 192.168.0.5
 transceiver_qsfp_default_mode_4x10: true
+vlan_interfaces:
+- name: Vlan4093
+  description: MLAG_L3
+  shutdown: false
+  ip_address: 10.55.0.7/31
+  mtu: 1500
+- name: Vlan4094
+  description: MLAG
+  shutdown: false
+  ip_address: 10.50.0.7/31
+  mtu: 1500
+  no_autostate: true
 vlan_internal_order:
   allocation: ascending
   range:
     beginning: 1006
     ending: 1199
+vlans:
+- id: 4093
+  name: MLAG_L3
+  trunk_groups:
+  - MLAG
+  metadata:
+    tenants:
+    - system
+- id: 4094
+  name: MLAG
+  trunk_groups:
+  - MLAG
+  metadata:
+    tenants:
+    - system
 vrfs:
 - name: MGMT
   ip_routing: false
+vxlan_interface:
+  vxlan1:
+    description: DC1-LEAF1B_VTEP
+    vxlan:
+      source_interface: Loopback1
+      udp_port: 4789
+      virtual_router_encapsulation_mac_address: mlag-system-id

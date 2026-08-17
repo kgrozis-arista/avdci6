@@ -4,9 +4,3 @@
 
 dc_name: DC2
 
-# Node type definitions for AVD
-node_type_keys:
-  - key: spine
-    type: spine
-  - key: leaf
-    type: leaf

@@ -20,12 +20,10 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.22/31
-  ospf_network_point_to_point: true
-  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-LEAF1A
     peer_interface: Ethernet53/1
-    peer_type: leaf
+    peer_type: l3leaf
   switchport:
     enabled: false
 - name: Ethernet2/1
@@ -33,12 +31,10 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.28/31
-  ospf_network_point_to_point: true
-  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-LEAF1B
     peer_interface: Ethernet53/1
-    peer_type: leaf
+    peer_type: l3leaf
   switchport:
     enabled: false
 - name: Ethernet3/1
@@ -46,12 +42,10 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.34/31
-  ospf_network_point_to_point: true
-  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-LEAF2A
     peer_interface: Ethernet53/1
-    peer_type: leaf
+    peer_type: l3leaf
   switchport:
     enabled: false
 - name: Ethernet4/1
@@ -59,12 +53,10 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.40/31
-  ospf_network_point_to_point: true
-  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-LEAF2B
     peer_interface: Ethernet53/1
-    peer_type: leaf
+    peer_type: l3leaf
   switchport:
     enabled: false
 - name: Ethernet5/1
@@ -72,12 +64,10 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.88/31
-  ospf_network_point_to_point: true
-  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-LEAF3A
     peer_interface: Ethernet53/1
-    peer_type: leaf
+    peer_type: l3leaf
   switchport:
     enabled: false
 - name: Ethernet6/1
@@ -85,12 +75,10 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.20.0.94/31
-  ospf_network_point_to_point: true
-  ospf_area: 0.0.0.0
   metadata:
     peer: DC1-LEAF3B
     peer_interface: Ethernet53/1
-    peer_type: leaf
+    peer_type: l3leaf
   switchport:
     enabled: false
 hostname: DC1-SPINE3
@@ -113,7 +101,6 @@ loopback_interfaces:
   description: ROUTER_ID
   shutdown: false
   ip_address: 10.10.0.3/32
-  ospf_area: 0.0.0.0
 management_api_http:
   enable_https: true
   enable_vrfs:
@@ -142,22 +129,137 @@ ntp:
     preferred: true
   - name: 216.239.35.8
   vrf: MGMT
-router_ospf:
-  process_ids:
-  - id: 100
-    passive_interface_default: true
-    router_id: 10.10.0.3
-    bfd_enable: false
-    no_passive_interfaces:
-    - Ethernet1/1
-    - Ethernet2/1
-    - Ethernet3/1
-    - Ethernet4/1
-    - Ethernet5/1
-    - Ethernet6/1
-    max_lsa: 12000
-    graceful_restart:
+prefix_lists:
+- name: PL-LOOPBACKS-EVPN-OVERLAY
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.10.0.0/24 eq 32
+route_maps:
+- name: RM-CONN-2-BGP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+router_bfd:
+  multihop:
+    interval: 300
+    min_rx: 300
+    multiplier: 3
+router_bgp:
+  as: '65000'
+  router_id: 10.10.0.3
+  maximum_paths:
+    paths: 4
+  bgp_defaults:
+  - timers bgp 5 15
+  - neighbor default send-community
+  - neighbor default send-community extended
+  bgp:
+    default:
+      ipv4_unicast: false
+  peer_groups:
+  - name: IPv4-UNDERLAY-PEERS
+    metadata:
+      type: ipv4
+    send_community: all
+    maximum_routes: 256000
+  - name: EVPN-OVERLAY-PEERS
+    metadata:
+      type: evpn
+    next_hop_unchanged: true
+    update_source: Loopback0
+    bfd: true
+    ebgp_multihop: 3
+    send_community: all
+    maximum_routes: 0
+  neighbors:
+  - ip_address: 10.20.0.23
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65101'
+    metadata:
+      peer: DC1-LEAF1A
+    description: DC1-LEAF1A_Ethernet53/1
+  - ip_address: 10.20.0.29
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65101'
+    metadata:
+      peer: DC1-LEAF1B
+    description: DC1-LEAF1B_Ethernet53/1
+  - ip_address: 10.20.0.35
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65102'
+    metadata:
+      peer: DC1-LEAF2A
+    description: DC1-LEAF2A_Ethernet53/1
+  - ip_address: 10.20.0.41
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65102'
+    metadata:
+      peer: DC1-LEAF2B
+    description: DC1-LEAF2B_Ethernet53/1
+  - ip_address: 10.20.0.89
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65103'
+    metadata:
+      peer: DC1-LEAF3A
+    description: DC1-LEAF3A_Ethernet53/1
+  - ip_address: 10.20.0.95
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65103'
+    metadata:
+      peer: DC1-LEAF3B
+    description: DC1-LEAF3B_Ethernet53/1
+  - ip_address: 10.10.1.4
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65101'
+    metadata:
+      peer: DC1-LEAF1A
+    description: DC1-LEAF1A_Loopback0
+  - ip_address: 10.10.1.5
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65101'
+    metadata:
+      peer: DC1-LEAF1B
+    description: DC1-LEAF1B_Loopback0
+  - ip_address: 10.10.1.6
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65102'
+    metadata:
+      peer: DC1-LEAF2A
+    description: DC1-LEAF2A_Loopback0
+  - ip_address: 10.10.1.7
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65102'
+    metadata:
+      peer: DC1-LEAF2B
+    description: DC1-LEAF2B_Loopback0
+  - ip_address: 10.10.1.15
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65103'
+    metadata:
+      peer: DC1-LEAF3A
+    description: DC1-LEAF3A_Loopback0
+  - ip_address: 10.10.1.16
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65103'
+    metadata:
+      peer: DC1-LEAF3B
+    description: DC1-LEAF3B_Loopback0
+  redistribute:
+    connected:
       enabled: true
+      route_map: RM-CONN-2-BGP
+  address_family_evpn:
+    peer_groups:
+    - name: EVPN-OVERLAY-PEERS
+      activate: true
+  address_family_ipv4:
+    peer_groups:
+    - name: IPv4-UNDERLAY-PEERS
+      activate: true
+    - name: EVPN-OVERLAY-PEERS
+      activate: false
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: none
