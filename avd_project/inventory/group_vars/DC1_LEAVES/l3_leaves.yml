@@ -1,8 +1,8 @@
 ---
 # Leaf switch configuration for DC1
 # Role-specific settings for L3 leaf switches with AVD 6.x structure
-
 type: l3leaf
+
 l3leaf:
   defaults:
     platform: vEOS-lab
@@ -14,8 +14,9 @@ l3leaf:
     mlag_peer_ipv4_pool: 10.50.0.0/24
     mlag_peer_l3_ipv4_pool: 10.55.0.0/24
     mlag_interfaces: [Ethernet49/1, Ethernet50/1]
-    vtep_loopback_ipv4_pool: 101.1.1.0/24
     spanning_tree_mode: none
+    virtual_router_mac_address: 00:1c:73:00:00:99
+    vtep_loopback_ipv4_pool: 101.1.1.0/24
     bgp_defaults:
       - timers bgp 5 15
       - neighbor default send-community

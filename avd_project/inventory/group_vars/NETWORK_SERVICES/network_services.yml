@@ -1,4 +1,0 @@
----
-# Network Services (VRF/VLAN) definitions for the fabric
-# Simplified for AVD 6.3.0 compatibility
-# TODO: Add VRF and network definitions after core fabric is validated

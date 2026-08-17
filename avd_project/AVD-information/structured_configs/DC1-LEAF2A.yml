@@ -72,6 +72,7 @@ hostname: DC1-LEAF2A
 ip_igmp_snooping:
   globally_enabled: true
 ip_routing: true
+ip_virtual_router_mac_address: 00:1c:73:00:00:99
 local_users:
 - name: admin
   privilege: 15
@@ -94,6 +95,16 @@ loopback_interfaces:
   description: VXLAN_TUNNEL_SOURCE
   shutdown: false
   ip_address: 101.1.1.6/32
+- name: Loopback7
+  description: DIAG_VRF_Dev
+  shutdown: false
+  vrf: Dev
+  ip_address: 9.9.2.6/32
+- name: Loopback6
+  description: DIAG_VRF_Prod
+  shutdown: false
+  vrf: Prod
+  ip_address: 9.9.1.6/32
 management_api_http:
   enable_https: true
   enable_vrfs:
@@ -146,6 +157,10 @@ prefix_lists:
     action: permit 10.10.1.0/24 eq 32
   - sequence: 20
     action: permit 101.1.1.0/24 eq 32
+- name: PL-MLAG-PEER-VRFS
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.55.0.10/31
 route_maps:
 - name: RM-MLAG-PEER-IN
   sequence_numbers:
@@ -160,6 +175,14 @@ route_maps:
     type: permit
     match:
     - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+- name: RM-CONN-2-BGP-VRFS
+  sequence_numbers:
+  - sequence: 10
+    type: deny
+    match:
+    - ip address prefix-list PL-MLAG-PEER-VRFS
+  - sequence: 20
+    type: permit
 router_bfd:
   multihop:
     interval: 300
@@ -246,6 +269,47 @@ router_bgp:
     connected:
       enabled: true
       route_map: RM-CONN-2-BGP
+  vlans:
+  - id: 30
+    metadata:
+      tenants:
+      - Dev
+    rd: 10.10.1.6:20030
+    route_targets:
+      both:
+      - 20030:20030
+    redistribute_routes:
+    - learned
+  - id: 10
+    metadata:
+      tenants:
+      - Prod
+    rd: 10.10.1.6:10010
+    route_targets:
+      both:
+      - 10010:10010
+    redistribute_routes:
+    - learned
+  - id: 20
+    metadata:
+      tenants:
+      - Prod
+    rd: 10.10.1.6:10020
+    route_targets:
+      both:
+      - 10020:10020
+    redistribute_routes:
+    - learned
+  - id: 50
+    metadata:
+      tenants:
+      - Prod
+    rd: 10.10.1.6:10050
+    route_targets:
+      both:
+      - 10050:10050
+    redistribute_routes:
+    - learned
   address_family_evpn:
     peer_groups:
     - name: EVPN-OVERLAY-PEERS
@@ -258,6 +322,47 @@ router_bgp:
       activate: true
     - name: EVPN-OVERLAY-PEERS
       activate: false
+  vrfs:
+  - name: Dev
+    rd: 10.10.1.6:300
+    route_targets:
+      import:
+      - address_family: evpn
+        route_targets:
+        - 300:300
+      export:
+      - address_family: evpn
+        route_targets:
+        - 300:300
+    router_id: 10.10.1.6
+    neighbors:
+    - ip_address: 10.55.0.11
+      peer_group: MLAG-IPv4-UNDERLAY-PEER
+      description: DC1-LEAF2B_Vlan3299
+    redistribute:
+      connected:
+        enabled: true
+        route_map: RM-CONN-2-BGP-VRFS
+  - name: Prod
+    rd: 10.10.1.6:100
+    route_targets:
+      import:
+      - address_family: evpn
+        route_targets:
+        - 100:100
+      export:
+      - address_family: evpn
+        route_targets:
+        - 100:100
+    router_id: 10.10.1.6
+    neighbors:
+    - ip_address: 10.55.0.11
+      peer_group: MLAG-IPv4-UNDERLAY-PEER
+      description: DC1-LEAF2B_Vlan3099
+    redistribute:
+      connected:
+        enabled: true
+        route_map: RM-CONN-2-BGP-VRFS
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: none
@@ -267,6 +372,11 @@ static_routes:
   prefix: 0.0.0.0/0
   next_hop: 192.168.0.5
 transceiver_qsfp_default_mode_4x10: true
+virtual_source_nat_vrfs:
+- name: Dev
+  ip_address: 9.9.2.6
+- name: Prod
+  ip_address: 9.9.1.6
 vlan_interfaces:
 - name: Vlan4093
   description: MLAG_L3
@@ -279,6 +389,50 @@ vlan_interfaces:
   ip_address: 10.50.0.10/31
   mtu: 1500
   no_autostate: true
+- name: Vlan30
+  description: VLAN30_VRF_Dev
+  shutdown: false
+  vrf: Dev
+  ip_address_virtual: 30.30.30.1/24
+  metadata:
+    tenants:
+    - Dev
+- name: Vlan3299
+  description: MLAG_L3_VRF_Dev
+  shutdown: false
+  vrf: Dev
+  ip_address: 10.55.0.10/31
+  mtu: 1500
+  metadata:
+    tenants:
+    - Dev
+    type: underlay_peering
+- name: Vlan10
+  description: VRF_Prod_VLAN10
+  shutdown: false
+  vrf: Prod
+  ip_address_virtual: 10.10.10.1/24
+  metadata:
+    tenants:
+    - Prod
+- name: Vlan20
+  description: VRF_Prod_VLAN20
+  shutdown: false
+  vrf: Prod
+  ip_address_virtual: 20.20.20.1/24
+  metadata:
+    tenants:
+    - Prod
+- name: Vlan3099
+  description: MLAG_L3_VRF_Prod
+  shutdown: false
+  vrf: Prod
+  ip_address: 10.55.0.10/31
+  mtu: 1500
+  metadata:
+    tenants:
+    - Prod
+    type: underlay_peering
 vlan_internal_order:
   allocation: ascending
   range:
@@ -299,9 +453,53 @@ vlans:
   metadata:
     tenants:
     - system
+- id: 30
+  name: VLAN30_VRF_Dev
+  metadata:
+    tenants:
+    - Dev
+- id: 3299
+  name: MLAG_L3_VRF_Dev
+  trunk_groups:
+  - MLAG
+  metadata:
+    tenants:
+    - Dev
+- id: 10
+  name: VRF_Prod_VLAN10
+  metadata:
+    tenants:
+    - Prod
+- id: 20
+  name: VRF_Prod_VLAN20
+  metadata:
+    tenants:
+    - Prod
+- id: 3099
+  name: MLAG_L3_VRF_Prod
+  trunk_groups:
+  - MLAG
+  metadata:
+    tenants:
+    - Prod
+- id: 50
+  name: VLAN50_L2_Only
+  metadata:
+    tenants:
+    - Prod
 vrfs:
 - name: MGMT
   ip_routing: false
+- name: Dev
+  ip_routing: true
+  metadata:
+    tenants:
+    - Dev
+- name: Prod
+  ip_routing: true
+  metadata:
+    tenants:
+    - Prod
 vxlan_interface:
   vxlan1:
     description: DC1-LEAF2A_VTEP
@@ -309,3 +507,17 @@ vxlan_interface:
       source_interface: Loopback1
       udp_port: 4789
       virtual_router_encapsulation_mac_address: mlag-system-id
+      vlans:
+      - id: 30
+        vni: 20030
+      - id: 10
+        vni: 10010
+      - id: 20
+        vni: 10020
+      - id: 50
+        vni: 10050
+      vrfs:
+      - name: Dev
+        vni: 300
+      - name: Prod
+        vni: 100
