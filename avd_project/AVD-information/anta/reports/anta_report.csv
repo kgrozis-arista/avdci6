@@ -1,4 +1,5 @@
 Device,Test Name,Test Status,Message(s),Test description,Test category
+DC1-LEAF1A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF1A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -7,8 +8,6 @@ DC1-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF1A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF1A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF1A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -17,6 +16,7 @@ DC1-LEAF1A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF1A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF1A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF1A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-LEAF1B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF1B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF1B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -25,8 +25,6 @@ DC1-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF1B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF1B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF1B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -35,6 +33,7 @@ DC1-LEAF1B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF1B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF1B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF1B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-LEAF2A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -43,8 +42,6 @@ DC1-LEAF2A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF2A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF2A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF2A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -53,6 +50,7 @@ DC1-LEAF2A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF2A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF2A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF2A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-LEAF2B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF2B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF2B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF2B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -61,8 +59,6 @@ DC1-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF2B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF2B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF2B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -71,6 +67,7 @@ DC1-LEAF2B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF2B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF2B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF2B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-LEAF3A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF3A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF3A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF3A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -79,8 +76,6 @@ DC1-LEAF3A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF3A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF3A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF3A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF3A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF3A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF3A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -89,6 +84,7 @@ DC1-LEAF3A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF3A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF3A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF3A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-LEAF3B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF3B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF3B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF3B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -97,8 +93,6 @@ DC1-LEAF3B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF3B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF3B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF3B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF3B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF3B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF3B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -107,6 +101,7 @@ DC1-LEAF3B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF3B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF3B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF3B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-SPINE1,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE1,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -115,8 +110,6 @@ DC1-SPINE1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-SPINE1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-SPINE1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-SPINE1,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-SPINE1,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-SPINE1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -125,6 +118,7 @@ DC1-SPINE1,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE1,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-SPINE2,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE2,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE2,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE2,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -133,8 +127,6 @@ DC1-SPINE2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-SPINE2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-SPINE2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-SPINE2,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-SPINE2,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-SPINE2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -143,6 +135,7 @@ DC1-SPINE2,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE2,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-SPINE3,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE3,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE3,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE3,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -151,8 +144,6 @@ DC1-SPINE3,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-SPINE3,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE3,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-SPINE3,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-SPINE3,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-SPINE3,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-SPINE3,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE3,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE3,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -161,6 +152,7 @@ DC1-SPINE3,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE3,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE3,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE3,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-LEAF1A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF1A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -169,8 +161,6 @@ DC2-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF1A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF1A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-LEAF1A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -179,6 +169,7 @@ DC2-LEAF1A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF1A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF1A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF1A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-LEAF1B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF1B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF1B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF1B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -187,8 +178,6 @@ DC2-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF1B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF1B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-LEAF1B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -197,6 +186,7 @@ DC2-LEAF1B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF1B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF1B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF1B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-LEAF2A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -205,8 +195,6 @@ DC2-LEAF2A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF2A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF2A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-LEAF2A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -215,6 +203,7 @@ DC2-LEAF2A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF2A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF2A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF2A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-LEAF2B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF2B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF2B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -223,8 +212,6 @@ DC2-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF2B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF2B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-LEAF2B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -233,6 +220,7 @@ DC2-LEAF2B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF2B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF2B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF2B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-SPINE1,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE1,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -241,8 +229,6 @@ DC2-SPINE1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-SPINE1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-SPINE1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-SPINE1,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-SPINE1,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-SPINE1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -251,6 +237,7 @@ DC2-SPINE1,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-SPINE1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-SPINE1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-SPINE1,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-SPINE2,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE2,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE2,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE2,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -259,8 +246,6 @@ DC2-SPINE2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-SPINE2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-SPINE2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-SPINE2,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-SPINE2,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-SPINE2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -269,6 +254,7 @@ DC2-SPINE2,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-SPINE2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-SPINE2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-SPINE2,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-SPINE3,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE3,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE3,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE3,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -277,8 +263,6 @@ DC2-SPINE3,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-SPINE3,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE3,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-SPINE3,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-SPINE3,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-SPINE3,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-SPINE3,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE3,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE3,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
