@@ -84,6 +84,24 @@ interface Vlan{{ vlan_id }}
    ip address {{ vlan_id }}.0.{{ dc_num }}.{{ host_num }}/23
 !
 {% endfor %}
+{% set all_hosts = [
+  {'name': 'DC1-HOST1', 'dc': 1, 'num': 1},
+  {'name': 'DC1-HOST2', 'dc': 1, 'num': 2},
+  {'name': 'DC2-HOST1', 'dc': 2, 'num': 1},
+  {'name': 'DC2-HOST2', 'dc': 2, 'num': 2}
+] %}
+monitor connectivity
+   no shutdown
+   !
+{% for host in all_hosts -%}
+{%- if host.name != (item | default(inventory_hostname)) -%}
+{%- for vlan_id in [10, 20, 30, 50] %}
+   host {{ host.name }}-vlan{{ vlan_id }}
+      ip {{ vlan_id }}.0.{{ host.dc }}.{{ host.num }}
+   !
+{% endfor -%}
+{%- endif -%}
+{%- endfor %}!
 ip routing
 no ip routing vrf MGMT
 !
