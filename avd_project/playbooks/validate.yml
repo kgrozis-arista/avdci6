@@ -21,11 +21,9 @@
       vars:
         anta_dir: "{{ playbook_dir }}/../AVD-information/anta"
         anta_report_expand_results: true
-        anta_catalogs_filters:
-          - skip_tests:
-              - VerifyNTP
-              - VerifyReloadCause
-              - VerifyLoggingErrors
+        avd_catalogs_filters:
+          # Skip VerifyNTP for all devices targeted by the run
+          - skip_tests: [ VerifyNTP ]
       failed_when: anta_tests_summary.tests_error > 0
 
     - name: Display completion banner
