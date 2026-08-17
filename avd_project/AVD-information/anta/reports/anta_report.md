@@ -17,7 +17,7 @@
 
 | Total Tests | ✅&nbsp;Success | ⏭️&nbsp;Skipped | ❌&nbsp;Failure | ❗&nbsp;Error |
 | :- | :- | :- | :- | :- |
-| 320 | 283 | 0 | 37 | 0 |
+| 320 | 286 | 0 | 34 | 0 |
 
 ### 🔌 Summary Totals Device Under Test <a id="summary-totals-device-under-test"></a>
 
@@ -27,14 +27,14 @@
 | **DC1-LEAF1B** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC1-LEAF2A** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC1-LEAF2B** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
-| **DC1-LEAF3A** | 20 | 17 | 0 | 3 | 0 | - | Interfaces, Logging, System |
+| **DC1-LEAF3A** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC1-LEAF3B** | 20 | 17 | 0 | 3 | 0 | - | Interfaces, Logging, System |
 | **DC1-SPINE1** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC1-SPINE2** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC1-SPINE3** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC2-LEAF1A** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC2-LEAF1B** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
-| **DC2-LEAF2A** | 20 | 16 | 0 | 4 | 0 | - | Interfaces, Logging, System |
+| **DC2-LEAF2A** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC2-LEAF2B** | 20 | 17 | 0 | 3 | 0 | - | Interfaces, Logging, System |
 | **DC2-SPINE1** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
 | **DC2-SPINE2** | 20 | 18 | 0 | 2 | 0 | - | Logging, System |
@@ -47,7 +47,7 @@
 | **BGP** | 16 | 16 | 0 | 0 | 0 |
 | **Configuration** | 32 | 32 | 0 | 0 | 0 |
 | **Connectivity** | 32 | 32 | 0 | 0 | 0 |
-| **Interfaces** | 80 | 75 | 0 | 5 | 0 |
+| **Interfaces** | 80 | 78 | 0 | 2 | 0 |
 | **Logging** | 16 | 0 | 0 | 16 | 0 |
 | **Routing** | 16 | 16 | 0 | 0 | 0 |
 | **STP** | 16 | 16 | 0 | 0 | 0 |
@@ -57,73 +57,15 @@
 
 | Device | Categories | Test | Description | Result | Messages |
 | :- | :- | :- | :- | :- | :- |
-| DC1-LEAF1A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:32 DC1-LEAF1A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1617) -- Master ProcMgr (PID=1617) exiting.<br> Aug 14 13:13:32 DC1-LEAF1A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3509) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:32 DC1-LEAF1A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3509))<br> <br> |
+| DC1-LEAF1A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:29 DC1-LEAF1A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1617) -- Master ProcMgr (PID=1617) exiting.<br> Aug 17 13:30:29 DC1-LEAF1A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3472) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 17 13:30:29 DC1-LEAF1A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3472))<br> <br> |
 | DC1-LEAF1A | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC1-LEAF1B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:16 DC1-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1610) -- Master ProcMgr (PID=1610) exiting.<br> Aug 14 13:13:16 DC1-LEAF1B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3498) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:16 DC1-LEAF1B StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3498))<br> Aug 14 13:14:16 DC1-LEAF1B Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.26 (VRF default AS 65000) 6/7 (Cease/connection collision resolution) 0 bytes <br> <br> |
+| DC1-LEAF1B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:35 DC1-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1613) -- Master ProcMgr (PID=1613) exiting.<br> Aug 17 13:30:35 DC1-LEAF1B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3591) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 17 13:30:35 DC1-LEAF1B StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3591))<br> Aug 17 13:30:35 DC1-LEAF1B ConfigAgent: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1847) at tbl://sysdb/+n closed by peer (EOF)<br> Aug 17 13:30:35 DC1-LEAF1B ConfigAgent: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1847))<br> Aug 17 13:30:35 DC1-LEAF1B ConfigAgent: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.<br> <br> |
 | DC1-LEAF1B | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC1-LEAF2A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:24 DC1-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.<br> Aug 14 13:13:24 DC1-LEAF2A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3633) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:24 DC1-LEAF2A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3633))<br> Aug 14 13:13:24 DC1-LEAF2A ConfigAgent: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1860) at tbl://sysdb/+n closed by peer (EOF)<br> Aug 14 13:13:24 DC1-LEAF2A StageMgr: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1860) at tbl://sysdb/+n closed by peer (EOF)<br> Aug 14 13:13:24 DC1-LEAF2A StageMgr: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1860))<br> Aug 14 13:13:24 DC1-LEAF2A StageMgr: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.<br> Aug 14 13:13:24 DC1-LEAF2A ConfigAgent: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1860))<br> Aug 14 13:13:24 DC1-LEAF2A ConfigAgent: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.<br> <br> |
+| DC1-LEAF2A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:37 DC1-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.<br> Aug 17 13:30:37 DC1-LEAF2A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3578) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 17 13:30:37 DC1-LEAF2A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3578))<br> <br> |
 | DC1-LEAF2A | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC1-LEAF2B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:25 DC1-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.<br> Aug 14 13:13:26 DC1-LEAF2B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3526) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:26 DC1-LEAF2B StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3526))<br> <br> |
+| DC1-LEAF2B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:41 DC1-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1612) -- Master ProcMgr (PID=1612) exiting.<br> <br> |
 | DC1-LEAF2B | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC1-LEAF3A | Interfaces | VerifyInterfaceDiscards | Verifies that the interfaces packet discard counters are equal to zero. | ❌&nbsp;Failure | 1/57&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet2 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet3 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet4 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet5 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet6 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet7 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet8 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet9 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet10 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet11 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet12 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet13 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet14 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet15 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet16 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet17 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet18 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet19 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet20 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet21 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet22 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet23 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet24 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet25 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet26 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet27 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet28 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet29 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet30 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet31 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet32 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet33 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet34 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet35 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet36 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet37 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet38 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet39 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet40 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet41 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet42 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet43 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet44 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet45 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet46 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet47 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet48 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet54/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet55/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 13050 |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
-| DC1-LEAF3A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:28 DC1-LEAF3A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1618) -- Master ProcMgr (PID=1618) exiting.<br> Aug 14 13:13:28 DC1-LEAF3A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3587) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:28 DC1-LEAF3A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3587))<br> <br> |
+| DC1-LEAF3A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:38 DC1-LEAF3A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1617) -- Master ProcMgr (PID=1617) exiting.<br> Aug 17 13:30:38 DC1-LEAF3A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3508) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 17 13:30:38 DC1-LEAF3A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3508))<br> <br> |
 | DC1-LEAF3A | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
 | DC1-LEAF3B | Interfaces | VerifyInterfaceDiscards | Verifies that the interfaces packet discard counters are equal to zero. | ❌&nbsp;Failure | 3/57&nbsp;checks&nbsp;failed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
@@ -174,90 +116,30 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet46 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet47 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet48 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 5376555 |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 5376558 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 1039903 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 1039902 |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet54/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet55/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 5460972 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 202598 |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
-| DC1-LEAF3B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:29 DC1-LEAF3B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1618) -- Master ProcMgr (PID=1618) exiting.<br> Aug 14 13:14:33 DC1-LEAF3B Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.90 (VRF default AS 65000) 6/7 (Cease/connection collision resolution) 0 bytes <br> <br> |
+| DC1-LEAF3B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:39 DC1-LEAF3B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1619) -- Master ProcMgr (PID=1619) exiting.<br> Aug 17 13:30:39 DC1-LEAF3B ConfigAgent: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1861) at tbl://sysdb/+n closed by peer (EOF)<br> Aug 17 13:30:39 DC1-LEAF3B ConfigAgent: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1861))<br> Aug 17 13:30:39 DC1-LEAF3B ConfigAgent: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.<br> Aug 17 13:30:39 DC1-LEAF3B Fru: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1861) at tbl://sysdb/+n closed by peer (EOF)<br> Aug 17 13:30:39 DC1-LEAF3B Fru: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1861))<br> Aug 17 13:30:39 DC1-LEAF3B Fru: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.<br> Aug 17 13:30:39 DC1-LEAF3B StageMgr: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1861) at tbl://sysdb/+n closed by peer (EOF)<br> Aug 17 13:30:39 DC1-LEAF3B StageMgr: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1861))<br> Aug 17 13:30:39 DC1-LEAF3B StageMgr: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.<br> <br> |
 | DC1-LEAF3B | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC1-SPINE1 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:26 DC1-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1590) -- Master ProcMgr (PID=1590) exiting.<br> Aug 14 13:13:27 DC1-SPINE1 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3496) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:27 DC1-SPINE1 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3496))<br> Aug 14 13:14:33 DC1-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.91 (VRF default AS 65103) 6/7 (Cease/connection collision resolution) 0 bytes <br> <br> |
+| DC1-SPINE1 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:45 DC1-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1593) -- Master ProcMgr (PID=1593) exiting.<br> Aug 17 13:30:45 DC1-SPINE1 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3432) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 17 13:30:45 DC1-SPINE1 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3432))<br> <br> |
 | DC1-SPINE1 | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC1-SPINE2 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:23 DC1-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1591) -- Master ProcMgr (PID=1591) exiting.<br> Aug 14 13:13:23 DC1-SPINE2 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3531) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:23 DC1-SPINE2 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3531))<br> Aug 14 13:14:16 DC1-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.27 (VRF default AS 65101) 6/7 (Cease/connection collision resolution) 0 bytes <br> <br> |
+| DC1-SPINE2 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:39 DC1-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1592) -- Master ProcMgr (PID=1592) exiting.<br> <br> |
 | DC1-SPINE2 | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC1-SPINE3 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:31 DC1-SPINE3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1588) -- Master ProcMgr (PID=1588) exiting.<br> Aug 14 13:13:31 DC1-SPINE3 Stp: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to StpTxRx (pid:3536) at tbl://stpTxRxListen/+n closed by peer (EOF)<br> Aug 14 13:13:31 DC1-SPINE3 Stp: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpTxRxListen/+n-in)(StpTxRx (pid:3536))<br> <br> |
+| DC1-SPINE3 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:35 DC1-SPINE3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1595) -- Master ProcMgr (PID=1595) exiting.<br> Aug 17 13:30:35 DC1-SPINE3 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3491) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 17 13:30:35 DC1-SPINE3 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3491))<br> Aug 17 13:30:35 DC1-SPINE3 ConfigAgent: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1838) at tbl://sysdb/+n closed by peer (EOF)<br> Aug 17 13:30:35 DC1-SPINE3 StageMgr: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1838) at tbl://sysdb/+n closed by peer (EOF)<br> Aug 17 13:30:35 DC1-SPINE3 StageMgr: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1838))<br> Aug 17 13:30:35 DC1-SPINE3 StageMgr: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.<br> Aug 17 13:30:35 DC1-SPINE3 ConfigAgent: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1838))<br> Aug 17 13:30:35 DC1-SPINE3 ConfigAgent: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.<br> Aug 17 13:30:35 DC1-SPINE3 Fru: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1838) at tbl://sysdb/+n closed by peer (EOF)<br> Aug 17 13:30:35 DC1-SPINE3 Fru: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1838))<br> Aug 17 13:30:35 DC1-SPINE3 Fru: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.<br> <br> |
 | DC1-SPINE3 | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC2-LEAF1A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:24 DC2-LEAF1A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.<br> Aug 14 13:13:24 DC2-LEAF1A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3585) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:24 DC2-LEAF1A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3585))<br> <br> |
+| DC2-LEAF1A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:36 DC2-LEAF1A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1615) -- Master ProcMgr (PID=1615) exiting.<br> <br> |
 | DC2-LEAF1A | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC2-LEAF1B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:28 DC2-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1615) -- Master ProcMgr (PID=1615) exiting.<br> Aug 14 13:13:28 DC2-LEAF1B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3556) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:28 DC2-LEAF1B StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3556))<br> <br> |
+| DC2-LEAF1B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:35 DC2-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1620) -- Master ProcMgr (PID=1620) exiting.<br> Aug 17 13:30:35 DC2-LEAF1B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3547) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 17 13:30:35 DC2-LEAF1B StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3547))<br> <br> |
 | DC2-LEAF1B | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC2-LEAF2A | Interfaces | VerifyInterfaceDiscards | Verifies that the interfaces packet discard counters are equal to zero. | ❌&nbsp;Failure | 3/57&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet2 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet3 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet4 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet5 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet6 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet7 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet8 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet9 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet10 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet11 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet12 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet13 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet14 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet15 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet16 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet17 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet18 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet19 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet20 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet21 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet22 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet23 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet24 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet25 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet26 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet27 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet28 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet29 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet30 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet31 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet32 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet33 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet34 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet35 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet36 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet37 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet38 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet39 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet40 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet41 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet42 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet43 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet44 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet45 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet46 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet47 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet48 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 1657472 |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 1657479 |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet54/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet55/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 1412 |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
-| DC2-LEAF2A | Interfaces | VerifyInterfaceErrDisabled | Verifies there are no interfaces in the errdisabled state. | ❌&nbsp;Failure | 1/1&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Error disabled - Causes: bpduguard |
-| DC2-LEAF2A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:26 DC2-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1612) -- Master ProcMgr (PID=1612) exiting.<br> Aug 14 13:13:26 DC2-LEAF2A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3528) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:26 DC2-LEAF2A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3528))<br> <br> |
+| DC2-LEAF2A | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:41 DC2-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1619) -- Master ProcMgr (PID=1619) exiting.<br> <br> |
 | DC2-LEAF2A | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC2-LEAF2B | Interfaces | VerifyInterfaceDiscards | Verifies that the interfaces packet discard counters are equal to zero. | ❌&nbsp;Failure | 2/57&nbsp;checks&nbsp;failed |
+| DC2-LEAF2B | Interfaces | VerifyInterfaceDiscards | Verifies that the interfaces packet discard counters are equal to zero. | ❌&nbsp;Failure | 3/57&nbsp;checks&nbsp;failed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet2 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet3 | ✅&nbsp;Success | - |
@@ -306,22 +188,22 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet46 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet47 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet48 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 1584486 |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 1584487 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 1053137 |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 1053134 |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet54/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet55/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ❌&nbsp;Failure | Non-zero discard counter(s): inDiscards: 214812 |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
-| DC2-LEAF2B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:29 DC2-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1614) -- Master ProcMgr (PID=1614) exiting.<br> Aug 14 13:13:29 DC2-LEAF2B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3571) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:29 DC2-LEAF2B StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3571))<br> <br> |
+| DC2-LEAF2B | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:34 DC2-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1615) -- Master ProcMgr (PID=1615) exiting.<br> <br> |
 | DC2-LEAF2B | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC2-SPINE1 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:31 DC2-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1594) -- Master ProcMgr (PID=1594) exiting.<br> Aug 14 13:13:31 DC2-SPINE1 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3565) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:31 DC2-SPINE1 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3565))<br> Aug 14 13:13:31 DC2-SPINE1 ConfigAgent: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1835) at tbl://sysdb/+n closed by peer (EOF)<br> Aug 14 13:13:31 DC2-SPINE1 ConfigAgent: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1835))<br> Aug 14 13:13:31 DC2-SPINE1 ConfigAgent: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.<br> <br> |
+| DC2-SPINE1 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:44 DC2-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1593) -- Master ProcMgr (PID=1593) exiting.<br> Aug 17 13:30:44 DC2-SPINE1 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3508) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 17 13:30:44 DC2-SPINE1 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3508))<br> <br> |
 | DC2-SPINE1 | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC2-SPINE2 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:29 DC2-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1594) -- Master ProcMgr (PID=1594) exiting.<br> Aug 14 13:13:29 DC2-SPINE2 Stp: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to StpTxRx (pid:3550) at tbl://stpTxRxListen/+n closed by peer (EOF)<br> Aug 14 13:13:29 DC2-SPINE2 Stp: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpTxRxListen/+n-in)(StpTxRx (pid:3550))<br> <br> |
+| DC2-SPINE2 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:42 DC2-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1592) -- Master ProcMgr (PID=1592) exiting.<br> <br> |
 | DC2-SPINE2 | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
-| DC2-SPINE3 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 14 13:13:34 DC2-SPINE3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1592) -- Master ProcMgr (PID=1592) exiting.<br> Aug 14 13:13:35 DC2-SPINE3 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3536) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 14 13:13:35 DC2-SPINE3 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3536))<br> <br> |
+| DC2-SPINE3 | Logging | VerifyLoggingErrors | Verifies there are no syslog messages with a severity of ERRORS or higher. | ❌&nbsp;Failure | Device has reported syslog messages with a severity of ERRORS or higher:<br>Aug 17 13:30:40 DC2-SPINE3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1590) -- Master ProcMgr (PID=1590) exiting.<br> Aug 17 13:30:40 DC2-SPINE3 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3538) at tbl://stpListen/+n closed by peer (EOF)<br> Aug 17 13:30:40 DC2-SPINE3 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3538))<br> <br> |
 | DC2-SPINE3 | System | VerifyNTP | Verifies if NTP is synchronised. | ❌&nbsp;Failure | NTP status mismatch - Expected: synchronised Actual: unsynchronised |
 | DC1-LEAF1A | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.20.0.18 VRF: default | ✅&nbsp;Success | - |
@@ -1145,6 +1027,64 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Destination 10.20.0.84 (DC1-SPINE1_Ethernet5/1) from 10.20.0.85 in VRF default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Destination 10.20.0.86 (DC1-SPINE2_Ethernet5/1) from 10.20.0.87 in VRF default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Destination 10.20.0.88 (DC1-SPINE3_Ethernet5/1) from 10.20.0.89 in VRF default | ✅&nbsp;Success | - |
+| DC1-LEAF3A | Interfaces | VerifyInterfaceDiscards | Verifies that the interfaces packet discard counters are equal to zero. | ✅&nbsp;Success | All&nbsp;57&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet2 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet3 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet4 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet5 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet6 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet7 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet8 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet9 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet10 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet11 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet12 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet13 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet14 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet15 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet16 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet17 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet18 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet19 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet20 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet21 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet22 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet23 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet24 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet25 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet26 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet27 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet28 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet29 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet30 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet31 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet32 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet33 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet34 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet35 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet36 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet37 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet38 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet39 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet40 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet41 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet42 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet43 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet44 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet45 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet46 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet47 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet48 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet54/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet55/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | DC1-LEAF3A | Interfaces | VerifyInterfaceErrDisabled | Verifies there are no interfaces in the errdisabled state. | ✅&nbsp;Success | - |
 | DC1-LEAF3A | Interfaces | VerifyInterfaceErrors | Verifies that the interfaces error counters are equal to zero. | ✅&nbsp;Success | All&nbsp;57&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
@@ -2263,6 +2203,65 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Destination 10.30.0.72 (DC2-SPINE1_Ethernet3/1) from 10.30.0.73 in VRF default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Destination 10.30.0.74 (DC2-SPINE2_Ethernet3/1) from 10.30.0.75 in VRF default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Destination 10.30.0.76 (DC2-SPINE3_Ethernet3/1) from 10.30.0.77 in VRF default | ✅&nbsp;Success | - |
+| DC2-LEAF2A | Interfaces | VerifyInterfaceDiscards | Verifies that the interfaces packet discard counters are equal to zero. | ✅&nbsp;Success | All&nbsp;57&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet2 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet3 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet4 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet5 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet6 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet7 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet8 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet9 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet10 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet11 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet12 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet13 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet14 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet15 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet16 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet17 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet18 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet19 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet20 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet21 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet22 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet23 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet24 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet25 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet26 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet27 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet28 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet29 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet30 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet31 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet32 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet33 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet34 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet35 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet36 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet37 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet38 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet39 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet40 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet41 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet42 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet43 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet44 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet45 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet46 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet47 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet48 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet54/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet55/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
+| DC2-LEAF2A | Interfaces | VerifyInterfaceErrDisabled | Verifies there are no interfaces in the errdisabled state. | ✅&nbsp;Success | - |
 | DC2-LEAF2A | Interfaces | VerifyInterfaceErrors | Verifies that the interfaces error counters are equal to zero. | ✅&nbsp;Success | All&nbsp;57&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet2 | ✅&nbsp;Success | - |
