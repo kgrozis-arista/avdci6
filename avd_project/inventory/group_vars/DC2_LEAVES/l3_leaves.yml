@@ -3,7 +3,6 @@
 # Role-specific settings for L3 leaf switches with AVD 6.x structure
 
 type: l3leaf
-
 l3leaf:
   defaults:
     platform: vEOS-lab
