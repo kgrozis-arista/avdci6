@@ -49,6 +49,12 @@ l3leaf:
 
     - group: DC1_LEAF3
       bgp_as: 65103
+      evpn_gateway:
+        evpn_l2:
+          enabled: true
+        evpn_l3:
+          enabled: true
+          inter_domain: true
       nodes:
         - name: DC1-LEAF3A
           id: 15
