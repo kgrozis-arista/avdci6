@@ -3,6 +3,9 @@ DC1-LEAF1A,VerifyLoggingErrors,failure,"Device has reported syslog messages with
 Aug 17 13:30:29 DC1-LEAF1A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1617) -- Master ProcMgr (PID=1617) exiting.
  Aug 17 13:30:29 DC1-LEAF1A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3472) at tbl://stpListen/+n closed by peer (EOF)
  Aug 17 13:30:29 DC1-LEAF1A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3472))
+ Aug 17 14:20:39 DC1-LEAF1A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.20 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-LEAF1A Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.18 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-LEAF1A Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.22 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-LEAF1A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
@@ -13,6 +16,9 @@ Aug 17 13:30:35 DC1-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  Aug 17 13:30:35 DC1-LEAF1B ConfigAgent: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1847) at tbl://sysdb/+n closed by peer (EOF)
  Aug 17 13:30:35 DC1-LEAF1B ConfigAgent: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1847))
  Aug 17 13:30:35 DC1-LEAF1B ConfigAgent: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.
+ Aug 17 14:20:39 DC1-LEAF1B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.26 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-LEAF1B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.24 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-LEAF1B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.28 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-LEAF1B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
@@ -20,11 +26,17 @@ DC1-LEAF2A,VerifyLoggingErrors,failure,"Device has reported syslog messages with
 Aug 17 13:30:37 DC1-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1616) -- Master ProcMgr (PID=1616) exiting.
  Aug 17 13:30:37 DC1-LEAF2A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3578) at tbl://stpListen/+n closed by peer (EOF)
  Aug 17 13:30:37 DC1-LEAF2A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3578))
+ Aug 17 14:20:38 DC1-LEAF2A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.32 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-LEAF2A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.30 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-LEAF2A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.34 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-LEAF2A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC1-LEAF2B,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 17 13:30:41 DC1-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1612) -- Master ProcMgr (PID=1612) exiting.
+ Aug 17 14:20:39 DC1-LEAF2B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.38 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-LEAF2B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.36 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-LEAF2B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.40 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-LEAF2B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
@@ -32,10 +44,13 @@ DC1-LEAF3A,VerifyLoggingErrors,failure,"Device has reported syslog messages with
 Aug 17 13:30:38 DC1-LEAF3A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1617) -- Master ProcMgr (PID=1617) exiting.
  Aug 17 13:30:38 DC1-LEAF3A StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3508) at tbl://stpListen/+n closed by peer (EOF)
  Aug 17 13:30:38 DC1-LEAF3A StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3508))
+ Aug 17 14:20:38 DC1-LEAF3A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.86 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-LEAF3A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.84 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-LEAF3A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.88 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-LEAF3A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC1-LEAF3B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 1039903 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 1039902 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 202598,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC1-LEAF3B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 3046378 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 3046377 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 598041,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC1-LEAF3B,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 17 13:30:39 DC1-LEAF3B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1619) -- Master ProcMgr (PID=1619) exiting.
  Aug 17 13:30:39 DC1-LEAF3B ConfigAgent: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1861) at tbl://sysdb/+n closed by peer (EOF)
@@ -47,6 +62,9 @@ Aug 17 13:30:39 DC1-LEAF3B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  Aug 17 13:30:39 DC1-LEAF3B StageMgr: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1861) at tbl://sysdb/+n closed by peer (EOF)
  Aug 17 13:30:39 DC1-LEAF3B StageMgr: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1861))
  Aug 17 13:30:39 DC1-LEAF3B StageMgr: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.
+ Aug 17 14:20:38 DC1-LEAF3B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.92 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:38 DC1-LEAF3B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.90 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-LEAF3B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.94 (VRF default AS 65000) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-LEAF3B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
@@ -54,11 +72,23 @@ DC1-SPINE1,VerifyLoggingErrors,failure,"Device has reported syslog messages with
 Aug 17 13:30:45 DC1-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1593) -- Master ProcMgr (PID=1593) exiting.
  Aug 17 13:30:45 DC1-SPINE1 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3432) at tbl://stpListen/+n closed by peer (EOF)
  Aug 17 13:30:45 DC1-SPINE1 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3432))
+ Aug 17 14:20:39 DC1-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.31 (VRF default AS 65102) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.91 (VRF default AS 65103) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.19 (VRF default AS 65101) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.85 (VRF default AS 65103) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.37 (VRF default AS 65102) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.25 (VRF default AS 65101) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-SPINE1,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC1-SPINE2,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 17 13:30:39 DC1-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1592) -- Master ProcMgr (PID=1592) exiting.
+ Aug 17 14:20:39 DC1-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.39 (VRF default AS 65102) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.27 (VRF default AS 65101) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.93 (VRF default AS 65103) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.21 (VRF default AS 65101) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.33 (VRF default AS 65102) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.87 (VRF default AS 65103) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-SPINE2,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
@@ -75,11 +105,20 @@ Aug 17 13:30:35 DC1-SPINE3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdo
  Aug 17 13:30:35 DC1-SPINE3 Fru: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Sysdb (pid:1838) at tbl://sysdb/+n closed by peer (EOF)
  Aug 17 13:30:35 DC1-SPINE3 Fru: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://sysdb/+n-in)(Sysdb (pid:1838))
  Aug 17 13:30:35 DC1-SPINE3 Fru: %FWK-3-MOUNT_CLOSED_EXIT: Process exiting.
+ Aug 17 14:20:38 DC1-SPINE3 Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.20.0.23 (VRF default AS 65101) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE3 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.29 (VRF default AS 65101) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE3 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.41 (VRF default AS 65102) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE3 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.95 (VRF default AS 65103) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE3 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.89 (VRF default AS 65103) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC1-SPINE3 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.20.0.35 (VRF default AS 65102) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC1-SPINE3,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC2-LEAF1A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 17 13:30:36 DC2-LEAF1A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1615) -- Master ProcMgr (PID=1615) exiting.
+ Aug 17 14:20:39 DC2-LEAF1A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.62 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-LEAF1A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.60 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-LEAF1A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.64 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-LEAF1A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
@@ -87,17 +126,26 @@ DC2-LEAF1B,VerifyLoggingErrors,failure,"Device has reported syslog messages with
 Aug 17 13:30:35 DC2-LEAF1B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1620) -- Master ProcMgr (PID=1620) exiting.
  Aug 17 13:30:35 DC2-LEAF1B StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3547) at tbl://stpListen/+n closed by peer (EOF)
  Aug 17 13:30:35 DC2-LEAF1B StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3547))
+ Aug 17 14:20:39 DC2-LEAF1B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.68 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-LEAF1B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.66 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-LEAF1B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.70 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-LEAF1B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC2-LEAF2A,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 17 13:30:41 DC2-LEAF2A ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1619) -- Master ProcMgr (PID=1619) exiting.
+ Aug 17 14:20:38 DC2-LEAF2A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.74 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:38 DC2-LEAF2A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.72 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-LEAF2A Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.76 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-LEAF2A,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC2-LEAF2B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 1053137 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 1053134 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 214812,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
+DC2-LEAF2B,VerifyInterfaceDiscards,failure,Interface: Ethernet49/1 - Non-zero discard counter(s): inDiscards: 3073614 - Interface: Ethernet50/1 - Non-zero discard counter(s): inDiscards: 3073609 - Interface: Ethernet56/1 - Non-zero discard counter(s): inDiscards: 624873,Verifies that the interfaces packet discard counters are equal to zero.,Interfaces
 DC2-LEAF2B,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 17 13:30:34 DC2-LEAF2B ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1615) -- Master ProcMgr (PID=1615) exiting.
+ Aug 17 14:20:39 DC2-LEAF2B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.80 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-LEAF2B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.78 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-LEAF2B Bgp: %BGP-3-NOTIFICATION: received from neighbor 10.30.0.82 (VRF default AS 65200) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-LEAF2B,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
@@ -105,11 +153,19 @@ DC2-SPINE1,VerifyLoggingErrors,failure,"Device has reported syslog messages with
 Aug 17 13:30:44 DC2-SPINE1 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1593) -- Master ProcMgr (PID=1593) exiting.
  Aug 17 13:30:44 DC2-SPINE1 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3508) at tbl://stpListen/+n closed by peer (EOF)
  Aug 17 13:30:44 DC2-SPINE1 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3508))
+ Aug 17 14:20:39 DC2-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.67 (VRF default AS 65201) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.61 (VRF default AS 65201) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.73 (VRF default AS 65202) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-SPINE1 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.79 (VRF default AS 65202) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-SPINE1,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
 DC2-SPINE2,VerifyLoggingErrors,failure,"Device has reported syslog messages with a severity of ERRORS or higher:
 Aug 17 13:30:42 DC2-SPINE2 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1592) -- Master ProcMgr (PID=1592) exiting.
+ Aug 17 14:20:39 DC2-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.63 (VRF default AS 65201) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.75 (VRF default AS 65202) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.81 (VRF default AS 65202) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-SPINE2 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.69 (VRF default AS 65201) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-SPINE2,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
@@ -117,10 +173,13 @@ DC2-SPINE3,VerifyLoggingErrors,failure,"Device has reported syslog messages with
 Aug 17 13:30:40 DC2-SPINE3 ProcMgr: %PROCMGR-3-SHUTDOWNREQUESTED: ProcMgr shutdown requested via SIGQUIT or SIGTERM to worker (PID=1590) -- Master ProcMgr (PID=1590) exiting.
  Aug 17 13:30:40 DC2-SPINE3 StpTxRx: %FWK-3-SOCKET_CLOSE_REMOTE: Connection to Stp (pid:3538) at tbl://stpListen/+n closed by peer (EOF)
  Aug 17 13:30:40 DC2-SPINE3 StpTxRx: %FWK-3-MOUNT_PEER_CLOSED: Peer closed socket connection. (tbl://stpListen/+n-in)(Stp (pid:3538))
+ Aug 17 14:20:39 DC2-SPINE3 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.65 (VRF default AS 65201) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-SPINE3 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.77 (VRF default AS 65202) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-SPINE3 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.71 (VRF default AS 65201) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
+ Aug 17 14:20:39 DC2-SPINE3 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.30.0.83 (VRF default AS 65202) 6/3 (Cease/peer de-configured <Hard Reset>) 0 bytes
  
 ",Verifies there are no syslog messages with a severity of ERRORS or higher.,Logging
 DC2-SPINE3,VerifyNTP,failure,NTP status mismatch - Expected: synchronised Actual: unsynchronised,Verifies if NTP is synchronised.,System
-DC1-LEAF1A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF1A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -130,6 +189,8 @@ DC1-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF1A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF1A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF1A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -138,7 +199,6 @@ DC1-LEAF1A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF1A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF1A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF1A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-LEAF1B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF1B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF1B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -148,6 +208,8 @@ DC1-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF1B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF1B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF1B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -156,7 +218,6 @@ DC1-LEAF1B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF1B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF1B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF1B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-LEAF2A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -166,6 +227,8 @@ DC1-LEAF2A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF2A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF2A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF2A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -174,7 +237,6 @@ DC1-LEAF2A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF2A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF2A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF2A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-LEAF2B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF2B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF2B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF2B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -184,6 +246,8 @@ DC1-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF2B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF2B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF2B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -192,7 +256,6 @@ DC1-LEAF2B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF2B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF2B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF2B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-LEAF3A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF3A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF3A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF3A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -202,6 +265,8 @@ DC1-LEAF3A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF3A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF3A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF3A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF3A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF3A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF3A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -210,7 +275,6 @@ DC1-LEAF3A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF3A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF3A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF3A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-LEAF3B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF3B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF3B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF3B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -219,6 +283,8 @@ DC1-LEAF3B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-LEAF3B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF3B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-LEAF3B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF3B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF3B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF3B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -227,7 +293,6 @@ DC1-LEAF3B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF3B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF3B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF3B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-SPINE1,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE1,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -237,6 +302,8 @@ DC1-SPINE1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-SPINE1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-SPINE1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE1,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-SPINE1,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-SPINE1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -245,7 +312,6 @@ DC1-SPINE1,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE1,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-SPINE2,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE2,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE2,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE2,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -255,6 +321,8 @@ DC1-SPINE2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-SPINE2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-SPINE2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE2,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-SPINE2,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-SPINE2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -263,7 +331,6 @@ DC1-SPINE2,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE2,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-SPINE3,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE3,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE3,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE3,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -273,6 +340,8 @@ DC1-SPINE3,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-SPINE3,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE3,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-SPINE3,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE3,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-SPINE3,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-SPINE3,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE3,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE3,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -281,7 +350,6 @@ DC1-SPINE3,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE3,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE3,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE3,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-LEAF1A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF1A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -291,6 +359,8 @@ DC2-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF1A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF1A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-LEAF1A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -299,7 +369,6 @@ DC2-LEAF1A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF1A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF1A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF1A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-LEAF1B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF1B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF1B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF1B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -309,6 +378,8 @@ DC2-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF1B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF1B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-LEAF1B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -317,7 +388,6 @@ DC2-LEAF1B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF1B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF1B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF1B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-LEAF2A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -327,6 +397,8 @@ DC2-LEAF2A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF2A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF2A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-LEAF2A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -335,7 +407,6 @@ DC2-LEAF2A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF2A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF2A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF2A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-LEAF2B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF2B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF2B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -344,6 +415,8 @@ DC2-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-LEAF2B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF2B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-LEAF2B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -352,7 +425,6 @@ DC2-LEAF2B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF2B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF2B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF2B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-SPINE1,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE1,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -362,6 +434,8 @@ DC2-SPINE1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-SPINE1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-SPINE1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-SPINE1,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-SPINE1,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-SPINE1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -370,7 +444,6 @@ DC2-SPINE1,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-SPINE1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-SPINE1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-SPINE1,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-SPINE2,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE2,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE2,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE2,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -380,6 +453,8 @@ DC2-SPINE2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-SPINE2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-SPINE2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-SPINE2,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-SPINE2,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-SPINE2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -388,7 +463,6 @@ DC2-SPINE2,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-SPINE2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-SPINE2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-SPINE2,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-SPINE3,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE3,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE3,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE3,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -398,6 +472,8 @@ DC2-SPINE3,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-SPINE3,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE3,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-SPINE3,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-SPINE3,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-SPINE3,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-SPINE3,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE3,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE3,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
