@@ -10,8 +10,8 @@ documentation_dir: AVD-information/documentation
 fabric_name: FABRIC
 
 # Underlay and overlay routing protocols
-underlay_routing_protocol: ebgp
-overlay_routing_protocol: ospf
+overlay_routing_protocol: ebgp
+underlay_routing_protocol: ospf
 
 # BGP default settings
 bgp_defaults:
