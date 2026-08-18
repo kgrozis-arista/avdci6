@@ -7,9 +7,6 @@
   hosts: localhost
   connection: local
   gather_facts: false
-  vars:
-    reset_configs_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
-    eos_config_dir: "{{ playbook_dir | dirname }}/AVD-information/configs"
   tasks:
     - name: Display banner and copy reset configs  # noqa: key-order[task]
       block:
@@ -28,16 +25,14 @@
         - name: Debug - Show reset config directory paths
           ansible.builtin.debug:
             msg: |
-              Reset Config Directory Paths:
+              Reset Config Directory Paths (from group_vars):
                 - reset_configs_dir: {{ reset_configs_dir }}
-                - eos_config_dir: {{ eos_config_dir }}
-                - reset_configs resolved: {{ reset_configs_dir | realpath }}
-                - eos_config resolved: {{ eos_config_dir | realpath }}
-                - Playbook dir: {{ playbook_dir }}
-                - Working dir: {{ lookup('pipe', 'pwd') }}
+                - configs_dir: {{ configs_dir }}
+                - Resolved reset_configs_dir: {{ reset_configs_dir | realpath }}
+                - Resolved configs_dir: {{ configs_dir | realpath }}
         - name: Copy reset configs to standard location for deployment
           ansible.builtin.shell: |
-            cp {{ reset_configs_dir }}/*.cfg {{ eos_config_dir }}/
+            cp {{ reset_configs_dir }}/*.cfg {{ configs_dir }}/
           changed_when: true
       run_once: true  # noqa: run-once[task]
 

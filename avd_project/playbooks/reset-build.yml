@@ -6,8 +6,6 @@
   hosts: FABRIC
   connection: local
   gather_facts: false
-  vars:
-    reset_output_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
   pre_tasks:
     - name: Display banner and create output directory  # noqa: key-order[task]
       block:
@@ -21,14 +19,12 @@
         - name: Debug - Show reset output directory path
           ansible.builtin.debug:
             msg: |
-              Reset Output Directory Path:
-                - reset_output_dir: {{ reset_output_dir }}
-                - Resolved path: {{ reset_output_dir | realpath }}
-                - Playbook dir: {{ playbook_dir }}
-                - Working dir: {{ lookup('pipe', 'pwd') }}
+              Reset Output Directory Path (from group_vars):
+                - reset_configs_dir: {{ reset_configs_dir }}
+                - Resolved path: {{ reset_configs_dir | realpath }}
         - name: Create reset config output directory
           ansible.builtin.file:
-            path: "{{ reset_output_dir }}"
+            path: "{{ reset_configs_dir }}"
             state: directory
             mode: '0755'
       run_once: true  # noqa: run-once[task]
@@ -36,7 +32,7 @@
     - name: Generate reset configuration from template  # noqa: key-order[task]
       ansible.builtin.template:
         src: reset-config.j2
-        dest: "{{ reset_output_dir }}/{{ inventory_hostname }}.cfg"
+        dest: "{{ reset_configs_dir }}/{{ inventory_hostname }}.cfg"
         mode: '0644'
       vars:
         device_name: "{{ inventory_hostname }}"
@@ -61,7 +57,6 @@
   connection: local
   gather_facts: false
   vars:
-    reset_output_dir: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
     host_list:
       - DC1-HOST1
       - DC1-HOST2
@@ -75,22 +70,22 @@
   pre_tasks:
     - name: Ensure reset-configs directory exists
       ansible.builtin.file:
-        path: "{{ reset_output_dir }}"
+        path: "{{ reset_configs_dir }}"
         state: directory
         mode: '0755'
     - name: Debug - Show reset output directory path
       ansible.builtin.debug:
         msg: |
           Reset Output Directory Path:
-            - reset_output_dir: {{ reset_output_dir }}
-            - Resolved path: {{ reset_output_dir | realpath }}
+            - reset_configs_dir: {{ reset_configs_dir }}
+            - Resolved path: {{ reset_configs_dir | realpath }}
             - Playbook dir: {{ playbook_dir }}
             - Working dir: {{ lookup('pipe', 'pwd') }}
   tasks:
     - name: Generate reset configuration from template for hosts
       ansible.builtin.template:
         src: reset-config.j2
-        dest: "{{ reset_output_dir }}/{{ item }}.cfg"
+        dest: "{{ reset_configs_dir }}/{{ item }}.cfg"
         mode: '0644'
       loop: "{{ host_list }}"
       vars:

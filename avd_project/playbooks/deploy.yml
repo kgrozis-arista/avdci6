@@ -21,11 +21,10 @@
     - name: Debug - Show config directory path (what cv_deploy role uses)  # noqa: run-once[task]
       ansible.builtin.debug:
         msg: |
-          Config Directory Path:
-            - output_dir (used by cv_deploy): {{ output_dir }}
-            - Resolved path: {{ output_dir | realpath }}/configs/
-            - Playbook dir: {{ playbook_dir }}
-            - Working dir: {{ lookup('pipe', 'pwd') }}
+          Config Directory Path (from group_vars):
+            - output_dir: {{ output_dir }}
+            - configs_dir: {{ configs_dir }}
+            - Resolved configs_dir: {{ configs_dir | realpath }}
       delegate_to: localhost
       run_once: true  # noqa: run-once[task]
 
