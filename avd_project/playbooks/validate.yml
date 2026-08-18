@@ -19,7 +19,6 @@
       ansible.builtin.import_role:
         name: arista.avd.anta_runner
       vars:
-        anta_dir: "{{ anta_dir }}"
         anta_report_expand_results: true
         avd_catalogs_filters:
           # Skip VerifyNTP for all devices targeted by the run
