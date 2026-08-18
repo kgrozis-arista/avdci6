@@ -1,1 +1,69 @@
 Device,Test Name,Test Status,Message(s),Test description,Test category
+DC1-SPINE1,VerifyBGPPeerSession,failure,Peer: 10.10.1.4 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.10.1.5 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.10.1.6 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.10.1.7 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.10.1.15 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.10.1.16 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.20.0.19 VRF: default - Incorrect session state - Expected: Established Actual: Connect - Peer: 10.20.0.25 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.20.0.31 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.20.0.37 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.20.0.85 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.20.0.91 VRF: default - Incorrect session state - Expected: Established Actual: Active,Verifies the session state of BGP peers.,BGP
+DC1-SPINE1,VerifyLLDPNeighbors,failure,Port: Ethernet1/1 Neighbor: DC1-LEAF1A Neighbor Port: Ethernet51/1 - No LLDP neighbors - Port: Ethernet2/1 Neighbor: DC1-LEAF1B Neighbor Port: Ethernet51/1 - No LLDP neighbors - Port: Ethernet3/1 Neighbor: DC1-LEAF2A Neighbor Port: Ethernet51/1 - No LLDP neighbors - Port: Ethernet4/1 Neighbor: DC1-LEAF2B Neighbor Port: Ethernet51/1 - No LLDP neighbors - Port: Ethernet5/1 Neighbor: DC1-LEAF3A Neighbor Port: Ethernet51/1 - No LLDP neighbors - Port: Ethernet6/1 Neighbor: DC1-LEAF3B Neighbor Port: Ethernet51/1 - No LLDP neighbors,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-SPINE3,VerifyBGPPeerSession,failure,Peer: 10.10.1.4 VRF: default - Not found - Peer: 10.10.1.5 VRF: default - Not found - Peer: 10.10.1.6 VRF: default - Not found - Peer: 10.10.1.7 VRF: default - Not found - Peer: 10.10.1.15 VRF: default - Not found - Peer: 10.10.1.16 VRF: default - Not found - Peer: 10.20.0.23 VRF: default - Not found - Peer: 10.20.0.29 VRF: default - Not found - Peer: 10.20.0.35 VRF: default - Not found - Peer: 10.20.0.41 VRF: default - Not found - Peer: 10.20.0.89 VRF: default - Not found - Peer: 10.20.0.95 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC1-SPINE3,VerifyLLDPNeighbors,failure,Port: Ethernet1/1 Neighbor: DC1-LEAF1A Neighbor Port: Ethernet53/1 - No LLDP neighbors - Port: Ethernet2/1 Neighbor: DC1-LEAF1B Neighbor Port: Ethernet53/1 - No LLDP neighbors - Port: Ethernet3/1 Neighbor: DC1-LEAF2A Neighbor Port: Ethernet53/1 - No LLDP neighbors - Port: Ethernet4/1 Neighbor: DC1-LEAF2B Neighbor Port: Ethernet53/1 - No LLDP neighbors - Port: Ethernet5/1 Neighbor: DC1-LEAF3A Neighbor Port: Ethernet53/1 - No LLDP neighbors - Port: Ethernet6/1 Neighbor: DC1-LEAF3B Neighbor Port: Ethernet53/1 - No LLDP neighbors,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC2-SPINE1,VerifyBGPPeerSession,failure,Peer: 10.10.3.11 VRF: default - Not found - Peer: 10.10.3.12 VRF: default - Not found - Peer: 10.10.3.13 VRF: default - Not found - Peer: 10.10.3.14 VRF: default - Not found - Peer: 10.30.0.61 VRF: default - Not found - Peer: 10.30.0.67 VRF: default - Not found - Peer: 10.30.0.73 VRF: default - Not found - Peer: 10.30.0.79 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC2-SPINE1,VerifyLLDPNeighbors,failure,Port: Ethernet1/1 Neighbor: DC2-LEAF1A Neighbor Port: Ethernet51/1 - No LLDP neighbors - Port: Ethernet2/1 Neighbor: DC2-LEAF1B Neighbor Port: Ethernet51/1 - No LLDP neighbors - Port: Ethernet3/1 Neighbor: DC2-LEAF2A Neighbor Port: Ethernet51/1 - No LLDP neighbors - Port: Ethernet4/1 Neighbor: DC2-LEAF2B Neighbor Port: Ethernet51/1 - No LLDP neighbors,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC2-SPINE2,VerifyBGPPeerSession,failure,Peer: 10.10.3.11 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.10.3.12 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.10.3.13 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.10.3.14 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.30.0.63 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.30.0.69 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.30.0.75 VRF: default - Incorrect session state - Expected: Established Actual: Active - Peer: 10.30.0.81 VRF: default - Incorrect session state - Expected: Established Actual: Active,Verifies the session state of BGP peers.,BGP
+DC2-SPINE2,VerifyLLDPNeighbors,failure,Port: Ethernet1/1 Neighbor: DC2-LEAF1A Neighbor Port: Ethernet52/1 - No LLDP neighbors - Port: Ethernet2/1 Neighbor: DC2-LEAF1B Neighbor Port: Ethernet52/1 - No LLDP neighbors - Port: Ethernet3/1 Neighbor: DC2-LEAF2A Neighbor Port: Ethernet52/1 - No LLDP neighbors - Port: Ethernet4/1 Neighbor: DC2-LEAF2B Neighbor Port: Ethernet52/1 - No LLDP neighbors,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
+DC1-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
+DC1-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
+DC1-SPINE1,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-SPINE1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
+DC1-SPINE1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
+DC1-SPINE1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-SPINE1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
+DC1-SPINE1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
+DC1-SPINE1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
+DC1-SPINE1,VerifyCoredump,success,,Verifies there are no core dump files.,System
+DC1-SPINE1,VerifyFileSystemUtilization,success,,Verifies that no partition is utilizing more than 75% of its disk space.,System
+DC1-SPINE1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
+DC1-SPINE1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
+DC1-SPINE1,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC1-SPINE3,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
+DC1-SPINE3,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
+DC1-SPINE3,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC1-SPINE3,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
+DC1-SPINE3,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
+DC1-SPINE3,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-SPINE3,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE3,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
+DC1-SPINE3,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
+DC1-SPINE3,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
+DC1-SPINE3,VerifyCoredump,success,,Verifies there are no core dump files.,System
+DC1-SPINE3,VerifyFileSystemUtilization,success,,Verifies that no partition is utilizing more than 75% of its disk space.,System
+DC1-SPINE3,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
+DC1-SPINE3,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
+DC1-SPINE3,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
+DC2-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
+DC2-SPINE1,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC2-SPINE1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
+DC2-SPINE1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
+DC2-SPINE1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-SPINE1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-SPINE1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
+DC2-SPINE1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
+DC2-SPINE1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
+DC2-SPINE1,VerifyCoredump,success,,Verifies there are no core dump files.,System
+DC2-SPINE1,VerifyFileSystemUtilization,success,,Verifies that no partition is utilizing more than 75% of its disk space.,System
+DC2-SPINE1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
+DC2-SPINE1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
+DC2-SPINE1,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
+DC2-SPINE2,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
+DC2-SPINE2,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
+DC2-SPINE2,VerifyReachability,success,,Verifies point-to-point reachability between Ethernet interfaces.,Connectivity
+DC2-SPINE2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
+DC2-SPINE2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
+DC2-SPINE2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-SPINE2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-SPINE2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
+DC2-SPINE2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
+DC2-SPINE2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
+DC2-SPINE2,VerifyCoredump,success,,Verifies there are no core dump files.,System
+DC2-SPINE2,VerifyFileSystemUtilization,success,,Verifies that no partition is utilizing more than 75% of its disk space.,System
+DC2-SPINE2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
+DC2-SPINE2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
+DC2-SPINE2,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
