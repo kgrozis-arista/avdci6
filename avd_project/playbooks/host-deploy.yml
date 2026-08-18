@@ -20,6 +20,17 @@
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
 
+    - name: Debug - Show config directory path
+      ansible.builtin.debug:
+        msg: |
+          Config Directory Path:
+            - configs_dir variable: {{ configs_dir }}
+            - Resolved path: {{ configs_dir | realpath }}
+            - Playbook dir: {{ playbook_dir }}
+            - Working dir: {{ lookup('pipe', 'pwd') }}
+      delegate_to: localhost
+      run_once: true
+
   tasks:
     - name: Verify host configuration file exists
       ansible.builtin.stat:
