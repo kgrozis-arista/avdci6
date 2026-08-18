@@ -7,6 +7,8 @@
   hosts: FABRIC
   connection: local
   gather_facts: false
+  vars:
+    output_base_dir: "{{ playbook_dir | dirname }}/AVD-information"
   tasks:
     - name: Display banner
       ansible.builtin.debug:
@@ -19,10 +21,15 @@
     - name: Run eos_designs role to generate structured configs
       ansible.builtin.import_role:
         name: arista.avd.eos_designs
+      vars:
+        eos_designs_structured_config_dir: "{{ output_base_dir }}/structured_configs"
 
     - name: Run eos_cli_config_gen role to render device CLI configs
       ansible.builtin.import_role:
         name: arista.avd.eos_cli_config_gen
+      vars:
+        eos_cli_config_gen_config_dir: "{{ output_base_dir }}/configs"
+        eos_cli_config_gen_defs_dir: "{{ output_base_dir }}/structured_configs"
 
     - name: Display completion banner
       ansible.builtin.debug:
@@ -30,7 +37,7 @@
           ╔════════════════════════════════════════════════════════════════╗
           ║                  Build Complete ✓                              ║
           ║                                                                ║
-          ║  Outputs available in: intended/                              ║
+          ║  Outputs available in: AVD-information/                        ║
           ║  - configs/            (EOS device configurations)            ║
           ║  - structured_configs/ (Data models in YAML)                  ║
           ║  - documentation/      (Fabric topology and reports)          ║
