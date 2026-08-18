@@ -30,7 +30,6 @@
         name: arista.avd.eos_designs
       vars:
         eos_designs_structured_config_dir: "{{ output_base_dir }}/structured_configs"
-        eos_designs_documentation_dir: "{{ output_base_dir }}/documentation"
 
     - name: Run eos_cli_config_gen role to render device CLI configs
       ansible.builtin.import_role:

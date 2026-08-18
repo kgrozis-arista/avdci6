@@ -4,6 +4,7 @@
 
 # AVD output directory configuration
 output_dir: AVD-information
+documentation_dir: AVD-information/documentation
 
 # Fabric identification
 fabric_name: FABRIC
