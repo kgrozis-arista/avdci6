@@ -46,12 +46,12 @@
       vars:
         cv_verify_certs: false
         cv_verify_devices_exist: false
-        cv_run_change_control: true
+        cv_run_change_control: "{{ 'dev' in (cloudvision_host | default('cv_dev_server')) }}"
         cv_register_detailed_results: true
         cv_workspace_description: |
           Reset {{ inventory_hostname }} from {{ lookup('env', 'USER') }}
           on {{ ansible_date_time.iso8601 | default('') }}
-        cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
+        cv_server: "{{ hostvars[cv_inventory_hostname].ansible_host }}"
         cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
 
 - name: Deploy reset configurations to hosts
@@ -74,7 +74,7 @@
         cv_workspace_description: |
           Reset {{ inventory_hostname }} from {{ lookup('env', 'USER') }}
           on {{ ansible_date_time.iso8601 | default('') }}
-        cv_server: "{{ hostvars[cv_inventory_hostname].ansible_user }}"
+        cv_server: "{{ hostvars[cv_inventory_hostname].ansible_host }}"
         cv_token: "{{ hostvars[cv_inventory_hostname].ansible_password }}"
       failed_when: false
   post_tasks:

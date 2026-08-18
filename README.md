@@ -358,6 +358,23 @@ Repeatable workflow for validating fabric state in **prod environment**:
 
 ### **Step 99: Reset Topology** (`make step99-reset`)
 Emergency recovery workflow to restore all devices to baseline state:
+
+**Overall reset (both dev & prod):**
+```bash
+make step99-reset
+```
+
+**Dev only:**
+```bash
+make step99-reset-dev
+```
+
+**Prod only:**
+```bash
+make step99-reset-prod
+```
+
+Each reset orchestrates:
 - **Reset Build** — Generate baseline reset configurations for fabric and hosts
 - **Reset Deploy** — Push reset configs to CloudVision Portal
 
@@ -368,6 +385,7 @@ Emergency recovery workflow to restore all devices to baseline state:
 - Normal AVD configs remain in `avd_project/AVD-information/configs/`
 - After running reset, execute `make build` to regenerate and redeploy normal AVD configurations
 - This is a **destructive operation** — all network configuration will be removed
+- Prod reset targets prod CloudVision with proper change control handling
 
 ---
 
@@ -613,15 +631,28 @@ make host-deploy   # Same as: make dev-host-deploy
 
 ### Step 99: Reset Topology to Baseline
 
-Use this workflow when you need to restore all devices to their baseline state, removing all AVD-managed configurations:
+Use this workflow when you need to restore all devices to their baseline state, removing all AVD-managed configurations.
 
+#### Reset Hierarchy
+
+**Overall reset (both dev & prod):**
 ```bash
 make step99-reset
 ```
 
-This orchestrates:
+**Dev reset only:**
+```bash
+make step99-reset-dev     # Orchestrates: dev-reset-build → dev-reset-deploy
+```
+
+**Prod reset only:**
+```bash
+make step99-reset-prod    # Orchestrates: prod-reset-build → prod-reset-deploy
+```
+
+Each reset target orchestrates:
 1. **Reset Build** — Generate baseline reset configurations for all fabric (spines, leafs) and host devices
-2. **Reset Deploy** — Deploy reset configs to CloudVision Portal
+2. **Reset Deploy** — Deploy reset configs to CloudVision Portal (with proper CloudVision targeting)
 
 ### How Reset Works
 
@@ -639,19 +670,37 @@ This orchestrates:
 
 ### Reset Workflow
 
+**Option 1: Reset both dev and prod**
+```bash
+make step99-reset
+```
+
+**Option 2: Reset dev only**
+```bash
+make step99-reset-dev
+```
+
+**Option 3: Reset prod only**
+```bash
+make step99-reset-prod
+```
+
+Each reset workflow:
 1. **Run reset:**
-   ```bash
-   make step99-reset
-   ```
    - Generates reset configs from template
    - Confirms deployment (type "RESET" to proceed)
-   - Deploys to CloudVision Portal
+   - Deploys to appropriate CloudVision Portal (dev or prod)
    - Devices revert to baseline state
 
 2. **Restore normal management:**
    ```bash
-   make build     # Regenerates normal AVD configs
-   make deploy    # Deploys normal configs to CloudVision
+   make dev-build    # Regenerates normal AVD configs (dev)
+   make dev-deploy   # Deploys normal configs to dev CloudVision
+   ```
+   Or for prod:
+   ```bash
+   make prod-build   # Regenerates normal AVD configs (prod)
+   make prod-deploy  # Deploys normal configs to prod CloudVision
    ```
 
 3. **Verify devices:**
@@ -1143,9 +1192,16 @@ make check                   # Verify environment
 
 ---
 
-**Last Updated:** August 17, 2026  
-**Version:** 3.4 — Host Configuration (Step 3) with Dev/Prod Separation and LAG/Port Profiles  
-**AVD Version:** 6.3+  
+**Last Updated:** August 18, 2026  
+**Version:** 3.5 — Reset Workflow Dev/Prod Separation, Build Output Alignment, Playbook Fixes  
+**AVD Version:** 6.3+
+
+### Version 3.5 Changes
+- Restructured reset targets with dev/prod hierarchy (step99-reset-dev, step99-reset-prod)
+- Fixed build playbook to output to AVD-information directory (consistent with deploy playbook expectations)
+- Fixed reset-deploy.yml cv_server reference from ansible_user to ansible_host
+- Fixed cv_run_change_control logic for fabric reset targeting
+- Added prod CloudVision targeting support for reset workflows  
 **Ansible:** 2.14+  
 **Python:** 3.8+
 **Key Features:**
