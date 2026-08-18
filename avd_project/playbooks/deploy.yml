@@ -7,7 +7,6 @@
   connection: local
   gather_facts: false
   vars:
-    configs_dir: "../AVD-information/configs"
     cv_inventory_hostname: "{{ cloudvision_host | default('cv_dev_server') }}"
   tasks:
     - name: Display banner
@@ -19,12 +18,12 @@
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
 
-    - name: Debug - Show config directory path
+    - name: Debug - Show config directory path (what cv_deploy role uses)
       ansible.builtin.debug:
         msg: |
           Config Directory Path:
-            - configs_dir variable: {{ configs_dir }}
-            - Resolved path: {{ configs_dir | realpath }}
+            - output_dir (used by cv_deploy): {{ output_dir }}
+            - Resolved path: {{ output_dir | realpath }}/configs/
             - Playbook dir: {{ playbook_dir }}
             - Working dir: {{ lookup('pipe', 'pwd') }}
       delegate_to: localhost
