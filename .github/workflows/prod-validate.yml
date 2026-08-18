@@ -59,18 +59,29 @@ jobs:
         run: |
           git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
           git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
+          git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
+
+          # First, add and commit any ANTA reports (clean working tree before rebase)
           git add ${{ env.AVD_OUTPUT_DIR }}/anta/ 2>/dev/null || true
 
-          # Only commit and push if there are changes
           if ! git diff --cached --quiet; then
             git commit -m "chore: update ANTA validation reports [skip-ci]"
-            git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
-            git pull --rebase origin "${{ github.ref_name }}"
-            git push origin HEAD:"${{ github.ref_name }}"
-            echo "✓ Pushed validation report changes"
-          else
-            echo "✓ No validation report changes to commit"
+            echo "✓ Committed ANTA validation reports"
           fi
+
+          # NOW fetch and rebase (working tree is clean)
+          git fetch origin "${{ github.ref_name }}"
+          # Use recursive merge strategy with 'theirs' for conflicts
+          # This auto-resolves ANTA report conflicts by accepting incoming changes
+          git rebase -X theirs origin/"${{ github.ref_name }}" || {
+            echo "⚠ Rebase failed, aborting to prevent conflicts"
+            git rebase --abort
+            exit 1
+          }
+
+          # Push the rebased branch with commits
+          git push origin HEAD:"${{ github.ref_name }}"
+          echo "✓ Pushed branch with validation reports"
 
       - name: Validation Summary
         if: success()
