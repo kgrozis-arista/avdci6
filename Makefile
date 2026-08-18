@@ -578,7 +578,7 @@ build-check: syntax
 # ============================================================================
 
 clean:
-	rm -rf avd_project/intended/configs/*
-	rm -rf avd_project/intended/structured_configs/*
-	rm -rf avd_project/documentation/*
+	rm -rf avd_project/AVD-information/configs/*
+	rm -rf avd_project/AVD-information/structured_configs/*
+	rm -rf avd_project/AVD-information/documentation/*
 	@echo "Cleaned generated outputs"
