@@ -46,7 +46,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step99-reset setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy check syntax lint clean
+.PHONY: help step1-setup step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step99-reset step99-reset-dev step99-reset-prod setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy dev-reset-build dev-reset-deploy prod-reset-build prod-reset-deploy check syntax lint clean
 
 # ============================================================================
 # Help
@@ -102,9 +102,13 @@ help:
 	@echo "    prod-validate          - Run ANTA validation tests on prod fabric"
 	@echo ""
 	@echo "Reset & Recovery:"
-	@echo "  step99-reset             - Reset topology to baseline: reset-build → reset-deploy"
-	@echo "    reset-build            - Generate reset configurations for all devices"
-	@echo "    reset-deploy           - Deploy reset configs to fabric and hosts"
+	@echo "  step99-reset             - Reset topology to baseline (both dev & prod)"
+	@echo "    step99-reset-dev       - Reset dev topology: dev-reset-build → dev-reset-deploy"
+	@echo "      dev-reset-build      - Generate dev reset configurations"
+	@echo "      dev-reset-deploy     - Deploy dev reset configs to fabric and hosts"
+	@echo "    step99-reset-prod      - Reset prod topology: prod-reset-build → prod-reset-deploy"
+	@echo "      prod-reset-build     - Generate prod reset configurations"
+	@echo "      prod-reset-deploy    - Deploy prod reset configs to fabric and hosts"
 	@echo ""
 	@echo "Utilities:"
 	@echo "  check                    - Dry-run: --check --diff"
@@ -136,6 +140,9 @@ help:
 	@echo "  make prod-validate                        # Validate prod fabric"
 	@echo "  make dev-host-build dev-host-deploy       # Build and deploy dev hosts"
 	@echo "  make prod-host-build prod-host-deploy     # Build and deploy prod hosts"
+	@echo "  make step99-reset                         # Reset topology (both dev & prod)"
+	@echo "  make step99-reset-dev                     # Reset dev topology only"
+	@echo "  make step99-reset-prod                    # Reset prod topology only"
 	@echo "  make bootstrap-avd-server LIMIT=dev_avd   # Manual: bootstrap specific server"
 	@echo ""
 
@@ -476,35 +483,63 @@ prod-validate:
 # Reset & Recovery
 # ============================================================================
 
-step99-reset: reset-build reset-deploy
+step99-reset: step99-reset-dev step99-reset-prod
 	@echo ""
-	@echo "✓ Step 99 complete: Topology reset finished!"
+	@echo "✓ Step 99 complete: Topology reset finished (dev & prod)!"
 	@echo ""
 	@echo "Summary:"
 	@echo "  ✓ Generated reset baseline configurations"
 	@echo "  ✓ Deployed reset configs to all devices"
-	@echo "  ✓ Restored fabric to original state"
-	@echo ""
-	@echo "Next steps:"
-	@echo "  1. Verify devices are reachable via management IP"
-	@echo "  2. Regenerate AVD configurations: make build"
-	@echo "  3. Redeploy to CloudVision: make deploy"
+	@echo "  ✓ Restored fabric to original state (dev and prod)"
 	@echo ""
 
-reset-build:
+step99-reset-dev: dev-reset-build dev-reset-deploy
 	@echo ""
-	@echo "Building reset configurations from baseline..."
+	@echo "✓ Dev topology reset complete!"
+
+step99-reset-prod: prod-reset-build prod-reset-deploy
+	@echo ""
+	@echo "✓ Prod topology reset complete!"
+
+reset-build: dev-reset-build
+	@echo "✓ Reset build complete (dev only - use dev-reset-build or prod-reset-build)"
+
+reset-deploy: dev-reset-deploy
+	@echo "✓ Reset deploy complete (dev only - use dev-reset-deploy or prod-reset-deploy)"
+
+dev-reset-build:
+	@echo ""
+	@echo "Building dev reset configurations from baseline..."
 	@echo ""
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/reset-build.yml
 
-reset-deploy:
+dev-reset-deploy:
 	@echo ""
-	@echo "⚠ WARNING: Deploying reset configurations to ALL devices!"
+	@echo "⚠ WARNING: Deploying dev reset configurations to fabric and hosts!"
 	@echo "This will remove all AVD configurations and restore baseline state."
 	@echo ""
 	@read -p "Are you sure? Type 'RESET' to continue: " confirm; \
 	if [ "$$confirm" = "RESET" ]; then \
 	  cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/reset-deploy.yml; \
+	else \
+	  echo "Reset cancelled."; \
+	  exit 1; \
+	fi
+
+prod-reset-build:
+	@echo ""
+	@echo "Building prod reset configurations from baseline..."
+	@echo ""
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/reset-build.yml
+
+prod-reset-deploy:
+	@echo ""
+	@echo "⚠ WARNING: Deploying prod reset configurations to fabric and hosts!"
+	@echo "This will remove all AVD configurations and restore baseline state."
+	@echo ""
+	@read -p "Are you sure? Type 'RESET' to continue: " confirm; \
+	if [ "$$confirm" = "RESET" ]; then \
+	  cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml -e "cloudvision_host=cv_prod_server" playbooks/reset-deploy.yml; \
 	else \
 	  echo "Reset cancelled."; \
 	  exit 1; \
