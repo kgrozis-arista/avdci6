@@ -35,35 +35,35 @@ management api http-commands
    vrf MGMT
       no shutdown
 !
-{% if 'HOST1' in inventory_hostname %}
-interface Ethernet1
-   description L2_TRUNK_DC{{ dc_num }}-LEAF1A
+interface Port-Channel1
+   description LAG_to_Leafs
    no shutdown
+   switchport trunk native vlan 4092
    switchport trunk allowed vlan 10,20,30,50
    switchport mode trunk
    switchport
 !
+{% if 'HOST1' in inventory_hostname %}
+interface Ethernet1
+   description L2_TRUNK_DC{{ dc_num }}-LEAF1A
+   no shutdown
+   channel-group 1 mode active
+!
 interface Ethernet2
    description L2_TRUNK_DC{{ dc_num }}-LEAF1B
    no shutdown
-   switchport trunk allowed vlan 10,20,30,50
-   switchport mode trunk
-   switchport
+   channel-group 1 mode active
 !
 {% elif 'HOST2' in inventory_hostname %}
 interface Ethernet1
    description L2_TRUNK_DC{{ dc_num }}-LEAF2A
    no shutdown
-   switchport trunk allowed vlan 10,20,30,50
-   switchport mode trunk
-   switchport
+   channel-group 1 mode active
 !
 interface Ethernet2
    description L2_TRUNK_DC{{ dc_num }}-LEAF2B
    no shutdown
-   switchport trunk allowed vlan 10,20,30,50
-   switchport mode trunk
-   switchport
+   channel-group 1 mode active
 !
 {% endif %}
 interface Loopback0
