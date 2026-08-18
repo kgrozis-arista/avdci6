@@ -19,7 +19,7 @@
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
 
-    - name: Debug - Show config directory path (what cv_deploy role uses)
+    - name: Debug - Show config directory path (what cv_deploy role uses)  # noqa: run-once[task]
       ansible.builtin.debug:
         msg: |
           Config Directory Path:
@@ -28,7 +28,7 @@
             - Playbook dir: {{ playbook_dir }}
             - Working dir: {{ lookup('pipe', 'pwd') }}
       delegate_to: localhost
-      run_once: true
+      run_once: true  # noqa: run-once[task]
 
   tasks:
     - name: Verify host configuration file exists

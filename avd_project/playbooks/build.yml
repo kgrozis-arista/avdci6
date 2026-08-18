@@ -18,7 +18,7 @@
           ║                      eos_designs role                          ║
           ╚════════════════════════════════════════════════════════════════╝
 
-    - name: Debug - Show output directory path
+    - name: Debug - Show output directory path  # noqa: run-once[task]
       ansible.builtin.debug:
         msg: |
           Output Directory Path:
@@ -26,7 +26,7 @@
             - Resolved path: {{ output_base_dir | realpath }}
             - Playbook dir: {{ playbook_dir }}
             - Working dir: {{ lookup('pipe', 'pwd') }}
-      run_once: true
+      run_once: true  # noqa: run-once[task]
 
     - name: Clean existing outputs and recreate directories  # noqa: run-once[task]
       ansible.builtin.shell: |
