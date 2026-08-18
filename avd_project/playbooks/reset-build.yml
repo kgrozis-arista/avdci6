@@ -18,6 +18,14 @@
               ║          Building Reset Configurations                          ║
               ║       Restoring Fabric to Baseline State                       ║
               ╚════════════════════════════════════════════════════════════════╝
+        - name: Debug - Show reset output directory path
+          ansible.builtin.debug:
+            msg: |
+              Reset Output Directory Path:
+                - reset_output_dir: {{ reset_output_dir }}
+                - Resolved path: {{ reset_output_dir | realpath }}
+                - Playbook dir: {{ playbook_dir }}
+                - Working dir: {{ lookup('pipe', 'pwd') }}
         - name: Create reset config output directory
           ansible.builtin.file:
             path: "{{ reset_output_dir }}"
@@ -70,6 +78,14 @@
         path: "{{ reset_output_dir }}"
         state: directory
         mode: '0755'
+    - name: Debug - Show reset output directory path
+      ansible.builtin.debug:
+        msg: |
+          Reset Output Directory Path:
+            - reset_output_dir: {{ reset_output_dir }}
+            - Resolved path: {{ reset_output_dir | realpath }}
+            - Playbook dir: {{ playbook_dir }}
+            - Working dir: {{ lookup('pipe', 'pwd') }}
   tasks:
     - name: Generate reset configuration from template for hosts
       ansible.builtin.template:

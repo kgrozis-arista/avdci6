@@ -30,6 +30,16 @@
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
 
+    - name: Debug - Show output directory path
+      ansible.builtin.debug:
+        msg: |
+          Output Directory Path:
+            - configs dir: {{ playbook_dir }}/../AVD-information/configs
+            - Resolved path: {{ (playbook_dir + '/../AVD-information/configs') | realpath }}
+            - Playbook dir: {{ playbook_dir }}
+            - Working dir: {{ lookup('pipe', 'pwd') }}
+      delegate_to: localhost
+
     - name: Generate host configurations from Jinja2 template
       ansible.builtin.template:
         src: templates/host.j2
