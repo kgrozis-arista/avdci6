@@ -7,8 +7,7 @@
   connection: local
   gather_facts: false
   vars:
-    output_dir: "{{ playbook_dir | dirname }}/AVD-information"
-    configs_dir: "{{ output_dir }}/configs"
+    configs_dir: "AVD-information/configs"
     cv_inventory_hostname: "{{ cloudvision_host | default('cv_dev_server') }}"
   tasks:
     - name: Display banner
