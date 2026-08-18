@@ -43,7 +43,7 @@ interface Port-Channel1
    switchport mode trunk
    switchport
 !
-{% if 'HOST1' in inventory_hostname %}
+{% if 'HOST1' in item %}
 interface Ethernet1
    description L2_TRUNK_DC{{ dc_num }}-LEAF1A
    no shutdown
@@ -54,7 +54,7 @@ interface Ethernet2
    no shutdown
    channel-group 1 mode active
 !
-{% elif 'HOST2' in inventory_hostname %}
+{% elif 'HOST2' in item %}
 interface Ethernet1
    description L2_TRUNK_DC{{ dc_num }}-LEAF2A
    no shutdown
