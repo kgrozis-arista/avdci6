@@ -33,7 +33,7 @@
   tasks:
     - name: Verify host configuration file exists
       ansible.builtin.stat:
-        path: "{{ output_dir }}/configs/{{ inventory_hostname }}.cfg"
+        path: "{{ playbook_dir }}/../AVD-information/configs/{{ inventory_hostname }}.cfg"
       register: host_cfg_stat
       delegate_to: localhost
 
@@ -42,7 +42,7 @@
         that: host_cfg_stat.stat.exists
         fail_msg: >-
           Config for {{ inventory_hostname }} not found at
-          {{ output_dir }}/configs/. Run `make host-build` first.
+          {{ playbook_dir }}/../AVD-information/configs/. Run `make host-build` first.
 
     - name: Deploy host configuration to CloudVision
       ansible.builtin.import_role:
