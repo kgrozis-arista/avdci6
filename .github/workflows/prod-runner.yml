@@ -255,13 +255,23 @@ jobs:
         run: |
           git config user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
           git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
+          git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
+
+          # Fetch latest remote state
+          git fetch origin "${{ github.ref_name }}"
+
+          # Rebase against remote BEFORE making changes
+          git rebase origin/"${{ github.ref_name }}" || {
+            echo "⚠ Rebase failed, aborting to prevent conflicts"
+            git rebase --abort
+            exit 1
+          }
+
+          # Now add and commit ANTA reports
           git add ${{ env.AVD_OUTPUT_DIR }}/anta/ 2>/dev/null || true
 
-          # Only commit and push if there are changes
           if ! git diff --cached --quiet; then
             git commit -m "chore: update ANTA validation reports [skip-ci]"
-            git remote set-url origin "https://oauth2:${{ secrets.AVDCI6_PAT }}@github.com/${{ github.repository }}.git"
-            git pull --rebase origin "${{ github.ref_name }}"
             git push origin HEAD:"${{ github.ref_name }}"
             echo "✓ Pushed validation report changes"
           else
