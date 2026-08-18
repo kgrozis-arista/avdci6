@@ -267,7 +267,9 @@ jobs:
 
           # NOW fetch and rebase (working tree is clean)
           git fetch origin "${{ github.ref_name }}"
-          git rebase origin/"${{ github.ref_name }}" || {
+          # Use recursive merge strategy with 'theirs' for conflicts
+          # This auto-resolves ANTA report conflicts by accepting incoming changes
+          git rebase -X theirs origin/"${{ github.ref_name }}" || {
             echo "⚠ Rebase failed, aborting to prevent conflicts"
             git rebase --abort
             exit 1
