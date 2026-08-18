@@ -7,7 +7,6 @@
   connection: local
   gather_facts: false
   vars:
-    configs_dir: "../AVD-information/configs"
     cv_inventory_hostname: "{{ cloudvision_host | default('cv_dev_server') }}"
   tasks:
     - name: Display banner
@@ -17,6 +16,17 @@
           ║            Deploying AVD Configurations to CVP                 ║
           ║                    eos_config_deploy role                      ║
           ╚════════════════════════════════════════════════════════════════╝
+      delegate_to: localhost
+
+    - name: Debug - Show config directory path (what cv_deploy role uses)  # noqa: run-once[task]
+      ansible.builtin.debug:
+        msg: |
+          Config Directory Path (from group_vars):
+            - output_dir: {{ output_dir }}
+            - configs_dir: {{ configs_dir }}
+            - Resolved configs_dir: {{ configs_dir | realpath }}
+      delegate_to: localhost
+      run_once: true  # noqa: run-once[task]
 
     - name: Deploy configurations and tags to CloudVision
       ansible.builtin.import_role:

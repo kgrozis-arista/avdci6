@@ -7,7 +7,6 @@
   connection: local
   gather_facts: false
   vars:
-    configs_dir: "../AVD-information/configs"
     cv_inventory_hostname: "{{ cloudvision_host | default('cv_dev_server') }}"
 
   pre_tasks:
@@ -19,6 +18,16 @@
           ║                    cv_deploy Role                              ║
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
+
+    - name: Debug - Show config directory path (what cv_deploy role uses)  # noqa: run-once[task]
+      ansible.builtin.debug:
+        msg: |
+          Config Directory Path (from group_vars):
+            - output_dir: {{ output_dir }}
+            - configs_dir: {{ configs_dir }}
+            - Resolved configs_dir: {{ configs_dir | realpath }}
+      delegate_to: localhost
+      run_once: true  # noqa: run-once[task]
 
   tasks:
     - name: Verify host configuration file exists
