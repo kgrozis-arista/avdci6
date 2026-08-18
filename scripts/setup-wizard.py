@@ -259,7 +259,7 @@ def main() -> int:
             hint="",
             file_path=inventory_path,
             host_name="cv_dev_server",
-            key_names=["ansible_httpapi_host", "ansible_host"],
+            key_names=["ansible_httpapi_host", "ansible_host", "ansible_user"],
         )
 
         # Dev AVD Tooling server
@@ -284,7 +284,7 @@ def main() -> int:
             hint="",
             file_path=inventory_path,
             host_name="cv_prod_server",
-            key_names=["ansible_httpapi_host", "ansible_host"],
+            key_names=["ansible_httpapi_host", "ansible_host", "ansible_user"],
         )
 
         # Prod AVD Tooling server
