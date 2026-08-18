@@ -4,12 +4,13 @@
 
 # AVD output directory configuration
 output_dir: AVD-information
+documentation_dir: AVD-information/documentation
 
 # Fabric identification
 fabric_name: FABRIC
 
 # Underlay and overlay routing protocols
-underlay_routing_protocol: ospf
+underlay_routing_protocol: ebgp
 overlay_routing_protocol: ebgp
 
 # BGP default settings
