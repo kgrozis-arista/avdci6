@@ -18,6 +18,13 @@
           ║                      eos_designs role                          ║
           ╚════════════════════════════════════════════════════════════════╝
 
+    - name: Clean existing outputs and recreate directories
+      ansible.builtin.shell: |
+        rm -rf {{ output_base_dir }}/configs {{ output_base_dir }}/structured_configs
+        mkdir -p {{ output_base_dir }}/configs {{ output_base_dir }}/structured_configs
+      run_once: true
+      changed_when: true
+
     - name: Run eos_designs role to generate structured configs
       ansible.builtin.import_role:
         name: arista.avd.eos_designs
@@ -30,6 +37,14 @@
       vars:
         eos_cli_config_gen_config_dir: "{{ output_base_dir }}/configs"
         eos_cli_config_gen_defs_dir: "{{ output_base_dir }}/structured_configs"
+
+    - name: Verify normal AVD configs were generated (not reset configs)
+      ansible.builtin.shell: |
+        if grep -q "Reset Configuration" {{ output_base_dir }}/configs/{{ inventory_hostname }}.cfg 2>/dev/null; then
+          echo "ERROR: Reset config found instead of normal AVD config!"
+          exit 1
+        fi
+      changed_when: false
 
     - name: Display completion banner
       ansible.builtin.debug:
