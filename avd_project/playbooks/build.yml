@@ -10,7 +10,7 @@
   vars:
     configs_dir: "{{ output_dir }}/configs"
     structured_configs_dir: "{{ output_dir }}/structured_configs"
-    documentation_dir: "{{ output_dir }}/{{ documentation_dir }}"
+    documentation_dir: "{{ output_dir }}/documentation"
   tasks:
     - name: Display banner
       ansible.builtin.debug:
@@ -28,7 +28,7 @@
             - output_dir: {{ output_dir }}/configs
             - configs_dir: {{ configs_dir }}
             - structured_configs_dir: {{ output_dir }}/structured_configs
-            - documentation_dir: {{ output_dir }}/{{ documentation_dir }}
+            - documentation_dir: {{ output_dir }}/documentation
             - Resolved output_dir: {{ output_dir | realpath }}
       run_once: true  # noqa: run-once[task]
 
