@@ -10,7 +10,6 @@ configs_dir: "{{ output_dir }}/configs"
 structured_configs_dir: "{{ output_dir }}/structured_configs"
 documentation_dir: "{{ output_dir }}/documentation"
 anta_dir: "{{ output_dir }}/anta"
-reset_configs_dir: "{{ output_dir }}/reset-configs"
 
 # Fabric identification
 fabric_name: FABRIC
