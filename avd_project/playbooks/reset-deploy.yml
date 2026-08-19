@@ -24,7 +24,8 @@
               ╚════════════════════════════════════════════════════════════════╝
         - name: Copy reset configs to standard location for deployment
           ansible.builtin.shell: |
-            cp {{ playbook_dir | dirname }}/AVD-information/reset-configs/*.cfg {{ playbook_dir | dirname }}/AVD-information/configs/
+            cp {{ playbook_dir | dirname }}/AVD-information/reset-configs/*.cfg \
+               {{ playbook_dir | dirname }}/AVD-information/configs/
           changed_when: true
       run_once: true  # noqa: run-once[task]
 
