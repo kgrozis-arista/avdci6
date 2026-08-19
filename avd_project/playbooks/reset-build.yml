@@ -70,22 +70,14 @@
   pre_tasks:
     - name: Ensure reset-configs directory exists
       ansible.builtin.file:
-        path: "{{ reset_configs_dir }}"
+        path: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
         state: directory
         mode: '0755'
-    - name: Debug - Show reset output directory path
-      ansible.builtin.debug:
-        msg: |
-          Reset Output Directory Path:
-            - reset_configs_dir: {{ reset_configs_dir }}
-            - Resolved path: {{ reset_configs_dir | realpath }}
-            - Playbook dir: {{ playbook_dir }}
-            - Working dir: {{ lookup('pipe', 'pwd') }}
   tasks:
     - name: Generate reset configuration from template for hosts
       ansible.builtin.template:
         src: reset-config.j2
-        dest: "{{ reset_configs_dir }}/{{ item }}.cfg"
+        dest: "{{ playbook_dir | dirname }}/AVD-information/reset-configs/{{ item }}.cfg"
         mode: '0644'
       loop: "{{ host_list }}"
       vars:
