@@ -7,10 +7,6 @@
   hosts: FABRIC
   connection: local
   gather_facts: false
-  vars:
-    # configs_dir: "{{ output_dir }}/configs"
-    # structured_configs_dir: "{{ output_dir }}/structured_configs"
-    # documentation_dir: "{{ output_dir }}/documentation"
   tasks:
     - name: Display banner
       ansible.builtin.debug:
