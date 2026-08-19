@@ -18,14 +18,16 @@
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
 
-    - name: Debug - Show config directory path (what cv_deploy role uses)  # noqa: run-once[task]
+    - name: Debug - Show output directory path  # noqa: run-once[task]
       ansible.builtin.debug:
         msg: |
-          Config Directory Path (from group_vars):
-            - output_dir: {{ output_dir }}
+          Output Directory Path (from group_vars):
+            - root_dir: {{ inventory_dir }}/..
+            - output_dir: {{ output_dir }}/configs
             - configs_dir: {{ configs_dir }}
-            - Resolved configs_dir: {{ configs_dir | realpath }}
-      delegate_to: localhost
+            - structured_configs_dir: {{ output_dir }}/structured_configs
+            - documentation_dir: {{ output_dir }}/{{ documentation_dir }}
+            - Resolved output_dir: {{ output_dir | realpath }}
       run_once: true  # noqa: run-once[task]
 
     - name: Deploy configurations and tags to CloudVision
