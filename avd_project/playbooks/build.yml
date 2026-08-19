@@ -16,24 +16,17 @@
           ║                      eos_designs role                          ║
           ╚════════════════════════════════════════════════════════════════╝
 
-    # - name: Debug - Show output directory path  # noqa: run-once[task]
-    #   ansible.builtin.debug:
-    #     msg: |
-    #       Output Directory Path (from group_vars):
-    #         - root_dir: {{ inventory_dir }}/..
-    #         - output_dir: {{ output_dir }}/configs
-    #         # - configs_dir: {{ configs_dir }}
-    #         # - structured_configs_dir: {{ output_dir }}/structured_configs
-    #         # - documentation_dir: {{ output_dir }}/documentation
-    #         - Resolved output_dir: {{ output_dir | realpath }}
-    #   run_once: true  # noqa: run-once[task]
-
-    # - name: Clean existing outputs and recreate directories  # noqa: run-once[task]
-    #   ansible.builtin.shell: |
-    #     rm -rf {{ configs_dir }} {{ structured_configs_dir }} {{ documentation_dir }}
-    #     mkdir -p {{ configs_dir }} {{ structured_configs_dir }} {{ documentation_dir }}
-    #   run_once: true  # noqa: run-once[task]
-    #   changed_when: true
+    - name: Create AVD output directory structure  # noqa: run-once[task]
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - "{{ output_dir }}"
+        - "{{ output_dir }}/configs"
+        - "{{ output_dir }}/structured_configs"
+        - "{{ output_dir }}/documentation"
+      run_once: true  # noqa: run-once[task]
 
     - name: Run eos_designs role to generate structured configs
       ansible.builtin.import_role:
@@ -42,14 +35,6 @@
     - name: Run eos_cli_config_gen role to render device CLI configs
       ansible.builtin.import_role:
         name: arista.avd.eos_cli_config_gen
-
-    # - name: Verify normal AVD configs were generated (not reset configs)
-    #   ansible.builtin.shell: |
-    #     if grep -q "Reset Configuration" {{ configs_dir }}/{{ inventory_hostname }}.cfg 2>/dev/null; then
-    #       echo "ERROR: Reset config found instead of normal AVD config!"
-    #       exit 1
-    #     fi
-    #   changed_when: false
 
     - name: Display completion banner
       ansible.builtin.debug:
