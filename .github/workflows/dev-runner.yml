@@ -97,11 +97,11 @@ jobs:
 
       - name: Verify configurations generated
         run: |
-          if [ ! -d "${{ env.AVD_OUTPUT_DIR }}/configs" ]; then
+          if [ ! -d "${{ env.AVD_OUTPUT_DIR }}/intended/configs" ]; then
             echo "ERROR: Configuration output directory not found!"
             exit 1
           fi
-          CONFIG_COUNT=$(find ${{ env.AVD_OUTPUT_DIR }}/configs -name "*.cfg" | wc -l)
+          CONFIG_COUNT=$(find ${{ env.AVD_OUTPUT_DIR }}/intended/configs -name "*.cfg" | wc -l)
           echo "✓ Generated $CONFIG_COUNT device configurations"
 
       - name: Commit and push build artifacts
@@ -112,9 +112,9 @@ jobs:
           git config user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
 
           # Add only committed artifacts, excluding temporary design files
-          git add ${{ env.AVD_OUTPUT_DIR }}/configs/ 2>/dev/null || true
-          git add ${{ env.AVD_OUTPUT_DIR }}/structured_configs/ 2>/dev/null || true
-          git add ${{ env.AVD_OUTPUT_DIR }}/documentation/ 2>/dev/null || true
+          git add ${{ env.AVD_OUTPUT_DIR }}/intended/configs/ 2>/dev/null || true
+          git add ${{ env.AVD_OUTPUT_DIR }}/intended/structured_configs/ 2>/dev/null || true
+          git add ${{ env.AVD_OUTPUT_DIR }}/intended/documentation/ 2>/dev/null || true
           git add ${{ env.AVD_OUTPUT_DIR }}/*.html 2>/dev/null || true
 
           # Only commit and push if there are changes
