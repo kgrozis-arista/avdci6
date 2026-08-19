@@ -22,11 +22,6 @@
               ║                                                                ║
               ║  Copying reset-configs/ to standard configs/ for deployment   ║
               ╚════════════════════════════════════════════════════════════════╝
-        - name: Copy reset configs to standard location for deployment
-          ansible.builtin.shell: |
-            cp {{ playbook_dir | dirname }}/AVD-information/tmp_reset_configs/*.cfg \
-               {{ playbook_dir | dirname }}/AVD-information/configs/
-          changed_when: true
       run_once: true  # noqa: run-once[task]
 
 - name: Deploy reset configurations to fabric
@@ -42,7 +37,7 @@
       environment:
         PYTHONWARNINGS: "ignore:Unverified HTTPS request"
       vars:
-        output_dir: "{{ playbook_dir | dirname }}/AVD-information"
+        # output_dir: "{{ playbook_dir | dirname }}/AVD-information"
         cv_verify_certs: false
         cv_verify_devices_exist: false
         cv_run_change_control: true
