@@ -22,17 +22,9 @@
               ║                                                                ║
               ║  Copying reset-configs/ to standard configs/ for deployment   ║
               ╚════════════════════════════════════════════════════════════════╝
-        - name: Debug - Show reset config directory paths
-          ansible.builtin.debug:
-            msg: |
-              Reset Config Directory Paths (from group_vars):
-                - reset_configs_dir: {{ reset_configs_dir }}
-                - configs_dir: {{ configs_dir }}
-                - Resolved reset_configs_dir: {{ reset_configs_dir | realpath }}
-                - Resolved configs_dir: {{ configs_dir | realpath }}
         - name: Copy reset configs to standard location for deployment
           ansible.builtin.shell: |
-            cp {{ reset_configs_dir }}/*.cfg {{ configs_dir }}/
+            cp {{ playbook_dir | dirname }}/AVD-information/reset-configs/*.cfg {{ playbook_dir | dirname }}/AVD-information/configs/
           changed_when: true
       run_once: true  # noqa: run-once[task]
 
