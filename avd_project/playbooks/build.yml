@@ -37,16 +37,16 @@
     - name: Run eos_designs role to generate structured configs
       ansible.builtin.import_role:
         name: arista.avd.eos_designs
-      #vars:
-      #  output_dir: "{{ playbook_dir | dirname }}/AVD-information"
-      #  documentation_dir: "{{ playbook_dir | dirname }}/AVD-information/documentation"
+    # vars:
+    #   output_dir: "{{ playbook_dir | dirname }}/AVD-information"
+    #   documentation_dir: "{{ playbook_dir | dirname }}/AVD-information/documentation"
 
     - name: Run eos_cli_config_gen role to render device CLI configs
       ansible.builtin.import_role:
         name: arista.avd.eos_cli_config_gen
-      #vars:
-      #  output_dir: "{{ playbook_dir | dirname }}/AVD-information"
-      #  documentation_dir: "{{ playbook_dir | dirname }}/AVD-information/documentation"
+    # vars:
+    #   output_dir: "{{ playbook_dir | dirname }}/AVD-information"
+    #   documentation_dir: "{{ playbook_dir | dirname }}/AVD-information/documentation"
 
     - name: Verify normal AVD configs were generated (not reset configs)
       ansible.builtin.shell: |
