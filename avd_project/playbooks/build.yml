@@ -7,6 +7,8 @@
   hosts: FABRIC
   connection: local
   gather_facts: false
+  vars:
+    configs_dir: "{{ output_dir }}/configs"
   tasks:
     - name: Display banner
       ansible.builtin.debug:
@@ -22,7 +24,6 @@
           Output Directory Path (from group_vars):
             - root_dir: {{ inventory_dir }}/..
             - output_dir: {{ output_dir }}/configs
-            - configs_dir: {{ configs_dir }}
             - structured_configs_dir: {{ output_dir }}/structured_configs
             - documentation_dir: {{ output_dir }}/{{ documentation_dir }}
             - Resolved output_dir: {{ output_dir | realpath }}
