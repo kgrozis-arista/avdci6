@@ -1,39 +1,40 @@
 Device,Test Name,Test Status,Message(s),Test description,Test category
-DC1-LEAF1A,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF1A,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC1-LEAF1A,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC1-LEAF1A,VerifyBGPPeerSession,failure,Peer: 10.20.0.18 VRF: default - Not found - Peer: 10.20.0.20 VRF: default - Not found - Peer: 10.20.0.22 VRF: default - Not found - Peer: 10.55.0.7 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC1-LEAF1A,VerifyInterfacesStatus,failure,"Interface: Loopback6 - Not configured - Interface: Loopback7 - Not configured - Interface: Vlan10 - Not configured - Interface: Vlan20 - Not configured - Interface: Vlan30 - Not configured - Interface: Vlan3099 - Not configured - Interface: Vlan3299 - Not configured - Interface: Vxlan1 - Status mismatch - Expected: up/up, Actual: down/down",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF1A,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
-DC1-LEAF1B,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF1B,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC1-LEAF1B,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC1-LEAF1B,VerifyBGPPeerSession,failure,Peer: 10.20.0.24 VRF: default - Not found - Peer: 10.20.0.26 VRF: default - Not found - Peer: 10.20.0.28 VRF: default - Not found - Peer: 10.55.0.6 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC1-LEAF1B,VerifyInterfacesStatus,failure,"Interface: Loopback6 - Not configured - Interface: Loopback7 - Not configured - Interface: Vlan10 - Not configured - Interface: Vlan20 - Not configured - Interface: Vlan30 - Not configured - Interface: Vlan3099 - Not configured - Interface: Vlan3299 - Not configured - Interface: Vxlan1 - Status mismatch - Expected: up/up, Actual: down/down",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF1B,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
-DC1-LEAF2A,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF2A,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC1-LEAF2A,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC1-LEAF2A,VerifyBGPPeerSession,failure,Peer: 10.20.0.30 VRF: default - Not found - Peer: 10.20.0.32 VRF: default - Not found - Peer: 10.20.0.34 VRF: default - Not found - Peer: 10.55.0.11 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC1-LEAF2A,VerifyInterfacesStatus,failure,"Interface: Loopback6 - Not configured - Interface: Loopback7 - Not configured - Interface: Vlan10 - Not configured - Interface: Vlan20 - Not configured - Interface: Vlan30 - Not configured - Interface: Vlan3099 - Not configured - Interface: Vlan3299 - Not configured - Interface: Vxlan1 - Status mismatch - Expected: up/up, Actual: down/down",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF2A,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
-DC1-LEAF2B,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF2B,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC1-LEAF2B,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC1-LEAF2B,VerifyBGPPeerSession,failure,Peer: 10.20.0.36 VRF: default - Not found - Peer: 10.20.0.38 VRF: default - Not found - Peer: 10.20.0.40 VRF: default - Not found - Peer: 10.55.0.10 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC1-LEAF2B,VerifyInterfacesStatus,failure,"Interface: Loopback6 - Not configured - Interface: Loopback7 - Not configured - Interface: Vlan10 - Not configured - Interface: Vlan20 - Not configured - Interface: Vlan30 - Not configured - Interface: Vlan3099 - Not configured - Interface: Vlan3299 - Not configured - Interface: Vxlan1 - Status mismatch - Expected: up/up, Actual: down/down",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF2B,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
+DC1-LEAF3A,VerifyBGPPeerSession,failure,Peer: 10.20.0.84 VRF: default - Not found - Peer: 10.20.0.86 VRF: default - Not found - Peer: 10.20.0.88 VRF: default - Not found - Peer: 10.55.0.29 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC1-LEAF3A,VerifyInterfacesStatus,failure,"Interface: Loopback6 - Not configured - Interface: Loopback7 - Not configured - Interface: Vlan10 - Not configured - Interface: Vlan20 - Not configured - Interface: Vlan30 - Not configured - Interface: Vlan3099 - Not configured - Interface: Vlan3299 - Not configured - Interface: Vxlan1 - Status mismatch - Expected: up/up, Actual: down/down",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF3A,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
+DC1-LEAF3B,VerifyBGPPeerSession,failure,Peer: 10.20.0.90 VRF: default - Not found - Peer: 10.20.0.92 VRF: default - Not found - Peer: 10.20.0.94 VRF: default - Not found - Peer: 10.55.0.28 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC1-LEAF3B,VerifyInterfacesStatus,failure,"Interface: Loopback6 - Not configured - Interface: Loopback7 - Not configured - Interface: Vlan10 - Not configured - Interface: Vlan20 - Not configured - Interface: Vlan30 - Not configured - Interface: Vlan3099 - Not configured - Interface: Vlan3299 - Not configured - Interface: Vxlan1 - Status mismatch - Expected: up/up, Actual: down/down",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF3B,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
-DC2-LEAF1A,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF1A,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC2-LEAF1A,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC1-SPINE1,VerifyBGPPeerSession,failure,Peer: 10.20.0.19 VRF: default - Not found - Peer: 10.20.0.25 VRF: default - Not found - Peer: 10.20.0.31 VRF: default - Not found - Peer: 10.20.0.37 VRF: default - Not found - Peer: 10.20.0.85 VRF: default - Not found - Peer: 10.20.0.91 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC1-SPINE2,VerifyBGPPeerSession,failure,Peer: 10.20.0.21 VRF: default - Not found - Peer: 10.20.0.27 VRF: default - Not found - Peer: 10.20.0.33 VRF: default - Not found - Peer: 10.20.0.39 VRF: default - Not found - Peer: 10.20.0.87 VRF: default - Not found - Peer: 10.20.0.93 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC1-SPINE3,VerifyBGPPeerSession,failure,Peer: 10.20.0.23 VRF: default - Not found - Peer: 10.20.0.29 VRF: default - Not found - Peer: 10.20.0.35 VRF: default - Not found - Peer: 10.20.0.41 VRF: default - Not found - Peer: 10.20.0.89 VRF: default - Not found - Peer: 10.20.0.95 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC2-LEAF1A,VerifyBGPPeerSession,failure,Peer: 10.30.0.60 VRF: default - Not found - Peer: 10.30.0.62 VRF: default - Not found - Peer: 10.30.0.64 VRF: default - Not found - Peer: 10.65.0.21 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC2-LEAF1A,VerifyInterfacesStatus,failure,"Interface: Loopback6 - Not configured - Interface: Loopback7 - Not configured - Interface: Vlan10 - Not configured - Interface: Vlan20 - Not configured - Interface: Vlan30 - Not configured - Interface: Vlan3099 - Not configured - Interface: Vlan3299 - Not configured - Interface: Vxlan1 - Status mismatch - Expected: up/up, Actual: down/down",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-LEAF1A,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
-DC2-LEAF1B,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF1B,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC2-LEAF1B,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC2-LEAF1B,VerifyBGPPeerSession,failure,Peer: 10.30.0.66 VRF: default - Not found - Peer: 10.30.0.68 VRF: default - Not found - Peer: 10.30.0.70 VRF: default - Not found - Peer: 10.65.0.20 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC2-LEAF1B,VerifyInterfacesStatus,failure,"Interface: Loopback6 - Not configured - Interface: Loopback7 - Not configured - Interface: Vlan10 - Not configured - Interface: Vlan20 - Not configured - Interface: Vlan30 - Not configured - Interface: Vlan3099 - Not configured - Interface: Vlan3299 - Not configured - Interface: Vxlan1 - Status mismatch - Expected: up/up, Actual: down/down",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-LEAF1B,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
-DC2-LEAF2A,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF2A,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC2-LEAF2A,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC2-LEAF2A,VerifyBGPPeerSession,failure,Peer: 10.30.0.72 VRF: default - Not found - Peer: 10.30.0.74 VRF: default - Not found - Peer: 10.30.0.76 VRF: default - Not found - Peer: 10.65.0.25 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC2-LEAF2A,VerifyInterfacesStatus,failure,"Interface: Loopback6 - Not configured - Interface: Loopback7 - Not configured - Interface: Vlan10 - Not configured - Interface: Vlan20 - Not configured - Interface: Vlan30 - Not configured - Interface: Vlan3099 - Not configured - Interface: Vlan3299 - Not configured - Interface: Vxlan1 - Status mismatch - Expected: up/up, Actual: down/down",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-LEAF2A,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
-DC2-LEAF2B,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF2B,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC2-LEAF2B,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
+DC2-LEAF2B,VerifyBGPPeerSession,failure,Peer: 10.30.0.78 VRF: default - Not found - Peer: 10.30.0.80 VRF: default - Not found - Peer: 10.30.0.82 VRF: default - Not found - Peer: 10.65.0.24 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC2-LEAF2B,VerifyInterfacesStatus,failure,"Interface: Loopback6 - Not configured - Interface: Loopback7 - Not configured - Interface: Vlan10 - Not configured - Interface: Vlan20 - Not configured - Interface: Vlan30 - Not configured - Interface: Vlan3099 - Not configured - Interface: Vlan3299 - Not configured - Interface: Vxlan1 - Status mismatch - Expected: up/up, Actual: down/down",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC2-LEAF2B,VerifyVxlanConfigSanity,failure,Vxlan Category: localVtep - Config sanity check is not passing,Verifies there are no VXLAN config-sanity inconsistencies.,VXLAN
-DC1-LEAF1A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
+DC2-SPINE1,VerifyBGPPeerSession,failure,Peer: 10.30.0.61 VRF: default - Not found - Peer: 10.30.0.67 VRF: default - Not found - Peer: 10.30.0.73 VRF: default - Not found - Peer: 10.30.0.79 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC2-SPINE2,VerifyBGPPeerSession,failure,Peer: 10.30.0.63 VRF: default - Not found - Peer: 10.30.0.69 VRF: default - Not found - Peer: 10.30.0.75 VRF: default - Not found - Peer: 10.30.0.81 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
+DC2-SPINE3,VerifyBGPPeerSession,failure,Peer: 10.30.0.65 VRF: default - Not found - Peer: 10.30.0.71 VRF: default - Not found - Peer: 10.30.0.77 VRF: default - Not found - Peer: 10.30.0.83 VRF: default - Not found,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF1A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -42,10 +43,10 @@ DC1-LEAF1A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC1-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF1A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC1-LEAF1A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF1A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF1A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
-DC1-LEAF1A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF1A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -54,7 +55,6 @@ DC1-LEAF1A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF1A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF1A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF1A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-LEAF1B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF1B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF1B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -63,10 +63,10 @@ DC1-LEAF1B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC1-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF1B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC1-LEAF1B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF1B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF1B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
-DC1-LEAF1B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF1B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -75,7 +75,6 @@ DC1-LEAF1B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF1B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF1B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF1B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-LEAF2A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -84,10 +83,10 @@ DC1-LEAF2A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC1-LEAF2A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF2A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC1-LEAF2A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF2A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF2A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
-DC1-LEAF2A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF2A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -96,7 +95,6 @@ DC1-LEAF2A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF2A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF2A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF2A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-LEAF2B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF2B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF2B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF2B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -105,10 +103,10 @@ DC1-LEAF2B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC1-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF2B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC1-LEAF2B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF2B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF2B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
-DC1-LEAF2B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF2B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -117,7 +115,6 @@ DC1-LEAF2B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF2B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF2B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF2B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-LEAF3A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF3A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF3A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF3A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -126,13 +123,10 @@ DC1-LEAF3A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC1-LEAF3A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF3A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF3A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
-DC1-LEAF3A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF3A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC1-LEAF3A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC1-LEAF3A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF3A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
-DC1-LEAF3A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF3A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF3A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -141,7 +135,6 @@ DC1-LEAF3A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF3A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF3A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF3A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-LEAF3B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF3B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF3B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-LEAF3B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -150,13 +143,10 @@ DC1-LEAF3B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC1-LEAF3B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF3B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF3B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
-DC1-LEAF3B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
 DC1-LEAF3B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC1-LEAF3B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC1-LEAF3B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF3B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
-DC1-LEAF3B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-LEAF3B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF3B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -165,7 +155,6 @@ DC1-LEAF3B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-LEAF3B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-LEAF3B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-LEAF3B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-SPINE1,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE1,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -184,7 +173,6 @@ DC1-SPINE1,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE1,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE1,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE1,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-SPINE2,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE2,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE2,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE2,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -193,8 +181,6 @@ DC1-SPINE2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-SPINE2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-SPINE2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-SPINE2,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC1-SPINE2,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-SPINE2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -203,7 +189,6 @@ DC1-SPINE2,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE2,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC1-SPINE3,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-SPINE3,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-SPINE3,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC1-SPINE3,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -222,7 +207,6 @@ DC1-SPINE3,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC1-SPINE3,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC1-SPINE3,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC1-SPINE3,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-LEAF1A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF1A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -231,10 +215,10 @@ DC2-LEAF1A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC2-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF1A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC2-LEAF1A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF1A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF1A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
-DC2-LEAF1A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-LEAF1A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -243,7 +227,6 @@ DC2-LEAF1A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF1A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF1A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF1A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-LEAF1B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF1B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF1B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF1B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -252,10 +235,10 @@ DC2-LEAF1B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC2-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF1B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC2-LEAF1B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF1B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF1B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
-DC2-LEAF1B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-LEAF1B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -264,7 +247,6 @@ DC2-LEAF1B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF1B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF1B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF1B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-LEAF2A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF2A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF2A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2A,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -273,10 +255,10 @@ DC2-LEAF2A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC2-LEAF2A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF2A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC2-LEAF2A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF2A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF2A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
-DC2-LEAF2A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-LEAF2A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -285,7 +267,6 @@ DC2-LEAF2A,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF2A,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF2A,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF2A,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-LEAF2B,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-LEAF2B,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-LEAF2B,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-LEAF2B,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -294,10 +275,10 @@ DC2-LEAF2B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC2-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF2B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC2-LEAF2B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF2B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF2B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
-DC2-LEAF2B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-LEAF2B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -306,7 +287,6 @@ DC2-LEAF2B,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-LEAF2B,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-LEAF2B,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-LEAF2B,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-SPINE1,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE1,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE1,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE1,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -344,7 +324,6 @@ DC2-SPINE2,VerifyFileSystemUtilization,success,,Verifies that no partition is ut
 DC2-SPINE2,VerifyMaintenance,success,,Verifies that the device is not currently under or entering maintenance.,System
 DC2-SPINE2,VerifyMemoryUtilization,success,,Verifies whether the memory utilization is below 75%.,System
 DC2-SPINE2,VerifyReloadCause,success,,Verifies the last reload cause of the device.,System
-DC2-SPINE3,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC2-SPINE3,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC2-SPINE3,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
 DC2-SPINE3,VerifyLLDPNeighbors,success,,Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.,Connectivity
@@ -353,8 +332,6 @@ DC2-SPINE3,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-SPINE3,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE3,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-SPINE3,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-SPINE3,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
-DC2-SPINE3,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-SPINE3,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE3,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE3,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
