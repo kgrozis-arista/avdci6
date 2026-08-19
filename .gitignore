@@ -89,9 +89,10 @@ reports/
 # Allow AVD-information to be committed (contains generated configs we want to track)
 !avd_project/AVD-information/
 !avd_project/AVD-information/**
-# Exclude temporary AVD design and deploy files (conflict-prone during rebases)
+# Exclude temporary AVD design, deploy, and reset files (conflict-prone during rebases)
 avd_project/AVD-information/tmp_eos_designs/
 avd_project/AVD-information/tmp_eos_cli_config_gen/
+avd_project/AVD-information/tmp_reset_configs/
 # Also allow HTML files in AVD-information directory
 !avd_project/AVD-information/**/*.html
 *.html

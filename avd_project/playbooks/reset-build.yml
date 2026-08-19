@@ -16,15 +16,9 @@
               ║          Building Reset Configurations                          ║
               ║       Restoring Fabric to Baseline State                       ║
               ╚════════════════════════════════════════════════════════════════╝
-        - name: Debug - Show reset output directory path
-          ansible.builtin.debug:
-            msg: |
-              Reset Output Directory Path (from group_vars):
-                - reset_configs_dir: {{ reset_configs_dir }}
-                - Resolved path: {{ reset_configs_dir | realpath }}
-        - name: Create reset config output directory
+        - name: Create temporary reset config output directory
           ansible.builtin.file:
-            path: "{{ reset_configs_dir }}"
+            path: "{{ playbook_dir | dirname }}/AVD-information/tmp_reset_configs"
             state: directory
             mode: '0755'
       run_once: true  # noqa: run-once[task]
@@ -32,7 +26,7 @@
     - name: Generate reset configuration from template  # noqa: key-order[task]
       ansible.builtin.template:
         src: reset-config.j2
-        dest: "{{ reset_configs_dir }}/{{ inventory_hostname }}.cfg"
+        dest: "{{ playbook_dir | dirname }}/AVD-information/tmp_reset_configs/{{ inventory_hostname }}.cfg"
         mode: '0644'
       vars:
         device_name: "{{ inventory_hostname }}"
@@ -44,10 +38,11 @@
           ╔════════════════════════════════════════════════════════════════╗
           ║              Reset Configs Generated ✓                         ║
           ║                                                                ║
-          ║  Reset configurations available in:                           ║
-          ║  AVD-information/reset-configs/                                ║
+          ║  Reset configurations staged in temporary location:           ║
+          ║  AVD-information/tmp_reset_configs/                            ║
           ║                                                                ║
           ║  Next: Deploy reset configs with 'make reset-deploy'         ║
+          ║  (Will be copied to configs/ for deployment)                  ║
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
       run_once: true  # noqa: run-once[task]
@@ -68,16 +63,16 @@
       DC2-HOST1: 192.168.0.32
       DC2-HOST2: 192.168.0.33
   pre_tasks:
-    - name: Ensure reset-configs directory exists
+    - name: Ensure temporary reset-configs directory exists
       ansible.builtin.file:
-        path: "{{ playbook_dir | dirname }}/AVD-information/reset-configs"
+        path: "{{ playbook_dir | dirname }}/AVD-information/tmp_reset_configs"
         state: directory
         mode: '0755'
   tasks:
     - name: Generate reset configuration from template for hosts
       ansible.builtin.template:
         src: reset-config.j2
-        dest: "{{ playbook_dir | dirname }}/AVD-information/reset-configs/{{ item }}.cfg"
+        dest: "{{ playbook_dir | dirname }}/AVD-information/tmp_reset_configs/{{ item }}.cfg"
         mode: '0644'
       loop: "{{ host_list }}"
       vars:
