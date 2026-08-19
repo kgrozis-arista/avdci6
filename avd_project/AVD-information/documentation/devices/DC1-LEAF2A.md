@@ -41,9 +41,15 @@
   - [Router BFD](#router-bfd)
 - [Multicast](#multicast)
   - [IP IGMP Snooping](#ip-igmp-snooping)
+- [Filters](#filters)
+  - [Prefix-lists](#prefix-lists)
+  - [Route-maps](#route-maps)
 - [VRF Instances](#vrf-instances)
   - [VRF Instances Summary](#vrf-instances-summary)
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
+- [Virtual Source NAT](#virtual-source-nat)
+  - [Virtual Source NAT Summary](#virtual-source-nat-summary)
+  - [Virtual Source NAT Configuration](#virtual-source-nat-configuration)
 
 ## Management
 
@@ -234,12 +240,38 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
+| 10 | VRF_Customer2_VLAN10 | - |
+| 20 | VRF_Customer2_VLAN20 | - |
+| 30 | VLAN30_VRF_Customer1 | - |
+| 50 | VLAN50_L2_Only | - |
+| 3099 | MLAG_L3_VRF_Customer2 | MLAG |
+| 3299 | MLAG_L3_VRF_Customer1 | MLAG |
 | 4093 | MLAG_L3 | MLAG |
 | 4094 | MLAG | MLAG |
 
 ### VLANs Device Configuration
 
 ```eos
+!
+vlan 10
+   name VRF_Customer2_VLAN10
+!
+vlan 20
+   name VRF_Customer2_VLAN20
+!
+vlan 30
+   name VLAN30_VRF_Customer1
+!
+vlan 50
+   name VLAN50_L2_Only
+!
+vlan 3099
+   name MLAG_L3_VRF_Customer2
+   trunk group MLAG
+!
+vlan 3299
+   name MLAG_L3_VRF_Customer1
+   trunk group MLAG
 !
 vlan 4093
    name MLAG_L3
@@ -364,6 +396,8 @@ interface Port-Channel491
 | --------- | ----------- | --- | ---------- |
 | Loopback0 | ROUTER_ID | default | 10.10.1.6/32 |
 | Loopback1 | VXLAN_TUNNEL_SOURCE | default | 101.1.1.6/32 |
+| Loopback6 | DIAG_VRF_Customer2 | Customer2 | 9.9.1.6/32 |
+| Loopback7 | DIAG_VRF_Customer1 | Customer1 | 9.9.2.6/32 |
 
 ##### IPv6
 
@@ -371,6 +405,8 @@ interface Port-Channel491
 | --------- | ----------- | --- | -------------- |
 | Loopback0 | ROUTER_ID | default | - |
 | Loopback1 | VXLAN_TUNNEL_SOURCE | default | - |
+| Loopback6 | DIAG_VRF_Customer2 | Customer2 | - |
+| Loopback7 | DIAG_VRF_Customer1 | Customer1 | - |
 
 #### Loopback Interfaces Device Configuration
 
@@ -387,6 +423,18 @@ interface Loopback1
    no shutdown
    ip address 101.1.1.6/32
    ip ospf area 0.0.0.0
+!
+interface Loopback6
+   description DIAG_VRF_Customer2
+   no shutdown
+   vrf Customer2
+   ip address 9.9.1.6/32
+!
+interface Loopback7
+   description DIAG_VRF_Customer1
+   no shutdown
+   vrf Customer1
+   ip address 9.9.2.6/32
 ```
 
 ### VLAN Interfaces
@@ -395,6 +443,11 @@ interface Loopback1
 
 | Interface | Description | VRF | MTU | Shutdown |
 | --------- | ----------- | --- | --- | -------- |
+| Vlan10 | VRF_Customer2_VLAN10 | Customer2 | - | False |
+| Vlan20 | VRF_Customer2_VLAN20 | Customer2 | - | False |
+| Vlan30 | VLAN30_VRF_Customer1 | Customer1 | - | False |
+| Vlan3099 | MLAG_L3_VRF_Customer2 | Customer2 | 1500 | False |
+| Vlan3299 | MLAG_L3_VRF_Customer1 | Customer1 | 1500 | False |
 | Vlan4093 | MLAG_L3 | default | 1500 | False |
 | Vlan4094 | MLAG | default | 1500 | False |
 
@@ -402,6 +455,11 @@ interface Loopback1
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ------ | ------- |
+| Vlan10 | Customer2 | - | 10.10.10.1/24 | - | - | - |
+| Vlan20 | Customer2 | - | 20.20.20.1/24 | - | - | - |
+| Vlan30 | Customer1 | - | 30.30.30.1/24 | - | - | - |
+| Vlan3099 | Customer2 | 10.55.0.10/31 | - | - | - | - |
+| Vlan3299 | Customer1 | 10.55.0.10/31 | - | - | - | - |
 | Vlan4093 | default | 10.55.0.10/31 | - | - | - | - |
 | Vlan4094 | default | 10.50.0.10/31 | - | - | - | - |
 
@@ -414,6 +472,38 @@ interface Loopback1
 #### VLAN Interfaces Device Configuration
 
 ```eos
+!
+interface Vlan10
+   description VRF_Customer2_VLAN10
+   no shutdown
+   vrf Customer2
+   ip address virtual 10.10.10.1/24
+!
+interface Vlan20
+   description VRF_Customer2_VLAN20
+   no shutdown
+   vrf Customer2
+   ip address virtual 20.20.20.1/24
+!
+interface Vlan30
+   description VLAN30_VRF_Customer1
+   no shutdown
+   vrf Customer1
+   ip address virtual 30.30.30.1/24
+!
+interface Vlan3099
+   description MLAG_L3_VRF_Customer2
+   no shutdown
+   mtu 1500
+   vrf Customer2
+   ip address 10.55.0.10/31
+!
+interface Vlan3299
+   description MLAG_L3_VRF_Customer1
+   no shutdown
+   mtu 1500
+   vrf Customer1
+   ip address 10.55.0.10/31
 !
 interface Vlan4093
    description MLAG_L3
@@ -441,6 +531,22 @@ interface Vlan4094
 | UDP port | 4789 |
 | EVPN MLAG Shared Router MAC | mlag-system-id |
 
+##### VLAN to VNI, Flood List and Multicast Group Mappings
+
+| VLAN | VNI | Flood List | Multicast Group |
+| ---- | --- | ---------- | --------------- |
+| 10 | 10010 | - | - |
+| 20 | 10020 | - | - |
+| 30 | 20030 | - | - |
+| 50 | 10050 | - | - |
+
+##### VRF to VNI and Multicast Group Mappings
+
+| VRF | VNI | Overlay Multicast Group to Encap Mappings |
+| --- | --- | ----------------------------------------- |
+| Customer1 | 300 | - |
+| Customer2 | 100 | - |
+
 #### VXLAN Interface Device Configuration
 
 ```eos
@@ -450,6 +556,12 @@ interface Vxlan1
    vxlan source-interface Loopback1
    vxlan virtual-router encapsulation mac-address mlag-system-id
    vxlan udp-port 4789
+   vxlan vlan 10 vni 10010
+   vxlan vlan 20 vni 10020
+   vxlan vlan 30 vni 20030
+   vxlan vlan 50 vni 10050
+   vxlan vrf Customer1 vni 300
+   vxlan vrf Customer2 vni 100
 ```
 
 ## Routing
@@ -483,6 +595,8 @@ ip virtual-router mac-address 00:1c:73:00:00:99
 | VRF | Routing Enabled |
 | --- | --------------- |
 | default | True |
+| Customer1 | True |
+| Customer2 | True |
 | MGMT | False |
 
 #### IP Routing Device Configuration
@@ -490,6 +604,8 @@ ip virtual-router mac-address 00:1c:73:00:00:99
 ```eos
 !
 ip routing
+ip routing vrf Customer1
+ip routing vrf Customer2
 no ip routing vrf MGMT
 ```
 
@@ -500,6 +616,8 @@ no ip routing vrf MGMT
 | VRF | Routing Enabled |
 | --- | --------------- |
 | default | False |
+| Customer1 | false |
+| Customer2 | false |
 | MGMT | false |
 
 ### Static Routes
@@ -582,6 +700,16 @@ ASN Notation: asplain
 | Send community | all |
 | Maximum routes | 0 (no limit) |
 
+##### MLAG-IPv4-UNDERLAY-PEER
+
+| Settings | Value |
+| -------- | ----- |
+| Address Family | ipv4 |
+| Remote AS | 65102 |
+| Next-hop self | True |
+| Send community | all |
+| Maximum routes | 256000 |
+
 #### BGP Neighbors
 
 | Neighbor | Remote AS | VRF | Shutdown | Send-community | Maximum-routes | Allowas-in | BFD | RIB Pre-Policy Retain | Route-Reflector Client | Passive | TTL Max Hops |
@@ -589,6 +717,8 @@ ASN Notation: asplain
 | 10.10.0.1 | 65000 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - | - |
 | 10.10.0.2 | 65000 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - | - |
 | 10.10.0.3 | 65000 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - | - |
+| 10.55.0.11 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Customer1 | - | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | - | - | - | - | - | - |
+| 10.55.0.11 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Customer2 | - | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | - | - | - | - | - | - |
 
 #### Router BGP EVPN Address Family
 
@@ -597,6 +727,22 @@ ASN Notation: asplain
 | Peer Group | Activate | Route-map In | Route-map Out | Peer-tag In | Peer-tag Out | Encapsulation | Next-hop-self Source Interface |
 | ---------- | -------- | ------------ | ------------- | ----------- | ------------ | ------------- | ------------------------------ |
 | EVPN-OVERLAY-PEERS | True | - | - | - | - | default | - |
+
+#### Router BGP VLANs
+
+| VLAN | Route-Distinguisher | Both Route-Target | Import Route Target | Export Route-Target | Redistribute |
+| ---- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ |
+| 10 | 10.10.1.6:10010 | 10010:10010 | - | - | learned |
+| 20 | 10.10.1.6:10020 | 10020:10020 | - | - | learned |
+| 30 | 10.10.1.6:20030 | 20030:20030 | - | - | learned |
+| 50 | 10.10.1.6:10050 | 10050:10050 | - | - | learned |
+
+#### Router BGP VRFs
+
+| VRF | Route-Distinguisher | Redistribute | Graceful Restart |
+| --- | ------------------- | ------------ | ---------------- |
+| Customer1 | 10.10.1.6:300 | connected | - |
+| Customer2 | 10.10.1.6:100 | connected | - |
 
 #### Router BGP Device Configuration
 
@@ -615,6 +761,13 @@ router bgp 65102
    neighbor EVPN-OVERLAY-PEERS ebgp-multihop 3
    neighbor EVPN-OVERLAY-PEERS send-community
    neighbor EVPN-OVERLAY-PEERS maximum-routes 0
+   neighbor MLAG-IPv4-UNDERLAY-PEER peer group
+   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as 65102
+   neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self
+   neighbor MLAG-IPv4-UNDERLAY-PEER description DC1-LEAF2B
+   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in
+   neighbor MLAG-IPv4-UNDERLAY-PEER send-community
+   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 256000
    neighbor 10.10.0.1 peer group EVPN-OVERLAY-PEERS
    neighbor 10.10.0.1 remote-as 65000
    neighbor 10.10.0.1 description DC1-SPINE1_Loopback0
@@ -625,11 +778,50 @@ router bgp 65102
    neighbor 10.10.0.3 remote-as 65000
    neighbor 10.10.0.3 description DC1-SPINE3_Loopback0
    !
+   vlan 10
+      rd 10.10.1.6:10010
+      route-target both 10010:10010
+      redistribute learned
+   !
+   vlan 20
+      rd 10.10.1.6:10020
+      route-target both 10020:10020
+      redistribute learned
+   !
+   vlan 30
+      rd 10.10.1.6:20030
+      route-target both 20030:20030
+      redistribute learned
+   !
+   vlan 50
+      rd 10.10.1.6:10050
+      route-target both 10050:10050
+      redistribute learned
+   !
    address-family evpn
       neighbor EVPN-OVERLAY-PEERS activate
    !
    address-family ipv4
       no neighbor EVPN-OVERLAY-PEERS activate
+      neighbor MLAG-IPv4-UNDERLAY-PEER activate
+   !
+   vrf Customer1
+      rd 10.10.1.6:300
+      route-target import evpn 300:300
+      route-target export evpn 300:300
+      router-id 10.10.1.6
+      neighbor 10.55.0.11 peer group MLAG-IPv4-UNDERLAY-PEER
+      neighbor 10.55.0.11 description DC1-LEAF2B_Vlan3299
+      redistribute connected route-map RM-CONN-2-BGP-VRFS
+   !
+   vrf Customer2
+      rd 10.10.1.6:100
+      route-target import evpn 100:100
+      route-target export evpn 100:100
+      router-id 10.10.1.6
+      neighbor 10.55.0.11 peer group MLAG-IPv4-UNDERLAY-PEER
+      neighbor 10.55.0.11 description DC1-LEAF2B_Vlan3099
+      redistribute connected route-map RM-CONN-2-BGP-VRFS
 ```
 
 ## BFD
@@ -665,17 +857,91 @@ router bfd
 ```eos
 ```
 
+## Filters
+
+### Prefix-lists
+
+#### Prefix-lists Summary
+
+##### PL-MLAG-PEER-VRFS
+
+| Sequence | Action |
+| -------- | ------ |
+| 10 | permit 10.55.0.10/31 |
+
+#### Prefix-lists Device Configuration
+
+```eos
+!
+ip prefix-list PL-MLAG-PEER-VRFS
+   seq 10 permit 10.55.0.10/31
+```
+
+### Route-maps
+
+#### Route-maps Summary
+
+##### RM-CONN-2-BGP-VRFS
+
+| Sequence | Type | Match | Set | Sub-Route-Map | Continue |
+| -------- | ---- | ----- | --- | ------------- | -------- |
+| 10 | deny | ip address prefix-list PL-MLAG-PEER-VRFS | - | - | - |
+| 20 | permit | - | - | - | - |
+
+##### RM-MLAG-PEER-IN
+
+| Sequence | Type | Match | Set | Sub-Route-Map | Continue |
+| -------- | ---- | ----- | --- | ------------- | -------- |
+| 10 | permit | - | origin incomplete | - | - |
+
+#### Route-maps Device Configuration
+
+```eos
+!
+route-map RM-CONN-2-BGP-VRFS deny 10
+   match ip address prefix-list PL-MLAG-PEER-VRFS
+!
+route-map RM-CONN-2-BGP-VRFS permit 20
+!
+route-map RM-MLAG-PEER-IN permit 10
+   description Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing
+   set origin incomplete
+```
+
 ## VRF Instances
 
 ### VRF Instances Summary
 
 | VRF Name | IP Routing |
 | -------- | ---------- |
+| Customer1 | enabled |
+| Customer2 | enabled |
 | MGMT | disabled |
 
 ### VRF Instances Device Configuration
 
 ```eos
 !
+vrf instance Customer1
+!
+vrf instance Customer2
+!
 vrf instance MGMT
+```
+
+## Virtual Source NAT
+
+### Virtual Source NAT Summary
+
+| Source NAT VRF | Source NAT IPv4 Address | Source NAT IPv6 Address |
+| -------------- | ----------------------- | ----------------------- |
+| Customer1 | 9.9.2.6 | - |
+| Customer2 | 9.9.1.6 | - |
+
+### Virtual Source NAT Configuration
+
+```eos
+!
+ip address virtual source-nat vrf Customer1 address 9.9.2.6
+ip address virtual source-nat vrf Customer2 address 9.9.1.6
 ```
