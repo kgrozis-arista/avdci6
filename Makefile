@@ -264,6 +264,7 @@ dev-bootstrap-avd-server:
 	@echo "Bootstrapping dev AVD-tooling server..."
 	@echo ""
 	@if [ -f "avd_project/inventory/inventory.yml" ]; then \
+	  ANSIBLE_SSH_COMMON_ARGS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
 	  $(ANSIBLE_PLAYBOOK) -i avd_project/inventory/inventory.yml \
 	    -l dev_avd \
 	    $(if $(AVD_USER),-e "avd_user=$(AVD_USER)",) \
@@ -306,6 +307,7 @@ prod-bootstrap-avd-server:
 	@echo "Bootstrapping prod AVD-tooling server..."
 	@echo ""
 	@if [ -f "avd_project/inventory/inventory.yml" ]; then \
+	  ANSIBLE_SSH_COMMON_ARGS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
 	  $(ANSIBLE_PLAYBOOK) -i avd_project/inventory/inventory.yml \
 	    -l prod_avd \
 	    $(if $(AVD_USER),-e "avd_user=$(AVD_USER)",) \

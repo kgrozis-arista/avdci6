@@ -27,15 +27,6 @@
     python_version: "3.10"
 
   pre_tasks:
-    - name: Add host SSH key to known_hosts
-      shell: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -H {{ ansible_host }} >> ~/.ssh/known_hosts 2>/dev/null
-        exit 0
-      delegate_to: localhost
-      changed_when: false
-      no_log: true
-
     - name: Set default variables
       set_fact:
         avd_user: "{{ avd_user | default('ansible') }}"
