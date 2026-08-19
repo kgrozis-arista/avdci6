@@ -46,7 +46,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step99-reset step99-reset-dev step99-reset-prod setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy dev-reset-build dev-reset-deploy prod-reset-build prod-reset-deploy check syntax lint clean
+.PHONY: help step1-setup step1-setup-local step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step99-reset step99-reset-dev step99-reset-prod setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy dev-reset-build dev-reset-deploy prod-reset-build prod-reset-deploy check syntax lint clean
 
 # ============================================================================
 # Help
@@ -57,9 +57,10 @@ help:
 	@echo "======================================"
 	@echo ""
 	@echo "Bootstrap (one-shot setup):"
-	@echo "  step1-setup              - Full bootstrap (local only): setup → wizard → validate"
-	@echo "  step1-setup-dev          - Full dev bootstrap: setup → wizard → avd-server → runner"
-	@echo "  step1-setup-prod         - Full prod bootstrap: setup → wizard → avd-server → runner"
+	@echo "  step1-setup              - Full bootstrap (local + dev + prod): all environments"
+	@echo "  step1-setup-local        - Local bootstrap only: setup → wizard → validate"
+	@echo "  step1-setup-dev          - Dev bootstrap: setup → wizard → avd-server → runner"
+	@echo "  step1-setup-prod         - Prod bootstrap: setup → wizard → avd-server → runner"
 	@echo ""
 	@echo "  Local Setup (shared by all):"
 	@echo "    setup                  - Create .venv and install Python/Ansible deps"
@@ -150,9 +151,35 @@ help:
 # Bootstrap
 # ============================================================================
 
-step1-setup: setup setup-wizard build-check
+step1-setup: step1-setup-dev step1-setup-prod
 	@echo ""
-	@echo "✓ Step 1 complete: Local bootstrap done!"
+	@echo "✓ Step 1 complete: Full bootstrap (local + dev + prod) done!"
+	@echo ""
+	@echo "Setup includes:"
+	@echo "  ✓ Local: Python venv, Ansible, AVD collections"
+	@echo "  ✓ Local: Interactive project configuration"
+	@echo "  ✓ Remote: dev_avd server provisioned with AVD"
+	@echo "  ✓ Remote: dev GitHub Actions runner configured"
+	@echo "  ✓ Remote: prod_avd server provisioned with AVD"
+	@echo "  ✓ Remote: prod GitHub Actions runner configured"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Verify runners in GitHub:"
+	@echo "     GitHub Settings → Actions → Runners"
+	@echo "     (Look for 'dev' and 'prod' runners)"
+	@echo ""
+	@echo "  2. Generate configurations:"
+	@echo "     make dev-build       # For dev"
+	@echo "     make prod-build      # For prod"
+	@echo ""
+	@echo "  3. Deploy and validate:"
+	@echo "     make step2-dev-avd   # Full dev workflow"
+	@echo "     make step4-prod-avd  # Full prod workflow"
+	@echo ""
+
+step1-setup-local: setup setup-wizard build-check
+	@echo ""
+	@echo "✓ Step 1 Local complete: Local bootstrap done!"
 	@echo ""
 	@echo "Setup includes:"
 	@echo "  ✓ Local: Python venv, Ansible, AVD collections"
@@ -167,6 +194,9 @@ step1-setup: setup setup-wizard build-check
 	@echo ""
 	@echo "  3. Or bootstrap prod environment:"
 	@echo "     make step1-setup-prod"
+	@echo ""
+	@echo "  4. Or do full bootstrap (both dev and prod):"
+	@echo "     make step1-setup"
 	@echo ""
 
 step1-setup-dev: setup setup-wizard build-check dev-bootstrap-avd-server dev-setup-github-runner
