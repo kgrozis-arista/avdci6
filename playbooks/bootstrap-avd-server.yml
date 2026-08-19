@@ -41,6 +41,69 @@
       set_fact:
         venv_path: "{{ avd_workspace }}/.venv"
 
+    - name: Set CloudVision token filename
+      set_fact:
+        cv_token_filename: "{{ inventory_hostname.split('_')[0].upper() }}_AVDCI6_TOKEN"
+
+    - name: Check if CloudVision token file exists locally
+      stat:
+        path: "{{ lookup('env', 'HOME') }}/{{ cv_token_filename }}"
+      delegate_to: localhost
+      register: cv_token_file_stat
+      changed_when: false
+
+    - name: Prompt user about CloudVision token
+      pause:
+        prompt: "CloudVision token file ({{ cv_token_filename }}) {{ 'already exists' if cv_token_file_stat.stat.exists else 'does not exist' }}. Do you want to {{ 'update' if cv_token_file_stat.stat.exists else 'provide' }} the token? (yes/no)"
+      register: update_cv_token_prompt
+      delegate_to: localhost
+
+    - name: Display CloudVision token instructions
+      debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║         CloudVision Personal Access Token Required             ║
+          ║                                                                ║
+          ║  To generate a CloudVision token:                              ║
+          ║                                                                ║
+          ║  1. Log in to CloudVision Portal:                              ║
+          ║     https://cvdev.arista.com  (dev)                            ║
+          ║     https://cvprod.arista.com (prod)                           ║
+          ║                                                                ║
+          ║  2. Go to: Administration → Users → API Tokens                 ║
+          ║                                                                ║
+          ║  3. Click: "Generate Token"                                    ║
+          ║                                                                ║
+          ║  4. Set Name: avdci6-{{ inventory_hostname.split('_')[0] }}-token
+          ║                                                                ║
+          ║  5. Select Scopes:                                             ║
+          ║     ✓ CONFIG_DEPLOY (Ability to deploy configs to device)     ║
+          ║     ✓ EXECUTE_TASKS (Ability to execute tasks)                ║
+          ║     ✓ READ (Read-only access to CloudVision)                  ║
+          ║                                                                ║
+          ║  6. Click: "Generate"                                          ║
+          ║                                                                ║
+          ║  7. Copy the token immediately (won't be shown again)         ║
+          ║                                                                ║
+          ║  You will be prompted to paste the token below.               ║
+          ╚════════════════════════════════════════════════════════════════╝
+      when: update_cv_token_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Prompt for CloudVision token input
+      pause:
+        prompt: "Paste your CloudVision Personal Access Token (for {{ inventory_hostname.split('_')[0].upper() }})"
+      register: cv_token_input
+      delegate_to: localhost
+      when: update_cv_token_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Save CloudVision token file
+      copy:
+        content: "{{ cv_token_input.user_input }}"
+        dest: "{{ lookup('env', 'HOME') }}/{{ cv_token_filename }}"
+        mode: '0600'
+      delegate_to: localhost
+      when: update_cv_token_prompt.user_input | lower in ['yes', 'y']
+
     - name: Validate target OS
       assert:
         that:
