@@ -20,7 +20,7 @@
               ║  This will remove all AVD configurations!                      ║
               ║  Devices will return to factory/startup state.                ║
               ║                                                                ║
-              ║  Copying reset-configs/ to standard configs/ for deployment   ║
+              ║  Deploying reset configs from intended/configs/               ║
               ╚════════════════════════════════════════════════════════════════╝
       run_once: true  # noqa: run-once[task]
 
@@ -37,6 +37,7 @@
       environment:
         PYTHONWARNINGS: "ignore:Unverified HTTPS request"
       vars:
+        output_dir: "{{ playbook_dir | dirname }}/AVD-information/intended"
         cv_verify_certs: false
         cv_verify_devices_exist: false
         cv_run_change_control: true
@@ -60,6 +61,7 @@
       environment:
         PYTHONWARNINGS: "ignore:Unverified HTTPS request"
       vars:
+        output_dir: "{{ playbook_dir | dirname }}/AVD-information/intended"
         cv_verify_certs: false
         cv_verify_devices_exist: false
         cv_run_change_control: true
@@ -78,7 +80,7 @@
           ║              Reset Deployment Complete ✓                       ║
           ║                                                                ║
           ║  All fabric and host devices have been reset to baseline.    ║
-          ║  Reset configs are now in AVD-information/configs/            ║
+          ║  Reset configs deployed from AVD-information/intended/configs/ ║
           ║                                                                ║
           ║  Next steps:                                                   ║
           ║  1. Verify device connectivity: ping <mgmt_ip>               ║

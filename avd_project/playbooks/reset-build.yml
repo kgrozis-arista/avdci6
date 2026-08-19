@@ -18,7 +18,7 @@
               ╚════════════════════════════════════════════════════════════════╝
         - name: Create config output directory
           ansible.builtin.file:
-            path: "{{ playbook_dir | dirname }}/AVD-information/configs"
+            path: "{{ playbook_dir | dirname }}/AVD-information/intended/configs"
             state: directory
             mode: '0755'
       run_once: true  # noqa: run-once[task]
@@ -26,7 +26,7 @@
     - name: Generate reset configuration from template  # noqa: key-order[task]
       ansible.builtin.template:
         src: reset-config.j2
-        dest: "{{ playbook_dir | dirname }}/AVD-information/configs/{{ inventory_hostname }}.cfg"
+        dest: "{{ playbook_dir | dirname }}/AVD-information/intended/configs/{{ inventory_hostname }}.cfg"
         mode: '0644'
       vars:
         device_name: "{{ inventory_hostname }}"
@@ -38,11 +38,10 @@
           ╔════════════════════════════════════════════════════════════════╗
           ║              Reset Configs Generated ✓                         ║
           ║                                                                ║
-          ║  Reset configurations staged in configs directory:           ║
-          ║  AVD-information/configs/                                      ║
+          ║  Reset configurations staged in:                             ║
+          ║  AVD-information/intended/configs/                            ║
           ║                                                                ║
           ║  Next: Deploy reset configs with 'make reset-deploy'         ║
-          ║  (Will be copied to configs/ for deployment)                  ║
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
       run_once: true  # noqa: run-once[task]
@@ -65,14 +64,14 @@
   pre_tasks:
     - name: Ensure configs directory exists
       ansible.builtin.file:
-        path: "{{ playbook_dir | dirname }}/AVD-information/configs"
+        path: "{{ playbook_dir | dirname }}/AVD-information/intended/configs"
         state: directory
         mode: '0755'
   tasks:
     - name: Generate reset configuration from template for hosts
       ansible.builtin.template:
         src: reset-config.j2
-        dest: "{{ playbook_dir | dirname }}/AVD-information/configs/{{ item }}.cfg"
+        dest: "{{ playbook_dir | dirname }}/AVD-information/intended/configs/{{ item }}.cfg"
         mode: '0644'
       loop: "{{ host_list }}"
       vars:
