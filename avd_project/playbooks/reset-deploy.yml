@@ -37,7 +37,6 @@
       environment:
         PYTHONWARNINGS: "ignore:Unverified HTTPS request"
       vars:
-        # output_dir: "{{ playbook_dir | dirname }}/AVD-information"
         cv_verify_certs: false
         cv_verify_devices_exist: false
         cv_run_change_control: true
@@ -61,7 +60,6 @@
       environment:
         PYTHONWARNINGS: "ignore:Unverified HTTPS request"
       vars:
-        output_dir: "{{ playbook_dir | dirname }}/AVD-information"
         cv_verify_certs: false
         cv_verify_devices_exist: false
         cv_run_change_control: true
