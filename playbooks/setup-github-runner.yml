@@ -2,16 +2,31 @@
 # Setup GitHub Actions Self-Hosted Runner on AVD-Tooling Server
 # This playbook configures the runner for the avdci6 repository
 #
-# Usage via Makefile:
-#   make setup-github-runner
-#   make setup-github-runner RUNNER_TOKEN=your_token_here
-#   make setup-github-runner LIMIT=specific_host
+# The playbook will INTERACTIVELY PROMPT for a GitHub token if not provided.
+# Instructions are displayed automatically during execution.
 #
-# Usage directly:
+# Usage via Makefile (RECOMMENDED - prompts for token interactively):
+#   make dev-setup-github-runner        # Setup dev runner (with interactive token prompt)
+#   make prod-setup-github-runner       # Setup prod runner (with interactive token prompt)
+#
+# Usage with pre-saved token:
 #   ansible-playbook playbooks/setup-github-runner.yml \
 #     -i inventory/inventory.yml \
-#     -l your_host \
+#     -l dev_avd \
 #     -e "runner_token=$(cat ~/RUNNER_TOKEN)"
+#
+# To get a GitHub Personal Access Token:
+#   1. Go to: https://github.com/settings/tokens
+#   2. Click: "Generate new token (classic)"
+#   3. Set Name: avdci6-dev-runner (or avdci6-prod-runner)
+#   4. Select Scopes:
+#      - repo (Full control of private repositories)
+#      - admin:repo_hook (Access webhooks & service hooks)
+#   5. Click: "Generate token"
+#   6. Copy the token immediately (won't be shown again)
+#   7. Save locally (optional): echo "YOUR_TOKEN" > ~/RUNNER_TOKEN
+#
+# NOTE: GitHub tokens are ONE-TIME USE. Each registration requires a fresh token.
 
 - name: Configure GitHub Actions Self-Hosted Runner
   hosts: "{{ target_host | default('AVD_TOOLING', true) }}"
@@ -31,12 +46,45 @@
         runner_environment: "{{ inventory_hostname.split('_')[0] }}"
         runner_name: "{{ inventory_hostname.split('_')[0] }}"
         runner_labels: "self-hosted,Linux,X64,{{ inventory_hostname.split('_')[0] }}"
+
+    - name: Display GitHub token instructions if token not provided
+      debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║          GitHub Personal Access Token Required                 ║
+          ║                                                                ║
+          ║  To generate a token:                                          ║
+          ║                                                                ║
+          ║  1. Go to: https://github.com/settings/tokens                 ║
+          ║  2. Click: "Generate new token (classic)"                     ║
+          ║  3. Set Name: avdci6-{{ runner_environment }}-runner          ║
+          ║  4. Select Scopes:                                            ║
+          ║     ✓ repo (Full control of private repositories)             ║
+          ║     ✓ admin:repo_hook (Access webhooks & service hooks)       ║
+          ║  5. Click: "Generate token"                                   ║
+          ║  6. Copy the token immediately (won't be shown again)         ║
+          ║                                                                ║
+          ║  You will be prompted to paste the token below.               ║
+          ╚════════════════════════════════════════════════════════════════╝
+      when: runner_token is not defined or runner_token | length == 0
+
+    - name: Prompt for GitHub token interactively
+      pause:
+        prompt: "Paste your GitHub Personal Access Token (for {{ runner_environment }} runner)"
+      register: token_prompt
+      when: runner_token is not defined or runner_token | length == 0
+
+    - name: Set runner token from prompt
+      set_fact:
+        runner_token: "{{ token_prompt.user_input }}"
+      when: runner_token is not defined or runner_token | length == 0
+
     - name: Validate runner token is provided
       assert:
         that:
           - runner_token is defined
           - runner_token | length > 0
-        fail_msg: "ERROR: runner_token not provided. Use -e 'runner_token=YOUR_TOKEN' or set RUNNER_TOKEN environment variable"
+        fail_msg: "ERROR: runner_token cannot be empty. Please provide a valid GitHub Personal Access Token."
 
     - name: Check if runner already configured
       stat:
