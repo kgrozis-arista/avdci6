@@ -19,20 +19,10 @@
           ╚════════════════════════════════════════════════════════════════╝
       delegate_to: localhost
 
-    - name: Debug - Show config directory path (what cv_deploy role uses)  # noqa: run-once[task]
-      ansible.builtin.debug:
-        msg: |
-          Config Directory Path (from group_vars):
-            - output_dir: {{ output_dir }}
-            - configs_dir: {{ configs_dir }}
-            - Resolved configs_dir: {{ configs_dir | realpath }}
-      delegate_to: localhost
-      run_once: true  # noqa: run-once[task]
-
   tasks:
     - name: Verify host configuration file exists
       ansible.builtin.stat:
-        path: "{{ configs_dir }}/{{ inventory_hostname }}.cfg"
+        path: "{{ playbook_dir }}/../AVD-information/configs/{{ inventory_hostname }}.cfg"
       register: host_cfg_stat
       delegate_to: localhost
 
@@ -41,12 +31,13 @@
         that: host_cfg_stat.stat.exists
         fail_msg: >-
           Config for {{ inventory_hostname }} not found at
-          {{ configs_dir }}/. Run `make host-build` first.
+          {{ playbook_dir }}/../AVD-information/configs/. Run `make host-build` first.
 
     - name: Deploy host configuration to CloudVision
       ansible.builtin.import_role:
         name: arista.avd.cv_deploy
       vars:
+        output_dir: "{{ playbook_dir | dirname }}/AVD-information"
         cv_verify_certs: false
         cv_verify_devices_exist: false
         cv_run_change_control: true

@@ -230,23 +230,48 @@ prod_avd:
 
 ### GitHub Actions Runner Setup
 
-GitHub runner tokens are **one-time use only**. Each time you need to register a new runner:
+#### Interactive Token Prompting
 
-1. Go to your repository: https://github.com/kgrozis-arista/avdci6
-2. Navigate to **Settings → Actions → Runners**
-3. Click **"New self-hosted runner"**
-4. Select **Linux** and **x64**
-5. GitHub will display a registration token (in the "Configure" section)
-6. Save the token locally:
-   ```bash
-   echo "YOUR_NEW_TOKEN_HERE" > ~/RUNNER_TOKEN
-   chmod 600 ~/RUNNER_TOKEN
-   ```
-7. Run the setup:
-   ```bash
-   make step1-setup-dev   # For dev runner
-   make step1-setup-prod  # For prod runner
-   ```
+When you run `make step1-setup-dev` or `make step1-setup-prod`, the playbook will **automatically prompt you** for a GitHub Personal Access Token:
+
+```bash
+make step1-setup-dev    # For dev runner (prompts for token interactively)
+make step1-setup-prod   # For prod runner (prompts for token interactively)
+```
+
+The playbook will:
+1. **Check** if `~/RUNNER_TOKEN` already exists
+2. **Ask** if you want to use or update the token
+3. **Display instructions** for generating a fresh GitHub token
+4. **Prompt** for you to paste the token
+5. **Save** the token to `~/RUNNER_TOKEN` for future use (after successful registration)
+
+#### How to Generate a GitHub Personal Access Token
+
+**Option A: Generate via GitHub Web UI (Recommended)**
+
+1. Go to: **https://github.com/settings/tokens**
+2. Click: **"Generate new token (classic)"**
+3. Enter Name: **`avdci6-dev-runner`** (or `avdci6-prod-runner`)
+4. Select Scopes:
+   - ✓ **repo** — Full control of private repositories
+   - ✓ **admin:repo_hook** — Access webhooks & service hooks
+5. Click: **"Generate token"**
+6. **Copy the token immediately** (you won't see it again!)
+7. When the playbook prompts, **paste the token**
+
+**Important:** GitHub runner tokens are **ONE-TIME USE ONLY**. Each registration requires a fresh token from GitHub.
+
+#### Optional: Pre-Save Token (Skip Prompt)
+
+If you prefer to avoid the interactive prompt, pre-save the token:
+
+```bash
+echo "YOUR_TOKEN_HERE" > ~/RUNNER_TOKEN
+chmod 600 ~/RUNNER_TOKEN
+```
+
+Then run bootstrap. The playbook will use the saved token if available, or prompt for a new one.
 
 **Runner Naming:**
 - Dev runner: `dev` (label: `self-hosted,Linux,X64,dev`)
@@ -260,6 +285,75 @@ source .activate
 ansible --version
 ansible-galaxy collection list | grep arista.avd
 systemctl status github-runner
+```
+
+### CloudVision Portal Token Setup
+
+CloudVision tokens are required to deploy configurations from Ansible. When you run `make step1-setup-dev` or `make step1-setup-prod`, the playbook will **automatically prompt you** to provide or update your CloudVision token:
+
+```bash
+make step1-setup-dev    # Prompts for DEV_AVDCI6_TOKEN
+make step1-setup-prod   # Prompts for PROD_AVDCI6_TOKEN
+```
+
+#### Interactive Token Prompting
+
+The playbook will:
+1. **Check** if `~/DEV_AVDCI6_TOKEN` or `~/PROD_AVDCI6_TOKEN` already exists
+2. **Ask** if you want to update the token (if it exists)
+3. **Display instructions** for generating a CloudVision Personal Access Token
+4. **Prompt** for you to paste the token
+5. **Save** the token to `~/DEV_AVDCI6_TOKEN` or `~/PROD_AVDCI6_TOKEN` locally
+6. **Copy** the token to the remote AVD-tooling server for deployment operations
+
+#### How to Generate a CloudVision Personal Access Token
+
+**Option A: Generate via CloudVision Web UI (Recommended)**
+
+**For Dev Environment:**
+1. Log in to CloudVision Portal: **https://cvdev.arista.com** (or your dev instance)
+2. Navigate to: **Administration → Users → API Tokens**
+3. Click: **"Generate Token"**
+4. Enter Name: **`avdci6-dev-token`**
+5. Select Scopes (permissions):
+   - ✓ **CONFIG_DEPLOY** — Ability to deploy configs to devices
+   - ✓ **EXECUTE_TASKS** — Ability to execute tasks
+   - ✓ **READ** — Read-only access to CloudVision
+6. Click: **"Generate"**
+7. **Copy the token immediately** (won't be shown again!)
+8. When the playbook prompts, **paste the token**
+
+**For Prod Environment:**
+- Same steps as dev, but log into: **https://cvprod.arista.com** (or your prod instance)
+- Name it: **`avdci6-prod-token`**
+
+#### Optional: Pre-Save Token (Skip Prompt)
+
+If you prefer to avoid the interactive prompt, pre-save the token:
+
+```bash
+# For dev
+echo "YOUR_DEV_TOKEN_HERE" > ~/DEV_AVDCI6_TOKEN
+chmod 600 ~/DEV_AVDCI6_TOKEN
+
+# For prod
+echo "YOUR_PROD_TOKEN_HERE" > ~/PROD_AVDCI6_TOKEN
+chmod 600 ~/PROD_AVDCI6_TOKEN
+```
+
+Then run bootstrap. The playbook will use the saved token, or prompt for a new one if the file doesn't exist.
+
+#### Token Verification
+
+After bootstrap completes, SSH into the AVD-tooling server and verify:
+
+```bash
+# Check if token was copied
+ls -la /home/ansible/DEV_AVDCI6_TOKEN    # For dev
+ls -la /home/ansible/PROD_AVDCI6_TOKEN   # For prod
+
+# View first/last few characters to confirm
+head -c 10 /home/ansible/DEV_AVDCI6_TOKEN && echo "..."
 ```
 
 ### Virtual Twin with ACT
@@ -1204,9 +1298,25 @@ make check                   # Verify environment
 
 ---
 
-**Last Updated:** August 18, 2026  
-**Version:** 3.5 — Reset Workflow Dev/Prod Separation, Build Output Alignment, Playbook Fixes  
+**Last Updated:** August 19, 2026  
+**Version:** 3.6 — Interactive Token Prompting for GitHub & CloudVision, SSH Host Key Fix  
 **AVD Version:** 6.3+
+
+### Version 3.6 Changes
+- Added interactive GitHub runner token prompting (RUNNER_TOKEN)
+  - Check if token file exists, prompt to confirm reuse or provide new token
+  - Display detailed instructions on generating Personal Access Tokens
+  - Automatically save token after successful registration for future use
+- Added interactive CloudVision token prompting (DEV_AVDCI6_TOKEN, PROD_AVDCI6_TOKEN)
+  - Check if token files exist locally
+  - Prompt user to confirm update or provide new token
+  - Display detailed instructions on generating CloudVision API tokens with proper scopes
+  - Copy tokens to remote AVD-tooling server after confirmation
+- Fixed SSH host key checking error during bootstrap
+  - Disable strict host key checking in Makefile (ANSIBLE_SSH_COMMON_ARGS)
+  - Allows password-based authentication without known_hosts verification
+- Simplified Makefile: removed hardcoded token file checks, let playbooks handle prompting
+- Updated README with comprehensive token setup documentation
 
 ### Version 3.5 Changes
 - Restructured reset targets with dev/prod hierarchy (step99-reset-dev, step99-reset-prod)
@@ -1214,6 +1324,7 @@ make check                   # Verify environment
 - Fixed reset-deploy.yml cv_server reference from ansible_user to ansible_host
 - Fixed cv_run_change_control logic for fabric reset targeting
 - Added prod CloudVision targeting support for reset workflows  
+
 **Ansible:** 2.14+  
 **Python:** 3.8+
 **Key Features:**
