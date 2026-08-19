@@ -46,7 +46,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup step1-setup-local step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step99-reset step99-reset-dev step99-reset-prod setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy dev-reset-build dev-reset-deploy prod-reset-build prod-reset-deploy check syntax lint clean
+.PHONY: help step1-setup step1-setup-local step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step99-reset step99-reset-dev step99-reset-prod local-reset setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy dev-reset-build dev-reset-deploy prod-reset-build prod-reset-deploy check syntax lint clean
 
 # ============================================================================
 # Help
@@ -110,6 +110,7 @@ help:
 	@echo "    step99-reset-prod      - Reset prod topology: prod-reset-build → prod-reset-deploy"
 	@echo "      prod-reset-build     - Generate prod reset configurations"
 	@echo "      prod-reset-deploy    - Deploy prod reset configs to fabric and hosts"
+	@echo "    local-reset            - Restore local config files from tmp/ directory"
 	@echo ""
 	@echo "Utilities:"
 	@echo "  check                    - Dry-run: --check --diff"
@@ -522,6 +523,17 @@ step99-reset-dev: dev-reset-build dev-reset-deploy
 step99-reset-prod: prod-reset-build prod-reset-deploy
 	@echo ""
 	@echo "✓ Prod topology reset complete!"
+
+local-reset:
+	@echo ""
+	@echo "Restoring local configuration files from tmp/ directory..."
+	@echo ""
+	@cp tmp/fabric_variables.yml avd_project/inventory/group_vars/FABRIC/fabric_variables.yml
+	@cp tmp/main.yml avd_project/inventory/group_vars/NETWORK_SERVICES/main.yml
+	@echo "✓ Configuration files restored:"
+	@echo "  - avd_project/inventory/group_vars/FABRIC/fabric_variables.yml"
+	@echo "  - avd_project/inventory/group_vars/NETWORK_SERVICES/main.yml"
+	@echo ""
 
 reset-build: dev-reset-build
 	@echo "✓ Reset build complete (dev only - use dev-reset-build or prod-reset-build)"
