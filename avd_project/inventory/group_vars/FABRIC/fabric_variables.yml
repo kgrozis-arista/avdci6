@@ -4,9 +4,9 @@
 
 # AVD output directory configuration
 # Base output directory - all outputs go here
-root_dir: '{{ inventory_dir }}/..'
-output_dir_name: 'AVD-information'
-output_dir: '{{ root_dir }}/{{ output_dir_name }}'
+root_dir: '{{ inventory_dir | dirname }}/AVD-information'
+# output_dir_name: 'AVD-information'
+# output_dir: '{{ root_dir }}/{{ output_dir_name }}'
 # Subdirectories (relative to output_dir)
 anta_dir: "{{ output_dir }}/anta"
 
