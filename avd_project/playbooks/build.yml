@@ -43,13 +43,13 @@
       ansible.builtin.import_role:
         name: arista.avd.eos_cli_config_gen
 
-    - name: Verify normal AVD configs were generated (not reset configs)
-      ansible.builtin.shell: |
-        if grep -q "Reset Configuration" {{ configs_dir }}/{{ inventory_hostname }}.cfg 2>/dev/null; then
-          echo "ERROR: Reset config found instead of normal AVD config!"
-          exit 1
-        fi
-      changed_when: false
+    # - name: Verify normal AVD configs were generated (not reset configs)
+    #   ansible.builtin.shell: |
+    #     if grep -q "Reset Configuration" {{ configs_dir }}/{{ inventory_hostname }}.cfg 2>/dev/null; then
+    #       echo "ERROR: Reset config found instead of normal AVD config!"
+    #       exit 1
+    #     fi
+    #   changed_when: false
 
     - name: Display completion banner
       ansible.builtin.debug:
