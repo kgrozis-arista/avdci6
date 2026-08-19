@@ -279,18 +279,13 @@ dev-setup-github-runner:
 	@echo ""
 	@echo "Setting up GitHub Actions runner on dev AVD-tooling server..."
 	@echo ""
-	@if [ -f "$$HOME/RUNNER_TOKEN" ]; then \
-	  if [ -f "avd_project/inventory/inventory.yml" ]; then \
-	    $(ANSIBLE_PLAYBOOK) -i avd_project/inventory/inventory.yml \
-	      -e "runner_token=$$(cat $$HOME/RUNNER_TOKEN)" \
-	      -l dev_avd \
-	      playbooks/setup-github-runner.yml; \
-	  else \
-	    echo "⚠ Inventory file not found (avd_project/inventory/inventory.yml)."; \
-	  fi; \
+	@if [ -f "avd_project/inventory/inventory.yml" ]; then \
+	  $(ANSIBLE_PLAYBOOK) -i avd_project/inventory/inventory.yml \
+	    -l dev_avd \
+	    playbooks/setup-github-runner.yml; \
 	else \
-	  echo "⚠ RUNNER_TOKEN file not found at $$HOME/RUNNER_TOKEN"; \
-	  echo "   Usage: echo 'your_token' > ~/RUNNER_TOKEN"; \
+	  echo "⚠ Inventory file not found (avd_project/inventory/inventory.yml)."; \
+	  echo "   Please run 'make step1-setup' first."; \
 	fi
 
 # Prod environment targets
@@ -322,18 +317,13 @@ prod-setup-github-runner:
 	@echo ""
 	@echo "Setting up GitHub Actions runner on prod AVD-tooling server..."
 	@echo ""
-	@if [ -f "$$HOME/RUNNER_TOKEN" ]; then \
-	  if [ -f "avd_project/inventory/inventory.yml" ]; then \
-	    $(ANSIBLE_PLAYBOOK) -i avd_project/inventory/inventory.yml \
-	      -e "runner_token=$$(cat $$HOME/RUNNER_TOKEN)" \
-	      -l prod_avd \
-	      playbooks/setup-github-runner.yml; \
-	  else \
-	    echo "⚠ Inventory file not found (avd_project/inventory/inventory.yml)."; \
-	  fi; \
+	@if [ -f "avd_project/inventory/inventory.yml" ]; then \
+	  $(ANSIBLE_PLAYBOOK) -i avd_project/inventory/inventory.yml \
+	    -l prod_avd \
+	    playbooks/setup-github-runner.yml; \
 	else \
-	  echo "⚠ RUNNER_TOKEN file not found at $$HOME/RUNNER_TOKEN"; \
-	  echo "   Usage: echo 'your_token' > ~/RUNNER_TOKEN"; \
+	  echo "⚠ Inventory file not found (avd_project/inventory/inventory.yml)."; \
+	  echo "   Please run 'make step1-setup' first."; \
 	fi
 
 # These targets are available for manual use with LIMIT parameter if needed

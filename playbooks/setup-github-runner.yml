@@ -47,7 +47,26 @@
         runner_name: "{{ inventory_hostname.split('_')[0] }}"
         runner_labels: "self-hosted,Linux,X64,{{ inventory_hostname.split('_')[0] }}"
 
-    - name: Display GitHub token instructions if token not provided
+    - name: Check if runner token file exists locally
+      stat:
+        path: "{{ lookup('env', 'HOME') }}/RUNNER_TOKEN"
+      delegate_to: localhost
+      register: token_file_stat
+      changed_when: false
+
+    - name: Display prompt for existing token
+      pause:
+        prompt: "Token file exists at ~/RUNNER_TOKEN. Do you want to use the existing token? (yes/no)"
+      register: use_existing_token_prompt
+      when: token_file_stat.stat.exists
+      delegate_to: localhost
+
+    - name: Load existing token if user chose to use it
+      set_fact:
+        runner_token: "{{ lookup('file', lookup('env', 'HOME') + '/RUNNER_TOKEN') | trim }}"
+      when: token_file_stat.stat.exists and use_existing_token_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Display GitHub token instructions if new token needed
       debug:
         msg: |
           ╔════════════════════════════════════════════════════════════════╗
@@ -66,18 +85,19 @@
           ║                                                                ║
           ║  You will be prompted to paste the token below.               ║
           ╚════════════════════════════════════════════════════════════════╝
-      when: runner_token is not defined or runner_token | length == 0
+      when: not token_file_stat.stat.exists or use_existing_token_prompt.user_input | lower not in ['yes', 'y']
 
     - name: Prompt for GitHub token interactively
       pause:
         prompt: "Paste your GitHub Personal Access Token (for {{ runner_environment }} runner)"
       register: token_prompt
-      when: runner_token is not defined or runner_token | length == 0
+      delegate_to: localhost
+      when: not token_file_stat.stat.exists or use_existing_token_prompt.user_input | lower not in ['yes', 'y']
 
     - name: Set runner token from prompt
       set_fact:
         runner_token: "{{ token_prompt.user_input }}"
-      when: runner_token is not defined or runner_token | length == 0
+      when: not token_file_stat.stat.exists or use_existing_token_prompt.user_input | lower not in ['yes', 'y']
 
     - name: Validate runner token is provided
       assert:
@@ -234,6 +254,16 @@
 
           To restart the runner:
             systemctl restart github-runner
+
+  post_tasks:
+    - name: Save token to ~/RUNNER_TOKEN for future use
+      copy:
+        content: "{{ runner_token }}"
+        dest: "{{ lookup('env', 'HOME') }}/RUNNER_TOKEN"
+        mode: '0600'
+      delegate_to: localhost
+      when: runner_config is defined and runner_config.changed
+      ignore_errors: yes
 
   handlers:
     - name: Reload systemd
