@@ -28,12 +28,12 @@
             - Resolved output_dir: {{ output_dir | realpath }}
       run_once: true  # noqa: run-once[task]
 
-    - name: Clean existing outputs and recreate directories  # noqa: run-once[task]
-      ansible.builtin.shell: |
-        rm -rf {{ configs_dir }} {{ structured_configs_dir }} {{ documentation_dir }}
-        mkdir -p {{ configs_dir }} {{ structured_configs_dir }} {{ documentation_dir }}
-      run_once: true  # noqa: run-once[task]
-      changed_when: true
+    # - name: Clean existing outputs and recreate directories  # noqa: run-once[task]
+    #   ansible.builtin.shell: |
+    #     rm -rf {{ configs_dir }} {{ structured_configs_dir }} {{ documentation_dir }}
+    #     mkdir -p {{ configs_dir }} {{ structured_configs_dir }} {{ documentation_dir }}
+    #   run_once: true  # noqa: run-once[task]
+    #   changed_when: true
 
     - name: Run eos_designs role to generate structured configs
       ansible.builtin.import_role:
