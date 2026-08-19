@@ -25,7 +25,7 @@
         - "{{ output_dir }}"
         - "{{ output_dir }}/configs"
         - "{{ output_dir }}/structured_configs"
-        - "{{ output_dir }}/documentation"
+        - "{{ documentation_dir }}"
       run_once: true  # noqa: run-once[task]
 
     - name: Run eos_designs role to generate structured configs
@@ -43,7 +43,7 @@
           ║                  Build Complete ✓                              ║
           ║                                                                ║
           ║  Outputs available in: AVD-information/                        ║
-          ║  - configs/            (EOS device configurations)            ║
-          ║  - structured_configs/ (Data models in YAML)                  ║
-          ║  - documentation/      (Fabric topology and reports)          ║
+          ║  - intended/configs/            (EOS device configurations)   ║
+          ║  - intended/structured_configs/ (Data models in YAML)         ║
+          ║  - documentation/               (Fabric topology and reports) ║
           ╚════════════════════════════════════════════════════════════════╝

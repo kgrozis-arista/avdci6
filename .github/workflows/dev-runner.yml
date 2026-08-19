@@ -114,7 +114,7 @@ jobs:
           # Add only committed artifacts, excluding temporary design files
           git add ${{ env.AVD_OUTPUT_DIR }}/intended/configs/ 2>/dev/null || true
           git add ${{ env.AVD_OUTPUT_DIR }}/intended/structured_configs/ 2>/dev/null || true
-          git add ${{ env.AVD_OUTPUT_DIR }}/intended/documentation/ 2>/dev/null || true
+          git add ${{ env.AVD_OUTPUT_DIR }}/documentation/ 2>/dev/null || true
           git add ${{ env.AVD_OUTPUT_DIR }}/*.html 2>/dev/null || true
 
           # Only commit and push if there are changes
