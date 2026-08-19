@@ -18,15 +18,15 @@ all:
         ansible_python_interpreter: $(which python3)
       hosts:
         cv_dev_server:
-          ansible_httpapi_host: 10.18.142.57
-          ansible_host: 10.18.142.57
-          ansible_user: 10.18.142.57
+          ansible_httpapi_host: 10.18.144.94
+          ansible_host: 10.18.144.94
+          ansible_user: 10.18.144.94
           # yamllint disable-line rule:line-length
           ansible_password: "{{ lookup('file', lookup('env', 'HOME') + '/DEV_AVDCI6_TOKEN') }}"
         cv_prod_server:
-          ansible_httpapi_host: 10.18.134.214
-          ansible_host: 10.18.134.214
-          ansible_user: 10.18.134.214
+          ansible_httpapi_host: 10.18.153.112
+          ansible_host: 10.18.153.112
+          ansible_user: 10.18.153.112
           # yamllint disable-line rule:line-length
           ansible_password: "{{ lookup('file', lookup('env', 'HOME') + '/PROD_AVDCI6_TOKEN') }}"
 
@@ -40,9 +40,9 @@ all:
         ansible_become_password: ansible
       hosts:
         dev_avd:
-          ansible_host: 10.18.139.4
+          ansible_host: 10.18.153.115
         prod_avd:
-          ansible_host: 10.18.137.158
+          ansible_host: 10.18.141.237
 
     # NetBox for inventory management
     NETBOX:
