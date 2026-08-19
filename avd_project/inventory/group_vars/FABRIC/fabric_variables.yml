@@ -3,11 +3,10 @@
 # Applied to all devices in the FABRIC group
 
 # AVD output directory configuration
-# Base output directory - all outputs go here
-root_dir: '{{ inventory_dir | dirname }}/AVD-information'
-# output_dir_name: 'AVD-information'
-# output_dir: '{{ root_dir }}/{{ output_dir_name }}'
-# Subdirectories (relative to output_dir)
+root_dir: "{{ playbook_dir | dirname }}/AVD-information"
+output_dir_name: 'intended'
+output_dir: "{{ root_dir }}/{{ output_dir_name }}"
+# Subdirectories (automatically derived by roles)
 anta_dir: "{{ output_dir }}/anta"
 
 # Fabric identification
