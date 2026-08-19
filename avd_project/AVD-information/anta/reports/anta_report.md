@@ -156,8 +156,8 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ✅&nbsp;Success | - |
 | DC1-LEAF2B | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ❌&nbsp;Failure | 1/2&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ❌&nbsp;Failure | Inactive port(s) - Ethernet1, PeerEthernet1 |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel1 | ❌&nbsp;Failure | Inactive port(s) - Ethernet1, PeerEthernet1 |
 | DC1-LEAF2B | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ❌&nbsp;Failure | MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0 |
 | DC2-LEAF1A | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 1/20&nbsp;checks&nbsp;failed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
@@ -231,8 +231,8 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ✅&nbsp;Success | - |
 | DC2-LEAF2A | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ❌&nbsp;Failure | 1/2&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ❌&nbsp;Failure | Inactive port(s) - Ethernet1, PeerEthernet1 |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel1 | ❌&nbsp;Failure | Inactive port(s) - Ethernet1, PeerEthernet1 |
 | DC2-LEAF2A | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ❌&nbsp;Failure | MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0 |
 | DC2-LEAF2B | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 1/20&nbsp;checks&nbsp;failed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
