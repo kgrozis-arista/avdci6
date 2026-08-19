@@ -746,37 +746,49 @@ This orchestrates:
 
 ### GitHub Actions Runner Configuration
 
-#### 1. Generate GitHub Personal Access Token (PAT)
+#### 1. Run Bootstrap (Interactive Token Prompt)
 
-1. Go to GitHub → Settings → Developer settings → Personal access tokens
-2. Click **Generate new token (classic)**
-3. Name: `avdci6-runner`
-4. Scopes: Check `repo` and `admin:repo_hook`
-5. Click **Generate token**
-6. Copy the token immediately (you won't see it again)
+The `step1-setup-dev` and `step1-setup-prod` targets automatically configure the runner with an **interactive token prompt**:
 
-#### 2. Save Token Locally
+```bash
+make step1-setup-dev    # For dev environment (prompts for token)
+make step1-setup-prod   # For prod environment (prompts for token)
+```
 
-On your development machine, save the token:
+When you run either target, the playbook will:
+1. **Display instructions** for generating a GitHub Personal Access Token
+2. **Pause and prompt** for you to paste the token
+3. **Download** the GitHub Actions runner (v2.336.0)
+4. **Register** the runner with your GitHub repository
+5. **Create** a systemd service for automatic startup
+6. **Configure** runner labels: `[self-hosted, Linux, X64, dev]` or `[..., X64, prod]`
+
+#### 2. How to Generate a GitHub Personal Access Token
+
+When prompted, you'll need a **Personal Access Token (PAT)**. Here's how to generate one:
+
+1. Go to: **https://github.com/settings/tokens**
+2. Click: **"Generate new token (classic)"**
+3. Enter Name: **`avdci6-dev-runner`** (or `avdci6-prod-runner`)
+4. Select Scopes:
+   - ✓ **repo** — Full control of private repositories
+   - ✓ **admin:repo_hook** — Access webhooks & service hooks
+5. Click: **"Generate token"**
+6. **Copy the token immediately** (you won't see it again!)
+7. When the playbook prompts, **paste the token**
+
+**Important:** GitHub runner tokens are **ONE-TIME USE ONLY**. Each registration requires a fresh token from GitHub.
+
+#### 3. Alternative: Pre-Save Token (Optional)
+
+If you prefer to pre-save the token locally before running bootstrap:
 
 ```bash
 echo "YOUR_TOKEN_HERE" > ~/RUNNER_TOKEN
 chmod 600 ~/RUNNER_TOKEN
 ```
 
-#### 3. Run Bootstrap
-
-The `step1-setup` target automatically configures the runner as part of full bootstrap:
-
-```bash
-make step1-setup
-```
-
-This includes runner setup which will:
-- Download the GitHub Actions runner (v2.336.0)
-- Register the runner with your GitHub repository
-- Create a systemd service for automatic startup
-- Configure runner labels: `[self-hosted, Linux, X64, dev]`
+Then run bootstrap as usual. The playbook will use the saved token if available.
 
 #### 4. Verify Runner is Online
 
