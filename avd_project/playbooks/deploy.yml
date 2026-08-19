@@ -23,7 +23,7 @@
         msg: |
           Output Directory Path (from group_vars):
             - root_dir: {{ inventory_dir }}/..
-            - output_dir: {{ output_dir }}/configs
+            - output_dir: {{ output_dir }}
             - configs_dir: {{ configs_dir }}
             - structured_configs_dir: {{ output_dir }}/structured_configs
             - documentation_dir: {{ output_dir }}/{{ documentation_dir }}
