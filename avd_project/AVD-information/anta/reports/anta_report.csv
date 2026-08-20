@@ -1,28 +1,4 @@
 Device,Test Name,Test Status,Message(s),Test description,Test category
-DC1-LEAF1A,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF1A,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC1-LEAF1A,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
-DC1-LEAF1B,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF1B,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC1-LEAF1B,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
-DC1-LEAF2A,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF2A,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC1-LEAF2A,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
-DC1-LEAF2B,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC1-LEAF2B,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC1-LEAF2B,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
-DC2-LEAF1A,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF1A,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC2-LEAF1A,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
-DC2-LEAF1B,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF1B,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC2-LEAF1B,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
-DC2-LEAF2A,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF2A,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC2-LEAF2A,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
-DC2-LEAF2B,VerifyInterfacesStatus,failure,"Interface: Port-Channel1 - Status mismatch - Expected: up/up, Actual: down/lowerLayerDown",Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
-DC2-LEAF2B,VerifyPortChannels,failure,"Interface: Port-Channel1 - Inactive port(s) - Ethernet1, PeerEthernet1",Verifies there are no inactive ports in port channels.,Interfaces
-DC2-LEAF2B,VerifyMlagInterfaces,failure,MLAG status is not ok - Inactive Ports: 1 Partial Active Ports: 0,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF1A,VerifyBGPPeerSession,success,,Verifies the session state of BGP peers.,BGP
 DC1-LEAF1A,VerifyRunningConfigDiffs,success,,Verifies there is no difference between the running-config and the startup-config.,Configuration
 DC1-LEAF1A,VerifyZeroTouch,success,,Verifies ZeroTouch is disabled.,Configuration
@@ -32,7 +8,10 @@ DC1-LEAF1A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC1-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF1A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF1A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC1-LEAF1A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF1A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF1A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC1-LEAF1A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
 DC1-LEAF1A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
@@ -54,7 +33,10 @@ DC1-LEAF1B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC1-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF1B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF1B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC1-LEAF1B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF1B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF1B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC1-LEAF1B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
 DC1-LEAF1B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
@@ -76,7 +58,10 @@ DC1-LEAF2A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC1-LEAF2A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF2A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF2A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC1-LEAF2A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF2A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF2A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC1-LEAF2A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
 DC1-LEAF2A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
@@ -98,7 +83,10 @@ DC1-LEAF2B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC1-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC1-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC1-LEAF2B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-LEAF2B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC1-LEAF2B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC1-LEAF2B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF2B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC1-LEAF2B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
 DC1-LEAF2B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
@@ -227,7 +215,10 @@ DC2-LEAF1A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC2-LEAF1A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF1A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF1A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF1A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC2-LEAF1A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF1A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF1A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC2-LEAF1A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
 DC2-LEAF1A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
@@ -249,7 +240,10 @@ DC2-LEAF1B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC2-LEAF1B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF1B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF1B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF1B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF1B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC2-LEAF1B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF1B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF1B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC2-LEAF1B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
 DC2-LEAF1B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
@@ -271,7 +265,10 @@ DC2-LEAF2A,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC2-LEAF2A,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF2A,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2A,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF2A,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF2A,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC2-LEAF2A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF2A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF2A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC2-LEAF2A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
 DC2-LEAF2A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
@@ -293,7 +290,10 @@ DC2-LEAF2B,VerifyIllegalLACP,success,,Verifies there are no illegal LACP packets
 DC2-LEAF2B,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces in the errdisabled state.,Interfaces
 DC2-LEAF2B,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-LEAF2B,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
+DC2-LEAF2B,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-LEAF2B,VerifyPortChannels,success,,Verifies there are no inactive ports in port channels.,Interfaces
 DC2-LEAF2B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
+DC2-LEAF2B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF2B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
 DC2-LEAF2B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
 DC2-LEAF2B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
