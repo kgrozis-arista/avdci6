@@ -40,6 +40,8 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.30.0.79/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
   metadata:
     peer: DC2-SPINE1
     peer_interface: Ethernet4/1
@@ -51,6 +53,8 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.30.0.81/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
   metadata:
     peer: DC2-SPINE2
     peer_interface: Ethernet4/1
@@ -62,6 +66,8 @@ ethernet_interfaces:
   shutdown: false
   mtu: 1500
   ip_address: 10.30.0.83/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
   metadata:
     peer: DC2-SPINE3
     peer_interface: Ethernet4/1
@@ -103,10 +109,12 @@ loopback_interfaces:
   description: ROUTER_ID
   shutdown: false
   ip_address: 10.10.3.14/32
+  ospf_area: 0.0.0.0
 - name: Loopback1
   description: VXLAN_TUNNEL_SOURCE
   shutdown: false
   ip_address: 101.1.1.13/32
+  ospf_area: 0.0.0.0
 management_api_http:
   enable_https: true
   enable_vrfs:
@@ -163,27 +171,6 @@ port_channel_interfaces:
     trunk:
       allowed_vlan: 10,20,30,50
       native_vlan: 4092
-prefix_lists:
-- name: PL-LOOPBACKS-EVPN-OVERLAY
-  sequence_numbers:
-  - sequence: 10
-    action: permit 10.10.3.0/24 eq 32
-  - sequence: 20
-    action: permit 101.1.1.0/24 eq 32
-route_maps:
-- name: RM-MLAG-PEER-IN
-  sequence_numbers:
-  - sequence: 10
-    type: permit
-    description: Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing
-    set:
-    - origin incomplete
-- name: RM-CONN-2-BGP
-  sequence_numbers:
-  - sequence: 10
-    type: permit
-    match:
-    - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
 router_bfd:
   multihop:
     interval: 300
@@ -202,20 +189,6 @@ router_bgp:
     default:
       ipv4_unicast: false
   peer_groups:
-  - name: MLAG-IPv4-UNDERLAY-PEER
-    metadata:
-      type: ipv4
-    remote_as: '65202'
-    description: DC2-LEAF2A
-    next_hop_self: true
-    send_community: all
-    maximum_routes: 256000
-    route_map_in: RM-MLAG-PEER-IN
-  - name: IPv4-UNDERLAY-PEERS
-    metadata:
-      type: ipv4
-    send_community: all
-    maximum_routes: 256000
   - name: EVPN-OVERLAY-PEERS
     metadata:
       type: evpn
@@ -225,29 +198,6 @@ router_bgp:
     send_community: all
     maximum_routes: 0
   neighbors:
-  - ip_address: 10.65.0.24
-    peer_group: MLAG-IPv4-UNDERLAY-PEER
-    metadata:
-      peer: DC2-LEAF2A
-    description: DC2-LEAF2A_Vlan4093
-  - ip_address: 10.30.0.78
-    peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65200'
-    metadata:
-      peer: DC2-SPINE1
-    description: DC2-SPINE1_Ethernet4/1
-  - ip_address: 10.30.0.80
-    peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65200'
-    metadata:
-      peer: DC2-SPINE2
-    description: DC2-SPINE2_Ethernet4/1
-  - ip_address: 10.30.0.82
-    peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65200'
-    metadata:
-      peer: DC2-SPINE3
-    description: DC2-SPINE3_Ethernet4/1
   - ip_address: 10.10.2.8
     peer_group: EVPN-OVERLAY-PEERS
     remote_as: '65200'
@@ -266,10 +216,6 @@ router_bgp:
     metadata:
       peer: DC2-SPINE3
     description: DC2-SPINE3_Loopback0
-  redistribute:
-    connected:
-      enabled: true
-      route_map: RM-CONN-2-BGP
   address_family_evpn:
     neighbor_default:
       next_hop_self_received_evpn_routes:
@@ -280,12 +226,22 @@ router_bgp:
       activate: true
   address_family_ipv4:
     peer_groups:
-    - name: MLAG-IPv4-UNDERLAY-PEER
-      activate: true
-    - name: IPv4-UNDERLAY-PEERS
-      activate: true
     - name: EVPN-OVERLAY-PEERS
       activate: false
+router_ospf:
+  process_ids:
+  - id: 100
+    passive_interface_default: true
+    router_id: 10.10.3.14
+    bfd_enable: false
+    no_passive_interfaces:
+    - Ethernet51/1
+    - Ethernet52/1
+    - Ethernet53/1
+    - Vlan4093
+    max_lsa: 12000
+    graceful_restart:
+      enabled: true
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: none
@@ -300,6 +256,8 @@ vlan_interfaces:
   description: MLAG_L3
   shutdown: false
   ip_address: 10.65.0.25/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
   mtu: 1500
 - name: Vlan4094
   description: MLAG
