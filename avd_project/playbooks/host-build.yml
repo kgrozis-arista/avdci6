@@ -15,7 +15,7 @@
   pre_tasks:
     - name: Create config output directory
       ansible.builtin.file:
-        path: "{{ playbook_dir }}/../AVD-information/configs"
+        path: "{{ playbook_dir }}/../AVD-information/intended/configs"
         state: directory
         mode: '0755'
       delegate_to: localhost
@@ -33,7 +33,7 @@
     - name: Generate host configurations from Jinja2 template
       ansible.builtin.template:
         src: templates/host.j2
-        dest: "{{ playbook_dir }}/../AVD-information/configs/{{ item }}.cfg"
+        dest: "{{ playbook_dir }}/../AVD-information/intended/configs/{{ item }}.cfg"
         mode: '0644'
       loop: "{{ host_list }}"
       delegate_to: localhost
@@ -46,7 +46,7 @@
           ║              Host Configurations Generated ✓                   ║
           ║                                                                ║
           ║  Outputs available in:                                         ║
-          ║  - {{ playbook_dir }}/../AVD-information/configs/              ║
+          ║  - {{ playbook_dir }}/../AVD-information/intended/configs/    ║
           ║  - DC1-HOST1.cfg, DC1-HOST2.cfg                              ║
           ║  - DC2-HOST1.cfg, DC2-HOST2.cfg                              ║
           ╚════════════════════════════════════════════════════════════════╝
