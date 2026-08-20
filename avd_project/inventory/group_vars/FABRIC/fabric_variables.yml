@@ -6,9 +6,11 @@
 root_dir: "{{ playbook_dir | dirname }}/AVD-information"
 output_dir_name: 'intended'
 output_dir: "{{ root_dir }}/{{ output_dir_name }}"
-# Subdirectories (explicitly defined for role consistency)
-# anta_dir: "{{ output_dir }}/anta"
-# documentation_dir: "{{ root_dir }}/documentation"
+
+# Generate CSVs with fabric link info.
+eos_designs_documentation:
+  topology_csv: true
+  p2p_links_csv: true
 
 # Fabric identification
 fabric_name: FABRIC
