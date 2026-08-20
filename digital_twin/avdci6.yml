@@ -14,7 +14,7 @@ cvp:
     # Define the global CVP node parameters
     username: root
     password: cvproot
-    version: 2026.2.0
+    version: 2026.1.2
     instance: singlenode
 
 nodes:
