@@ -506,7 +506,7 @@ prod-validate:
 # Reset & Recovery
 # ============================================================================
 
-step99-reset: step99-reset-dev step99-reset-prod
+step99-reset: step99-reset-dev step99-reset-prod local-reset
 	@echo ""
 	@echo "✓ Step 99 complete: Topology reset finished (dev & prod)!"
 	@echo ""
@@ -514,6 +514,7 @@ step99-reset: step99-reset-dev step99-reset-prod
 	@echo "  ✓ Generated reset baseline configurations"
 	@echo "  ✓ Deployed reset configs to all devices"
 	@echo "  ✓ Restored fabric to original state (dev and prod)"
+	@echo "  ✓ Restored local configuration files"
 	@echo ""
 
 step99-reset-dev: dev-reset-build dev-reset-deploy
