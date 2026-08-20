@@ -528,8 +528,8 @@ local-reset:
 	@echo ""
 	@echo "Restoring local configuration files from tmp/ directory..."
 	@echo ""
-	@cp tmp/fabric_variables.yml avd_project/inventory/group_vars/FABRIC/fabric_variables.yml
-	@cp tmp/main.yml avd_project/inventory/group_vars/NETWORK_SERVICES/main.yml
+	@cp files/fabric_variables.yml avd_project/inventory/group_vars/FABRIC/fabric_variables.yml
+	@cp files/main.yml avd_project/inventory/group_vars/NETWORK_SERVICES/main.yml
 	@echo "✓ Configuration files restored:"
 	@echo "  - avd_project/inventory/group_vars/FABRIC/fabric_variables.yml"
 	@echo "  - avd_project/inventory/group_vars/NETWORK_SERVICES/main.yml"
