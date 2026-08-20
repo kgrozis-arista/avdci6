@@ -17,25 +17,25 @@
 
 | Total Tests | ✅&nbsp;Success | ⏭️&nbsp;Skipped | ❌&nbsp;Failure | ❗&nbsp;Error |
 | :- | :- | :- | :- | :- |
-| 364 | 344 | 0 | 20 | 0 |
+| 364 | 364 | 0 | 0 | 0 |
 
 ### 🔌 Summary Totals Device Under Test <a id="summary-totals-device-under-test"></a>
 
 | Device | Total Tests | ✅&nbsp;Success | ⏭️&nbsp;Skipped | ❌&nbsp;Failure | ❗&nbsp;Error | Categories Skipped | Categories Failed |
 | :- | :- | :- | :- | :- | :- | :- | :- |
-| **DC1-LEAF1A** | 25 | 23 | 0 | 2 | 0 | - | Interfaces, VXLAN |
-| **DC1-LEAF1B** | 25 | 23 | 0 | 2 | 0 | - | Interfaces, VXLAN |
-| **DC1-LEAF2A** | 25 | 23 | 0 | 2 | 0 | - | Interfaces, VXLAN |
-| **DC1-LEAF2B** | 25 | 23 | 0 | 2 | 0 | - | Interfaces, VXLAN |
-| **DC1-LEAF3A** | 25 | 23 | 0 | 2 | 0 | - | Interfaces, VXLAN |
-| **DC1-LEAF3B** | 25 | 23 | 0 | 2 | 0 | - | Interfaces, VXLAN |
+| **DC1-LEAF1A** | 25 | 25 | 0 | 0 | 0 | - | - |
+| **DC1-LEAF1B** | 25 | 25 | 0 | 0 | 0 | - | - |
+| **DC1-LEAF2A** | 25 | 25 | 0 | 0 | 0 | - | - |
+| **DC1-LEAF2B** | 25 | 25 | 0 | 0 | 0 | - | - |
+| **DC1-LEAF3A** | 25 | 25 | 0 | 0 | 0 | - | - |
+| **DC1-LEAF3B** | 25 | 25 | 0 | 0 | 0 | - | - |
 | **DC1-SPINE1** | 19 | 19 | 0 | 0 | 0 | - | - |
 | **DC1-SPINE2** | 19 | 19 | 0 | 0 | 0 | - | - |
 | **DC1-SPINE3** | 19 | 19 | 0 | 0 | 0 | - | - |
-| **DC2-LEAF1A** | 25 | 23 | 0 | 2 | 0 | - | Interfaces, VXLAN |
-| **DC2-LEAF1B** | 25 | 23 | 0 | 2 | 0 | - | Interfaces, VXLAN |
-| **DC2-LEAF2A** | 25 | 23 | 0 | 2 | 0 | - | Interfaces, VXLAN |
-| **DC2-LEAF2B** | 25 | 23 | 0 | 2 | 0 | - | Interfaces, VXLAN |
+| **DC2-LEAF1A** | 25 | 25 | 0 | 0 | 0 | - | - |
+| **DC2-LEAF1B** | 25 | 25 | 0 | 0 | 0 | - | - |
+| **DC2-LEAF2A** | 25 | 25 | 0 | 0 | 0 | - | - |
+| **DC2-LEAF2B** | 25 | 25 | 0 | 0 | 0 | - | - |
 | **DC2-SPINE1** | 19 | 19 | 0 | 0 | 0 | - | - |
 | **DC2-SPINE2** | 19 | 19 | 0 | 0 | 0 | - | - |
 | **DC2-SPINE3** | 19 | 19 | 0 | 0 | 0 | - | - |
@@ -47,234 +47,18 @@
 | **BGP** | 16 | 16 | 0 | 0 | 0 |
 | **Configuration** | 32 | 32 | 0 | 0 | 0 |
 | **Connectivity** | 32 | 32 | 0 | 0 | 0 |
-| **Interfaces** | 84 | 74 | 0 | 10 | 0 |
+| **Interfaces** | 84 | 84 | 0 | 0 | 0 |
 | **MLAG** | 30 | 30 | 0 | 0 | 0 |
 | **OSPF** | 32 | 32 | 0 | 0 | 0 |
 | **Routing** | 16 | 16 | 0 | 0 | 0 |
 | **STP** | 16 | 16 | 0 | 0 | 0 |
 | **System** | 96 | 96 | 0 | 0 | 0 |
-| **VXLAN** | 10 | 0 | 0 | 10 | 0 |
+| **VXLAN** | 10 | 10 | 0 | 0 | 0 |
 
 ## 🧪 Test Results <a id="test-results"></a>
 
 | Device | Categories | Test | Description | Result | Messages |
 | :- | :- | :- | :- | :- | :- |
-| DC1-LEAF1A | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 8/20&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback6 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback7 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan10 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan20 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan30 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3099 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3299 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ❌&nbsp;Failure | Status mismatch - Expected: up/up, Actual: down/down |
-| DC1-LEAF1A | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ❌&nbsp;Failure | Vxlan Category: localVtep - Config sanity check is not passing |
-| DC1-LEAF1B | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 8/20&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback6 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback7 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan10 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan20 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan30 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3099 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3299 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ❌&nbsp;Failure | Status mismatch - Expected: up/up, Actual: down/down |
-| DC1-LEAF1B | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ❌&nbsp;Failure | Vxlan Category: localVtep - Config sanity check is not passing |
-| DC1-LEAF2A | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 8/20&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback6 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback7 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan10 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan20 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan30 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3099 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3299 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ❌&nbsp;Failure | Status mismatch - Expected: up/up, Actual: down/down |
-| DC1-LEAF2A | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ❌&nbsp;Failure | Vxlan Category: localVtep - Config sanity check is not passing |
-| DC1-LEAF2B | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 8/20&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback6 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback7 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan10 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan20 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan30 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3099 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3299 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ❌&nbsp;Failure | Status mismatch - Expected: up/up, Actual: down/down |
-| DC1-LEAF2B | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ❌&nbsp;Failure | Vxlan Category: localVtep - Config sanity check is not passing |
-| DC1-LEAF3A | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 8/18&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback6 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback7 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan10 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan20 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan30 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3099 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3299 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ❌&nbsp;Failure | Status mismatch - Expected: up/up, Actual: down/down |
-| DC1-LEAF3A | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ❌&nbsp;Failure | Vxlan Category: localVtep - Config sanity check is not passing |
-| DC1-LEAF3B | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 8/18&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback6 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback7 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan10 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan20 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan30 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3099 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3299 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ❌&nbsp;Failure | Status mismatch - Expected: up/up, Actual: down/down |
-| DC1-LEAF3B | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ❌&nbsp;Failure | Vxlan Category: localVtep - Config sanity check is not passing |
-| DC2-LEAF1A | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 8/20&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback6 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback7 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan10 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan20 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan30 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3099 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3299 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ❌&nbsp;Failure | Status mismatch - Expected: up/up, Actual: down/down |
-| DC2-LEAF1A | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ❌&nbsp;Failure | Vxlan Category: localVtep - Config sanity check is not passing |
-| DC2-LEAF1B | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 8/20&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback6 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback7 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan10 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan20 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan30 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3099 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3299 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ❌&nbsp;Failure | Status mismatch - Expected: up/up, Actual: down/down |
-| DC2-LEAF1B | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ❌&nbsp;Failure | Vxlan Category: localVtep - Config sanity check is not passing |
-| DC2-LEAF2A | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 8/20&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback6 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback7 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan10 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan20 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan30 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3099 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3299 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ❌&nbsp;Failure | Status mismatch - Expected: up/up, Actual: down/down |
-| DC2-LEAF2A | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ❌&nbsp;Failure | Vxlan Category: localVtep - Config sanity check is not passing |
-| DC2-LEAF2B | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ❌&nbsp;Failure | 8/20&nbsp;checks&nbsp;failed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback6 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback7 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan10 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan20 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan30 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3099 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan3299 | ❌&nbsp;Failure | Not configured |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ❌&nbsp;Failure | Status mismatch - Expected: up/up, Actual: down/down |
-| DC2-LEAF2B | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ❌&nbsp;Failure | Vxlan Category: localVtep - Config sanity check is not passing |
 | DC1-LEAF1A | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.1 VRF: default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.2 VRF: default | ✅&nbsp;Success | - |
@@ -413,10 +197,24 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| DC1-LEAF1A | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ✅&nbsp;Success | All&nbsp;12&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | DC1-LEAF1A | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;2&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
 | DC1-LEAF1A | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
+| DC1-LEAF1A | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ✅&nbsp;Success | - |
 | DC1-LEAF1A | MLAG | VerifyMlagStatus | Verifies the health status of the MLAG configuration. | ✅&nbsp;Success | - |
 | DC1-LEAF1A | OSPF | VerifyOSPFMaxLSA | Verifies all OSPF instances did not cross the maximum LSA threshold. | ✅&nbsp;Success | - |
 | DC1-LEAF1A | OSPF | VerifyOSPFNeighborState | Verifies all OSPF neighbors are in FULL state. | ✅&nbsp;Success | - |
@@ -428,6 +226,7 @@
 | DC1-LEAF1A | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC1-LEAF1A | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC1-LEAF1A | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
+| DC1-LEAF1A | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC1-LEAF1B | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.1 VRF: default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.2 VRF: default | ✅&nbsp;Success | - |
@@ -566,10 +365,24 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| DC1-LEAF1B | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ✅&nbsp;Success | All&nbsp;12&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | DC1-LEAF1B | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;2&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
 | DC1-LEAF1B | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
+| DC1-LEAF1B | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ✅&nbsp;Success | - |
 | DC1-LEAF1B | MLAG | VerifyMlagStatus | Verifies the health status of the MLAG configuration. | ✅&nbsp;Success | - |
 | DC1-LEAF1B | OSPF | VerifyOSPFMaxLSA | Verifies all OSPF instances did not cross the maximum LSA threshold. | ✅&nbsp;Success | - |
 | DC1-LEAF1B | OSPF | VerifyOSPFNeighborState | Verifies all OSPF neighbors are in FULL state. | ✅&nbsp;Success | - |
@@ -581,6 +394,7 @@
 | DC1-LEAF1B | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC1-LEAF1B | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC1-LEAF1B | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
+| DC1-LEAF1B | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC1-LEAF2A | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.1 VRF: default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.2 VRF: default | ✅&nbsp;Success | - |
@@ -719,10 +533,24 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| DC1-LEAF2A | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ✅&nbsp;Success | All&nbsp;12&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | DC1-LEAF2A | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;2&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
 | DC1-LEAF2A | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
+| DC1-LEAF2A | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ✅&nbsp;Success | - |
 | DC1-LEAF2A | MLAG | VerifyMlagStatus | Verifies the health status of the MLAG configuration. | ✅&nbsp;Success | - |
 | DC1-LEAF2A | OSPF | VerifyOSPFMaxLSA | Verifies all OSPF instances did not cross the maximum LSA threshold. | ✅&nbsp;Success | - |
 | DC1-LEAF2A | OSPF | VerifyOSPFNeighborState | Verifies all OSPF neighbors are in FULL state. | ✅&nbsp;Success | - |
@@ -734,6 +562,7 @@
 | DC1-LEAF2A | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC1-LEAF2A | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC1-LEAF2A | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
+| DC1-LEAF2A | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC1-LEAF2B | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.1 VRF: default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.2 VRF: default | ✅&nbsp;Success | - |
@@ -872,10 +701,24 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| DC1-LEAF2B | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ✅&nbsp;Success | All&nbsp;12&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | DC1-LEAF2B | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;2&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | DC1-LEAF2B | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
+| DC1-LEAF2B | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ✅&nbsp;Success | - |
 | DC1-LEAF2B | MLAG | VerifyMlagStatus | Verifies the health status of the MLAG configuration. | ✅&nbsp;Success | - |
 | DC1-LEAF2B | OSPF | VerifyOSPFMaxLSA | Verifies all OSPF instances did not cross the maximum LSA threshold. | ✅&nbsp;Success | - |
 | DC1-LEAF2B | OSPF | VerifyOSPFNeighborState | Verifies all OSPF neighbors are in FULL state. | ✅&nbsp;Success | - |
@@ -887,6 +730,7 @@
 | DC1-LEAF2B | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC1-LEAF2B | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC1-LEAF2B | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
+| DC1-LEAF2B | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC1-LEAF3A | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.1 VRF: default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.2 VRF: default | ✅&nbsp;Success | - |
@@ -1023,6 +867,17 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| DC1-LEAF3A | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ✅&nbsp;Success | All&nbsp;10&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | DC1-LEAF3A | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;1&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
 | DC1-LEAF3A | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
@@ -1038,6 +893,7 @@
 | DC1-LEAF3A | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC1-LEAF3A | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC1-LEAF3A | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
+| DC1-LEAF3A | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC1-LEAF3B | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.1 VRF: default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.0.2 VRF: default | ✅&nbsp;Success | - |
@@ -1174,6 +1030,17 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet56/1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| DC1-LEAF3B | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ✅&nbsp;Success | All&nbsp;10&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | DC1-LEAF3B | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;1&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
 | DC1-LEAF3B | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
@@ -1189,6 +1056,7 @@
 | DC1-LEAF3B | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC1-LEAF3B | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC1-LEAF3B | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
+| DC1-LEAF3B | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC1-SPINE1 | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;6&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.1.4 VRF: default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.1.5 VRF: default | ✅&nbsp;Success | - |
@@ -1657,10 +1525,24 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| DC2-LEAF1A | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ✅&nbsp;Success | All&nbsp;12&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | DC2-LEAF1A | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;2&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | DC2-LEAF1A | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
+| DC2-LEAF1A | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ✅&nbsp;Success | - |
 | DC2-LEAF1A | MLAG | VerifyMlagStatus | Verifies the health status of the MLAG configuration. | ✅&nbsp;Success | - |
 | DC2-LEAF1A | OSPF | VerifyOSPFMaxLSA | Verifies all OSPF instances did not cross the maximum LSA threshold. | ✅&nbsp;Success | - |
 | DC2-LEAF1A | OSPF | VerifyOSPFNeighborState | Verifies all OSPF neighbors are in FULL state. | ✅&nbsp;Success | - |
@@ -1672,6 +1554,7 @@
 | DC2-LEAF1A | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC2-LEAF1A | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC2-LEAF1A | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
+| DC2-LEAF1A | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC2-LEAF1B | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.2.8 VRF: default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.2.9 VRF: default | ✅&nbsp;Success | - |
@@ -1810,10 +1693,24 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| DC2-LEAF1B | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ✅&nbsp;Success | All&nbsp;12&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | DC2-LEAF1B | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;2&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
 | DC2-LEAF1B | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
+| DC2-LEAF1B | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ✅&nbsp;Success | - |
 | DC2-LEAF1B | MLAG | VerifyMlagStatus | Verifies the health status of the MLAG configuration. | ✅&nbsp;Success | - |
 | DC2-LEAF1B | OSPF | VerifyOSPFMaxLSA | Verifies all OSPF instances did not cross the maximum LSA threshold. | ✅&nbsp;Success | - |
 | DC2-LEAF1B | OSPF | VerifyOSPFNeighborState | Verifies all OSPF neighbors are in FULL state. | ✅&nbsp;Success | - |
@@ -1825,6 +1722,7 @@
 | DC2-LEAF1B | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC2-LEAF1B | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC2-LEAF1B | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
+| DC2-LEAF1B | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC2-LEAF2A | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.2.8 VRF: default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.2.9 VRF: default | ✅&nbsp;Success | - |
@@ -1963,10 +1861,24 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| DC2-LEAF2A | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ✅&nbsp;Success | All&nbsp;12&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | DC2-LEAF2A | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;2&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
 | DC2-LEAF2A | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
+| DC2-LEAF2A | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ✅&nbsp;Success | - |
 | DC2-LEAF2A | MLAG | VerifyMlagStatus | Verifies the health status of the MLAG configuration. | ✅&nbsp;Success | - |
 | DC2-LEAF2A | OSPF | VerifyOSPFMaxLSA | Verifies all OSPF instances did not cross the maximum LSA threshold. | ✅&nbsp;Success | - |
 | DC2-LEAF2A | OSPF | VerifyOSPFNeighborState | Verifies all OSPF neighbors are in FULL state. | ✅&nbsp;Success | - |
@@ -1978,6 +1890,7 @@
 | DC2-LEAF2A | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC2-LEAF2A | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC2-LEAF2A | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
+| DC2-LEAF2A | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC2-LEAF2B | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;3&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.2.8 VRF: default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.2.9 VRF: default | ✅&nbsp;Success | - |
@@ -2116,10 +2029,24 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Management1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| DC2-LEAF2B | Interfaces | VerifyInterfacesStatus | Verifies the operational states of specified interfaces to ensure they match expected configurations. | ✅&nbsp;Success | All&nbsp;12&nbsp;checks&nbsp;passed |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet49/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet50/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet51/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet52/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Ethernet53/1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback0 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Loopback1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4093 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | DC2-LEAF2B | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;2&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
 | DC2-LEAF2B | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
+| DC2-LEAF2B | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ✅&nbsp;Success | - |
 | DC2-LEAF2B | MLAG | VerifyMlagStatus | Verifies the health status of the MLAG configuration. | ✅&nbsp;Success | - |
 | DC2-LEAF2B | OSPF | VerifyOSPFMaxLSA | Verifies all OSPF instances did not cross the maximum LSA threshold. | ✅&nbsp;Success | - |
 | DC2-LEAF2B | OSPF | VerifyOSPFNeighborState | Verifies all OSPF neighbors are in FULL state. | ✅&nbsp;Success | - |
@@ -2131,6 +2058,7 @@
 | DC2-LEAF2B | System | VerifyMaintenance | Verifies that the device is not currently under or entering maintenance. | ✅&nbsp;Success | - |
 | DC2-LEAF2B | System | VerifyMemoryUtilization | Verifies whether the memory utilization is below 75%. | ✅&nbsp;Success | - |
 | DC2-LEAF2B | System | VerifyReloadCause | Verifies the last reload cause of the device. | ✅&nbsp;Success | - |
+| DC2-LEAF2B | VXLAN | VerifyVxlanConfigSanity | Verifies there are no VXLAN config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC2-SPINE1 | BGP | VerifyBGPPeerSession | Verifies the session state of BGP peers. | ✅&nbsp;Success | All&nbsp;4&nbsp;checks&nbsp;passed |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.3.11 VRF: default | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;├──&nbsp;Peer: 10.10.3.12 VRF: default | ✅&nbsp;Success | - |

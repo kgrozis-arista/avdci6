@@ -196,14 +196,6 @@
             "status": "up"
           },
           {
-            "name": "Loopback6",
-            "status": "up"
-          },
-          {
-            "name": "Loopback7",
-            "status": "up"
-          },
-          {
             "name": "Port-Channel1",
             "status": "up"
           },
@@ -212,35 +204,11 @@
             "status": "up"
           },
           {
-            "name": "Vlan10",
-            "status": "up"
-          },
-          {
-            "name": "Vlan20",
-            "status": "up"
-          },
-          {
-            "name": "Vlan30",
-            "status": "up"
-          },
-          {
-            "name": "Vlan3099",
-            "status": "up"
-          },
-          {
-            "name": "Vlan3299",
-            "status": "up"
-          },
-          {
             "name": "Vlan4093",
             "status": "up"
           },
           {
             "name": "Vlan4094",
-            "status": "up"
-          },
-          {
-            "name": "Vxlan1",
             "status": "up"
           }
         ]
