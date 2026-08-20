@@ -882,12 +882,12 @@
         "messages": [],
         "atomic_results": [
             {
-                "description": "Interface: Port-Channel491",
+                "description": "Interface: Port-Channel1",
                 "result": "success",
                 "messages": []
             },
             {
-                "description": "Interface: Port-Channel1",
+                "description": "Interface: Port-Channel491",
                 "result": "success",
                 "messages": []
             }
@@ -9277,12 +9277,12 @@
         "messages": [],
         "atomic_results": [
             {
-                "description": "Interface: Port-Channel491",
+                "description": "Interface: Port-Channel1",
                 "result": "success",
                 "messages": []
             },
             {
-                "description": "Interface: Port-Channel1",
+                "description": "Interface: Port-Channel491",
                 "result": "success",
                 "messages": []
             }
@@ -12466,12 +12466,12 @@
         "messages": [],
         "atomic_results": [
             {
-                "description": "Interface: Port-Channel491",
+                "description": "Interface: Port-Channel1",
                 "result": "success",
                 "messages": []
             },
             {
-                "description": "Interface: Port-Channel1",
+                "description": "Interface: Port-Channel491",
                 "result": "success",
                 "messages": []
             }
