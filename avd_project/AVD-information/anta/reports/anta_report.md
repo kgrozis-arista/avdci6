@@ -395,8 +395,8 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ✅&nbsp;Success | - |
 | DC1-LEAF1B | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;2&nbsp;checks&nbsp;passed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
 | DC1-LEAF1B | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC1-LEAF1B | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ✅&nbsp;Success | - |
 | DC1-LEAF1B | MLAG | VerifyMlagStatus | Verifies the health status of the MLAG configuration. | ✅&nbsp;Success | - |
@@ -571,8 +571,8 @@
 | | | | &nbsp;&nbsp;├──&nbsp;Interface: Vlan4094 | ✅&nbsp;Success | - |
 | | | | &nbsp;&nbsp;└──&nbsp;Interface: Vxlan1 | ✅&nbsp;Success | - |
 | DC1-LEAF2A | Interfaces | VerifyPortChannels | Verifies there are no inactive ports in port channels. | ✅&nbsp;Success | All&nbsp;2&nbsp;checks&nbsp;passed |
-| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
-| | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;├──&nbsp;Interface: Port-Channel1 | ✅&nbsp;Success | - |
+| | | | &nbsp;&nbsp;└──&nbsp;Interface: Port-Channel491 | ✅&nbsp;Success | - |
 | DC1-LEAF2A | MLAG | VerifyMlagConfigSanity | Verifies there are no MLAG config-sanity inconsistencies. | ✅&nbsp;Success | - |
 | DC1-LEAF2A | MLAG | VerifyMlagInterfaces | Verifies there are no inactive or active-partial MLAG ports. | ✅&nbsp;Success | - |
 | DC1-LEAF2A | MLAG | VerifyMlagStatus | Verifies the health status of the MLAG configuration. | ✅&nbsp;Success | - |
