@@ -6,6 +6,7 @@
 root_dir: "{{ playbook_dir | dirname }}/AVD-information"
 output_dir_name: 'intended'
 output_dir: "{{ root_dir }}/{{ output_dir_name }}"
+documentation_dir: "{{ root_dir }}/documentation"
 
 # Generate CSVs with fabric link info.
 eos_designs_documentation:

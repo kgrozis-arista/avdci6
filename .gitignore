@@ -77,20 +77,6 @@ dmypy.json
 # AVD / Ansible
 # ============================================================================
 
-# Allow AVD-information to be committed (contains generated configs we want to track)
-!avd_project/AVD-information/
-!avd_project/AVD-information/**
-
-# AVD generated outputs (ignored globally, but allowed in avd_project/AVD-information/ above)
-intended/
-structured_configs/
-documentation/
-docs/
-
-# AVD generated reports and validation
-reports/
-*-information/
-
 # Exclude temporary AVD design, deploy, and reset files (conflict-prone during rebases)
 avd_project/AVD-information/tmp_eos_designs/
 avd_project/AVD-information/tmp_eos_cli_config_gen/
