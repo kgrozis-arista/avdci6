@@ -23,6 +23,8 @@ DC1-LEAF1A,VerifyPortChannels,success,,Verifies there are no inactive ports in p
 DC1-LEAF1A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC1-LEAF1A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF1A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
+DC1-LEAF1A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF1A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -45,6 +47,8 @@ DC1-LEAF1B,VerifyPortChannels,success,,Verifies there are no inactive ports in p
 DC1-LEAF1B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC1-LEAF1B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF1B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
+DC1-LEAF1B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF1B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -67,6 +71,8 @@ DC1-LEAF2A,VerifyPortChannels,success,,Verifies there are no inactive ports in p
 DC1-LEAF2A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC1-LEAF2A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF2A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
+DC1-LEAF2A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF2A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -89,6 +95,8 @@ DC1-LEAF2B,VerifyPortChannels,success,,Verifies there are no inactive ports in p
 DC1-LEAF2B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC1-LEAF2B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF2B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
+DC1-LEAF2B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF2B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -111,6 +119,8 @@ DC1-LEAF3A,VerifyPortChannels,success,,Verifies there are no inactive ports in p
 DC1-LEAF3A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC1-LEAF3A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF3A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
+DC1-LEAF3A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF3A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF3A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -133,6 +143,8 @@ DC1-LEAF3B,VerifyPortChannels,success,,Verifies there are no inactive ports in p
 DC1-LEAF3B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC1-LEAF3B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC1-LEAF3B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
+DC1-LEAF3B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-LEAF3B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-LEAF3B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-LEAF3B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-LEAF3B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -150,6 +162,8 @@ DC1-SPINE1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-SPINE1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-SPINE1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE1,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-SPINE1,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-SPINE1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -167,6 +181,8 @@ DC1-SPINE2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-SPINE2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-SPINE2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE2,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-SPINE2,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-SPINE2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -184,6 +200,8 @@ DC1-SPINE3,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC1-SPINE3,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC1-SPINE3,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC1-SPINE3,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC1-SPINE3,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC1-SPINE3,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC1-SPINE3,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC1-SPINE3,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC1-SPINE3,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -206,6 +224,8 @@ DC2-LEAF1A,VerifyPortChannels,success,,Verifies there are no inactive ports in p
 DC2-LEAF1A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC2-LEAF1A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF1A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
+DC2-LEAF1A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-LEAF1A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF1A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -228,6 +248,8 @@ DC2-LEAF1B,VerifyPortChannels,success,,Verifies there are no inactive ports in p
 DC2-LEAF1B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC2-LEAF1B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF1B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
+DC2-LEAF1B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-LEAF1B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF1B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF1B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF1B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -250,6 +272,8 @@ DC2-LEAF2A,VerifyPortChannels,success,,Verifies there are no inactive ports in p
 DC2-LEAF2A,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC2-LEAF2A,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF2A,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
+DC2-LEAF2A,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-LEAF2A,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF2A,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2A,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2A,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -272,6 +296,8 @@ DC2-LEAF2B,VerifyPortChannels,success,,Verifies there are no inactive ports in p
 DC2-LEAF2B,VerifyMlagConfigSanity,success,,Verifies there are no MLAG config-sanity inconsistencies.,MLAG
 DC2-LEAF2B,VerifyMlagInterfaces,success,,Verifies there are no inactive or active-partial MLAG ports.,MLAG
 DC2-LEAF2B,VerifyMlagStatus,success,,Verifies the health status of the MLAG configuration.,MLAG
+DC2-LEAF2B,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-LEAF2B,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-LEAF2B,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-LEAF2B,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-LEAF2B,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -289,6 +315,8 @@ DC2-SPINE1,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-SPINE1,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE1,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-SPINE1,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-SPINE1,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-SPINE1,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-SPINE1,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE1,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE1,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -306,6 +334,8 @@ DC2-SPINE2,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-SPINE2,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE2,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-SPINE2,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-SPINE2,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-SPINE2,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-SPINE2,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE2,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE2,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
@@ -323,6 +353,8 @@ DC2-SPINE3,VerifyInterfaceErrDisabled,success,,Verifies there are no interfaces 
 DC2-SPINE3,VerifyInterfaceErrors,success,,Verifies that the interfaces error counters are equal to zero.,Interfaces
 DC2-SPINE3,VerifyInterfaceUtilization,success,,Verifies that the utilization of interfaces is below a certain threshold.,Interfaces
 DC2-SPINE3,VerifyInterfacesStatus,success,,Verifies the operational states of specified interfaces to ensure they match expected configurations.,Interfaces
+DC2-SPINE3,VerifyOSPFMaxLSA,success,,Verifies all OSPF instances did not cross the maximum LSA threshold.,OSPF
+DC2-SPINE3,VerifyOSPFNeighborState,success,,Verifies all OSPF neighbors are in FULL state.,OSPF
 DC2-SPINE3,VerifyRoutingProtocolModel,success,,Verifies the configured routing protocol model.,Routing
 DC2-SPINE3,VerifySTPCounters,success,,Verifies there is no errors in STP BPDU packets.,STP
 DC2-SPINE3,VerifyAgentLogs,success,,Verifies there are no agent crash reports.,System
