@@ -140,6 +140,12 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.AVDCI6_PAT }}
 
+      - name: Refresh repository state to latest commit
+        run: |
+          git fetch origin
+          git checkout origin/${{ github.ref_name }}
+          echo "✓ Checked out latest commit from origin/${{ github.ref_name }}"
+
       - name: Detect venv activation script
         id: venv
         run: |
