@@ -15,7 +15,7 @@ fabric_name: FABRIC
 
 # Underlay and overlay routing protocols
 overlay_routing_protocol: ebgp
-underlay_routing_protocol: ebgp
+underlay_routing_protocol: ospf
 
 # BGP default settings
 bgp_defaults:
