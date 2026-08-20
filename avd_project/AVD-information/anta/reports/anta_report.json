@@ -809,16 +809,6 @@
                 "messages": []
             },
             {
-                "description": "Interface: Loopback6",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Loopback7",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Port-Channel1",
                 "result": "success",
                 "messages": []
@@ -829,42 +819,12 @@
                 "messages": []
             },
             {
-                "description": "Interface: Vlan10",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan20",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan30",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3099",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3299",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Vlan4093",
                 "result": "success",
                 "messages": []
             },
             {
                 "description": "Interface: Vlan4094",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vxlan1",
                 "result": "success",
                 "messages": []
             }
@@ -1872,16 +1832,6 @@
                 "messages": []
             },
             {
-                "description": "Interface: Loopback6",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Loopback7",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Port-Channel1",
                 "result": "success",
                 "messages": []
@@ -1892,42 +1842,12 @@
                 "messages": []
             },
             {
-                "description": "Interface: Vlan10",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan20",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan30",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3099",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3299",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Vlan4093",
                 "result": "success",
                 "messages": []
             },
             {
                 "description": "Interface: Vlan4094",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vxlan1",
                 "result": "success",
                 "messages": []
             }
@@ -2935,16 +2855,6 @@
                 "messages": []
             },
             {
-                "description": "Interface: Loopback6",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Loopback7",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Port-Channel1",
                 "result": "success",
                 "messages": []
@@ -2955,42 +2865,12 @@
                 "messages": []
             },
             {
-                "description": "Interface: Vlan10",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan20",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan30",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3099",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3299",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Vlan4093",
                 "result": "success",
                 "messages": []
             },
             {
                 "description": "Interface: Vlan4094",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vxlan1",
                 "result": "success",
                 "messages": []
             }
@@ -3998,16 +3878,6 @@
                 "messages": []
             },
             {
-                "description": "Interface: Loopback6",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Loopback7",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Port-Channel1",
                 "result": "success",
                 "messages": []
@@ -4018,42 +3888,12 @@
                 "messages": []
             },
             {
-                "description": "Interface: Vlan10",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan20",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan30",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3099",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3299",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Vlan4093",
                 "result": "success",
                 "messages": []
             },
             {
                 "description": "Interface: Vlan4094",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vxlan1",
                 "result": "success",
                 "messages": []
             }
@@ -5046,42 +4886,7 @@
                 "messages": []
             },
             {
-                "description": "Interface: Loopback6",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Loopback7",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Port-Channel491",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan10",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan20",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan30",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3099",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3299",
                 "result": "success",
                 "messages": []
             },
@@ -5092,11 +4897,6 @@
             },
             {
                 "description": "Interface: Vlan4094",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vxlan1",
                 "result": "success",
                 "messages": []
             }
@@ -6084,42 +5884,7 @@
                 "messages": []
             },
             {
-                "description": "Interface: Loopback6",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Loopback7",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Port-Channel491",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan10",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan20",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan30",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3099",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3299",
                 "result": "success",
                 "messages": []
             },
@@ -6130,11 +5895,6 @@
             },
             {
                 "description": "Interface: Vlan4094",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vxlan1",
                 "result": "success",
                 "messages": []
             }
@@ -9204,16 +8964,6 @@
                 "messages": []
             },
             {
-                "description": "Interface: Loopback6",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Loopback7",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Port-Channel1",
                 "result": "success",
                 "messages": []
@@ -9224,42 +8974,12 @@
                 "messages": []
             },
             {
-                "description": "Interface: Vlan10",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan20",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan30",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3099",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3299",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Vlan4093",
                 "result": "success",
                 "messages": []
             },
             {
                 "description": "Interface: Vlan4094",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vxlan1",
                 "result": "success",
                 "messages": []
             }
@@ -10267,16 +9987,6 @@
                 "messages": []
             },
             {
-                "description": "Interface: Loopback6",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Loopback7",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Port-Channel1",
                 "result": "success",
                 "messages": []
@@ -10287,42 +9997,12 @@
                 "messages": []
             },
             {
-                "description": "Interface: Vlan10",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan20",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan30",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3099",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3299",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Vlan4093",
                 "result": "success",
                 "messages": []
             },
             {
                 "description": "Interface: Vlan4094",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vxlan1",
                 "result": "success",
                 "messages": []
             }
@@ -11330,16 +11010,6 @@
                 "messages": []
             },
             {
-                "description": "Interface: Loopback6",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Loopback7",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Port-Channel1",
                 "result": "success",
                 "messages": []
@@ -11350,42 +11020,12 @@
                 "messages": []
             },
             {
-                "description": "Interface: Vlan10",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan20",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan30",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3099",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3299",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Vlan4093",
                 "result": "success",
                 "messages": []
             },
             {
                 "description": "Interface: Vlan4094",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vxlan1",
                 "result": "success",
                 "messages": []
             }
@@ -12393,16 +12033,6 @@
                 "messages": []
             },
             {
-                "description": "Interface: Loopback6",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Loopback7",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Port-Channel1",
                 "result": "success",
                 "messages": []
@@ -12413,42 +12043,12 @@
                 "messages": []
             },
             {
-                "description": "Interface: Vlan10",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan20",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan30",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3099",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vlan3299",
-                "result": "success",
-                "messages": []
-            },
-            {
                 "description": "Interface: Vlan4093",
                 "result": "success",
                 "messages": []
             },
             {
                 "description": "Interface: Vlan4094",
-                "result": "success",
-                "messages": []
-            },
-            {
-                "description": "Interface: Vxlan1",
                 "result": "success",
                 "messages": []
             }
