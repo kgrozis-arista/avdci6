@@ -1,4 +1,4 @@
 ---
 tenants:
-  - "{{ tenant_customer1 }}"
-  - "{{ tenant_customer2 }}"
+#  - "{{ tenant_customer1 }}"
+#  - "{{ tenant_customer2 }}"
