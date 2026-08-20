@@ -46,7 +46,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup step1-setup-local step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step99-reset step99-reset-dev step99-reset-prod local-reset setup setup-wizard setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy dev-reset-build dev-reset-deploy prod-reset-build prod-reset-deploy check syntax lint clean
+.PHONY: help step1-setup step1-setup-local step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step6-setup-netbox step99-reset step99-reset-dev step99-reset-prod local-reset setup setup-wizard setup-netbox setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy dev-reset-build dev-reset-deploy prod-reset-build prod-reset-deploy check syntax lint clean
 
 # ============================================================================
 # Help
@@ -102,6 +102,10 @@ help:
 	@echo "  step5-prod-validate      - Validate prod fabric: prod-validate"
 	@echo "    prod-validate          - Run ANTA validation tests on prod fabric"
 	@echo ""
+	@echo "NetBox Integration:"
+	@echo "  step6-setup-netbox       - Configure NetBox inventory management system"
+	@echo "    setup-netbox           - Interactive NetBox IP configuration"
+	@echo ""
 	@echo "Reset & Recovery:"
 	@echo "  step99-reset             - Reset topology to baseline (both dev & prod)"
 	@echo "    step99-reset-dev       - Reset dev topology: dev-reset-build → dev-reset-deploy"
@@ -135,6 +139,7 @@ help:
 	@echo "  make step3-prod-hosts                     # Configure prod hosts only"
 	@echo "  make step4-prod-avd                       # Full prod AVD workflow"
 	@echo "  make step5-prod-validate                  # Validate prod fabric"
+	@echo "  make step6-setup-netbox                   # Configure NetBox inventory"
 	@echo "  make dev-build                            # Generate configs for dev"
 	@echo "  make dev-deploy                           # Deploy to dev CloudVision"
 	@echo "  make prod-build                           # Generate configs for prod"
@@ -250,6 +255,10 @@ setup:
 setup-wizard:
 	@$(VENV)/bin/python3 scripts/setup-wizard.py both 2>/dev/null || \
 	  python3 scripts/setup-wizard.py both
+
+setup-netbox:
+	@$(VENV)/bin/python3 scripts/setup-netbox.py 2>/dev/null || \
+	  python3 scripts/setup-netbox.py
 
 # Dev environment targets
 dev-setup: setup
@@ -501,6 +510,25 @@ step5-prod-validate: prod-validate
 
 prod-validate:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/validate.yml
+
+# ============================================================================
+# NetBox Integration
+# ============================================================================
+
+step6-setup-netbox: setup-netbox
+	@echo ""
+	@echo "✓ Step 6 complete: NetBox configuration finished!"
+	@echo ""
+	@echo "Summary:"
+	@echo "  ✓ Configured NetBox inventory management system IP address"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Verify NetBox connectivity:"
+	@echo "     ansible netbox -m ping -i avd_project/inventory/inventory.yml"
+	@echo ""
+	@echo "  2. (Optional) Deploy device inventory to NetBox:"
+	@echo "     make step6-netbox-onboard"
+	@echo ""
 
 # ============================================================================
 # Reset & Recovery
