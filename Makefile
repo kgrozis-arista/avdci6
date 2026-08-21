@@ -46,7 +46,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup step1-setup-local step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step6-setup-netbox step99-reset step99-reset-dev step99-reset-prod local-reset setup setup-wizard setup-netbox netbox-install setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy dev-reset-build dev-reset-deploy prod-reset-build prod-reset-deploy check syntax lint clean
+.PHONY: help step1-setup step1-setup-local step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step6-setup-netbox step99-reset step99-reset-dev step99-reset-prod local-reset setup setup-wizard setup-netbox netbox-install netbox-verify setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy dev-reset-build dev-reset-deploy prod-reset-build prod-reset-deploy check syntax lint clean
 
 # ============================================================================
 # Help
@@ -106,6 +106,7 @@ help:
 	@echo "  step6-setup-netbox       - Configure NetBox inventory management system"
 	@echo "    setup-netbox           - Interactive NetBox IP configuration"
 	@echo "    netbox-install         - Install NetBox 4.6.8 with interactive prompts"
+	@echo "    netbox-verify          - Verify NetBox is running and check service status"
 	@echo ""
 	@echo "Reset & Recovery:"
 	@echo "  step99-reset             - Reset topology to baseline (both dev & prod)"
@@ -142,6 +143,7 @@ help:
 	@echo "  make step5-prod-validate                  # Validate prod fabric"
 	@echo "  make step6-setup-netbox                   # Configure NetBox IP address"
 	@echo "  make netbox-install                       # Install NetBox 4.6.8"
+	@echo "  make netbox-verify                        # Verify NetBox is running and healthy"
 	@echo "  make dev-build                            # Generate configs for dev"
 	@echo "  make dev-deploy                           # Deploy to dev CloudVision"
 	@echo "  make prod-build                           # Generate configs for prod"
@@ -539,9 +541,18 @@ netbox-install:
 	@echo ""
 	@echo "Installing NetBox 4.6.8..."
 	@echo ""
-	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/netbox-4.6.8.yml
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml --skip-tags netbox-verify playbooks/netbox-4.6.8.yml
 	@echo ""
 	@echo "✓ NetBox 4.6.8 installation complete"
+	@echo ""
+
+netbox-verify:
+	@echo ""
+	@echo "Verifying NetBox 4.6.8 installation..."
+	@echo ""
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/netbox-4.6.8.yml --tags netbox-verify
+	@echo ""
+	@echo "✓ NetBox verification complete"
 	@echo ""
 
 # ============================================================================

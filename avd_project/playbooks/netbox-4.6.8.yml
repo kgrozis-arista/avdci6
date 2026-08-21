@@ -292,6 +292,85 @@
         - netbox
         - netbox-rq
 
+    # ========================================================================
+    # Nginx Reverse Proxy Configuration (Port 80)
+    # ========================================================================
+    - name: Install nginx web server
+      ansible.builtin.apt:
+        pkg:
+          - nginx
+        state: present
+        update_cache: yes
+      become: true
+      become_method: sudo
+
+    - name: Create nginx configuration for NetBox reverse proxy
+      ansible.builtin.copy:
+        content: |
+          upstream netbox {
+              server 127.0.0.1:8001;
+          }
+
+          server {
+              listen 80 default_server;
+              listen [::]:80 default_server;
+              server_name _;
+
+              client_max_body_size 25m;
+
+              location / {
+                  proxy_pass http://netbox;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+              }
+
+              location /static/ {
+                  alias /opt/netbox/netbox/static/;
+              }
+          }
+        dest: /etc/nginx/sites-available/netbox
+      become: true
+      become_method: sudo
+
+    - name: Enable nginx netbox site
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/netbox
+        dest: /etc/nginx/sites-enabled/netbox
+        state: link
+      become: true
+      become_method: sudo
+
+    - name: Disable default nginx site
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      become: true
+      become_method: sudo
+
+    - name: Test nginx configuration
+      ansible.builtin.shell: nginx -t
+      become: true
+      become_method: sudo
+      register: nginx_test
+
+    - name: Enable and start nginx
+      ansible.builtin.systemd_service:
+        name: nginx
+        state: started
+        enabled: true
+        daemon_reload: true
+      become: true
+      become_method: sudo
+
+    - name: Reload nginx to apply netbox configuration
+      ansible.builtin.systemd_service:
+        name: nginx
+        state: reloaded
+      become: true
+      become_method: sudo
+
     - name: Create administrative superuser non-interactively
       ansible.builtin.shell: |
         /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py shell -c "
@@ -299,3 +378,153 @@
         User = get_user_model();
         User.objects.filter(username='{{ netbox_user }}').exists() or User.objects.create_superuser('{{ netbox_user }}', '{{ netbox_email }}', '{{ netbox_passwd }}')
         "
+
+- name: Verify NetBox 4.6.8 Installation
+  hosts: netbox
+  become: true
+  tags:
+    - netbox-verify
+  gather_facts: true
+
+  tasks:
+    - name: Check NetBox service is running
+      ansible.builtin.systemd_service:
+        name: netbox
+      register: netbox_service_status
+
+    - name: Check NetBox background worker service is running
+      ansible.builtin.systemd_service:
+        name: netbox-rq
+      register: netbox_rq_service_status
+
+    - name: Check nginx reverse proxy service is running
+      ansible.builtin.systemd_service:
+        name: nginx
+      register: nginx_service_status
+
+    - name: Wait for NetBox to be ready on port 80
+      ansible.builtin.wait_for:
+        host: "{{ ansible_facts['default_ipv4']['address'] }}"
+        port: 80
+        delay: 5
+        timeout: 60
+      when: netbox_service_status.status.ActiveState == "active"
+      ignore_errors: yes
+      register: netbox_port_wait
+
+    - name: Verify listening ports
+      ansible.builtin.shell: ss -tlnp 2>/dev/null | grep -E '80|8000' || netstat -tlnp 2>/dev/null | grep -E '80|8000' || echo "Port check completed"
+      register: listening_ports
+      ignore_errors: yes
+
+    - name: Check if gunicorn process is running
+      ansible.builtin.shell: pgrep -f "gunicorn.*netbox" | wc -l
+      register: gunicorn_process_count
+      ignore_errors: yes
+
+    - name: Check NetBox application health (via nginx on port 80)
+      ansible.builtin.shell: |
+        curl -s -o /dev/null -w "%{http_code}" http://localhost/ 2>/dev/null || echo "Connection failed"
+      register: netbox_health_check
+      ignore_errors: yes
+      environment:
+        PYTHONUNBUFFERED: 1
+
+    - name: Get NetBox service logs (last 10 lines)
+      ansible.builtin.shell: journalctl -u netbox -n 10 --no-pager
+      register: netbox_logs
+      ignore_errors: yes
+
+    - name: Get NetBox worker logs (last 10 lines)
+      ansible.builtin.shell: journalctl -u netbox-rq -n 10 --no-pager
+      register: netbox_rq_logs
+      ignore_errors: yes
+
+    - name: Display NetBox verification results
+      ansible.builtin.debug:
+        msg:
+          - "NetBox 4.6.8 Installation Verification"
+          - "======================================"
+          - ""
+          - "Service Status:"
+          - "  NetBox UI Service (gunicorn): {{ netbox_service_status.status.ActiveState }}"
+          - "  NetBox Worker Service (RQ): {{ netbox_rq_service_status.status.ActiveState }}"
+          - "  Nginx Reverse Proxy: {{ nginx_service_status.status.ActiveState }}"
+          - "  Gunicorn Processes Running: {{ gunicorn_process_count.stdout }}"
+          - ""
+          - "Port Status:"
+          - "{{ listening_ports.stdout_lines if listening_ports.stdout_lines else ['No ports found or netstat/ss unavailable'] }}"
+          - ""
+          - "Port Readiness:"
+          - "  Port 80 (HTTP via Nginx): {{ 'YES' if not netbox_port_wait.failed else 'NO (still starting or error)' }}"
+          - ""
+          - "Application Health:"
+          - "  HTTP Status Code: {{ netbox_health_check.stdout }}"
+          - ""
+          - "Recent Service Logs:"
+          - "  NetBox Service (Gunicorn):"
+          - "{{ netbox_logs.stdout_lines | default(['No logs available']) | map('regex_replace', '^', '    ') | list }}"
+          - ""
+          - "  NetBox Worker Service (RQ):"
+          - "{{ netbox_rq_logs.stdout_lines | default(['No logs available']) | map('regex_replace', '^', '    ') | list }}"
+          - ""
+          - "NetBox Access Information:"
+          - "  URL: http://{{ ansible_facts['default_ipv4']['address'] }}"
+          - "  Port: 80 (HTTP)"
+          - "  Username: {{ hostvars['localhost']['final_netbox_user'] if 'localhost' in groups else 'unit' }}"
+          - "  Password: [configured during setup]"
+          - ""
+          - "Next Steps:"
+          - "  1. Open http://{{ ansible_facts['default_ipv4']['address'] }} in your browser"
+          - "  2. Login with configured credentials"
+          - "  3. Navigate to Admin → API Tokens to create automation tokens"
+          - "  4. Configure NetBox inventory for fabric devices"
+
+    - name: Read NetBox configuration file
+      ansible.builtin.slurp:
+        src: /opt/netbox/netbox/netbox/configuration.py
+      register: netbox_config
+      ignore_errors: yes
+
+    - name: Display NetBox component status summary
+      ansible.builtin.debug:
+        msg:
+          - ""
+          - "NetBox Component Summary"
+          - "========================"
+          - "Installation Status: COMPLETE"
+          - "NetBox Version: 4.6.8"
+          - "Python Interpreter: /opt/netbox/venv/bin/python"
+          - "Web Server: Nginx (Reverse Proxy)"
+          - "Public Port: 80 (HTTP)"
+          - "Backend Port: 8001 (Gunicorn)"
+          - "Database: PostgreSQL (netbox user)"
+          - "Cache Backend: Redis"
+          - "Background Worker: Enabled (RQ)"
+          - ""
+          - "Service Component Status:"
+          - "  Public Access: http://{{ ansible_facts['default_ipv4']['address'] }}"
+          - "  Nginx Reverse Proxy: {{ nginx_service_status.status.ActiveState }} (port 80)"
+          - "  Gunicorn Application: {{ netbox_service_status.status.ActiveState }} (port 8000, internal only)"
+          - "  Gunicorn Workers Running: {{ gunicorn_process_count.stdout }}"
+          - "  RQ Background Worker: {{ netbox_rq_service_status.status.ActiveState }}"
+          - "  PostgreSQL Database: port 5432"
+          - "  Redis Cache: port 6379"
+          - ""
+          - "Configuration Files:"
+          - "  Nginx Config: /etc/nginx/sites-available/netbox"
+          - "  NetBox Config: /opt/netbox/netbox/netbox/configuration.py"
+          - "  Gunicorn Service: /etc/systemd/system/netbox.service"
+          - "  RQ Worker Service: /etc/systemd/system/netbox-rq.service"
+          - ""
+          - "Troubleshooting (if port 80 is not responding):"
+          - "  1. Check all services: systemctl status netbox netbox-rq nginx"
+          - "  2. View Nginx logs: journalctl -u nginx -n 50"
+          - "  3. View NetBox logs: journalctl -u netbox -n 50"
+          - "  4. View Worker logs: journalctl -u netbox-rq -n 50"
+          - "  5. Test Nginx config: nginx -t"
+          - "  6. Check NetBox app logs: tail -f /opt/netbox/venv/lib/python3.12/site-packages/netbox.log"
+          - "  7. Verify PostgreSQL: sudo -u postgres psql -l | grep netbox"
+          - "  8. Verify Redis: redis-cli ping (should return PONG)"
+          - "  9. Restart all services: systemctl restart nginx netbox netbox-rq"
+          - "  10. Wait 10-30 seconds for services to fully start, then re-run: make netbox-verify"

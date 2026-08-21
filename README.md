@@ -478,13 +478,20 @@ Interactive prompts during setup:
 
 **Access NetBox After Installation:**
 ```bash
-# From NetBox host
-http://<netbox-ip>:8000
+# From any browser on your network
+http://<netbox-ip>
+# Port 80 (HTTP) via Nginx reverse proxy
 # Default credentials: admin username with configured password
 
 # Create API token for automation
 # Login → Admin → API Tokens → Add Token
 ```
+
+**Architecture:**
+- **Public Access:** Nginx on port 80 (HTTP reverse proxy)
+- **Backend:** Gunicorn on port 8000 (internal only)
+- **Database:** PostgreSQL on port 5432 (local only)
+- **Cache:** Redis on port 6379 (local only)
 
 ### **Step 99: Reset Topology** (`make step99-reset`)
 Emergency recovery workflow to restore all devices to baseline state:
@@ -1366,11 +1373,13 @@ make check                   # Verify environment
 - Added NetBox 4.6.8 automated deployment (Step 6)
   - Interactive configuration wizard for NetBox IP address, superuser, and email
   - Ansible playbook for complete NetBox installation on Ubuntu with Python 3.12
+  - Nginx reverse proxy on port 80 (HTTP) forwarding to Gunicorn backend on port 8000
   - PostgreSQL 13+ database configuration (creates netbox database and user)
   - Redis 6.0+ for caching and background workers
-  - Systemd service management (NetBox UI and background worker processes)
+  - Systemd service management (NetBox UI, background worker, and Nginx reverse proxy)
   - Python 3.12 version verification and compatibility checks
   - System dependency installation (build tools, libpq-dev, libxml2-dev, etc.)
+  - Comprehensive health checks and troubleshooting guidance via netbox-verify target
 - Enhanced version assertions for Python 3.12 compatibility
   - Fixed regex_search patterns to extract major.minor version (e.g., "3.12" from "3.12.13")
   - Applied to Python, PostgreSQL, and Redis version verification
