@@ -190,6 +190,27 @@
         success_msg: "Python 3.12+ verified"
 
     # ========================================================================
+    # NetBox User and Group Creation
+    # ========================================================================
+    - name: Create netbox system group
+      ansible.builtin.group:
+        name: netbox
+        state: present
+        system: true
+      become: true
+      become_method: sudo
+
+    - name: Create netbox system user
+      ansible.builtin.user:
+        name: netbox
+        shell: /bin/bash
+        groups: netbox
+        system: true
+        home: /opt/netbox
+      become: true
+      become_method: sudo
+
+    # ========================================================================
     # Virtual Environment Creation
     # ========================================================================
     - name: Create Python 3.12 virtual environment for NetBox
@@ -220,6 +241,16 @@
 
     - debug:
         var: venv_python_version.stdout
+
+    # ========================================================================
+    # NetBox Virtual Environment and Dependencies
+    # ========================================================================
+    - name: Install NetBox and dependencies in venv
+      ansible.builtin.shell: |
+        {{ netbox_python }} -m pip install --upgrade pip setuptools wheel psycopg2-binary redis gunicorn
+      become: true
+      become_user: netbox
+      become_method: sudo
 
     # ========================================================================
     # System Dependencies Installation
@@ -341,34 +372,6 @@
         dest: /opt/netbox
         state: link
       become: true
-      become_method: sudo
-
-    - name: Create netbox system group
-      ansible.builtin.group:
-        name: netbox
-        state: present
-        system: true
-      become: true
-      become_method: sudo
-
-    - name: Create netbox system user
-      ansible.builtin.user:
-        name: netbox
-        shell: /bin/bash
-        groups: netbox
-        system: true
-        home: /opt/netbox
-      become: true
-      become_method: sudo
-
-    # ========================================================================
-    # NetBox Virtual Environment and Dependencies
-    # ========================================================================
-    - name: Install NetBox and dependencies in venv
-      ansible.builtin.shell: |
-        {{ netbox_python }} -m pip install --upgrade pip setuptools wheel psycopg2-binary redis gunicorn
-      become: true
-      become_user: netbox
       become_method: sudo
 
     # ========================================================================
