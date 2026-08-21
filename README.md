@@ -96,15 +96,17 @@ See [Topology Diagram](digital_twin/avdci6.png) for visual reference.
 avdci6/
 ├── Makefile                          # Bootstrap and build automation
 ├── requirements.txt                  # Python dependencies
-├── collections.yml                   # Ansible collection versions
+├── collections.yml                   # Ansible collection versions (legacy)
 ├── scripts/
 │   ├── setup-venv.sh                # Create Python venv and install deps
-│   └── setup-wizard.py               # Interactive inventory configuration
+│   ├── setup-netbox.py              # Interactive NetBox IP configuration
+│   └── setup-wizard.py              # Interactive inventory configuration
 ├── digital_twin/
 │   ├── avdci6.yml                   # ACT topology file (virtual lab)
 │   ├── avdci6.png                   # Topology diagram
 │   └── Arista Cloud Test User Guide # ACT documentation
 ├── avd_project/
+│   ├── requirements.yml             # Ansible collection requirements (netbox.netbox, etc.)
 │   ├── inventory/
 │   │   ├── inventory.yml            # Ansible inventory (hosts and groups)
 │   │   └── group_vars/              # Host/group-level variables
@@ -119,6 +121,8 @@ avdci6/
 │       ├── build.yml                # Generate fabric configurations (AVD)
 │       ├── deploy.yml               # Deploy fabric to CloudVision
 │       ├── validate.yml             # Run ANTA validation tests
+│       ├── bootstrap-avd-server.yml # Bootstrap AVD-tooling server
+│       ├── netbox-4.6.8.yml         # NetBox installation & topology modeling
 │       ├── host-build.yml           # Generate host endpoint configs
 │       ├── host-deploy.yml          # Deploy host configs to CloudVision
 │       ├── reset-build.yml          # Generate reset baseline configs
@@ -451,47 +455,125 @@ Repeatable workflow for validating fabric state in **prod environment**:
 **When:** Run after prod deployment to verify fabric health, or run manually to check fabric state on-demand.
 
 ### **Step 6: NetBox 4.6.8 Integration** (`make step6-setup-netbox`)
-Deploy NetBox (network inventory and source of truth) on a dedicated server:
+
+Deploy NetBox (network inventory and source of truth) on a dedicated server and populate it with your fabric topology.
+
+#### **Installation Phase**
+
 - **Setup NetBox** (`make setup-netbox`) — Interactive configuration wizard for NetBox IP address
-- **Install NetBox** (`make netbox-install`) — Automated deployment of NetBox 4.6.8 with PostgreSQL 13+, Redis 6.0+, and Python 3.12
+- **Install NetBox** (`make netbox-install`) — Automated deployment of NetBox 4.6.8 with Nginx reverse proxy, Gunicorn, PostgreSQL 13+, Redis 6.0+, and Python 3.12
+- **Verify NetBox** (`make netbox-verify`) — Health check and service status verification
 
-The playbook:
-1. Prompts for NetBox superuser, email, and password configuration
-2. Installs system dependencies (PostgreSQL, Redis, build tools)
-3. Creates PostgreSQL database and user
+**Installation Playbook Tasks:**
+1. Verifies Python 3.12 installation
+2. Installs system dependencies (PostgreSQL, Redis, Nginx, build tools)
+3. Creates PostgreSQL database and netbox user
 4. Downloads and configures NetBox 4.6.8 from GitHub
-5. Creates systemd services for NetBox and background worker
-6. Enables and starts NetBox services
+5. Creates and configures Nginx reverse proxy (port 80 → Gunicorn:8001)
+6. Creates systemd services for NetBox UI and background worker
+7. Enables and starts all services
+8. Creates administrative superuser
 
-**When:** Run after fabric deployment to set up the inventory management system.
+**When:** Run once to deploy the NetBox server.
 
 **Prerequisites:**
 - NetBox host must exist in inventory with an IP address
 - SSH access to NetBox host from local machine
 - Ubuntu 20.04+ with Python 3.12 support
 
-**Configuration:**
-Interactive prompts during setup:
+**Interactive Configuration:**
+During installation, you'll be prompted for:
 - NetBox superuser name (default: `unit`)
 - NetBox email address (default: `kgrozis@arista.com`)
-- NetBox superuser password (stored in `~/NETBOX_PASS` with mode 0600)
+- NetBox superuser password (saved to `~/NETBOX_PASS` with mode 0600)
 
 **Access NetBox After Installation:**
 ```bash
-# From any browser on your network
-http://<netbox-ip>
-# Port 80 (HTTP) via Nginx reverse proxy
-# Default credentials: admin username with configured password
-
-# Create API token for automation
-# Login → Admin → API Tokens → Add Token
+http://<netbox-ip>         # Port 80 (HTTP) via Nginx reverse proxy
+# Login with configured superuser credentials
 ```
 
 **Architecture:**
 - **Public Access:** Nginx on port 80 (HTTP reverse proxy)
-- **Backend:** Gunicorn on port 8000 (internal only)
+- **Backend:** Gunicorn on port 8001 (internal only)
 - **Database:** PostgreSQL on port 5432 (local only)
 - **Cache:** Redis on port 6379 (local only)
+
+#### **Topology Modeling Phase**
+
+- **Model NetBox** (`make netbox-model`) — Populate NetBox with complete avdci6 fabric topology
+
+**Interactive Token Flow:**
+```bash
+make netbox-model
+# Checks for ~/NETBOX_TOKEN
+# If not found, prompts to create one:
+#   1. Login to NetBox at http://<netbox-ip>
+#   2. Admin → API Tokens → Add Token
+#   3. Name: avdci6-model
+#   4. Copy token and paste when prompted
+# Token is saved to ~/NETBOX_TOKEN (mode 0600) for future use
+```
+
+**What Gets Created:**
+
+1. **Locations (Physical Datacenters)**
+   - DataCenter 1 (dc1) — Primary DataCenter
+   - DataCenter 2 (dc2) — Secondary DataCenter
+
+2. **Sites (within Locations)**
+   - DC1 site (within DataCenter 1)
+   - DC2 site (within DataCenter 2)
+
+3. **Manufacturer & Device Type**
+   - Manufacturer: Arista
+   - Device Type: vEOS-lab (1U height)
+
+4. **Device Roles** (color-coded)
+   - Spine (Blue) — 3 per datacenter
+   - Leaf (Green) — 4 per datacenter
+   - Host (Orange) — 2 per datacenter
+   - **Total: 18 devices**
+
+5. **Interfaces** (per datacenter)
+   - Management1 on all devices with assigned IPs
+     - DC1: 192.168.0.100-121/24
+     - DC2: 192.168.1.100-121/24
+   - Data plane interfaces:
+     - Spines: Ethernet1-4 (uplinks to leaf pairs)
+     - Leafs: Ethernet1-3 (spine uplinks) + E49-50 (MLAG) + E51 (host)
+     - Hosts: Ethernet1-2 (dual uplinks to leaf pair)
+
+6. **Cables** (Complete topology connections)
+   - **MLAG Pairs (8 total):** All leaf pairs interconnected
+     - LEAF1A ↔ LEAF1B (Ethernet49-50)
+     - LEAF2A ↔ LEAF2B (Ethernet49-50)
+   - **Spine-Leaf Links (24 total):** Full mesh connectivity
+     - All 3 spines connected to both leaf pairs
+   - **Host-Leaf Links (8 total):** Dual-homed connectivity
+     - Each host connected to its respective leaf pair
+
+**NetBox Hierarchy:**
+```
+Location: DataCenter 1
+  └─ Site: DC1
+     ├─ Spines (DC1-SPINE1, DC1-SPINE2, DC1-SPINE3)
+     ├─ Leafs (DC1-LEAF1A/B, DC1-LEAF2A/B)
+     └─ Hosts (DC1-HOST1, DC1-HOST2)
+
+Location: DataCenter 2
+  └─ Site: DC2
+     ├─ Spines (DC2-SPINE1, DC2-SPINE2, DC2-SPINE3)
+     ├─ Leafs (DC2-LEAF1A/B, DC2-LEAF2A/B)
+     └─ Hosts (DC2-HOST1, DC2-HOST2)
+```
+
+**After Modeling:**
+1. Open NetBox: `http://<netbox-ip>`
+2. Navigate to **DCIM → Devices** to verify all 18 devices
+3. Check **DCIM → Cables** to see topology connections
+4. Review **IPAM → IP Addresses** for management IP assignments
+5. Create additional VLANs and IP ranges for data plane as needed
 
 ### **Step 99: Reset Topology** (`make step99-reset`)
 Emergency recovery workflow to restore all devices to baseline state:
@@ -1272,7 +1354,9 @@ make prod-validate           # Run ANTA tests on prod fabric only
 # NetBox Integration
 make step6-setup-netbox      # Configure and deploy NetBox 4.6.8
 make setup-netbox            # Interactive NetBox IP configuration wizard
-make netbox-install          # Deploy NetBox 4.6.8 with PostgreSQL and Redis
+make netbox-install          # Deploy NetBox 4.6.8 with Nginx, PostgreSQL, Redis
+make netbox-verify           # Verify NetBox services and health
+make netbox-model            # Populate NetBox with complete avdci6 fabric topology
 
 # Reset & Recovery
 make step99-reset            # Reset topology to baseline (reset-build → reset-deploy → local-reset)
@@ -1324,6 +1408,11 @@ git push origin main
 
 # Step 5: Manually validate prod fabric (optional, or use make step5-prod-validate)
 make prod-validate
+
+# Step 6: Deploy and populate NetBox inventory (after fabric is running)
+make step6-setup-netbox      # Deploys NetBox 4.6.8 server
+make netbox-verify           # Verify NetBox is running
+make netbox-model            # Populate with avdci6 topology (prompts for API token)
 ```
 
 **Reset devices to baseline state:**
@@ -1366,14 +1455,30 @@ make check                   # Verify environment
 ---
 
 **Last Updated:** August 21, 2026  
-**Version:** 3.8 — NetBox 4.6.8 Automation, Python 3.12 Support, PostgreSQL/Redis Integration  
+**Version:** 3.9 — NetBox Topology Modeling, Location Support, Complete Fabric Population  
 **AVD Version:** 6.3+
+
+### Version 3.9 Changes
+- Added `make netbox-model` target for automatic fabric topology population
+  - Interactive API token prompting with ~/NETBOX_TOKEN file management
+  - Creates Locations (DataCenter 1, DataCenter 2) for physical datacenter organization
+  - Creates 18 devices across 2 datacenters (3 Spines + 4 Leafs + 2 Hosts per DC)
+  - Creates data plane interfaces on all devices (Ethernet1-51)
+  - Creates 32 cables implementing complete spine-leaf topology:
+    - MLAG pairs (leaf-to-leaf redundancy)
+    - Spine-Leaf full mesh connectivity
+    - Dual-homed host uplinks
+  - Assigns management IP addresses (192.168.0.0/24 for DC1, 192.168.1.0/24 for DC2)
+  - Added `avd_project/requirements.yml` for collection dependency management
+  - Collection installation integrated into make netbox-model target
+  - Updated netbox-verify to include Nginx health checks and port 8001 backend verification
+  - Comprehensive summary output showing all created resources and hierarchy
 
 ### Version 3.8 Changes
 - Added NetBox 4.6.8 automated deployment (Step 6)
   - Interactive configuration wizard for NetBox IP address, superuser, and email
   - Ansible playbook for complete NetBox installation on Ubuntu with Python 3.12
-  - Nginx reverse proxy on port 80 (HTTP) forwarding to Gunicorn backend on port 8000
+  - Nginx reverse proxy on port 80 (HTTP) forwarding to Gunicorn backend on port 8001
   - PostgreSQL 13+ database configuration (creates netbox database and user)
   - Redis 6.0+ for caching and background workers
   - Systemd service management (NetBox UI, background worker, and Nginx reverse proxy)
