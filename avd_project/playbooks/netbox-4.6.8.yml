@@ -198,6 +198,15 @@
       become: true
       become_method: sudo
 
+    - name: Change ownership of venv to netbox user
+      ansible.builtin.file:
+        path: "{{ netbox_venv }}"
+        owner: netbox
+        group: netbox
+        recurse: true
+      become: true
+      become_method: sudo
+
     - name: Upgrade pip, setuptools, and wheel in venv
       ansible.builtin.shell: |
         {{ netbox_python }} -m pip install --upgrade pip setuptools wheel
@@ -232,11 +241,6 @@
       become: true
       become_method: sudo
 
-    - name: Install Python PostgreSQL adapter
-      ansible.builtin.shell: /usr/bin/python3.12 -m pip install psycopg2-binary
-      become: true
-      become_method: sudo
-
     # ========================================================================
     # PostgreSQL Configuration
     # ========================================================================
@@ -254,6 +258,8 @@
         success_msg: "PostgreSQL 13+ verified"
 
     - name: Create PostgreSQL database for NetBox
+      vars:
+        ansible_python_interpreter: "{{ netbox_python }}"
       community.postgresql.postgresql_db:
         name: netbox
       become: true
@@ -261,6 +267,8 @@
       become_method: sudo
 
     - name: Create PostgreSQL user for NetBox
+      vars:
+        ansible_python_interpreter: "{{ netbox_python }}"
       community.postgresql.postgresql_user:
         name: netbox
         password: "J5brHrAXFLQSif0K"
@@ -269,6 +277,8 @@
       become_method: sudo
 
     - name: Alter database ownership to netbox user
+      vars:
+        ansible_python_interpreter: "{{ netbox_python }}"
       community.postgresql.postgresql_owner:
         db: netbox
         new_owner: netbox
@@ -354,13 +364,6 @@
     # ========================================================================
     # NetBox Virtual Environment and Dependencies
     # ========================================================================
-    - name: Create NetBox virtual environment
-      ansible.builtin.command:
-        cmd: python3.12 -m venv {{ netbox_venv }}
-      become: true
-      become_user: netbox
-      become_method: sudo
-
     - name: Install NetBox and dependencies in venv
       ansible.builtin.shell: |
         {{ netbox_python }} -m pip install --upgrade pip setuptools wheel psycopg2-binary redis gunicorn
