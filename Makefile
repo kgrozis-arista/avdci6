@@ -46,7 +46,7 @@ ifneq ($(EXTRA),)
   ANSIBLE_FLAGS += --extra-vars "$(EXTRA)"
 endif
 
-.PHONY: help step1-setup step1-setup-local step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step6-setup-netbox step99-reset step99-reset-dev step99-reset-prod local-reset setup setup-wizard setup-netbox netbox-install netbox-verify setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy dev-reset-build dev-reset-deploy prod-reset-build prod-reset-deploy check syntax lint clean
+.PHONY: help step1-setup step1-setup-local step1-setup-dev step1-setup-prod step2-dev-avd step3-hosts step3-dev-hosts step3-prod-hosts step4-prod-avd step5-prod-validate step6-setup-netbox step99-reset step99-reset-dev step99-reset-prod local-reset setup setup-wizard setup-netbox netbox-install netbox-verify netbox-model setup-github-runner bootstrap-avd-server dev-setup dev-setup-wizard dev-bootstrap-avd-server dev-setup-github-runner prod-setup prod-setup-wizard prod-bootstrap-avd-server prod-setup-github-runner build-check build deploy validate dev-build dev-deploy dev-validate prod-build prod-deploy prod-validate host-build host-deploy dev-host-build dev-host-deploy prod-host-build prod-host-deploy reset-build reset-deploy dev-reset-build dev-reset-deploy prod-reset-build prod-reset-deploy check syntax lint clean
 
 # ============================================================================
 # Help
@@ -107,6 +107,7 @@ help:
 	@echo "    setup-netbox           - Interactive NetBox IP configuration"
 	@echo "    netbox-install         - Install NetBox 4.6.8 with interactive prompts"
 	@echo "    netbox-verify          - Verify NetBox is running and check service status"
+	@echo "    netbox-model           - Populate NetBox with avdci6 network topology (requires API token)"
 	@echo ""
 	@echo "Reset & Recovery:"
 	@echo "  step99-reset             - Reset topology to baseline (both dev & prod)"
@@ -144,6 +145,7 @@ help:
 	@echo "  make step6-setup-netbox                   # Configure NetBox IP address"
 	@echo "  make netbox-install                       # Install NetBox 4.6.8"
 	@echo "  make netbox-verify                        # Verify NetBox is running and healthy"
+	@echo "  make netbox-model                         # Model avdci6 topology in NetBox"
 	@echo "  make dev-build                            # Generate configs for dev"
 	@echo "  make dev-deploy                           # Deploy to dev CloudVision"
 	@echo "  make prod-build                           # Generate configs for prod"
@@ -553,6 +555,33 @@ netbox-verify:
 	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/netbox-4.6.8.yml --tags netbox-verify
 	@echo ""
 	@echo "✓ NetBox verification complete"
+	@echo ""
+
+netbox-model:
+	@echo ""
+	@echo "Modeling avdci6 Network in NetBox..."
+	@echo ""
+	@echo "Installing required Ansible collections..."
+	@$(ANSIBLE_PLAYBOOK) --version > /dev/null 2>&1 && \
+	cd avd_project && $(ANSIBLE_PLAYBOOK) --version > /dev/null && \
+	ansible-galaxy collection install -r requirements.yml --upgrade > /dev/null 2>&1 || true
+	@echo "✓ Collections ready"
+	@echo ""
+	@echo "This target will:"
+	@echo "  1. Prompt for NetBox API token (or use ~/NETBOX_TOKEN if it exists)"
+	@echo "  2. Create all devices, roles, and sites in NetBox"
+	@echo "  3. Create all data plane interfaces and cables"
+	@echo "  4. Assign management IP addresses"
+	@echo ""
+	cd avd_project && $(ANSIBLE_PLAYBOOK) $(ANSIBLE_FLAGS) -i inventory/inventory.yml playbooks/netbox-4.6.8.yml --tags model
+	@echo ""
+	@echo "✓ NetBox network model complete"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Open NetBox: http://\$$(grep 'ansible_host' inventory/inventory.yml | grep netbox | head -1 | awk '{print \$$NF}')"
+	@echo "  2. Navigate to: DCIM → Devices to verify all 18 devices were created"
+	@echo "  3. Check DCIM → Cables to see all topology connections"
+	@echo "  4. Review IPAM → IP Addresses for management IP assignments"
 	@echo ""
 
 # ============================================================================

@@ -217,7 +217,7 @@
         state: present
 
     - name: Install Ansible collections
-      command: "{{ venv_path }}/bin/ansible-galaxy collection install -f arista.avd:>=6.3.0 arista.eos:>=7.0.0 ansible.netcommon ansible.utils ansible.posix community.general"
+      command: "{{ venv_path }}/bin/ansible-galaxy collection install -f arista.avd:>=6.3.0 arista.eos:>=7.0.0 ansible.netcommon ansible.utils ansible.posix community.general netbox.netbox"
       become_user: "{{ avd_user }}"
       register: collection_install
       changed_when: "'Installed' in collection_install.stdout or 'Updating' in collection_install.stdout"
@@ -300,7 +300,7 @@
 
           3. Verify Ansible installation:
              ansible --version
-             ansible-galaxy collection list | grep arista.avd
+             ansible-galaxy collection list | grep -E 'arista.avd|netbox.netbox'
 
           4. Verify CloudVision connectivity:
              ls -la /home/{{ avd_user }}/{{ cv_token_filename }}

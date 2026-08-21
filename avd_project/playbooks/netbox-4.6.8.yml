@@ -528,3 +528,649 @@
           - "  8. Verify Redis: redis-cli ping (should return PONG)"
           - "  9. Restart all services: systemctl restart nginx netbox netbox-rq"
           - "  10. Wait 10-30 seconds for services to fully start, then re-run: make netbox-verify"
+
+- name: Model avdci6 Network in NetBox
+  hosts: localhost
+  connection: local
+  tags: model
+  gather_facts: false
+  collections:
+    - netbox.netbox
+  vars:
+    netbox_url: "http://{{ hostvars['netbox']['ansible_host'] }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default(netbox_api_token | default('')) }}"
+    netbox_timeout: 60
+
+  pre_tasks:
+    - name: Check if NetBox token file exists
+      stat:
+        path: "{{ lookup('env', 'HOME') }}/NETBOX_TOKEN"
+      register: netbox_token_file
+      changed_when: false
+
+    - name: Prompt user about NetBox token
+      pause:
+        prompt: "NetBox API token file (~/NETBOX_TOKEN) {{ 'already exists' if netbox_token_file.stat.exists else 'does not exist' }}. Do you want to {{ 'update' if netbox_token_file.stat.exists else 'provide' }} the token? (yes/no)"
+      register: update_netbox_token_prompt
+
+    - name: Display NetBox token instructions
+      debug:
+        msg: |
+          ╔════════════════════════════════════════════════════════════════╗
+          ║         NetBox Personal Access Token Required                  ║
+          ║                                                                ║
+          ║  To generate a NetBox API token:                               ║
+          ║                                                                ║
+          ║  1. Open NetBox in your browser:                               ║
+          ║     http://{{ hostvars['netbox']['ansible_host'] }}            ║
+          ║                                                                ║
+          ║  2. Login with your superuser credentials                      ║
+          ║     (configured during NetBox installation)                    ║
+          ║                                                                ║
+          ║  3. Navigate to: Admin → API Tokens                            ║
+          ║                                                                ║
+          ║  4. Click: "Add Token"                                         ║
+          ║                                                                ║
+          ║  5. Set Name: avdci6-model                                     ║
+          ║                                                                ║
+          ║  6. Select permissions if needed (can leave blank for full)    ║
+          ║                                                                ║
+          ║  7. Click: "Create"                                            ║
+          ║                                                                ║
+          ║  8. Copy the token immediately (won't be shown again)         ║
+          ║                                                                ║
+          ║  You will be prompted to paste the token below.               ║
+          ╚════════════════════════════════════════════════════════════════╝
+      when: update_netbox_token_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Prompt for NetBox token input
+      pause:
+        prompt: "Paste your NetBox API token"
+      register: netbox_token_input
+      when: update_netbox_token_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Save NetBox token file
+      copy:
+        content: "{{ netbox_token_input.user_input }}"
+        dest: "{{ lookup('env', 'HOME') }}/NETBOX_TOKEN"
+        mode: '0600'
+      when: update_netbox_token_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Read NetBox token from file
+      slurp:
+        src: "{{ lookup('env', 'HOME') }}/NETBOX_TOKEN"
+      register: netbox_token_file_content
+      failed_when: false
+
+    - name: Set NetBox token variable
+      set_fact:
+        netbox_token: "{{ netbox_token_file_content.content | b64decode | trim }}"
+      when: netbox_token_file_content.content is defined
+
+    - name: Check if NetBox token is available
+      ansible.builtin.fail:
+        msg: |
+          NetBox API token not found.
+          Please run: make netbox-model
+          And provide the token when prompted.
+      when: not netbox_token or netbox_token == ''
+
+  tasks:
+    - name: Create Arista Manufacturer
+      netbox.netbox.netbox_manufacturer:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "Arista"
+        state: present
+
+    - name: Create vEOS-lab Device Type
+      netbox.netbox.netbox_device_type:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          manufacturer: Arista
+          model: "vEOS-lab"
+          slug: "veos-lab"
+          u_height: 1
+        state: present
+
+    - name: Create Device Roles
+      netbox.netbox.netbox_device_role:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ item.name }}"
+          color: "{{ item.color }}"
+        state: present
+      loop:
+        - { name: "Spine", color: "0066cc" }         # Blue
+        - { name: "Leaf", color: "00aa00" }          # Green
+        - { name: "Host", color: "ffaa00" }          # Orange
+
+    - name: Create Locations (Datacenters)
+      netbox.netbox.netbox_dcim_locations:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ item.name }}"
+          slug: "{{ item.slug }}"
+          description: "{{ item.description }}"
+          status: active
+        state: present
+      loop:
+        - { name: "DataCenter 1", slug: "dc1", description: "Primary DataCenter - DC1" }
+        - { name: "DataCenter 2", slug: "dc2", description: "Secondary DataCenter - DC2" }
+
+    - name: Create Sites (Datacenters)
+      netbox.netbox.netbox_site:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ item.name }}"
+          slug: "{{ item.slug }}"
+          location: "{{ item.location }}"
+          status: active
+        state: present
+      loop:
+        - { name: "DC1", slug: "dc1", location: "DataCenter 1" }
+        - { name: "DC2", slug: "dc2", location: "DataCenter 2" }
+
+    - name: Create Spine Devices - DC1
+      netbox.netbox.netbox_device:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ item }}"
+          device_role: "Spine"
+          device_type: "vEOS-lab"
+          site: "DC1"
+          status: "active"
+        state: present
+      loop:
+        - "DC1-SPINE1"
+        - "DC1-SPINE2"
+        - "DC1-SPINE3"
+
+    - name: Create Leaf Devices - DC1
+      netbox.netbox.netbox_device:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ item }}"
+          device_role: "Leaf"
+          device_type: "vEOS-lab"
+          site: "DC1"
+          status: "active"
+        state: present
+      loop:
+        - "DC1-LEAF1A"
+        - "DC1-LEAF1B"
+        - "DC1-LEAF2A"
+        - "DC1-LEAF2B"
+
+    - name: Create Host Devices - DC1
+      netbox.netbox.netbox_device:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ item }}"
+          device_role: "Host"
+          device_type: "vEOS-lab"
+          site: "DC1"
+          status: "active"
+        state: present
+      loop:
+        - "DC1-HOST1"
+        - "DC1-HOST2"
+
+    - name: Create Spine Devices - DC2
+      netbox.netbox.netbox_device:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ item }}"
+          device_role: "Spine"
+          device_type: "vEOS-lab"
+          site: "DC2"
+          status: "active"
+        state: present
+      loop:
+        - "DC2-SPINE1"
+        - "DC2-SPINE2"
+        - "DC2-SPINE3"
+
+    - name: Create Leaf Devices - DC2
+      netbox.netbox.netbox_device:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ item }}"
+          device_role: "Leaf"
+          device_type: "vEOS-lab"
+          site: "DC2"
+          status: "active"
+        state: present
+      loop:
+        - "DC2-LEAF1A"
+        - "DC2-LEAF1B"
+        - "DC2-LEAF2A"
+        - "DC2-LEAF2B"
+
+    - name: Create Host Devices - DC2
+      netbox.netbox.netbox_device:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ item }}"
+          device_role: "Host"
+          device_type: "vEOS-lab"
+          site: "DC2"
+          status: "active"
+        state: present
+      loop:
+        - "DC2-HOST1"
+        - "DC2-HOST2"
+
+    - name: Create Management Interfaces
+      netbox.netbox.netbox_device_interface:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          device: "{{ item }}"
+          name: "Management1"
+          type: "1000base-t"
+          enabled: true
+        state: present
+      loop:
+        # DC1 Devices
+        - "DC1-SPINE1"
+        - "DC1-SPINE2"
+        - "DC1-SPINE3"
+        - "DC1-LEAF1A"
+        - "DC1-LEAF1B"
+        - "DC1-LEAF2A"
+        - "DC1-LEAF2B"
+        - "DC1-HOST1"
+        - "DC1-HOST2"
+        # DC2 Devices
+        - "DC2-SPINE1"
+        - "DC2-SPINE2"
+        - "DC2-SPINE3"
+        - "DC2-LEAF1A"
+        - "DC2-LEAF1B"
+        - "DC2-LEAF2A"
+        - "DC2-LEAF2B"
+        - "DC2-HOST1"
+        - "DC2-HOST2"
+
+    - name: Create Data Plane Interfaces - Spines
+      netbox.netbox.netbox_device_interface:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          device: "{{ item.device }}"
+          name: "{{ item.interface }}"
+          type: "1000base-t"
+          enabled: true
+        state: present
+      loop:
+        # DC1 Spines (4 ports each for 2 leaf pairs)
+        - { device: "DC1-SPINE1", interface: "Ethernet1" }
+        - { device: "DC1-SPINE1", interface: "Ethernet2" }
+        - { device: "DC1-SPINE1", interface: "Ethernet3" }
+        - { device: "DC1-SPINE1", interface: "Ethernet4" }
+        - { device: "DC1-SPINE2", interface: "Ethernet1" }
+        - { device: "DC1-SPINE2", interface: "Ethernet2" }
+        - { device: "DC1-SPINE2", interface: "Ethernet3" }
+        - { device: "DC1-SPINE2", interface: "Ethernet4" }
+        - { device: "DC1-SPINE3", interface: "Ethernet1" }
+        - { device: "DC1-SPINE3", interface: "Ethernet2" }
+        - { device: "DC1-SPINE3", interface: "Ethernet3" }
+        - { device: "DC1-SPINE3", interface: "Ethernet4" }
+        # DC2 Spines
+        - { device: "DC2-SPINE1", interface: "Ethernet1" }
+        - { device: "DC2-SPINE1", interface: "Ethernet2" }
+        - { device: "DC2-SPINE1", interface: "Ethernet3" }
+        - { device: "DC2-SPINE1", interface: "Ethernet4" }
+        - { device: "DC2-SPINE2", interface: "Ethernet1" }
+        - { device: "DC2-SPINE2", interface: "Ethernet2" }
+        - { device: "DC2-SPINE2", interface: "Ethernet3" }
+        - { device: "DC2-SPINE2", interface: "Ethernet4" }
+        - { device: "DC2-SPINE3", interface: "Ethernet1" }
+        - { device: "DC2-SPINE3", interface: "Ethernet2" }
+        - { device: "DC2-SPINE3", interface: "Ethernet3" }
+        - { device: "DC2-SPINE3", interface: "Ethernet4" }
+
+    - name: Create Data Plane Interfaces - Leafs
+      netbox.netbox.netbox_device_interface:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          device: "{{ item.device }}"
+          name: "{{ item.interface }}"
+          type: "1000base-t"
+          enabled: true
+        state: present
+      loop:
+        # DC1 Leafs (Ethernet1-2 for spines, Ethernet49-50 for MLAG, Ethernet51-52 for hosts)
+        - { device: "DC1-LEAF1A", interface: "Ethernet1" }
+        - { device: "DC1-LEAF1A", interface: "Ethernet2" }
+        - { device: "DC1-LEAF1A", interface: "Ethernet3" }
+        - { device: "DC1-LEAF1A", interface: "Ethernet49" }
+        - { device: "DC1-LEAF1A", interface: "Ethernet50" }
+        - { device: "DC1-LEAF1A", interface: "Ethernet51" }
+        - { device: "DC1-LEAF1B", interface: "Ethernet1" }
+        - { device: "DC1-LEAF1B", interface: "Ethernet2" }
+        - { device: "DC1-LEAF1B", interface: "Ethernet3" }
+        - { device: "DC1-LEAF1B", interface: "Ethernet49" }
+        - { device: "DC1-LEAF1B", interface: "Ethernet50" }
+        - { device: "DC1-LEAF1B", interface: "Ethernet51" }
+        - { device: "DC1-LEAF2A", interface: "Ethernet1" }
+        - { device: "DC1-LEAF2A", interface: "Ethernet2" }
+        - { device: "DC1-LEAF2A", interface: "Ethernet3" }
+        - { device: "DC1-LEAF2A", interface: "Ethernet49" }
+        - { device: "DC1-LEAF2A", interface: "Ethernet50" }
+        - { device: "DC1-LEAF2A", interface: "Ethernet51" }
+        - { device: "DC1-LEAF2B", interface: "Ethernet1" }
+        - { device: "DC1-LEAF2B", interface: "Ethernet2" }
+        - { device: "DC1-LEAF2B", interface: "Ethernet3" }
+        - { device: "DC1-LEAF2B", interface: "Ethernet49" }
+        - { device: "DC1-LEAF2B", interface: "Ethernet50" }
+        - { device: "DC1-LEAF2B", interface: "Ethernet51" }
+        # DC2 Leafs
+        - { device: "DC2-LEAF1A", interface: "Ethernet1" }
+        - { device: "DC2-LEAF1A", interface: "Ethernet2" }
+        - { device: "DC2-LEAF1A", interface: "Ethernet3" }
+        - { device: "DC2-LEAF1A", interface: "Ethernet49" }
+        - { device: "DC2-LEAF1A", interface: "Ethernet50" }
+        - { device: "DC2-LEAF1A", interface: "Ethernet51" }
+        - { device: "DC2-LEAF1B", interface: "Ethernet1" }
+        - { device: "DC2-LEAF1B", interface: "Ethernet2" }
+        - { device: "DC2-LEAF1B", interface: "Ethernet3" }
+        - { device: "DC2-LEAF1B", interface: "Ethernet49" }
+        - { device: "DC2-LEAF1B", interface: "Ethernet50" }
+        - { device: "DC2-LEAF1B", interface: "Ethernet51" }
+        - { device: "DC2-LEAF2A", interface: "Ethernet1" }
+        - { device: "DC2-LEAF2A", interface: "Ethernet2" }
+        - { device: "DC2-LEAF2A", interface: "Ethernet3" }
+        - { device: "DC2-LEAF2A", interface: "Ethernet49" }
+        - { device: "DC2-LEAF2A", interface: "Ethernet50" }
+        - { device: "DC2-LEAF2A", interface: "Ethernet51" }
+        - { device: "DC2-LEAF2B", interface: "Ethernet1" }
+        - { device: "DC2-LEAF2B", interface: "Ethernet2" }
+        - { device: "DC2-LEAF2B", interface: "Ethernet3" }
+        - { device: "DC2-LEAF2B", interface: "Ethernet49" }
+        - { device: "DC2-LEAF2B", interface: "Ethernet50" }
+        - { device: "DC2-LEAF2B", interface: "Ethernet51" }
+
+    - name: Create Data Plane Interfaces - Hosts
+      netbox.netbox.netbox_device_interface:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          device: "{{ item.device }}"
+          name: "{{ item.interface }}"
+          type: "1000base-t"
+          enabled: true
+        state: present
+      loop:
+        # DC1 Hosts (Ethernet1-2 for uplinks to leaf pair)
+        - { device: "DC1-HOST1", interface: "Ethernet1" }
+        - { device: "DC1-HOST1", interface: "Ethernet2" }
+        - { device: "DC1-HOST2", interface: "Ethernet1" }
+        - { device: "DC1-HOST2", interface: "Ethernet2" }
+        # DC2 Hosts
+        - { device: "DC2-HOST1", interface: "Ethernet1" }
+        - { device: "DC2-HOST1", interface: "Ethernet2" }
+        - { device: "DC2-HOST2", interface: "Ethernet1" }
+        - { device: "DC2-HOST2", interface: "Ethernet2" }
+
+    - name: Assign IP Addresses to Management Interfaces
+      netbox.netbox.netbox_ip_address:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          address: "{{ item.ip }}"
+          status: active
+          assigned_object:
+            device: "{{ item.device }}"
+            name: "Management1"
+        state: present
+      loop:
+        # DC1 Management IPs
+        - { device: "DC1-SPINE1", ip: "192.168.0.100/24" }
+        - { device: "DC1-SPINE2", ip: "192.168.0.101/24" }
+        - { device: "DC1-SPINE3", ip: "192.168.0.102/24" }
+        - { device: "DC1-LEAF1A", ip: "192.168.0.110/24" }
+        - { device: "DC1-LEAF1B", ip: "192.168.0.111/24" }
+        - { device: "DC1-LEAF2A", ip: "192.168.0.112/24" }
+        - { device: "DC1-LEAF2B", ip: "192.168.0.113/24" }
+        - { device: "DC1-HOST1", ip: "192.168.0.120/24" }
+        - { device: "DC1-HOST2", ip: "192.168.0.121/24" }
+        # DC2 Management IPs
+        - { device: "DC2-SPINE1", ip: "192.168.1.100/24" }
+        - { device: "DC2-SPINE2", ip: "192.168.1.101/24" }
+        - { device: "DC2-SPINE3", ip: "192.168.1.102/24" }
+        - { device: "DC2-LEAF1A", ip: "192.168.1.110/24" }
+        - { device: "DC2-LEAF1B", ip: "192.168.1.111/24" }
+        - { device: "DC2-LEAF2A", ip: "192.168.1.112/24" }
+        - { device: "DC2-LEAF2B", ip: "192.168.1.113/24" }
+        - { device: "DC2-HOST1", ip: "192.168.1.120/24" }
+        - { device: "DC2-HOST2", ip: "192.168.1.121/24" }
+
+    - name: Create MLAG Cables - DC1
+      netbox.netbox.netbox_cable:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          termination_a_type: dcim.interface
+          termination_a:
+            device: "{{ item.a_device }}"
+            name: "{{ item.a_interface }}"
+          termination_b_type: dcim.interface
+          termination_b:
+            device: "{{ item.b_device }}"
+            name: "{{ item.b_interface }}"
+          type: cat6
+          status: connected
+        state: present
+      loop:
+        - { a_device: "DC1-LEAF1A", a_interface: "Ethernet49", b_device: "DC1-LEAF1B", b_interface: "Ethernet49" }
+        - { a_device: "DC1-LEAF1A", a_interface: "Ethernet50", b_device: "DC1-LEAF1B", b_interface: "Ethernet50" }
+        - { a_device: "DC1-LEAF2A", a_interface: "Ethernet49", b_device: "DC1-LEAF2B", b_interface: "Ethernet49" }
+        - { a_device: "DC1-LEAF2A", a_interface: "Ethernet50", b_device: "DC1-LEAF2B", b_interface: "Ethernet50" }
+
+    - name: Create MLAG Cables - DC2
+      netbox.netbox.netbox_cable:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          termination_a_type: dcim.interface
+          termination_a:
+            device: "{{ item.a_device }}"
+            name: "{{ item.a_interface }}"
+          termination_b_type: dcim.interface
+          termination_b:
+            device: "{{ item.b_device }}"
+            name: "{{ item.b_interface }}"
+          type: cat6
+          status: connected
+        state: present
+      loop:
+        - { a_device: "DC2-LEAF1A", a_interface: "Ethernet49", b_device: "DC2-LEAF1B", b_interface: "Ethernet49" }
+        - { a_device: "DC2-LEAF1A", a_interface: "Ethernet50", b_device: "DC2-LEAF1B", b_interface: "Ethernet50" }
+        - { a_device: "DC2-LEAF2A", a_interface: "Ethernet49", b_device: "DC2-LEAF2B", b_interface: "Ethernet49" }
+        - { a_device: "DC2-LEAF2A", a_interface: "Ethernet50", b_device: "DC2-LEAF2B", b_interface: "Ethernet50" }
+
+    - name: Create Spine-Leaf Cables - DC1
+      netbox.netbox.netbox_cable:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          termination_a_type: dcim.interface
+          termination_a:
+            device: "{{ item.a_device }}"
+            name: "{{ item.a_interface }}"
+          termination_b_type: dcim.interface
+          termination_b:
+            device: "{{ item.b_device }}"
+            name: "{{ item.b_interface }}"
+          type: cat6
+          status: connected
+        state: present
+      loop:
+        # SPINE1 to Leaf pairs
+        - { a_device: "DC1-SPINE1", a_interface: "Ethernet1", b_device: "DC1-LEAF1A", b_interface: "Ethernet1" }
+        - { a_device: "DC1-SPINE1", a_interface: "Ethernet2", b_device: "DC1-LEAF1B", b_interface: "Ethernet1" }
+        - { a_device: "DC1-SPINE1", a_interface: "Ethernet3", b_device: "DC1-LEAF2A", b_interface: "Ethernet1" }
+        - { a_device: "DC1-SPINE1", a_interface: "Ethernet4", b_device: "DC1-LEAF2B", b_interface: "Ethernet1" }
+        # SPINE2 to Leaf pairs
+        - { a_device: "DC1-SPINE2", a_interface: "Ethernet1", b_device: "DC1-LEAF1A", b_interface: "Ethernet2" }
+        - { a_device: "DC1-SPINE2", a_interface: "Ethernet2", b_device: "DC1-LEAF1B", b_interface: "Ethernet2" }
+        - { a_device: "DC1-SPINE2", a_interface: "Ethernet3", b_device: "DC1-LEAF2A", b_interface: "Ethernet2" }
+        - { a_device: "DC1-SPINE2", a_interface: "Ethernet4", b_device: "DC1-LEAF2B", b_interface: "Ethernet2" }
+        # SPINE3 to Leaf pairs
+        - { a_device: "DC1-SPINE3", a_interface: "Ethernet1", b_device: "DC1-LEAF1A", b_interface: "Ethernet3" }
+        - { a_device: "DC1-SPINE3", a_interface: "Ethernet2", b_device: "DC1-LEAF1B", b_interface: "Ethernet3" }
+        - { a_device: "DC1-SPINE3", a_interface: "Ethernet3", b_device: "DC1-LEAF2A", b_interface: "Ethernet3" }
+        - { a_device: "DC1-SPINE3", a_interface: "Ethernet4", b_device: "DC1-LEAF2B", b_interface: "Ethernet3" }
+
+    - name: Create Spine-Leaf Cables - DC2
+      netbox.netbox.netbox_cable:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          termination_a_type: dcim.interface
+          termination_a:
+            device: "{{ item.a_device }}"
+            name: "{{ item.a_interface }}"
+          termination_b_type: dcim.interface
+          termination_b:
+            device: "{{ item.b_device }}"
+            name: "{{ item.b_interface }}"
+          type: cat6
+          status: connected
+        state: present
+      loop:
+        # SPINE1 to Leaf pairs
+        - { a_device: "DC2-SPINE1", a_interface: "Ethernet1", b_device: "DC2-LEAF1A", b_interface: "Ethernet1" }
+        - { a_device: "DC2-SPINE1", a_interface: "Ethernet2", b_device: "DC2-LEAF1B", b_interface: "Ethernet1" }
+        - { a_device: "DC2-SPINE1", a_interface: "Ethernet3", b_device: "DC2-LEAF2A", b_interface: "Ethernet1" }
+        - { a_device: "DC2-SPINE1", a_interface: "Ethernet4", b_device: "DC2-LEAF2B", b_interface: "Ethernet1" }
+        # SPINE2 to Leaf pairs
+        - { a_device: "DC2-SPINE2", a_interface: "Ethernet1", b_device: "DC2-LEAF1A", b_interface: "Ethernet2" }
+        - { a_device: "DC2-SPINE2", a_interface: "Ethernet2", b_device: "DC2-LEAF1B", b_interface: "Ethernet2" }
+        - { a_device: "DC2-SPINE2", a_interface: "Ethernet3", b_device: "DC2-LEAF2A", b_interface: "Ethernet2" }
+        - { a_device: "DC2-SPINE2", a_interface: "Ethernet4", b_device: "DC2-LEAF2B", b_interface: "Ethernet2" }
+        # SPINE3 to Leaf pairs
+        - { a_device: "DC2-SPINE3", a_interface: "Ethernet1", b_device: "DC2-LEAF1A", b_interface: "Ethernet3" }
+        - { a_device: "DC2-SPINE3", a_interface: "Ethernet2", b_device: "DC2-LEAF1B", b_interface: "Ethernet3" }
+        - { a_device: "DC2-SPINE3", a_interface: "Ethernet3", b_device: "DC2-LEAF2A", b_interface: "Ethernet3" }
+        - { a_device: "DC2-SPINE3", a_interface: "Ethernet4", b_device: "DC2-LEAF2B", b_interface: "Ethernet3" }
+
+    - name: Create Host-Leaf Cables - DC1
+      netbox.netbox.netbox_cable:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          termination_a_type: dcim.interface
+          termination_a:
+            device: "{{ item.a_device }}"
+            name: "{{ item.a_interface }}"
+          termination_b_type: dcim.interface
+          termination_b:
+            device: "{{ item.b_device }}"
+            name: "{{ item.b_interface }}"
+          type: cat6
+          status: connected
+        state: present
+      loop:
+        - { a_device: "DC1-HOST1", a_interface: "Ethernet1", b_device: "DC1-LEAF1A", b_interface: "Ethernet51" }
+        - { a_device: "DC1-HOST1", a_interface: "Ethernet2", b_device: "DC1-LEAF1B", b_interface: "Ethernet51" }
+        - { a_device: "DC1-HOST2", a_interface: "Ethernet1", b_device: "DC1-LEAF2A", b_interface: "Ethernet51" }
+        - { a_device: "DC1-HOST2", a_interface: "Ethernet2", b_device: "DC1-LEAF2B", b_interface: "Ethernet51" }
+
+    - name: Create Host-Leaf Cables - DC2
+      netbox.netbox.netbox_cable:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          termination_a_type: dcim.interface
+          termination_a:
+            device: "{{ item.a_device }}"
+            name: "{{ item.a_interface }}"
+          termination_b_type: dcim.interface
+          termination_b:
+            device: "{{ item.b_device }}"
+            name: "{{ item.b_interface }}"
+          type: cat6
+          status: connected
+        state: present
+      loop:
+        - { a_device: "DC2-HOST1", a_interface: "Ethernet1", b_device: "DC2-LEAF1A", b_interface: "Ethernet51" }
+        - { a_device: "DC2-HOST1", a_interface: "Ethernet2", b_device: "DC2-LEAF1B", b_interface: "Ethernet51" }
+        - { a_device: "DC2-HOST2", a_interface: "Ethernet1", b_device: "DC2-LEAF2A", b_interface: "Ethernet51" }
+        - { a_device: "DC2-HOST2", a_interface: "Ethernet2", b_device: "DC2-LEAF2B", b_interface: "Ethernet51" }
+
+    - name: Display NetBox Model Summary
+      ansible.builtin.debug:
+        msg:
+          - ""
+          - "NetBox Model Population Complete"
+          - "=================================="
+          - ""
+          - "Infrastructure:"
+          - "  Manufacturers: Arista"
+          - "  Device Types: vEOS-lab"
+          - ""
+          - "Device Roles Created:"
+          - "  - Spine (Blue)"
+          - "  - Leaf (Green)"
+          - "  - Host (Orange)"
+          - ""
+          - "Locations Created:"
+          - "  - DataCenter 1 (dc1) - Primary DataCenter"
+          - "  - DataCenter 2 (dc2) - Secondary DataCenter"
+          - ""
+          - "Sites Created (within Locations):"
+          - "  - DC1 (within DataCenter 1)"
+          - "  - DC2 (within DataCenter 2)"
+          - ""
+          - "Devices Created (18 total):"
+          - "  DC1: 3 Spines + 4 Leafs + 2 Hosts"
+          - "  DC2: 3 Spines + 4 Leafs + 2 Hosts"
+          - ""
+          - "Interfaces Created (per datacenter):"
+          - "  - Management1 on all 9 devices"
+          - "  - Spines: Ethernet1-4 (4 uplinks each for 2 leaf pairs)"
+          - "  - Leafs: Ethernet1-3 (spine uplinks) + Ethernet49-50 (MLAG) + Ethernet51 (host)"
+          - "  - Hosts: Ethernet1-2 (uplinks to leaf pair)"
+          - ""
+          - "Management IP Addresses (assigned):"
+          - "  DC1: 192.168.0.100-121/24"
+          - "  DC2: 192.168.1.100-121/24"
+          - ""
+          - "Cables Created:"
+          - "  MLAG Pairs (per datacenter):"
+          - "    - DC1-LEAF1A:E49↔E50 ←→ DC1-LEAF1B:E49↔E50"
+          - "    - DC1-LEAF2A:E49↔E50 ←→ DC1-LEAF2B:E49↔E50"
+          - "    - DC2-LEAF1A:E49↔E50 ←→ DC2-LEAF1B:E49↔E50"
+          - "    - DC2-LEAF2A:E49↔E50 ←→ DC2-LEAF2B:E49↔E50"
+          - "  Spine-Leaf Links (12 per datacenter): Full mesh SPINE1/2/3 to LEAF pairs"
+          - "  Host-Leaf Links (4 per datacenter): Each host dual-homed to its leaf pair"
+          - "  Total Cables: 32 (8 MLAG + 12 Spine-Leaf + 4 Host-Leaf per datacenter × 2)"
+          - ""
+          - "Topology Summary:"
+          - "  Spine-Leaf Architecture"
+          - "  MLAG on all leaf pairs (active-active redundancy)"
+          - "  Dual-homed hosts to leaf pairs"
+          - "  Full mesh spine-to-leaf connectivity (3 spines × 2 leaf pairs per DC)"
+          - ""
+          - "Next Steps:"
+          - "  1. Open NetBox: http://{{ hostvars['netbox']['ansible_host'] }}"
+          - "  2. Navigate to: DCIM → Devices to verify all 18 devices"
+          - "  3. Check DCIM → Cables to verify topology connections"
+          - "  4. Review IPAM → IP Addresses for assigned management IPs"
+          - "  5. Create VLANs and IP ranges in IPAM section for data plane IPs"
+          - "  6. Add custom fields or tags for device roles"
