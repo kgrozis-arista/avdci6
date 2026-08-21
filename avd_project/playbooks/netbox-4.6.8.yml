@@ -1,0 +1,592 @@
+---
+
+# Playbook to automate NetBox 4.6.8 installation
+# Based on: https://netboxlabs.com/docs/netbox/installation/3-netbox/
+#
+# Key changes from 4.3.7:
+# - Python 3.12+ required (updated from 3.10)
+# - Two Redis instances required (one for caching, one for queuing)
+# - Updated database and package versions
+
+# ============================================================================
+# Play 1: Interactive Configuration on Localhost
+# ============================================================================
+- name: Gather NetBox configuration from user
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  tags: netbox
+  vars:
+    netbox_version: 4.6.8
+    netbox_user: unit
+    netbox_email: kgrozis@arista.com
+    netbox_passwd: arista
+
+  tasks:
+    # ========================================================================
+    # Interactive Configuration
+    # ========================================================================
+    - name: Display current NetBox configuration
+      ansible.builtin.debug:
+        msg:
+          - "NetBox Configuration"
+          - "===================="
+          - "Current NetBox superuser: {{ netbox_user }}"
+          - "Current NetBox email: {{ netbox_email }}"
+          - "Current NetBox version: {{ netbox_version }}"
+
+    - name: Prompt to change NetBox superuser
+      ansible.builtin.pause:
+        prompt: "Change NetBox superuser from '{{ netbox_user }}' to a different value? (yes/no)"
+      register: change_user_prompt
+
+    - name: Prompt for new NetBox superuser
+      ansible.builtin.pause:
+        prompt: "Enter new NetBox superuser name"
+      register: new_netbox_user
+      when: change_user_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Update NetBox user if changed
+      ansible.builtin.set_fact:
+        netbox_user: "{{ new_netbox_user.user_input }}"
+      when: change_user_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Prompt to change NetBox email
+      ansible.builtin.pause:
+        prompt: "Change NetBox email from '{{ netbox_email }}' to a different value? (yes/no)"
+      register: change_email_prompt
+
+    - name: Prompt for new NetBox email
+      ansible.builtin.pause:
+        prompt: "Enter new NetBox email address"
+      register: new_netbox_email
+      when: change_email_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Update NetBox email if changed
+      ansible.builtin.set_fact:
+        netbox_email: "{{ new_netbox_email.user_input }}"
+      when: change_email_prompt.user_input | lower in ['yes', 'y']
+
+    # ========================================================================
+    # NetBox Password Configuration
+    # ========================================================================
+    - name: Check if NetBox password file exists
+      stat:
+        path: "{{ lookup('env','HOME') }}/NETBOX_PASS"
+      register: netbox_pass_file
+
+    - name: Read current NetBox password from file
+      slurp:
+        src: "{{ lookup('env','HOME') }}/NETBOX_PASS"
+      register: netbox_pass_content
+      when: netbox_pass_file.stat.exists
+
+    - name: Set current password from file
+      ansible.builtin.set_fact:
+        current_netbox_passwd: "{{ netbox_pass_content.content | b64decode | trim }}"
+      when: netbox_pass_file.stat.exists
+
+    - name: Set default password if file doesn't exist
+      ansible.builtin.set_fact:
+        current_netbox_passwd: "{{ netbox_passwd }}"
+      when: not netbox_pass_file.stat.exists
+
+    - name: Display current NetBox password status
+      ansible.builtin.debug:
+        msg:
+          - "NetBox Password File: {{ lookup('env','HOME') }}/NETBOX_PASS"
+          - "Status: {% if netbox_pass_file.stat.exists %}EXISTS{% else %}NOT FOUND (will use default: {{ netbox_passwd }}){% endif %}"
+
+    - name: Prompt to change NetBox password
+      ansible.builtin.pause:
+        prompt: "Change NetBox superuser password? (yes/no)"
+      register: change_pass_prompt
+
+    - name: Prompt for new NetBox password
+      ansible.builtin.pause:
+        prompt: "Enter new NetBox superuser password"
+        echo: no
+      register: new_netbox_pass
+      when: change_pass_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Update NetBox password variable
+      ansible.builtin.set_fact:
+        netbox_passwd: "{{ new_netbox_pass.user_input }}"
+      when: change_pass_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Create or update NetBox password file
+      ansible.builtin.copy:
+        content: "{{ netbox_passwd }}"
+        dest: "{{ lookup('env','HOME') }}/NETBOX_PASS"
+        mode: '0600'
+      when: change_pass_prompt.user_input | lower in ['yes', 'y']
+
+    - name: Display final configuration
+      ansible.builtin.debug:
+        msg:
+          - "✓ Configuration confirmed"
+          - ""
+          - "NetBox Superuser: {{ netbox_user }}"
+          - "NetBox Email: {{ netbox_email }}"
+          - "NetBox Version: {{ netbox_version }}"
+          - "NetBox Password File: {{ lookup('env','HOME') }}/NETBOX_PASS"
+          - ""
+          - "Starting NetBox {{ netbox_version }} installation..."
+
+# ============================================================================
+# Play 2: NetBox Installation on Remote Host
+# ============================================================================
+- name: Create a NetBox 4.6.8 instance on the NetBox host
+  hosts: netbox
+  gather_facts: false
+  tags: netbox
+  vars:
+    netbox_version: 4.6.8
+    netbox_user: unit
+    netbox_email: kgrozis@arista.com
+    netbox_passwd: arista
+    netbox_venv: /opt/netbox/venv
+    netbox_python: "{{ netbox_venv }}/bin/python3"
+
+  tasks:
+    # ========================================================================
+    # Python 3.12+ Installation
+    # ========================================================================
+    - name: Add deadsnakes PPA for Python 3.12+
+      ansible.builtin.apt_repository:
+        repo: "ppa:deadsnakes/ppa"
+        state: present
+      become: true
+      become_method: sudo
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+      become: true
+      become_method: sudo
+
+    - name: Install Python 3.12 and required modules
+      ansible.builtin.apt:
+        pkg:
+          - python3.12
+          - python3.12-venv
+          - python3.12-dev
+          - python3-pip
+        state: present
+      become: true
+      become_method: sudo
+
+    - name: Verify Python 3.12+ is installed
+      ansible.builtin.shell: python3.12 --version
+      register: python_version
+
+    - debug:
+        var: python_version.stdout
+
+    - name: Assert Python 3.12 or later is installed
+      ansible.builtin.assert:
+        that: (python_version.stdout | regex_search('\d+\.\d+') | float) >= 3.12
+        fail_msg: "Python 3.12 or later is required for NetBox 4.6.8"
+        success_msg: "Python 3.12+ verified"
+
+    # ========================================================================
+    # Virtual Environment Creation
+    # ========================================================================
+    - name: Create Python 3.12 virtual environment for NetBox
+      ansible.builtin.command:
+        cmd: python3.12 -m venv {{ netbox_venv }}
+      become: true
+      become_method: sudo
+
+    - name: Upgrade pip, setuptools, and wheel in venv
+      ansible.builtin.shell: |
+        {{ netbox_python }} -m pip install --upgrade pip setuptools wheel
+      become: true
+      become_method: sudo
+
+    - name: Verify venv Python 3.12 is available
+      ansible.builtin.command:
+        cmd: "{{ netbox_python }} --version"
+      register: venv_python_version
+
+    - debug:
+        var: venv_python_version.stdout
+
+    # ========================================================================
+    # System Dependencies Installation
+    # ========================================================================
+    - name: Install system dependencies
+      ansible.builtin.apt:
+        pkg:
+          - postgresql
+          - postgresql-contrib
+          - libpq-dev
+          - build-essential
+          - libxml2-dev
+          - libssl-dev
+          - libffi-dev
+          - libjpeg-dev
+          - zlib1g-dev
+        state: present
+        update_cache: yes
+      become: true
+      become_method: sudo
+
+    - name: Install Python PostgreSQL adapter
+      ansible.builtin.shell: /usr/bin/python3.12 -m pip install psycopg2-binary
+      become: true
+      become_method: sudo
+
+    # ========================================================================
+    # PostgreSQL Configuration
+    # ========================================================================
+    - name: Register PostgreSQL version
+      ansible.builtin.shell: psql --version
+      register: postgres_version
+
+    - debug:
+        var: postgres_version.stdout
+
+    - name: Verify PostgreSQL 13 or later is installed
+      ansible.builtin.assert:
+        that: (postgres_version.stdout | regex_search('\d+(\.\d+)?') | float) >= 13
+        fail_msg: "PostgreSQL 13 or later required"
+        success_msg: "PostgreSQL 13+ verified"
+
+    - name: Create PostgreSQL database for NetBox
+      community.postgresql.postgresql_db:
+        name: netbox
+      become: true
+      become_user: postgres
+      become_method: sudo
+
+    - name: Create PostgreSQL user for NetBox
+      community.postgresql.postgresql_user:
+        name: netbox
+        password: "J5brHrAXFLQSif0K"
+      become: true
+      become_user: postgres
+      become_method: sudo
+
+    - name: Alter database ownership to netbox user
+      community.postgresql.postgresql_owner:
+        db: netbox
+        new_owner: netbox
+      become: true
+      become_user: postgres
+      become_method: sudo
+
+    # ========================================================================
+    # Redis Installation (Single service, two databases)
+    # ========================================================================
+    - name: Install Redis server
+      ansible.builtin.apt:
+        pkg:
+          - redis-server
+        state: present
+        update_cache: yes
+      become: true
+      become_method: sudo
+
+    - name: Register Redis version
+      ansible.builtin.shell: redis-server --version
+      register: redis_version
+
+    - debug:
+        var: redis_version.stdout
+
+    - name: Verify Redis 6.0 or later is installed
+      ansible.builtin.assert:
+        that: (redis_version.stdout | regex_search('\d+\.\d+') | float) >= 6.0
+        fail_msg: "Redis 6.0 or later required"
+        success_msg: "Redis 6.0+ verified"
+
+    - name: Test Redis service connectivity
+      ansible.builtin.shell: redis-cli ping
+      register: redis_ping
+
+    - debug:
+        var: redis_ping.stdout
+
+    - name: Verify Redis service responds with PONG
+      ansible.builtin.assert:
+        that: redis_ping.stdout == "PONG"
+        fail_msg: "Redis service did not respond with PONG"
+        success_msg: "Redis service responding correctly"
+
+    # ========================================================================
+    # NetBox Download and Setup
+    # ========================================================================
+    - name: Download NetBox v{{ netbox_version }}.tar.gz
+      ansible.builtin.unarchive:
+        src: https://github.com/netbox-community/netbox/archive/refs/tags/v{{ netbox_version }}.tar.gz
+        dest: /opt
+        remote_src: yes
+      become: true
+      become_method: sudo
+
+    - name: Create symbolic link from netbox-{{ netbox_version }} to /opt/netbox
+      ansible.builtin.file:
+        src: /opt/netbox-{{ netbox_version }}
+        dest: /opt/netbox
+        state: link
+      become: true
+      become_method: sudo
+
+    - name: Create netbox system group
+      ansible.builtin.group:
+        name: netbox
+        state: present
+        system: true
+      become: true
+      become_method: sudo
+
+    - name: Create netbox system user
+      ansible.builtin.user:
+        name: netbox
+        shell: /bin/bash
+        groups: netbox
+        system: true
+        home: /opt/netbox
+      become: true
+      become_method: sudo
+
+    # ========================================================================
+    # NetBox Virtual Environment and Dependencies
+    # ========================================================================
+    - name: Create NetBox virtual environment
+      ansible.builtin.command:
+        cmd: python3.12 -m venv {{ netbox_venv }}
+      become: true
+      become_user: netbox
+      become_method: sudo
+
+    - name: Install NetBox and dependencies in venv
+      ansible.builtin.shell: |
+        {{ netbox_python }} -m pip install --upgrade pip setuptools wheel psycopg2-binary redis gunicorn
+      become: true
+      become_user: netbox
+      become_method: sudo
+
+    # ========================================================================
+    # Permissions and Directory Setup
+    # ========================================================================
+    - name: Ensure netbox user owns required directories
+      ansible.builtin.file:
+        path: /opt/netbox/netbox/"{{ item }}"
+        state: directory
+        owner: netbox
+        group: netbox
+        recurse: true
+      loop:
+        - media
+        - reports
+        - scripts
+      become: true
+      become_method: sudo
+
+    # ========================================================================
+    # Configuration File
+    # ========================================================================
+    - name: Copy configuration.py to NetBox
+      ansible.builtin.copy:
+        src: cfg/configuration.py
+        dest: /opt/netbox/netbox/netbox/configuration.py
+        owner: netbox
+        group: netbox
+        mode: '0644'
+      become: true
+      become_method: sudo
+
+    # ========================================================================
+    # Systemd Services Setup
+    # ========================================================================
+    - name: Copy systemd service files
+      ansible.builtin.shell: cp -v /opt/netbox/contrib/*.service /etc/systemd/system/
+      become: true
+      become_method: sudo
+
+    # ========================================================================
+    # NetBox Upgrade and Installation
+    # ========================================================================
+    - name: Run NetBox upgrade script
+      ansible.builtin.shell: |
+        PYTHON={{ netbox_python }} /opt/netbox/upgrade.sh
+      become: true
+      become_method: sudo
+      environment:
+        PYTHON: "{{ netbox_python }}"
+
+    # ========================================================================
+    # Service Startup and Configuration
+    # ========================================================================
+    - name: Copy gunicorn configuration
+      ansible.builtin.shell: cp /opt/netbox/contrib/gunicorn.py /opt/netbox/gunicorn.py
+      become: true
+      become_method: sudo
+
+    - name: Reload systemd daemon
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+      become: true
+      become_method: sudo
+
+    - name: Enable and start NetBox services
+      ansible.builtin.systemd_service:
+        name: "{{ item }}"
+        state: started
+        enabled: true
+      loop:
+        - netbox
+        - netbox-rq
+      become: true
+      become_method: sudo
+
+    # ========================================================================
+    # Housekeeping Setup
+    # ========================================================================
+    - name: Create cron symlink for NetBox housekeeping
+      ansible.builtin.file:
+        src: /opt/netbox/contrib/netbox-housekeeping.sh
+        dest: /etc/cron.daily/netbox-housekeeping
+        state: link
+      become: true
+      become_method: sudo
+
+    # ========================================================================
+    # SSL Certificate Setup
+    # ========================================================================
+    - name: Display SSL certificate instructions
+      ansible.builtin.debug:
+        msg:
+          - "NetBox requires an SSL certificate for HTTPS access."
+          - "Generate a self-signed certificate with:"
+          - "sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \\"
+          - "  -keyout /etc/ssl/private/netbox.key \\"
+          - "  -out /etc/ssl/certs/netbox.crt"
+          - ""
+          - "For production, use a valid certificate from a trusted CA."
+          - "See: https://netboxlabs.com/docs/netbox/installation/http-server/"
+
+    # ========================================================================
+    # Verification
+    # ========================================================================
+    - name: Check NetBox service status
+      ansible.builtin.systemd_service:
+        name: netbox
+        state: started
+      register: netbox_status
+      become: true
+      become_method: sudo
+
+    - name: Display NetBox installation complete
+      ansible.builtin.debug:
+        msg:
+          - "✓ NetBox {{ netbox_version }} installation complete"
+          - ""
+          - "Superuser Details:"
+          - "  Username: {{ netbox_user }}"
+          - "  Email: {{ netbox_email }}"
+          - ""
+          - "Next steps:"
+          - "1. Create a superuser account:"
+          - "   sudo /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py createsuperuser"
+          - ""
+          - "2. Verify services are running:"
+          - "   systemctl status netbox netbox-rq"
+          - ""
+          - "3. Generate SSL certificate (see instructions above)"
+          - ""
+          - "4. Configure nginx as reverse proxy:"
+          - "   sudo cp /opt/netbox/contrib/nginx.conf /etc/nginx/sites-available/netbox"
+          - "   sudo ln -s /etc/nginx/sites-available/netbox /etc/nginx/sites-enabled/"
+          - "   sudo systemctl restart nginx"
+
+# Playbook to configure SSL certificate for NetBox
+- name: Generate NetBox SSL Certificate
+  hosts: netbox
+  gather_facts: false
+  tags: ssl_cert
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.12
+
+  tasks:
+    - name: Check if SSL certificate already exists
+      stat:
+        path: /etc/ssl/certs/netbox.crt
+      become: true
+      become_method: sudo
+      register: cert_stat
+
+    - name: Check if SSL private key already exists
+      stat:
+        path: /etc/ssl/private/netbox.key
+      become: true
+      become_method: sudo
+      register: key_stat
+
+    - name: Create OpenSSL configuration for certificate generation
+      copy:
+        dest: /tmp/netbox_openssl.cnf
+        content: |
+          [ req ]
+          default_bits = 2048
+          default_keyfile = netbox.key
+          distinguished_name = req_distinguished_name
+          req_extensions = v3_req
+          x509_extensions = v3_req
+
+          [ req_distinguished_name ]
+          countryName = US
+          stateOrProvinceName = VA
+          localityName = Sterling
+          organizationName = Arista
+          organizationalUnitName = NetBox
+          commonName = netbox
+          emailAddress = netbox@arista.com
+
+          [ v3_req ]
+          basicConstraints = CA:FALSE
+          keyUsage = digitalSignature, keyEncipherment
+          extendedKeyUsage = serverAuth, clientAuth
+          subjectAltName = DNS:netbox,DNS:localhost,IP:127.0.0.1
+
+    - name: Generate SSL certificate and private key
+      command: >
+        openssl req -x509 -nodes -days 365 -newkey rsa:2048
+        -keyout /etc/ssl/private/netbox.key
+        -out /etc/ssl/certs/netbox.crt
+        -config /tmp/netbox_openssl.cnf
+      become: true
+      become_method: sudo
+      when: (not key_stat.stat.exists) or (not cert_stat.stat.exists)
+
+    - name: Set correct permissions on SSL key
+      file:
+        path: /etc/ssl/private/netbox.key
+        mode: '0600'
+        owner: root
+        group: root
+      become: true
+      become_method: sudo
+
+    - name: Set correct permissions on SSL certificate
+      file:
+        path: /etc/ssl/certs/netbox.crt
+        mode: '0644'
+        owner: root
+        group: root
+      become: true
+      become_method: sudo
+
+    - name: Display SSL certificate info
+      debug:
+        msg:
+          - "✓ SSL certificate generated successfully"
+          - ""
+          - "Certificate: /etc/ssl/certs/netbox.crt"
+          - "Private Key: /etc/ssl/private/netbox.key"
+          - "Valid for: 365 days"
+          - ""
+          - "Configure nginx to use these certificates in:"
+          - "/etc/nginx/sites-available/netbox"
