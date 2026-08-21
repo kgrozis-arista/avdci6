@@ -450,6 +450,42 @@ Repeatable workflow for validating fabric state in **prod environment**:
 
 **When:** Run after prod deployment to verify fabric health, or run manually to check fabric state on-demand.
 
+### **Step 6: NetBox 4.6.8 Integration** (`make step6-setup-netbox`)
+Deploy NetBox (network inventory and source of truth) on a dedicated server:
+- **Setup NetBox** (`make setup-netbox`) — Interactive configuration wizard for NetBox IP address
+- **Install NetBox** (`make netbox-install`) — Automated deployment of NetBox 4.6.8 with PostgreSQL 13+, Redis 6.0+, and Python 3.12
+
+The playbook:
+1. Prompts for NetBox superuser, email, and password configuration
+2. Installs system dependencies (PostgreSQL, Redis, build tools)
+3. Creates PostgreSQL database and user
+4. Downloads and configures NetBox 4.6.8 from GitHub
+5. Creates systemd services for NetBox and background worker
+6. Enables and starts NetBox services
+
+**When:** Run after fabric deployment to set up the inventory management system.
+
+**Prerequisites:**
+- NetBox host must exist in inventory with an IP address
+- SSH access to NetBox host from local machine
+- Ubuntu 20.04+ with Python 3.12 support
+
+**Configuration:**
+Interactive prompts during setup:
+- NetBox superuser name (default: `unit`)
+- NetBox email address (default: `kgrozis@arista.com`)
+- NetBox superuser password (stored in `~/NETBOX_PASS` with mode 0600)
+
+**Access NetBox After Installation:**
+```bash
+# From NetBox host
+http://<netbox-ip>:8000
+# Default credentials: admin username with configured password
+
+# Create API token for automation
+# Login → Admin → API Tokens → Add Token
+```
+
 ### **Step 99: Reset Topology** (`make step99-reset`)
 Emergency recovery workflow to restore all devices to baseline state:
 
@@ -1226,6 +1262,11 @@ make prod-build              # Generate prod configs only
 make prod-deploy             # Deploy to prod CloudVision only
 make prod-validate           # Run ANTA tests on prod fabric only
 
+# NetBox Integration
+make step6-setup-netbox      # Configure and deploy NetBox 4.6.8
+make setup-netbox            # Interactive NetBox IP configuration wizard
+make netbox-install          # Deploy NetBox 4.6.8 with PostgreSQL and Redis
+
 # Reset & Recovery
 make step99-reset            # Reset topology to baseline (reset-build → reset-deploy → local-reset)
 make step99-reset-dev        # Reset dev topology only
@@ -1317,9 +1358,27 @@ make check                   # Verify environment
 
 ---
 
-**Last Updated:** August 20, 2026  
-**Version:** 3.7 — CI/CD Workflow Fixes, Documentation Output Configuration, Reset Workflow Enhancement  
+**Last Updated:** August 21, 2026  
+**Version:** 3.8 — NetBox 4.6.8 Automation, Python 3.12 Support, PostgreSQL/Redis Integration  
 **AVD Version:** 6.3+
+
+### Version 3.8 Changes
+- Added NetBox 4.6.8 automated deployment (Step 6)
+  - Interactive configuration wizard for NetBox IP address, superuser, and email
+  - Ansible playbook for complete NetBox installation on Ubuntu with Python 3.12
+  - PostgreSQL 13+ database configuration (creates netbox database and user)
+  - Redis 6.0+ for caching and background workers
+  - Systemd service management (NetBox UI and background worker processes)
+  - Python 3.12 version verification and compatibility checks
+  - System dependency installation (build tools, libpq-dev, libxml2-dev, etc.)
+- Enhanced version assertions for Python 3.12 compatibility
+  - Fixed regex_search patterns to extract major.minor version (e.g., "3.12" from "3.12.13")
+  - Applied to Python, PostgreSQL, and Redis version verification
+- Resolved PostgreSQL module compatibility
+  - Installed psycopg2 via apt package (python3-psycopg2) instead of pip
+  - Avoids Python 3.12 distutils incompatibility issues
+  - Ensures PostgreSQL modules have required dependencies
+- Updated README with NetBox integration documentation and make targets
 
 ### Version 3.7 Changes
 - Fixed CI/CD workflow deployment timing issue
